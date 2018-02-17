@@ -128,7 +128,7 @@
 		9A99AA8B1B8A219300428802 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A99AA891B8A219300428802 /* LaunchScreen.storyboard */; };
 		9ADFC8F81B8B771800AB4CD9 /* GalleryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADFC8F61B8B771800AB4CD9 /* GalleryHeaderView.swift */; };
 		9ADFC8F91B8B771800AB4CD9 /* GalleryHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9ADFC8F71B8B771800AB4CD9 /* GalleryHeaderView.xib */; };
-		FD8E088452D951ACF86CDE49 /* Pods_Boblberg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CC90415F879B49488499067 /* Pods_Boblberg.framework */; };
+		F10DC75BF0C33DA0824E2407 /* Pods_eMia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC42E080981D8DBD9874465 /* Pods_eMia.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -145,6 +145,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02A4E582C844FD5A46F8F73E /* Pods-eMia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eMia.release.xcconfig"; path = "Pods/Target Support Files/Pods-eMia/Pods-eMia.release.xcconfig"; sourceTree = "<group>"; };
+		5EC42E080981D8DBD9874465 /* Pods_eMia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eMia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F01B39B1FE5A1550034CAFB /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		7F060C071FF0E734002D04AD /* Filter.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
 		7F060C091FF0E762002D04AD /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 		9ADFC8F71B8B771800AB4CD9 /* GalleryHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryHeaderView.xib; sourceTree = "<group>"; };
 		9CC90415F879B49488499067 /* Pods_Boblberg.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Boblberg.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D56ECFBA653EFB644AF305B7 /* Pods-Boblberg.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Boblberg.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Boblberg/Pods-Boblberg.debug.xcconfig"; sourceTree = "<group>"; };
+		D5C6FDC197E99C1CEB3AFAEA /* Pods-eMia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eMia.debug.xcconfig"; path = "Pods/Target Support Files/Pods-eMia/Pods-eMia.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,7 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD8E088452D951ACF86CDE49 /* Pods_Boblberg.framework in Frameworks */,
+				F10DC75BF0C33DA0824E2407 /* Pods_eMia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +300,8 @@
 			children = (
 				D56ECFBA653EFB644AF305B7 /* Pods-Boblberg.debug.xcconfig */,
 				8F8FCE3E6CD51A239E6E9842 /* Pods-Boblberg.release.xcconfig */,
+				D5C6FDC197E99C1CEB3AFAEA /* Pods-eMia.debug.xcconfig */,
+				02A4E582C844FD5A46F8F73E /* Pods-eMia.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -794,6 +799,7 @@
 			isa = PBXGroup;
 			children = (
 				9CC90415F879B49488499067 /* Pods_Boblberg.framework */,
+				5EC42E080981D8DBD9874465 /* Pods_eMia.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -909,7 +915,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Boblberg/Pods-Boblberg-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-eMia/Pods-eMia-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		904BD83AB6C497245F666CE1 /* [CP] Embed Pods Frameworks */ = {
@@ -918,7 +924,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Boblberg/Pods-Boblberg-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-eMia/Pods-eMia-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AwesomeCache/AwesomeCache.framework",
 				"${BUILT_PRODUCTS_DIR}/DTCollectionViewManager/DTCollectionViewManager.framework",
 				"${BUILT_PRODUCTS_DIR}/DTModelStorage/DTModelStorage.framework",
@@ -953,7 +959,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Boblberg/Pods-Boblberg-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-eMia/Pods-eMia-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F644A2A888DBA27344D50F8F /* [CP] Check Pods Manifest.lock */ = {
@@ -967,7 +973,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Boblberg-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-eMia-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1264,7 +1270,7 @@
 		};
 		9A99AA991B8A219300428802 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D56ECFBA653EFB644AF305B7 /* Pods-Boblberg.debug.xcconfig */;
+			baseConfigurationReference = D5C6FDC197E99C1CEB3AFAEA /* Pods-eMia.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1297,7 +1303,7 @@
 		};
 		9A99AA9A1B8A219300428802 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F8FCE3E6CD51A239E6E9842 /* Pods-Boblberg.release.xcconfig */;
+			baseConfigurationReference = 02A4E582C844FD5A46F8F73E /* Pods-eMia.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
