@@ -14,11 +14,20 @@ eMia uses Firebase database, storage, authentication and cloud messages.
 ## Introduction
 
 If you want to try eMia, sign in your Google account, then open Firebase console https://console.firebase.google.com
-Create a new project. Then follow documentations. As a result you need to download GoogleService-Info.plist file and replace my current file.
+Create a new project. Please follow documentations https://firebase.google.com/docs/ios/setup#add_firebase_to_your_app.
+As a result you have to download GoogleService-Info.plist file and replace current one.
+
+## Installation
+
+Clone or unzip the repository. Go to the root folder. Make
+
+pod install
+
+Open eMia.xcworkspace
 
 ## eMia on Android
 
-Here (https://github.com/SKrotkih/eMia-Android) you can find Android version of the eMia application.
+Here (https://github.com/SKrotkih/eMia-Android) you can find Android version of the eMia.
 
 02-15-2018
 
