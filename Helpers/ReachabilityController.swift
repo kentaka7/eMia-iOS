@@ -95,9 +95,9 @@ class ReachabilityController: NSObject {
    
 }
 
-// MARK: - ObserverProtocol
+// MARK: - Observable
 
-extension ReachabilityController: ObserverProtocol {
+extension ReachabilityController: Observable {
    
    func registerObserver() {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: ReachabilityChangedNotification, object: reachability)      

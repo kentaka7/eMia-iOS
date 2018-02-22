@@ -5,13 +5,13 @@
 
 import UIKit
 
-protocol EditPostViewCell {
+protocol ForPostConfigurable {
    func configureView(for post: PostModel) -> CGFloat
 }
 
 // User's avatar photo and name
 
-class EditPost1ViewCell: UITableViewCell, EditPostViewCell {
+class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
 
    @IBOutlet weak var avatarBackgroundView: UIView!
    @IBOutlet weak var avatarUserImageView: UIImageView!

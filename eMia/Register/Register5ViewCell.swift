@@ -7,7 +7,7 @@ import UIKit
 
 // Comment table item
 
-class Register5ViewCell: UITableViewCell, RegisterViewCell {
+class Register5ViewCell: UITableViewCell, ForUserConfigurable {
 
    @IBOutlet weak var yearBirthTitleLabel: UILabel!
    @IBOutlet weak var yearPickerView: UIPickerView!

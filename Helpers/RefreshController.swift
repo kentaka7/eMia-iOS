@@ -5,7 +5,7 @@
 
 import UIKit
 
-public protocol RefreshControllerDelegate {
+public protocol Refreshable {
    func refreshData(_ completion: @escaping () -> Void)
 }
 
@@ -13,9 +13,9 @@ open class RefreshController: NSObject {
    
    var view: UIView!
    var refreshControl: UIRefreshControl!
-   var delegate: RefreshControllerDelegate
+   var delegate: Refreshable
 
-   public init(view: UIView, delegate: RefreshControllerDelegate) {
+   public init(view: UIView, delegate: Refreshable) {
       self.delegate = delegate
       super.init()
       self.view = view

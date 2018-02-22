@@ -5,7 +5,7 @@
 
 import UIKit
 
-protocol CommentsObserverDelegate {
+protocol CommentsListening {
    func addCommentsListener(_ item: CommentItem)
    func deleteCommentsListener(_ item: CommentItem)
    func editCommentsListener(_  item: CommentItem)
@@ -15,7 +15,7 @@ class CommentsManager: NSObject {
 
    fileprivate var _comments = [CommentItem]()
    fileprivate var commnetsObserver = CommentsObserver()
-   fileprivate var _delegate: PostCommentsDelegate!
+   fileprivate var _delegate: CommentsUpdatable!
    
    override init() {
       super.init()
@@ -30,9 +30,9 @@ class CommentsManager: NSObject {
       return comments.sorted(by: {$0.created > $1.created})
    }
    
-   func startCommentsObserver(for post: PostModel, delegate: PostCommentsDelegate) {
+   func startCommentsObserver(for post: PostModel, delegate: CommentsUpdatable) {
       _delegate = delegate
-      ModelData.fetchAllComments(for: post, addComment: { commentItem in
+      ModelData.fetchAllComments(nil, for: post, addComment: { commentItem in
          self.addCommentsListener(commentItem)
       }, completion: {
          self.commnetsObserver.addObserver(for: post, delegate: self)
@@ -41,7 +41,7 @@ class CommentsManager: NSObject {
    }
 }
 
-extension CommentsManager: CommentsObserverDelegate {
+extension CommentsManager: CommentsListening {
    
    func addCommentsListener(_ item: CommentItem) {
       if let _ = index(of: item) {

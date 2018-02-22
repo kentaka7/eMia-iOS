@@ -26,10 +26,10 @@ class ImageCache {
 	}
 }
 
-protocol ImageCacheProtocol {
+protocol ImagesCacheble {
 }
 
-extension ImageCache: ImageCacheProtocol {
+extension ImageCache: ImagesCacheble {
     
     func set(_ image: UIImage?, forKey storageRef: StorageReference) {
         concurrentPhotoQueue.async(flags: .barrier) {

@@ -1,15 +1,15 @@
 //
-//  SegueHandler.swift
+//  SegueRawRepresentable.swift
 //  eMia
 //
 
 import UIKit
 
-protocol SegueHandler {
+protocol SegueRawRepresentable {
     associatedtype SegueType: RawRepresentable
 }
 
-extension SegueHandler where Self: UIViewController, SegueType.RawValue == String {
+extension SegueRawRepresentable where Self: UIViewController, SegueType.RawValue == String {
 	
 	/// Check if segue should be executed and then perform it
 	///

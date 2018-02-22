@@ -48,7 +48,7 @@ class PostsDataBaseInteractor: NSObject {
    
 }
 
-extension PostsDataBaseInteractor: PostsDataBaseObserverDelegate {
+extension PostsDataBaseInteractor: PostsDataBaseObservable {
    
    func addItem(_ item: PostItem) {
       didChangeData()

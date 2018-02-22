@@ -7,7 +7,7 @@ import UIKit
 import IQKeyboardManagerSwift
 import NVActivityIndicatorView
 
-protocol PostCommentsDelegate {
+protocol CommentsUpdatable {
    func didUpdateCommentsData()
 }
 
@@ -181,9 +181,9 @@ extension EditPostViewController: UITableViewDataSource, UITableViewDelegate {
    }
 }
 
-// MARK: - PostCommentsDelegate
+// MARK: - CommentsUpdatable
 
-extension EditPostViewController: PostCommentsDelegate {
+extension EditPostViewController: CommentsUpdatable {
 
    fileprivate func downloadComments() {
       comments = commentsManager.comments

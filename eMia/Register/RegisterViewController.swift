@@ -191,7 +191,7 @@ extension RegisterViewController {
 
 // MARK: - Where Am I button pressed
 
-extension RegisterViewController: WhereAmIActionDelegate {
+extension RegisterViewController: LocationComputing {
    
    func calculateWhereAmI() {
       setUpMunicipalityAccordingMyLocation()

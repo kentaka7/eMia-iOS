@@ -7,7 +7,7 @@ import UIKit
 
 // Static text, Date, Send Email button
 
-class EditPost3ViewCell: UITableViewCell, EditPostViewCell {
+class EditPost3ViewCell: UITableViewCell, ForPostConfigurable {
 
    @IBOutlet weak var dateLabel: UILabel!
    @IBOutlet weak var commentLabel: UILabel!

@@ -1,18 +1,18 @@
 //
-//  ObserverProtocol.swift
+//  Observable.swift
 //  eMia
 //
 
 import Foundation
 import Firebase
 
-@objc protocol ObserverProtocol: class {
+@objc protocol Observable: class {
    var observers: [Any] { get set }
    func registerObserver()
    func unregisterObserver()
 }
 
-//extension ObserverProtocol where Self: Any{
+//extension Observable where Self: Any{
 //    func unregisterObserver() {
 //        observers.forEach {
 //            

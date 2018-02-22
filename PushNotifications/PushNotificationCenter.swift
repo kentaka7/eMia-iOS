@@ -10,7 +10,7 @@ import SwiftyJSON
 
 internal let PushNotificationsCenter = NotificationsManager.default
 
-protocol PushNotificationsProtocol {
+protocol PushNotificationsListenable {
    func registerRemoteNotifications(for application: UIApplication, completion: @escaping () -> Void)
 }
 
@@ -18,7 +18,7 @@ final class NotificationsManager: NSObject {
    
    static let `default` = NotificationsManager()
    
-   var sender: SendPushNotificationProtocol!
+   var sender: PushNotificationsSendable!
    
    private override init() {
       super.init()
@@ -33,7 +33,7 @@ final class NotificationsManager: NSObject {
 
 // MARK: - Firebase Manager Protocol
 
-extension NotificationsManager: PushNotificationsProtocol {
+extension NotificationsManager: PushNotificationsListenable {
    
    func registerRemoteNotifications(for application: UIApplication, completion: @escaping () -> Void) {
       sender.registerRemoteNotifications(for: application) {

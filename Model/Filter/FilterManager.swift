@@ -8,16 +8,16 @@ import UIKit
 class FilterManager {
     
     enum Settings {
-        static let filterMinAgeKey = "FiltersViewController.Settings.minValueKey"
-        static let filterMaxAgeKey = "FiltersViewController.Settings.maxValueKey"
-        static let filterMyFavoriteKey = "FiltersViewController.Settings.myFavoriteKey"
-        static let filterGenderKey = "FiltersViewController.Settings.gender"
-        static let filterMunicipalityKey = "FiltersViewController.Settings.municipality"
-        static let filterIsInitialized = "FiltersViewController.Settings.filterIsInitialized"
+        static let filterMinAgeKey = "FilterManager.Settings.minValueKey"
+        static let filterMaxAgeKey = "FilterManager.Settings.maxValueKey"
+        static let filterMyFavoriteKey = "FilterManager.Settings.myFavoriteKey"
+        static let filterGenderKey = "FilterManager.Settings.gender"
+        static let filterMunicipalityKey = "FilterManager.Settings.municipality"
+        static let filterIsInitialized = "FilterManager.Settings.filterIsInitialized"
     }
     
     var didFilerUpdateCallabck: () -> Void = { }
-    private var queue : DispatchQueue = DispatchQueue(label: "dk.coded.\(AppConstants.ApplicationName).filterQueue")
+    private var queue: DispatchQueue = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).filterQueue")
     
     init() {
         setUpDefaults()
@@ -118,7 +118,9 @@ class FilterManager {
             }
         }
         get {
-            return CGFloat(UserDefaults.standard.float(forKey: Settings.filterMaxAgeKey))
+            return queue.sync {
+                CGFloat(UserDefaults.standard.float(forKey: Settings.filterMaxAgeKey))
+            }
         }
     }
 

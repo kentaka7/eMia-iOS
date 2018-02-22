@@ -5,7 +5,7 @@
 
 import UIKit
 
-class EditPost6ViewCell: UITableViewCell, EditPostViewCell {
+class EditPost6ViewCell: UITableViewCell, ForPostConfigurable {
 
    fileprivate var _imageViewController: SFFullscreenImageDetailViewController?
    

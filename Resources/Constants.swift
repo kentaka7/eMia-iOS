@@ -101,6 +101,7 @@ struct Firebase {
 struct AppConstants {
    static let SizeAvatarImage = 72.0
    static let ApplicationName = "eMia"
+   static let ManufacturingName = "dk.coded"
 }
 
 struct Settings {

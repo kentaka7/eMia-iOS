@@ -67,7 +67,7 @@ class FavoritsDataBaseInteractor: NSObject {
    }
 }
 
-extension FavoritsDataBaseInteractor: FavoritesDataBaseObserverDelegate {
+extension FavoritsDataBaseInteractor: FavoritesDataBaseObservable {
 
    func addItem(_ item: FavoriteItem) {
       didChangeData()

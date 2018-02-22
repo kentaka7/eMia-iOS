@@ -8,7 +8,7 @@ import Firebase
 import UserNotifications
 import SwiftyJSON
 
-protocol SendPushNotificationProtocol {
+protocol PushNotificationsSendable {
    func send(_ type: PushNotification, completion: (() -> Void)?)
    func registerRemoteNotifications(for application: UIApplication, completion: @escaping () -> Void)   
 }
@@ -19,7 +19,7 @@ class PushNotificationsInteractor: NSObject {
 
 // MARK: - Push Notifications Sender
 
-extension PushNotificationsInteractor: SendPushNotificationProtocol {
+extension PushNotificationsInteractor: PushNotificationsSendable {
    
    func registerRemoteNotifications(for application: UIApplication, completion: @escaping () -> Void) {
       if Platform.isSimulator {

@@ -7,7 +7,7 @@ import UIKit
 
 // Comment table item
 
-class EditPost5ViewCell: UITableViewCell, EditPostViewCell {
+class EditPost5ViewCell: UITableViewCell, ForPostConfigurable {
 
    @IBOutlet weak var avatarBackgroundView: UIView!
    @IBOutlet weak var avatarImageView: UIImageView!

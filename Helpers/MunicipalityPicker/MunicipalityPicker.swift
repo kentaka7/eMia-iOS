@@ -5,10 +5,6 @@
 
 import UIKit
 
-public protocol MunicipalityPickerDelegate {
-   func refreshData(_ completion: @escaping () -> Void)
-}
-
 open class MunicipalityPicker: NSObject {
    
    var pickerView: UIPickerView

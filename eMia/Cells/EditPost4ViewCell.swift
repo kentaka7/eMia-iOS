@@ -9,7 +9,7 @@ import NVActivityIndicatorView
 
 // Comment text enter field
 
-class EditPost4ViewCell: UITableViewCell, EditPostViewCell {
+class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
 
    @IBOutlet weak var commentTextView: NextGrowingTextView!
    @IBOutlet weak var sendCommentButton: UIButton!

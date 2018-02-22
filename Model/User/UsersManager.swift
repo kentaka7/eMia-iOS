@@ -11,7 +11,7 @@ protocol UsersPresenterModel: class {
    func logOut()
 }
 
-protocol UpdateUserObserver {
+protocol UserDataObservable {
    func addObserver(users: [UserModel], closure: @escaping UserObserverClosure)
    func removeObserver(users: [UserModel])
 }
@@ -142,9 +142,9 @@ extension UsersDataBaseInteractor {
    }
 }
 
-// MARK: - UsersDataOutputProtocol
+// MARK: - UsersDataUpdating
 
-extension UsersDataBaseInteractor: UsersDataOutputProtocol {
+extension UsersDataBaseInteractor: UsersDataUpdating {
    
    func newUserItem() {
    }
@@ -175,9 +175,9 @@ extension UsersDataBaseInteractor: UsersPresenterModel {
    }
 }
 
-// MARK: - UpdateUserObserver protocol implementation
+// MARK: - UserDataObservable protocol implementation
 
-extension UsersDataBaseInteractor: UpdateUserObserver {
+extension UsersDataBaseInteractor: UserDataObservable {
    
    func addObserver(users: [UserModel], closure: @escaping UserObserverClosure) {
       userObserver.addObserver(users: users, closure: closure)

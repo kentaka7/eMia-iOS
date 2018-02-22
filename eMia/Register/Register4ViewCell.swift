@@ -7,7 +7,7 @@ import UIKit
 
 // My profile editor: Gender
 
-class Register4ViewCell: UITableViewCell, RegisterViewCell {
+class Register4ViewCell: UITableViewCell, ForUserConfigurable {
 
    @IBOutlet weak var imTitleLabel: UILabel!
    

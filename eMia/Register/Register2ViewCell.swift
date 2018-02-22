@@ -7,7 +7,7 @@ import UIKit
 
 // Body text. variavle height table view cell!
 
-class Register2ViewCell: UITableViewCell, RegisterViewCell {
+class Register2ViewCell: UITableViewCell, ForUserConfigurable {
 
    @IBOutlet weak var passwordTitleLabel: UILabel!
    @IBOutlet weak var passwordTextField: UITextField!

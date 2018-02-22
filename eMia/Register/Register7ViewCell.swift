@@ -7,7 +7,7 @@ import UIKit
 
 // User's Name
 
-@IBDesignable class Register7ViewCell: UITableViewCell, RegisterViewCell {
+@IBDesignable class Register7ViewCell: UITableViewCell, ForUserConfigurable {
 
    @IBOutlet weak var nameTitleLabel: UILabel!
    @IBOutlet weak var nameTextField: UITextField!

@@ -7,7 +7,7 @@ import UIKit
 
 // Body text. variavle height table view cell!
 
-class EditPost2ViewCell: UITableViewCell, EditPostViewCell {
+class EditPost2ViewCell: UITableViewCell, ForPostConfigurable {
 
    @IBOutlet weak var bodyTextView: UITextView!
 

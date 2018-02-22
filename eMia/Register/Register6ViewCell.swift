@@ -5,7 +5,7 @@
 
 import UIKit
 
-class Register6ViewCell: UITableViewCell, RegisterViewCell {
+class Register6ViewCell: UITableViewCell, ForUserConfigurable {
    
    @IBOutlet weak var addPhotoButton: UIButton!
    @IBOutlet weak var photoImageView: UIImageView!

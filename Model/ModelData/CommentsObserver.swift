@@ -12,11 +12,11 @@ class CommentsObserver: NSObject {
    fileprivate var _refHandleForChange: DatabaseHandle?
 
    fileprivate var _recordRef: DatabaseReference!
-   fileprivate var _delegate: CommentsObserverDelegate!
+   fileprivate var _delegate: CommentsListening!
 
    lazy var dbRef = FireBaseManager.firebaseRef.child(CommentItemFields.comments)
    
-   func addObserver(for post: PostModel, delegate: CommentsObserverDelegate) {
+   func addObserver(for post: PostModel, delegate: CommentsListening) {
 
       removeObserver()
       

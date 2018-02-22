@@ -5,13 +5,13 @@
 
 import UIKit
 
-protocol RegisterViewCell {
+protocol ForUserConfigurable {
    func configure(for user: UserModel)
 }
 
 // User's avatar photo and name
 
-@IBDesignable class Register1ViewCell: UITableViewCell, RegisterViewCell {
+@IBDesignable class Register1ViewCell: UITableViewCell, ForUserConfigurable {
 
    @IBOutlet weak var emailTitleLabel: UILabel!
    @IBOutlet weak var emailTextField: UITextField!

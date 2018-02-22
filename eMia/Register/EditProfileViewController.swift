@@ -6,7 +6,7 @@
 import UIKit
 import NVActivityIndicatorView
 
-protocol WhereAmIActionDelegate {
+protocol LocationComputing {
    func calculateWhereAmI()
 }
 
@@ -203,7 +203,7 @@ extension EditProfileViewController {
 
 // MARK: - Where Am I button pressed
 
-extension EditProfileViewController: WhereAmIActionDelegate {
+extension EditProfileViewController: LocationComputing {
 
    func calculateWhereAmI() {
       setUpMunicipalityAccordingMyLocation()
