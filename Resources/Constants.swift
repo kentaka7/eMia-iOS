@@ -32,9 +32,9 @@ struct PostItemFields {
    static let body = "body"
    static let created = "created"
    static let portrait = "portrait"
+   static let photosize = "photosize"
    static let starCount = "starCount"
 }
-
 
 struct FavoriteItemFields {
    static let favorits = "favorites"
