@@ -13,12 +13,11 @@ class GalleryInteractor: NSObject {
     var manager: DTCollectionViewManager!
     var collectionView: UICollectionView?
     var delegate: DTCollectionViewManageable!
+    var filerManager: FilterManager!
     
-    fileprivate var mFilterManager: FilterManager!
     fileprivate var mSearchText: String?
     
     func configure() {
-        mFilterManager = FilterManager()
         PostsManager.postsListener() {
             let searchText = self.mSearchText ?? ""
             self.fetchData(searchText: searchText)
@@ -29,7 +28,7 @@ class GalleryInteractor: NSObject {
             self.manager.register(cellType)
             self.manager.registerHeader(GalleryHeaderView.self)
             self.manager.registerFooter(GalleryHeaderView.self)
-            self.manager.sizeForCell(withItem: modelType) { [weak self] _, _ in
+            self.manager.sizeForCell(withItem: modelType) { [weak self] _, indexPath in
                 
                 guard let _ = self?.collectionView?.collectionViewLayout as? UICollectionViewFlowLayout else {
                     return .zero
@@ -37,7 +36,26 @@ class GalleryInteractor: NSObject {
                 guard let w = self?.collectionView?.frame.width else {
                     return .zero
                 }
-                let size = CGSize(width: (w / 2.0) - 6.0, height: GalleryViewController.kCellHeight)
+               
+                let section = self?.manager.memoryStorage.sections[indexPath.section]
+                var contentWidth: CGFloat = 0.0
+                var contentHeight: CGFloat = 0.0
+                
+                let cellPadding: CGFloat = 6
+                let titleHeight: CGFloat = 71.0
+                let columnsCount: CGFloat = 2.0
+                
+                if let model: PostModel = section?.items[indexPath.row] as? PostModel {
+                    let photoWidth = model.photoSize.0
+                    let photoHeight = model.photoSize.1
+                    contentWidth = (w / columnsCount) - cellPadding
+                    let imageHeight: CGFloat = contentWidth / photoWidth * photoHeight
+                    contentHeight = imageHeight + titleHeight
+                } else {
+                    contentWidth = (w / columnsCount) - cellPadding
+                    contentHeight = GalleryViewController.kCellHeight
+                }
+                let size = CGSize(width: contentWidth, height: contentHeight)
                 return size
             }
         }
@@ -86,7 +104,7 @@ class GalleryInteractor: NSObject {
     
     private func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel] {
         mSearchText = searchText
-        return mFilterManager.filterPosts(posts,searchText: searchText)
+        return filerManager.filterPosts(posts,searchText: searchText)
     }
 }
 

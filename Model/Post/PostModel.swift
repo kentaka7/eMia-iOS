@@ -26,7 +26,7 @@ final class PostModel: NSObject, NSCoding {
             return (widthPhotoDefault, heightPhotoDefault)
         } else {
             let arr = photosize.split(separator: ";")
-            if arr.count == 2, let w = Int(arr[0]), let h = Int(arr[1]) {
+            if arr.count == 2, let w = Double(arr[0]), let h = Double(arr[1]) {
                 return (CGFloat(w), CGFloat(h))
             } else {
                 return (widthPhotoDefault, heightPhotoDefault)
