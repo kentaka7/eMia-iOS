@@ -45,7 +45,7 @@ class GalleryInteractor: NSObject {
                 let titleHeight: CGFloat = 71.0
                 let columnsCount: CGFloat = 2.0
                 
-                if let model: PostModel = section?.items[indexPath.row] as? PostModel {
+                if let model: PostModel = section?.items[indexPath.row] as? PostModel, model.photoSize != (0.0, 0.0) {
                     let photoWidth = model.photoSize.0
                     let photoHeight = model.photoSize.1
                     contentWidth = (w / columnsCount) - cellPadding

@@ -8,6 +8,10 @@ import DTCollectionViewManager
 import DTModelStorage
 
 class GalleryViewCell: UICollectionViewCell, ModelTransfer {
+
+    private let widthPhotoDefault: CGFloat = 200.0
+    private let heightPhotoDefault: CGFloat = 100.0
+    
     @IBOutlet weak var borderView: UIView!
     
     @IBOutlet weak var photoImageView: UIImageView!
@@ -24,17 +28,23 @@ class GalleryViewCell: UICollectionViewCell, ModelTransfer {
     func update(with post: PostModel) {
         post.getPhoto() { image in
             self.photoImageView.image = image
+            if post.photoSize == (0.0, 0.0), let size = image?.size {
+                post.photoSize = (size.width, size.height)
+                post.synchronize() { _ in}
+            }
         }
         let isItMyFavoritePost = FavoritsManager.isItMyFavoritePost(post)
         favoriteImageView.image = isItMyFavoritePost ? UIImage(named: "icon-toggle_star") : nil
         titleLabel.text = post.title
         bodyLabel.text = post.body
-        
-        let photoWidth = post.photoSize.0
-        let photoHeight = post.photoSize.1
-        let contentWidth = self.frame.width
-        let contentHeight = contentWidth / photoWidth * photoHeight
-        photoHeightConstraint.constant = contentHeight
+
+        var defaultWidth = post.photoSize.0
+        var defaultHeight = post.photoSize.1
+        if post.photoSize == (0.0, 0.0) {
+            defaultWidth = widthPhotoDefault
+            defaultHeight = heightPhotoDefault
+        }
+        photoHeightConstraint.constant = self.frame.width / defaultWidth * defaultHeight
     }
     
     override func awakeFromNib() {

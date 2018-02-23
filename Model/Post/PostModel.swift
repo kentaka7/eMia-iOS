@@ -7,9 +7,6 @@ import UIKit
 
 final class PostModel: NSObject, NSCoding {
 
-    private let widthPhotoDefault: CGFloat = 200.0
-    private let heightPhotoDefault: CGFloat = 100.0
-    
     var ref: Any?
     var key: String?
     var id: String?
@@ -22,15 +19,20 @@ final class PostModel: NSObject, NSCoding {
     var starCount: Int
     
     var photoSize: (CGFloat, CGFloat) {
-        if photosize.isEmpty {
-            return (widthPhotoDefault, heightPhotoDefault)
-        } else {
-            let arr = photosize.split(separator: ";")
-            if arr.count == 2, let w = Double(arr[0]), let h = Double(arr[1]) {
-                return (CGFloat(w), CGFloat(h))
+        get {
+            if photosize.isEmpty {
+                return (0.0, 0.0)
             } else {
-                return (widthPhotoDefault, heightPhotoDefault)
+                let arr = photosize.split(separator: ";")
+                if arr.count == 2, let w = Double(arr[0]), let h = Double(arr[1]) {
+                    return (CGFloat(w), CGFloat(h))
+                } else {
+                    return (0.0, 0.0)
+                }
             }
+        }
+        set {
+            photosize = "\(newValue.0);\(newValue.1)"
         }
     }
     
