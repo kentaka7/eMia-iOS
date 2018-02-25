@@ -66,7 +66,7 @@
 		7F7E37132028705800470139 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E37102028705800470139 /* LoginRouter.swift */; };
 		7F88D6BE200FE5A000394EA2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F88D6BD200FE5A000394EA2 /* LocationManager.swift */; };
 		7F88D6C1200FEA5600394EA2 /* ProfileEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F88D6BF200FEA5500394EA2 /* ProfileEditor.storyboard */; };
-		7FAB4AF0203FF71800734EAB /* GalleryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB4AEF203FF71800734EAB /* GalleryLayout.swift */; };
+		7FA745D6204055C500173A17 /* GalleryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB4AEF203FF71800734EAB /* GalleryLayout.swift */; };
 		7FBA77501FEAB957003B455B /* NewPost3ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA774C1FEAB956003B455B /* NewPost3ViewCell.swift */; };
 		7FBA77511FEAB957003B455B /* NewPost1ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA774D1FEAB956003B455B /* NewPost1ViewCell.swift */; };
 		7FBA77521FEAB957003B455B /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA774E1FEAB957003B455B /* NewPostViewController.swift */; };
@@ -1067,7 +1067,7 @@
 				7F7E36FE20281BD200470139 /* GalleryInteractor.swift in Sources */,
 				7FBA77511FEAB957003B455B /* NewPost1ViewCell.swift in Sources */,
 				7FBFEA3F1FE3B39C00C7ADEC /* RefreshController.swift in Sources */,
-				7FAB4AF0203FF71800734EAB /* GalleryLayout.swift in Sources */,
+				7FA745D6204055C500173A17 /* GalleryLayout.swift in Sources */,
 				7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */,
 				7FFBB25A1FE4620A00A22EB0 /* Helpers.swift in Sources */,
 				7FC20D391FE36E9A000C23A6 /* EnumIteration.swift in Sources */,

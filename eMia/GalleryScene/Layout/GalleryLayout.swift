@@ -3,7 +3,7 @@ import UIKit
 
 protocol GalleryCellHeightComputed: class {
   // 1. Method to ask the delegate for the height of the image
-  func collectionView(_ collectionView:UICollectionView, heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat
+  func collectionView(_ collectionView:UICollectionView, heightForCellAtIndexPath indexPath:IndexPath) -> CGFloat
 }
 
 class GalleryLayout: UICollectionViewLayout {
@@ -52,7 +52,7 @@ class GalleryLayout: UICollectionViewLayout {
       let indexPath = IndexPath(item: item, section: 0)
       
       // 4. Asks the delegate for the height of the picture and the annotation and calculates the cell frame.
-      let photoHeight = delegate.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath)
+      let photoHeight = delegate.collectionView(collectionView, heightForCellAtIndexPath: indexPath)
       let height = cellPadding * 2 + photoHeight
       let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
       let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
@@ -86,5 +86,4 @@ class GalleryLayout: UICollectionViewLayout {
   override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
     return celsAttributes[indexPath.item]
   }
-  
 }

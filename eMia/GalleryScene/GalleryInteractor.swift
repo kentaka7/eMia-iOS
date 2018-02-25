@@ -60,7 +60,7 @@ class GalleryInteractor: NSObject {
             }
         }
     }
-    
+
     deinit {
         PostsManager.removeListener()
     }
@@ -75,11 +75,11 @@ class GalleryInteractor: NSObject {
             DispatchQueue.main.async {
                 
                 let section = SectionModel()
-                section.collectionHeaderModel = "Bobler near dig".localized
+                section.collectionHeaderModel = "Near dig".localized
                 // section.collectionFooterModel = "Section 0 footer"
                 
                 let section2 = SectionModel()
-                section2.collectionHeaderModel = "Bobler i din region".localized
+                section2.collectionHeaderModel = "I din region".localized
                 
                 self.deleteAllSections()
                 section.items = filteredData
