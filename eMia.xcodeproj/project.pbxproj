@@ -66,6 +66,7 @@
 		7F7E37132028705800470139 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E37102028705800470139 /* LoginRouter.swift */; };
 		7F88D6BE200FE5A000394EA2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F88D6BD200FE5A000394EA2 /* LocationManager.swift */; };
 		7F88D6C1200FEA5600394EA2 /* ProfileEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F88D6BF200FEA5500394EA2 /* ProfileEditor.storyboard */; };
+		7FA0B297209342FE00EE2A6A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA0B296209342FD00EE2A6A /* Post.swift */; };
 		7FA745D6204055C500173A17 /* GalleryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB4AEF203FF71800734EAB /* GalleryLayout.swift */; };
 		7FBA77501FEAB957003B455B /* NewPost3ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA774C1FEAB956003B455B /* NewPost3ViewCell.swift */; };
 		7FBA77511FEAB957003B455B /* NewPost1ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA774D1FEAB956003B455B /* NewPost1ViewCell.swift */; };
@@ -211,6 +212,7 @@
 		7F88D6BD200FE5A000394EA2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7F88D6C0200FEA5500394EA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfileEditor.storyboard; sourceTree = "<group>"; };
 		7F88D6C4200FEAE500394EA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/RegisterNewUser.storyboard; sourceTree = "<group>"; };
+		7FA0B296209342FD00EE2A6A /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		7FAB4AEF203FF71800734EAB /* GalleryLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryLayout.swift; sourceTree = "<group>"; };
 		7FBA774C1FEAB956003B455B /* NewPost3ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewPost3ViewCell.swift; path = NewPost/NewPost3ViewCell.swift; sourceTree = "<group>"; };
 		7FBA774D1FEAB956003B455B /* NewPost1ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewPost1ViewCell.swift; path = NewPost/NewPost1ViewCell.swift; sourceTree = "<group>"; };
@@ -602,10 +604,10 @@
 			isa = PBXGroup;
 			children = (
 				7FFBB2541FE45E0400A22EB0 /* GoogleFireBase */,
-				7F15FA781FF4B5CA0092BAD1 /* Filter */,
 				7FBFF4C51FE3FA5000788DCB /* ModelData */,
 				7FBFF4D21FE4068400788DCB /* User */,
 				7FBFF4D71FE4068400788DCB /* Post */,
+				7F15FA781FF4B5CA0092BAD1 /* Filter */,
 				7FBFF4D51FE4068400788DCB /* Comment */,
 				7FBFF4D01FE4068400788DCB /* Favorite */,
 			);
@@ -658,6 +660,7 @@
 			isa = PBXGroup;
 			children = (
 				7FBFF4D81FE4068400788DCB /* PostItem.swift */,
+				7FA0B296209342FD00EE2A6A /* Post.swift */,
 				7F3B53601FE742240089CB34 /* PostModel.swift */,
 				7F3C59F11FE5FB5C00A823DC /* PostsManager.swift */,
 			);
@@ -763,7 +766,9 @@
 				4BE033A415C8431F5CEBC645 /* Pods */,
 				B1E0F7105C3BEB21B42664B8 /* Frameworks */,
 			);
+			indentWidth = 3;
 			sourceTree = "<group>";
+			tabWidth = 3;
 		};
 		955F8583179ACAF000A38EAD /* Products */ = {
 			isa = PBXGroup;
@@ -944,6 +949,8 @@
 				"${BUILT_PRODUCTS_DIR}/NextGrowingTextView/NextGrowingTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyNotifications/SwiftyNotifications.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -961,6 +968,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextGrowingTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyNotifications.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -1075,6 +1084,7 @@
 				7F695C8D1FEA3914008AE127 /* EditProfileViewController.swift in Sources */,
 				7FD766821FE9D8F300E32C42 /* MyProfile1ViewCell.swift in Sources */,
 				7FBFF4D91FE4068400788DCB /* FavoriteItem.swift in Sources */,
+				7FA0B297209342FE00EE2A6A /* Post.swift in Sources */,
 				7F060C201FF10756002D04AD /* SegueHandler.swift in Sources */,
 				7F6FAAA92018B354009F94E0 /* GradientView.swift in Sources */,
 				7F4D8B521FE4E93A00FAFE5E /* PhotosStorageManager.swift in Sources */,

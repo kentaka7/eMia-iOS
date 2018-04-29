@@ -15,10 +15,11 @@ protocol GalleryViewProtocol {
 }
 
 class GalleryViewController: UIViewController, DTCollectionViewManageable, UICollectionViewDelegateFlowLayout {
-
+   
    var eventHandler: GalleryPresenter!
    var presenter: GalleryPresenter!
-
+   private var refreshControl: UIRefreshControl!
+   
    static let kHeaderHeight: CGFloat = 40.0
    static let kCellHeight: CGFloat = 250.0
    
@@ -33,17 +34,21 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
    
    override func viewDidLoad() {
       super.viewDidLoad()
-
+      
       navigationItem.title = "\(AppConstants.ApplicationName)"
+      
+      refreshControl = UIRefreshControl()
+      refreshControl?.addTarget(self, action: #selector(simulateRefresh), for: .valueChanged)
+      collectionView?.refreshControl = refreshControl
       
       GalleryDependencies.configure(view: self)
       presenter.configure()
       configureSubviews()
    }
-
+   
    @IBAction func exitToGalleryController(_ segue: UIStoryboardSegue) {
    }
-
+   
    private func configureSubviews() {
       configure(searchBar)
       configure(newPostButton)
@@ -75,15 +80,15 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-
+      
       let searchText = searchBar.text ?? ""
       self.presenter.fetchData(searchText: searchText)
    }
-
+   
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       eventHandler.prepare(for: segue, sender: sender)
    }
-
+   
    private func setUp3DPreviewPhoto() {
       if traitCollection.forceTouchCapability == .available {
          registerForPreviewing(with: self, sourceView: collectionView!)
@@ -105,12 +110,18 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
       searchBar.resignFirstResponder()
    }
    
+   @objc func simulateRefresh() {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+         self.refreshControl?.endRefreshing()
+      }
+   }
+   
 }
 
 // MARK: - View Protocol
 
 extension GalleryViewController: GalleryViewProtocol {
-
+   
    var galleryManager: DTCollectionViewManager {
       return self.manager
    }
@@ -124,7 +135,7 @@ extension GalleryViewController: GalleryViewProtocol {
          self.activityIndicatorView.startAnimating()
       }
    }
-
+   
    func stopProgress() {
       DispatchQueue.main.async {
          self.activityIndicatorView.stopAnimating()
@@ -136,7 +147,7 @@ extension GalleryViewController: GalleryViewProtocol {
 // MARK: - UICollectionViewDelegate
 
 extension GalleryViewController: UICollectionViewDelegate {
-
+   
    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
       eventHandler.editPost(for: indexPath)
    }
@@ -145,7 +156,7 @@ extension GalleryViewController: UICollectionViewDelegate {
 // MARK: - Hide/Show search bar while scrolling up/down
 
 extension GalleryViewController {
-
+   
    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
       hideKeyboard()
       if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0)
@@ -174,7 +185,7 @@ extension GalleryViewController: UISearchBarDelegate {
          hideKeyboard()
       }
    }
-
+   
    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
       if needStopSearch(for: searchText) {
          hideKeyboard()
@@ -213,8 +224,9 @@ extension GalleryViewController: UIViewControllerPreviewingDelegate {
                           commit viewControllerToCommit: UIViewController) {
       
    }
-
+   
    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
       return eventHandler.previewPhoto(for: location)
    }
 }
+

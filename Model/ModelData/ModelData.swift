@@ -53,7 +53,6 @@ class FetchingWorker: NSObject {
     fileprivate var favoritiesObserver = FavoritiesObserver()
     
     fileprivate var dataFetched = false
-    fileprivate var fetchingInProgress = false
     
     var usersOutput: UsersDataUpdating!
     var postsOutput: PostsDataBaseObservable?
@@ -63,6 +62,8 @@ class FetchingWorker: NSObject {
     let queueUsers = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).usersQueue")
     let queuePosts = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).postsQueue")
     let queueFavorities = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).favoritiesQueue")
+    
+    let semaphore = DispatchSemaphore(value: 1)
     
     var users: [UserItem] {
         return queueUsers.sync{_users}
@@ -77,11 +78,12 @@ class FetchingWorker: NSObject {
     }
     
     func fetchData(completion: @escaping () -> Void) {
-        if dataFetched || fetchingInProgress {
+        if dataFetched {
             completion()
             return
         }
-        fetchingInProgress = true
+        semaphore.wait()
+        
         var fetchDataFunc: (@escaping() -> Void) -> Void
         
         if FETCHING_DATA_ASYNC {
@@ -91,7 +93,7 @@ class FetchingWorker: NSObject {
         }
         fetchDataFunc() {
             self.dataFetched = true
-            self.fetchingInProgress = false
+            self.semaphore.signal()
             self.didDownloadAllData(completion)
         }
     }
