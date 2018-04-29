@@ -25,6 +25,9 @@ class LogInViewController: UIViewController {
    
    override func viewDidLoad() {
       super.viewDidLoad()
+
+      enableLoginButton(false)
+      
       navigationItem.title = "Log In to ".localized + "\(AppConstants.ApplicationName)"
       LoginDependencies.configure(viewController: self)
       configureView()
@@ -71,19 +74,21 @@ class LogInViewController: UIViewController {
    }
    
    @IBAction func signUpButtonPressed(_ sender: Any) {
-      eventHandler.signUp(emailTextField.text, passwordTextField.text) { error in
-         guard let error = error else {
-            return
-         }
-         switch error {
-         case .emailIsAbsent:
-            Alert.default.showOk("", message: error.description)
-         case .emailIsWrong:
-            break
-         case .passwordIsWrong:
-            Alert.default.showOk("", message: error.description)
-         case .accessDenied:
-            break
+      if validate(username: emailTextField.text, password: passwordTextField.text) {
+         eventHandler.signUp(emailTextField.text, passwordTextField.text) { error in
+            guard let error = error else {
+               return
+            }
+            switch error {
+            case .emailIsAbsent:
+               Alert.default.showOk("", message: error.description)
+            case .emailIsWrong:
+               break
+            case .passwordIsWrong:
+               Alert.default.showOk("", message: error.description)
+            case .accessDenied:
+               break
+            }
          }
       }
    }
@@ -103,6 +108,58 @@ extension LogInViewController {
       DispatchQueue.main.async {
          self.activityIndicatorView.stopAnimating()
       }
+   }
+}
+
+// Login credentials on verification
+
+extension LogInViewController {
+
+   private func validate(username: String?, password: String?) -> Bool {
+      guard let username = username, let password = password,
+         username.count >= 5,
+         password.count >= 5 else {
+            return false
+      }
+      return true
+   }
+   
+   private func enableLoginButton(_ enable: Bool) {
+      signInButton.isEnabled = enable
+      signInButton.alpha = enable ? 1.0 : 0.5
+   }
+}
+
+extension LogInViewController: UITextFieldDelegate {
+
+   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+      var usernameText = emailTextField.text
+      var passwordText = passwordTextField.text
+      if let text = textField.text {
+         let proposed = (text as NSString).replacingCharacters(in: range, with: string)
+         if textField == emailTextField {
+            usernameText = proposed
+         } else {
+            passwordText = proposed
+         }
+      }
+      let isValid = validate(username: usernameText,
+                             password: passwordText)
+      enableLoginButton(isValid)
+      return true
+   }
+   
+   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+      if textField == emailTextField {
+         emailTextField.becomeFirstResponder()
+      } else {
+         passwordTextField.resignFirstResponder()
+         if validate(username: emailTextField.text,
+                     password: passwordTextField.text) {
+            signInButtonPressed(signInButton)
+         }
+      }
+      return false
    }
    
 }
