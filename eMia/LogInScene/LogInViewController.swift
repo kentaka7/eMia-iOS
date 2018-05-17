@@ -150,8 +150,7 @@ extension LogInViewController: UITextFieldDelegate {
    
    private func hideKeyboard() {
       DispatchQueue.main.async {
-         self.emailTextField.resignFirstResponder()
-         self.passwordTextField.resignFirstResponder()
+         self.view.endEditing(true)
       }
    }
    
