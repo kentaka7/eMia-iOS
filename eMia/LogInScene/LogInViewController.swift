@@ -4,6 +4,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 import NVActivityIndicatorView
 
@@ -11,6 +13,7 @@ class LogInViewController: UIViewController {
    
    var eventHandler: LoginPresenter!
    var presenter: LoginPresenter!
+   let disposeBug = DisposeBag()
    
    @IBOutlet weak var emailTextField: UITextField!
    @IBOutlet weak var passwordTextField: UITextField!
@@ -20,16 +23,13 @@ class LogInViewController: UIViewController {
 
    @IBOutlet var activityIndicatorView: NVActivityIndicatorView!
 
-   fileprivate var mUser: UserModel!
-   fileprivate var mPassword: String!
-   
    override func viewDidLoad() {
       super.viewDidLoad()
-
-      enableLoginButton(false)
       
       navigationItem.title = "Log In to ".localized + "\(AppConstants.ApplicationName)"
       LoginDependencies.configure(viewController: self)
+      
+      subscribeOnVald()
       configureView()
    }
 
@@ -40,55 +40,81 @@ class LogInViewController: UIViewController {
    private func configureView() {
       configure(signInButton)
       configure(signUpButton)
+      configure(emailTextField)
+      configure(passwordTextField)
    }
    
    private func configure(_ view: UIView) {
       switch view {
+      case emailTextField:
+         _ = emailTextField.rx.text.map { $0 ?? "" }
+            .bind(to: presenter.email)
+      case passwordTextField:
+         _ = passwordTextField.rx.text.map {$0 ?? "" }
+            .bind(to: presenter.password)
       case signInButton:
+         signInButton.isEnabled = false
          signInButton.setTitle("Sign In".localized, for: .normal)
          signInButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
+         signInButton.rx.tap.bind(onNext: { [weak self] in
+            self?.signInButtonPressed()
+         }).disposed(by: disposeBug)
       case signUpButton:
+         signUpButton.isEnabled = false
          signUpButton.setTitle("Sign Up".localized, for: .normal)
          signUpButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
+         signUpButton.rx.tap.bind(onNext: { [weak self] in
+            self?.signUpButtonPressed()
+         }).disposed(by: disposeBug)
       default:
          break
       }
    }
+
+   private func subscribeOnVald() {
+      _ = presenter.isValid.bind(to: signInButton.rx.isEnabled)
+      _ = presenter.isValid.subscribe(onNext: {[unowned self] isValid in
+         self.signInButton.isEnabled = isValid ? true : false
+         self.signInButton.setTitleColor(isValid ? UIColor.green : UIColor.lightGray, for: .normal)
+         self.signUpButton.isEnabled = isValid ? true : false
+         self.signUpButton.setTitleColor(isValid ? UIColor.green : UIColor.lightGray, for: .normal)
+      })
+   }
    
-   @IBAction func signInButtonPressed(_ sender: Any) {
-      eventHandler.signIn(emailTextField.text, passwordTextField.text) { error in
+   private func signInButtonPressed() {
+      self.hideKeyboard()
+      eventHandler.signIn() { error in
          guard let error = error else {
             return
          }
          switch error {
-            case .emailIsAbsent:
-               break
-            case .emailIsWrong:
-               self.emailTextField.shake()
-            case .passwordIsWrong:
-               Alert.default.showOk("", message: error.description)
-            case .accessDenied:
-               self.emailTextField.shake()
+         case .emailIsAbsent:
+            break
+         case .emailIsWrong:
+            self.emailTextField.shake()
+         case .passwordIsWrong:
+            Alert.default.showOk("", message: error.description)
+         case .accessDenied:
+            self.emailTextField.shake()
          }
       }
    }
    
-   @IBAction func signUpButtonPressed(_ sender: Any) {
-      if validate(username: emailTextField.text, password: passwordTextField.text) {
-         eventHandler.signUp(emailTextField.text, passwordTextField.text) { error in
-            guard let error = error else {
-               return
-            }
-            switch error {
-            case .emailIsAbsent:
-               Alert.default.showOk("", message: error.description)
-            case .emailIsWrong:
-               break
-            case .passwordIsWrong:
-               Alert.default.showOk("", message: error.description)
-            case .accessDenied:
-               break
-            }
+   private func signUpButtonPressed() {
+      self.hideKeyboard()
+      eventHandler.signUp() { error in
+         guard let error = error else {
+            return
+         }
+         switch error {
+         case .emailIsAbsent:
+            Alert.default.showOk("", message: error.description)
+         case .emailIsWrong:
+            break
+         case .passwordIsWrong:
+            Alert.default.showOk("", message: error.description)
+         case .accessDenied:
+            break
          }
       }
    }
@@ -111,55 +137,22 @@ extension LogInViewController {
    }
 }
 
-// Login credentials on verification
-
-extension LogInViewController {
-
-   private func validate(username: String?, password: String?) -> Bool {
-      guard let username = username, let password = password,
-         username.count >= 5,
-         password.count >= 5 else {
-            return false
-      }
-      return true
-   }
-   
-   private func enableLoginButton(_ enable: Bool) {
-      signInButton.isEnabled = enable
-      signInButton.alpha = enable ? 1.0 : 0.5
-   }
-}
-
 extension LogInViewController: UITextFieldDelegate {
 
-   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-      var usernameText = emailTextField.text
-      var passwordText = passwordTextField.text
-      if let text = textField.text {
-         let proposed = (text as NSString).replacingCharacters(in: range, with: string)
-         if textField == emailTextField {
-            usernameText = proposed
-         } else {
-            passwordText = proposed
-         }
-      }
-      let isValid = validate(username: usernameText,
-                             password: passwordText)
-      enableLoginButton(isValid)
-      return true
-   }
-   
    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
       if textField == emailTextField {
-         emailTextField.becomeFirstResponder()
+         passwordTextField.becomeFirstResponder()
       } else {
-         passwordTextField.resignFirstResponder()
-         if validate(username: emailTextField.text,
-                     password: passwordTextField.text) {
-            signInButtonPressed(signInButton)
-         }
+         self.hideKeyboard()
       }
       return false
+   }
+   
+   private func hideKeyboard() {
+      DispatchQueue.main.async {
+         self.emailTextField.resignFirstResponder()
+         self.passwordTextField.resignFirstResponder()
+      }
    }
    
 }

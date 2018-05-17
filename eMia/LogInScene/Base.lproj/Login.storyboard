@@ -73,9 +73,6 @@
                                             <constraint firstAttribute="width" constant="87" id="X9G-dA-5jG"/>
                                         </constraints>
                                         <state key="normal" title="Sign In"/>
-                                        <connections>
-                                            <action selector="signInButtonPressed:" destination="qOZ-pY-IqM" eventType="touchUpInside" id="Xj6-lU-M7I"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILC-2Y-8R8">
                                         <rect key="frame" x="172.5" y="51" width="87" height="31"/>
@@ -84,9 +81,6 @@
                                             <constraint firstAttribute="height" constant="31" id="ZeX-dg-N9O"/>
                                         </constraints>
                                         <state key="normal" title="Sign Up"/>
-                                        <connections>
-                                            <action selector="signUpButtonPressed:" destination="qOZ-pY-IqM" eventType="touchUpInside" id="iqo-du-SAJ"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

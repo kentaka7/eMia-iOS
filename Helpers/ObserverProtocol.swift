@@ -6,7 +6,7 @@
 import Foundation
 import Firebase
 
-@objc protocol Observable: class {
+@objc protocol FirebaseObservable: class {
    var observers: [Any] { get set }
    func registerObserver()
    func unregisterObserver()

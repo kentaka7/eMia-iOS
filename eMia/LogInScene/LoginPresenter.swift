@@ -4,12 +4,23 @@
 //
 
 import UIKit
+import RxSwift
 
 class LoginPresenter: NSObject {
 
    var router: LoginRouter!
    var interactor: LoginInteractor!
    var view: LogInViewController!
+
+   var email = Variable<String>("")
+   var password = Variable<String>("")
+   
+   // Computed property to retunr the result of expected validation
+   var isValid : Observable<Bool> {
+      return Observable.combineLatest(email.asObservable(), password.asObservable()){ emailString, passwordString in
+         emailString.isValidEmail() && passwordString.count > 6
+      }
+   }
    
    func startProgress() {
       view.startProgress()
@@ -23,17 +34,9 @@ class LoginPresenter: NSObject {
       router.prepare(for: segue, sender: sender)
    }
    
-   func signIn(_ email: String?, _ password: String?, completion: @escaping (LoginPresenter.LoginError?) -> Void) {
-      guard let email = email, email.isValidEmail() else {
-         completion(.emailIsWrong)
-         return
-      }
-      guard let password = password, password.count > 6 else {
-         completion(.passwordIsWrong)
-         return
-      }
+   func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void) {
       startProgress()
-      interactor.signIn(email: email, password: password) { success in
+      interactor.signIn(email: email.value, password: password.value) { success in
          self.stopProgress()
          if success {
             presentMainScreen()
@@ -43,18 +46,10 @@ class LoginPresenter: NSObject {
       }
    }
    
-   func signUp(_ email: String?, _ password: String?, completion: (LoginPresenter.LoginError?) -> Void) {
-      guard let email = email, email.isValidEmail() else {
-         completion(.emailIsAbsent)
-         return
-      }
-      guard let password = password, password.count > 6 else {
-         completion(.passwordIsWrong)
-         return
-      }
-      let name = email.components(separatedBy: "@").first!
-      let user = UserModel(name: name, email: email, address: nil, gender: nil, yearbirth: nil)
-      router.performEditProfile(password, user)
+   func signUp(completion: (LoginPresenter.LoginError?) -> Void) {
+      let name = email.value.components(separatedBy: "@").first!
+      let user = UserModel(name: name, email: email.value, address: nil, gender: nil, yearbirth: nil)
+      router.performEditProfile(password.value, user)
    }
 }
 
