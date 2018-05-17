@@ -19,8 +19,8 @@ target 'eMia' do
     
     pod 'AwesomeCache'
     
-    pod 'RxSwift',    '~> 4.0'
-    pod 'RxCocoa',    '~> 4.0'
+    pod 'RxSwift'
+    pod 'RxCocoa'
     
 end
 
@@ -39,11 +39,7 @@ post_install do |installer|
             end
         end
     end
-end
-
-# The workaround starts here !!!!!
-
-post_install do |installer|
+    # The workaround starts here !!!!!
     Dir.glob(installer.sandbox.target_support_files_root + "Pods-*/*.sh").each do |script|
         flag_name = File.basename(script, ".sh") + "-Installation-Flag"
         folder = "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

@@ -832,7 +832,6 @@
 				9A99AA7A1B8A219300428802 /* Resources */,
 				9A7B9BA31BA5C41D00B86A4F /* Embed Frameworks */,
 				904BD83AB6C497245F666CE1 /* [CP] Embed Pods Frameworks */,
-				4A4231CA2FF55F2DD24D05F1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -917,21 +916,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4A4231CA2FF55F2DD24D05F1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-eMia/Pods-eMia-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		904BD83AB6C497245F666CE1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

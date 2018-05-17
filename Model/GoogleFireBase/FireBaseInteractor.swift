@@ -41,40 +41,40 @@ class FireBaseInteractor: NSObject {
    }
 
    func signUp(email: String, password: String, completion: @escaping (String?) -> Void) {
-      Auth.auth().createUser(withEmail: email, password: password) { (firebaseuser, error) in
+      Auth.auth().createUser(withEmail: email, password: password) { (authDataResult, error) in
          if let err = error {
             print(err.localizedDescription)
             self.currentFireBaseUser = nil
             completion(nil)
          } else {
-            self.currentFireBaseUser = firebaseuser
+            self.currentFireBaseUser = authDataResult?.user
             completion(self.currentFireBaseUser?.uid)
          }
       }
    }
    
    func signIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
-      Auth.auth().signIn(withEmail: email, password: password, completion: { (firebaseuser, error) in
+      Auth.auth().signIn(withEmail: email, password: password, completion: { (authDataResult, error) in
          if let err = error {
             print(err.localizedDescription)
             self.currentFireBaseUser = nil
             completion(false)
          } else {
-            self.currentFireBaseUser = firebaseuser
+            self.currentFireBaseUser = authDataResult?.user
             completion(true)
          }
       })
    }
    
    func signInAnonymously(completion: @escaping (Bool) -> Void) {
-      Auth.auth().signInAnonymously(completion: { (firebaseuser, error) in
+      Auth.auth().signInAnonymously(completion: { (authDataResult, error) in
          if let err = error {
             print(err.localizedDescription)
             self.currentFireBaseUser = nil
             completion(false)
             return
          }
-         self.currentFireBaseUser = firebaseuser
+         self.currentFireBaseUser = authDataResult?.user
          completion(true)
       })
    }
@@ -96,7 +96,7 @@ extension FireBaseInteractor {
       // Enabling developer mode allows many more requests to be made per hour, so developers
       // can test different config values during development.
       let remoteConfigSettings = RemoteConfigSettings(developerModeEnabled: true)
-      remoteConfig.configSettings = remoteConfigSettings!
+      remoteConfig.configSettings = remoteConfigSettings
    }
    
    func fetchConfig() {

@@ -73,7 +73,7 @@ extension Register6ViewCell: UIImagePickerControllerDelegate, UINavigationContro
    
    fileprivate func addPhoto() {
       
-      let title = self.viewController()?.navigationItem.title
+      let title = self.viewController?.navigationItem.title
       let alertVC = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
       alertVC.addAction(UIAlertAction(title: "Camera".localized, style: .default, handler: { _ in
          self.openCamera()
@@ -85,7 +85,7 @@ extension Register6ViewCell: UIImagePickerControllerDelegate, UINavigationContro
       
       alertVC.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil))
       
-      self.viewController()?.present(alertVC, animated: true, completion: nil)
+      self.viewController?.present(alertVC, animated: true, completion: nil)
    }
    
    fileprivate func openCamera() {

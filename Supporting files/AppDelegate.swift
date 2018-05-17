@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
       Appearance.customize()
       
-      IQKeyboardManager.sharedManager().enable = true
+      IQKeyboardManager.shared.enable = true
       
       appRouter.startApplication()
 
