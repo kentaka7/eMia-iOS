@@ -4,10 +4,8 @@
 //
 
 import UIKit
-import DTCollectionViewManager
-import DTModelStorage
 
-class GalleryViewCell: UICollectionViewCell, ModelTransfer {
+class GalleryViewCell: UICollectionViewCell {
 
     private let widthPhotoDefault: CGFloat = 200.0
     private let heightPhotoDefault: CGFloat = 100.0

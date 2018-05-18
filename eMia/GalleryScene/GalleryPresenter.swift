@@ -23,28 +23,25 @@ class GalleryPresenter: NSObject {
       view.stopProgress()
    }
    
-   func fetchData(searchText: String = "") {
-      interactor.fetchData(searchText: searchText)
+   func fetchData(searchText: String = "", _ completed: @escaping ([PostModel]) -> Void) {
+      interactor.fetchData(searchText: searchText, completed)
    }
    
    func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel]  {
       return interactor.filterPosts(posts, searchText: searchText)
    }
    
-   func startSearch(_ text: String) {
-      fetchData(searchText: text)
+   func startSearch(_ text: String, _ completed: @escaping ([PostModel]) -> Void) {
+      fetchData(searchText: text, completed)
    }
 
    func stopSearch() {
-      fetchData()
+      fetchData(searchText: "") { _ in
+      }
    }
    
-   func editPost(for indexPath: IndexPath) {
-      interactor.editPost(for: indexPath) { post in
-         if let post = post {
-            self.router.performEditPost(post)
-         }
-      }
+   func edit(post: PostModel) {
+      self.router.performEditPost(post)
    }
 
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {

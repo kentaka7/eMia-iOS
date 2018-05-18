@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import DTCollectionViewManager
 import NVActivityIndicatorView
 import RxSwift
 import RxDataSources
@@ -32,13 +31,12 @@ extension RxSectionModel : AnimatableSectionModelType {
 }
 
 protocol GalleryViewProtocol {
-   var galleryManager: DTCollectionViewManager { get }
    var galleryCollectionView: UICollectionView? { get }
    func startProgress()
    func stopProgress()
 }
 
-class GalleryViewController: UIViewController, DTCollectionViewManageable, UICollectionViewDelegateFlowLayout {
+class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout {
    
    var eventHandler: GalleryPresenter!
    var presenter: GalleryPresenter!
@@ -79,8 +77,12 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
       
       configureDataSource()
       
-      fetchData(searchText: "") { [weak self] in
-         self?.bindData()
+      presenter.fetchData(searchText: "") { [weak self] posts in
+         let section = [RxSectionModel(title: "Near dig", data: posts)]
+         self?.data.value.append(contentsOf: section)
+         DispatchQueue.main.async {
+            self?.bindData()
+         }
       }
       
    }
@@ -124,7 +126,9 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
       super.viewWillAppear(animated)
       
       let searchText = searchBar.text ?? ""
-      self.presenter.fetchData(searchText: searchText)
+      self.presenter.fetchData(searchText: searchText) { _ in
+         
+      }
    }
    
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -164,10 +168,6 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
 
 extension GalleryViewController: GalleryViewProtocol {
    
-   var galleryManager: DTCollectionViewManager {
-      return self.manager
-   }
-   
    var galleryCollectionView: UICollectionView? {
       return self.collectionView
    }
@@ -191,7 +191,8 @@ extension GalleryViewController: GalleryViewProtocol {
 extension GalleryViewController: UICollectionViewDelegate {
    
    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      eventHandler.editPost(for: indexPath)
+      let post = self.data.value[0].items[indexPath.row]
+      eventHandler.edit(post: post)
    }
 }
 
@@ -236,7 +237,8 @@ extension GalleryViewController: UISearchBarDelegate {
    
    private func search(_ text: String?) -> Bool {
       if let text = text, text.isEmpty == false {
-         presenter.startSearch(text)
+         presenter.startSearch(text) { _ in
+         }
          return true
       } else {
          return false
@@ -311,20 +313,3 @@ extension GalleryViewController: GalleryLayoutDelegate {
       return data.value[numberOfItemsinSection].data.count
    }
 }
-
-extension GalleryViewController {
-   
-   private func fetchData(searchText: String = "", completed: @escaping () -> Void) {
-      DispatchQueue.global(qos: .utility).async() {
-         let data = PostsManager.getData()
-         let filteredData = self.presenter.filterPosts(data, searchText: searchText)
-         let section = [RxSectionModel(title: "Near dig", data: filteredData)]
-         self.data.value.append(contentsOf: section)
-         DispatchQueue.main.async {
-            completed()
-         }
-      }
-   }
-   
-}
-

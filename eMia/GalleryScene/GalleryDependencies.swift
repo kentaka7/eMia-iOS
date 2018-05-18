@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import DTCollectionViewManager
 
 class GalleryDependencies {
 
@@ -12,7 +11,7 @@ class GalleryDependencies {
       let router = GalleryRouter()
       let presenter = GalleryPresenter()
       let interactor = GalleryInteractor()
-    let filerManager = FilterManager()
+    let filterManager = FilterManager()
 
       router.rootViewController = view
       
@@ -24,9 +23,7 @@ class GalleryDependencies {
       presenter.view = view
       
       interactor.output = presenter
-      interactor.delegate = view
       interactor.collectionView = view.galleryCollectionView
-      interactor.manager = view.galleryManager
-      interactor.filerManager = filerManager
+      interactor.filterManager = filterManager
    }
 }

@@ -4,9 +4,8 @@
 //
 
 import UIKit
-import DTModelStorage
 
-class GalleryHeaderView: UICollectionReusableView, ModelTransfer {
+class GalleryHeaderView: UICollectionReusableView {
 
     @IBOutlet weak var title: UILabel!
     
