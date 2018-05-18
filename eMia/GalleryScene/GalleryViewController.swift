@@ -109,6 +109,12 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
          if let layout = collectionView!.collectionViewLayout as? GalleryLayout {
             layout.delegate = self
          }
+         collectionView!.rx.itemSelected.subscribe({ [unowned self] event in
+            if let indexPath = event.element {
+               let post = self.data.value[0].items[indexPath.row]
+               self.eventHandler.edit(post: post)
+            }
+         }).disposed(by: disposeBag)
       case searchBackgroundView:
          searchBackgroundView.backgroundColor = GlobalColors.kBrandNavBarColor
       case searchBar:

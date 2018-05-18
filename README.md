@@ -37,5 +37,3 @@ Reviewer, please pay attention, the LoginView, GalleryViewController scenes use 
 Here (https://github.com/SKrotkih/eMia-Android) you can find the eMia Android version.
 
 02-15-2018
-
-Sergey Krotkih

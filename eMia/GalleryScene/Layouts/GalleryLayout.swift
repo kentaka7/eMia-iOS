@@ -74,7 +74,6 @@ class GalleryLayout: UICollectionViewFlowLayout {
             for cachedAttr in cache {
                if cachedAttr.frame.intersects(rect) {
                   visibleLayoutAttributes.append(cachedAttr)
-                  contentHeight = max(contentHeight, rect.maxY)
                }
             }
          }
