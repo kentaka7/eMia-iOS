@@ -22,6 +22,7 @@ class LogInViewController: UIViewController {
    @IBOutlet weak var signUpButton: UIButton!
 
    @IBOutlet var activityIndicatorView: NVActivityIndicatorView!
+   @IBOutlet var tapRecognizer: UITapGestureRecognizer!
 
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -29,7 +30,7 @@ class LogInViewController: UIViewController {
       navigationItem.title = "Log In to ".localized + "\(AppConstants.ApplicationName)"
       LoginDependencies.configure(viewController: self)
       
-      subscribeOnVald()
+      subscribeOnValid()
       configureView()
    }
 
@@ -38,6 +39,7 @@ class LogInViewController: UIViewController {
    }
    
    private func configureView() {
+      configure(self.view)
       configure(signInButton)
       configure(signUpButton)
       configure(emailTextField)
@@ -46,6 +48,10 @@ class LogInViewController: UIViewController {
    
    private func configure(_ view: UIView) {
       switch view {
+      case self.view:
+         tapRecognizer.rx.event.subscribe({[weak self] _ in
+            self?.hideKeyboard()
+         }).disposed(by: disposeBug)
       case emailTextField:
          _ = emailTextField.rx.text.map { $0 ?? "" }
             .bind(to: presenter.email)
@@ -71,7 +77,7 @@ class LogInViewController: UIViewController {
       }
    }
 
-   private func subscribeOnVald() {
+   private func subscribeOnValid() {
       _ = presenter.isValid.bind(to: signInButton.rx.isEnabled)
       _ = presenter.isValid.subscribe(onNext: {[unowned self] isValid in
          self.signInButton.isEnabled = isValid ? true : false

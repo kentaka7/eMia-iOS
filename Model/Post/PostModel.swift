@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxDataSources
 
 final class PostModel: NSObject, NSCoding {
 
@@ -17,7 +18,7 @@ final class PostModel: NSObject, NSCoding {
     var created: Double
     private var photosize: String
     var starCount: Int
-    
+
     var photoSize: (CGFloat, CGFloat) {
         get {
             if photosize.isEmpty {
@@ -108,6 +109,14 @@ final class PostModel: NSObject, NSCoding {
         self.created = rhs.created
         self.photosize = rhs.photosize
     }
+}
+
+extension PostModel: IdentifiableType {
+   typealias Identity = String
+   
+   var identity : Identity {
+      return uid
+   }
 }
 
 extension PostModel {

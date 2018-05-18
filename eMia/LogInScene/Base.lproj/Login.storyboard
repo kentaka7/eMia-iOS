@@ -126,6 +126,9 @@
                             <constraint firstItem="TPe-k0-iUw" firstAttribute="leading" secondItem="ogb-ra-bA8" secondAttribute="leading" constant="16" id="iih-4k-wBm"/>
                             <constraint firstItem="TPe-k0-iUw" firstAttribute="top" secondItem="Qbt-2R-YHt" secondAttribute="bottom" multiplier="1:3" constant="169" id="odf-mU-JY8"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="tle-xN-Z1Z" appends="YES" id="vGY-c7-y5q"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="Oqe-df-s0P"/>
                     <connections>
@@ -134,10 +137,12 @@
                         <outlet property="passwordTextField" destination="C1I-Sf-I6J" id="VUo-cA-TXw"/>
                         <outlet property="signInButton" destination="2Eu-aP-o46" id="zx3-jG-Meq"/>
                         <outlet property="signUpButton" destination="ILC-2Y-8R8" id="4Sb-Pw-43D"/>
+                        <outlet property="tapRecognizer" destination="tle-xN-Z1Z" id="AZv-qe-IQb"/>
                         <segue destination="pxC-72-tfO" kind="show" identifier="editProfileSegue" id="Zf7-Ww-uc6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4JF-JH-NZN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="tle-xN-Z1Z"/>
             </objects>
             <point key="canvasLocation" x="425.625" y="179.57746478873239"/>
         </scene>
