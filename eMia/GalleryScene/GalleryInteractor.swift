@@ -102,7 +102,7 @@ class GalleryInteractor: NSObject {
         }
     }
     
-    private func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel] {
+    func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel] {
         mSearchText = searchText
         return filerManager.filterPosts(posts,searchText: searchText)
     }

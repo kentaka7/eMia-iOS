@@ -12,7 +12,7 @@ class GalleryPresenter: NSObject {
    var view: GalleryViewProtocol!
    
    func configure() {
-      interactor.configure()
+      //interactor.configure()
    }
    
    func startProgress() {
@@ -25,6 +25,10 @@ class GalleryPresenter: NSObject {
    
    func fetchData(searchText: String = "") {
       interactor.fetchData(searchText: searchText)
+   }
+   
+   func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel]  {
+      return interactor.filterPosts(posts, searchText: searchText)
    }
    
    func startSearch(_ text: String) {

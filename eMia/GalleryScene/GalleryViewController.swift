@@ -6,6 +6,30 @@
 import UIKit
 import DTCollectionViewManager
 import NVActivityIndicatorView
+import RxSwift
+import RxDataSources
+
+struct RxSectionModel {
+   let title: String
+   var data: [PostModel]
+}
+
+extension RxSectionModel : AnimatableSectionModelType {
+   typealias Item = PostModel
+   typealias Identity = String
+   
+   var identity: Identity {
+      return title
+   }
+   var items: [Item] {
+      return data
+   }
+   
+   init(original: RxSectionModel, items: [PostModel]) {
+      self = original
+      data = items
+   }
+}
 
 protocol GalleryViewProtocol {
    var galleryManager: DTCollectionViewManager { get }
@@ -32,6 +56,14 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
    
    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
    
+   private let disposeBag = DisposeBag()
+   
+   private var dataSource: RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>?
+   
+   private var mSearchText: String = ""
+
+   var data = Variable([RxSectionModel]())
+   
    override func viewDidLoad() {
       super.viewDidLoad()
       
@@ -44,6 +76,13 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
       GalleryDependencies.configure(view: self)
       presenter.configure()
       configureSubviews()
+      
+      configureDataSource()
+      
+      fetchData(searchText: "") { [weak self] in
+         self?.bindData()
+      }
+      
    }
    
    @IBAction func exitToGalleryController(_ segue: UIStoryboardSegue) {
@@ -63,8 +102,11 @@ class GalleryViewController: UIViewController, DTCollectionViewManageable, UICol
          newPostButton.layer.cornerRadius = newPostButton.frame.width / 2.0
          newPostButton.backgroundColor = GlobalColors.kBrandNavBarColor
       case collectionView!:
-         setUpHeaderSize()
-         setUpFooterSize()
+         collectionView!.backgroundColor = UIColor.clear
+         collectionView!.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
+         if let layout = collectionView!.collectionViewLayout as? GalleryLayout {
+            layout.delegate = self
+         }
       case searchBackgroundView:
          searchBackgroundView.backgroundColor = GlobalColors.kBrandNavBarColor
       case searchBar:
@@ -228,5 +270,61 @@ extension GalleryViewController: UIViewControllerPreviewingDelegate {
    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
       return eventHandler.previewPhoto(for: location)
    }
+}
+
+// MARK: -
+
+extension GalleryViewController {
+   
+   private func configureDataSource() {
+      let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, dataItem in
+         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
+         cell.update(with: dataItem)
+         return cell
+      }, configureSupplementaryView: {dataSource, collectionView, kind, indexPAth in
+         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPAth) as! GalleryHeaderView
+         headerView.title.text = dataSource.sectionModels[indexPAth.section].title
+         return headerView
+      })
+      self.dataSource = dataSource
+   }
+   
+   private func bindData() {
+      guard let dataSource = self.dataSource else {
+         return
+      }
+      data.asDriver()
+         .drive(self.collectionView!.rx.items(dataSource: dataSource))
+         .disposed(by: disposeBag)
+   }
+}
+
+
+extension GalleryViewController: GalleryLayoutDelegate {
+   
+   func collectionView(_ collectionView: UICollectionView, photoSizeAtIndexPath indexPath: IndexPath) -> CGSize {
+      let post = self.data.value[0].items[indexPath.row]
+      return CGSize(width: post.photoSize.0, height: post.photoSize.1)
+   }
+   
+   func collectionView(_ collectionView: UICollectionView, numberOfItemsinSection: Int) -> Int {
+      return data.value[numberOfItemsinSection].data.count
+   }
+}
+
+extension GalleryViewController {
+   
+   private func fetchData(searchText: String = "", completed: @escaping () -> Void) {
+      DispatchQueue.global(qos: .utility).async() {
+         let data = PostsManager.getData()
+         let filteredData = self.presenter.filterPosts(data, searchText: searchText)
+         let section = [RxSectionModel(title: "Near dig", data: filteredData)]
+         self.data.value.append(contentsOf: section)
+         DispatchQueue.main.async {
+            completed()
+         }
+      }
+   }
+   
 }
 

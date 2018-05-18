@@ -1,13 +1,13 @@
 import UIKit
 
-protocol PinterestLayoutDelegate: class {
+protocol GalleryLayoutDelegate: class {
    func collectionView(_ collectionView: UICollectionView, photoSizeAtIndexPath indexPath: IndexPath) -> CGSize
    func collectionView(_ collectionView: UICollectionView, numberOfItemsinSection: Int) -> Int
 }
 
-class PinterestLayout: UICollectionViewFlowLayout {
+class GalleryLayout: UICollectionViewFlowLayout {
 
-   weak var delegate: PinterestLayoutDelegate!
+   weak var delegate: GalleryLayoutDelegate!
    
    private var numberOfColumns = 2
    private var cellPadding: CGFloat = 6

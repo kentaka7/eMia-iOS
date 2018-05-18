@@ -45,10 +45,7 @@
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
 		7F4D8B521FE4E93A00FAFE5E /* PhotosStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */; };
-		7F619FC020ADE7C500AF9D91 /* RxGalleryHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FBD20ADE7C500AF9D91 /* RxGalleryHeader.swift */; };
-		7F619FC120ADE7C500AF9D91 /* RxGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FBE20ADE7C500AF9D91 /* RxGalleryCell.swift */; };
-		7F619FC220ADE7C500AF9D91 /* RxGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FBF20ADE7C500AF9D91 /* RxGalleryViewController.swift */; };
-		7F619FCF20ADFFAB00AF9D91 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FCE20ADFFAB00AF9D91 /* PinterestLayout.swift */; };
+		7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */; };
 		7F695C8D1FEA3914008AE127 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F695C8C1FEA3914008AE127 /* EditProfileViewController.swift */; };
 		7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F695C8E1FEA392A008AE127 /* Register5ViewCell.swift */; };
 		7F695C951FEA392B008AE127 /* Register3ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F695C8F1FEA392A008AE127 /* Register3ViewCell.swift */; };
@@ -193,10 +190,7 @@
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
 		7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosStorageManager.swift; sourceTree = "<group>"; };
-		7F619FBD20ADE7C500AF9D91 /* RxGalleryHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGalleryHeader.swift; sourceTree = "<group>"; };
-		7F619FBE20ADE7C500AF9D91 /* RxGalleryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGalleryCell.swift; sourceTree = "<group>"; };
-		7F619FBF20ADE7C500AF9D91 /* RxGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGalleryViewController.swift; sourceTree = "<group>"; };
-		7F619FCE20ADFFAB00AF9D91 /* PinterestLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
+		7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryLayout.swift; sourceTree = "<group>"; };
 		7F695C8C1FEA3914008AE127 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = Register/EditProfileViewController.swift; sourceTree = "<group>"; };
 		7F695C8E1FEA392A008AE127 /* Register5ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Register5ViewCell.swift; path = Register/Register5ViewCell.swift; sourceTree = "<group>"; };
 		7F695C8F1FEA392A008AE127 /* Register3ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Register3ViewCell.swift; path = Register/Register3ViewCell.swift; sourceTree = "<group>"; };
@@ -423,21 +417,10 @@
 			path = PhotosManager;
 			sourceTree = "<group>";
 		};
-		7F619FBC20ADE74100AF9D91 /* RxGalleryScene */ = {
-			isa = PBXGroup;
-			children = (
-				7F619FCD20ADFFAB00AF9D91 /* Layouts */,
-				7F619FBF20ADE7C500AF9D91 /* RxGalleryViewController.swift */,
-				7F619FBE20ADE7C500AF9D91 /* RxGalleryCell.swift */,
-				7F619FBD20ADE7C500AF9D91 /* RxGalleryHeader.swift */,
-			);
-			path = RxGalleryScene;
-			sourceTree = "<group>";
-		};
 		7F619FCD20ADFFAB00AF9D91 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
-				7F619FCE20ADFFAB00AF9D91 /* PinterestLayout.swift */,
+				7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */,
 			);
 			path = Layouts;
 			sourceTree = "<group>";
@@ -526,6 +509,7 @@
 				7F7E36F820281BD200470139 /* GalleryRouter.swift */,
 				7F7E370420281F7B00470139 /* GalleryDependencies.swift */,
 				7FCD79EF201451C200677AC6 /* PhotoPostViewController.swift */,
+				7F619FCD20ADFFAB00AF9D91 /* Layouts */,
 				7F7E370020281C8300470139 /* CollectionCell */,
 				7F7E370320281D6300470139 /* HeaderView */,
 				7F7E370120281CB600470139 /* Filter */,
@@ -819,7 +803,6 @@
 				7F6A4A401FE2C692005C7A0B /* SettingsScene */,
 				7F88D6C2200FEA9000394EA2 /* RegisterNewUser */,
 				7F695C871FEA372B008AE127 /* ProfileEditor */,
-				7F619FBC20ADE74100AF9D91 /* RxGalleryScene */,
 				7F7E36F720281B8A00470139 /* GalleryScene */,
 				7F695C8A1FEA385E008AE127 /* NewPostScene */,
 				7F695C881FEA37DC008AE127 /* PostEditScene */,
@@ -1019,7 +1002,7 @@
 				7F060C0A1FF0E762002D04AD /* FiltersViewController.swift in Sources */,
 				7F1337BD202AFF1400D955D6 /* FilterDependencies.swift in Sources */,
 				7FC20D371FE36B9B000C23A6 /* Image.swift in Sources */,
-				7F619FCF20ADFFAB00AF9D91 /* PinterestLayout.swift in Sources */,
+				7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */,
 				7F3C59F01FE5F03600A823DC /* ObserverProtocol.swift in Sources */,
 				7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */,
 				7FC9DE0F2018481000F50D07 /* DeviceTokenController.swift in Sources */,
@@ -1027,7 +1010,6 @@
 				7FC862261FE94E3B0077C4E2 /* CommentModel.swift in Sources */,
 				7F060C271FF1BC41002D04AD /* MunicipalityPicker.swift in Sources */,
 				7FC9DE0B2018481000F50D07 /* PushNotification.swift in Sources */,
-				7F619FC120ADE7C500AF9D91 /* RxGalleryCell.swift in Sources */,
 				7F695C981FEA392B008AE127 /* Register2ViewCell.swift in Sources */,
 				7FC20D291FE366C1000C23A6 /* Appearance.swift in Sources */,
 				7FBFF4CB1FE3FA5000788DCB /* FavoritiesObserver.swift in Sources */,
@@ -1060,7 +1042,6 @@
 				7FBFF4DD1FE4068400788DCB /* PostItem.swift in Sources */,
 				7F1337BF202AFF2800D955D6 /* FilterPresenter.swift in Sources */,
 				7FC862241FE94AFA0077C4E2 /* Date.swift in Sources */,
-				7F619FC020ADE7C500AF9D91 /* RxGalleryHeader.swift in Sources */,
 				7F7E370520281F7C00470139 /* GalleryDependencies.swift in Sources */,
 				7F7E370D20286F4800470139 /* LoginDependencies.swift in Sources */,
 				7F695C951FEA392B008AE127 /* Register3ViewCell.swift in Sources */,
@@ -1086,7 +1067,6 @@
 				7FBFEA3F1FE3B39C00C7ADEC /* RefreshController.swift in Sources */,
 				7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */,
 				7FFBB25A1FE4620A00A22EB0 /* Helpers.swift in Sources */,
-				7F619FC220ADE7C500AF9D91 /* RxGalleryViewController.swift in Sources */,
 				7FC20D391FE36E9A000C23A6 /* EnumIteration.swift in Sources */,
 				7FC9DE092018481000F50D07 /* PushNotificationsInteractor.swift in Sources */,
 				7F695C8D1FEA3914008AE127 /* EditProfileViewController.swift in Sources */,
