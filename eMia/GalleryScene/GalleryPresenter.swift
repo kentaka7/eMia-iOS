@@ -27,10 +27,6 @@ class GalleryPresenter: NSObject {
       interactor.fetchData(searchText: searchText, completed)
    }
    
-   func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel]  {
-      return interactor.filterPosts(posts, searchText: searchText)
-   }
-   
    func startSearch(_ text: String, _ completed: @escaping ([PostModel]) -> Void) {
       fetchData(searchText: text, completed)
    }
@@ -40,10 +36,6 @@ class GalleryPresenter: NSObject {
       }
    }
    
-   func edit(post: PostModel) {
-      self.router.performEditPost(post)
-   }
-
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       router.prepare(for: segue, sender: sender)
    }
@@ -57,4 +49,39 @@ class GalleryPresenter: NSObject {
       }
    }
    
+   func prepareGalleryCell(_ collectionView: UICollectionView, indexPath: IndexPath, post: PostModel) -> UICollectionViewCell {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
+      cell.update(with: post)
+      return cell
+   }
+
+   func prepareGalleryHeader(_ collectionView: UICollectionView, indexPath: IndexPath, kind: String, text: String) -> UICollectionReusableView {
+      let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as! GalleryHeaderView
+      headerView.title.text = text
+      return headerView
+   }
 }
+
+// MARK: -
+
+extension GalleryPresenter {
+
+   func edit(post: PostModel) {
+      self.router.performEditPost(post)
+   }
+}
+
+// MARK: -
+
+extension GalleryPresenter: GalleryLayoutDelegate {
+   
+   func collectionView(_ collectionView: UICollectionView, photoSizeAtIndexPath indexPath: IndexPath) -> CGSize {
+      return interactor.collectionView(collectionView, photoSizeAtIndexPath: indexPath)
+   }
+   
+   func collectionView(_ collectionView: UICollectionView, numberOfItemsinSection section: Int) -> Int {
+      return interactor.collectionView(collectionView, numberOfItemsinSection: section)
+   }
+}
+
+

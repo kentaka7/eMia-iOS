@@ -8,28 +8,6 @@ import NVActivityIndicatorView
 import RxSwift
 import RxDataSources
 
-struct RxSectionModel {
-   let title: String
-   var data: [PostModel]
-}
-
-extension RxSectionModel : AnimatableSectionModelType {
-   typealias Item = PostModel
-   typealias Identity = String
-   
-   var identity: Identity {
-      return title
-   }
-   var items: [Item] {
-      return data
-   }
-   
-   init(original: RxSectionModel, items: [PostModel]) {
-      self = original
-      data = items
-   }
-}
-
 protocol GalleryViewProtocol {
    var galleryCollectionView: UICollectionView? { get }
    func startProgress()
@@ -37,13 +15,15 @@ protocol GalleryViewProtocol {
 }
 
 class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout {
-   
-   var eventHandler: GalleryPresenter!
-   var presenter: GalleryPresenter!
-   private var refreshControl: UIRefreshControl!
-   
    static let kHeaderHeight: CGFloat = 40.0
    static let kCellHeight: CGFloat = 250.0
+
+   var eventHandler: GalleryPresenter!
+   var presenter: GalleryPresenter!
+
+   private var refreshControl: UIRefreshControl!
+   private var mSearchText: String = ""
+   private let disposeBag = DisposeBag()
    
    @IBOutlet weak var collectionView: UICollectionView?
    @IBOutlet weak var newPostButton: UIButton!
@@ -54,13 +34,8 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
    
-   private let disposeBag = DisposeBag()
-   
-   private var dataSource: RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>?
-   
-   private var mSearchText: String = ""
-
-   var data = Variable([RxSectionModel]())
+   @IBAction func exitToGalleryController(_ segue: UIStoryboardSegue) {
+   }
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -74,21 +49,36 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
       GalleryDependencies.configure(view: self)
       presenter.configure()
       configureSubviews()
-      
-      configureDataSource()
-      
-      presenter.fetchData(searchText: "") { [weak self] posts in
-         let section = [RxSectionModel(title: "Near dig", data: posts)]
-         self?.data.value.append(contentsOf: section)
-         DispatchQueue.main.async {
-            self?.bindData()
-         }
-      }
-      
    }
    
-   @IBAction func exitToGalleryController(_ segue: UIStoryboardSegue) {
+   override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      
+      let searchText = searchBar.text ?? ""
+      self.presenter.fetchData(searchText: searchText) { _ in
+         
+      }
    }
+   
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+      eventHandler.prepare(for: segue, sender: sender)
+   }
+   
+   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+      self.view.endEditing(true)
+      searchBar.resignFirstResponder()
+   }
+   
+   @objc func simulateRefresh() {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+         self.refreshControl?.endRefreshing()
+      }
+   }
+}
+
+// MARK: - Provate methods
+
+extension GalleryViewController {
    
    private func configureSubviews() {
       configure(searchBar)
@@ -107,14 +97,8 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
          collectionView!.backgroundColor = UIColor.clear
          collectionView!.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
          if let layout = collectionView!.collectionViewLayout as? GalleryLayout {
-            layout.delegate = self
+            layout.delegate = presenter
          }
-         collectionView!.rx.itemSelected.subscribe({ [unowned self] event in
-            if let indexPath = event.element {
-               let post = self.data.value[0].items[indexPath.row]
-               self.eventHandler.edit(post: post)
-            }
-         }).disposed(by: disposeBag)
       case searchBackgroundView:
          searchBackgroundView.backgroundColor = GlobalColors.kBrandNavBarColor
       case searchBar:
@@ -126,19 +110,6 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
       default:
          break
       }
-   }
-   
-   override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
-      
-      let searchText = searchBar.text ?? ""
-      self.presenter.fetchData(searchText: searchText) { _ in
-         
-      }
-   }
-   
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      eventHandler.prepare(for: segue, sender: sender)
    }
    
    private func setUp3DPreviewPhoto() {
@@ -156,18 +127,6 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
       let footerSize = CGSize(width: self.view.frame.width, height: GalleryViewController.kHeaderHeight)
       (collectionView?.collectionViewLayout as? UICollectionViewFlowLayout)?.footerReferenceSize = footerSize
    }
-   
-   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-      self.view.endEditing(true)
-      searchBar.resignFirstResponder()
-   }
-   
-   @objc func simulateRefresh() {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-         self.refreshControl?.endRefreshing()
-      }
-   }
-   
 }
 
 // MARK: - View Protocol
@@ -188,17 +147,6 @@ extension GalleryViewController: GalleryViewProtocol {
       DispatchQueue.main.async {
          self.activityIndicatorView.stopAnimating()
       }
-   }
-   
-}
-
-// MARK: - UICollectionViewDelegate
-
-extension GalleryViewController: UICollectionViewDelegate {
-   
-   public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      let post = self.data.value[0].items[indexPath.row]
-      eventHandler.edit(post: post)
    }
 }
 
@@ -263,7 +211,6 @@ extension GalleryViewController: UISearchBarDelegate {
    fileprivate func hideKeyboard() {
       searchBar.resignFirstResponder()
    }
-   
 }
 
 // MARK: - UIViewControllerPreviewingDelegate
@@ -277,45 +224,5 @@ extension GalleryViewController: UIViewControllerPreviewingDelegate {
    
    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
       return eventHandler.previewPhoto(for: location)
-   }
-}
-
-// MARK: -
-
-extension GalleryViewController {
-   
-   private func configureDataSource() {
-      let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, dataItem in
-         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
-         cell.update(with: dataItem)
-         return cell
-      }, configureSupplementaryView: {dataSource, collectionView, kind, indexPAth in
-         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPAth) as! GalleryHeaderView
-         headerView.title.text = dataSource.sectionModels[indexPAth.section].title
-         return headerView
-      })
-      self.dataSource = dataSource
-   }
-   
-   private func bindData() {
-      guard let dataSource = self.dataSource else {
-         return
-      }
-      data.asDriver()
-         .drive(self.collectionView!.rx.items(dataSource: dataSource))
-         .disposed(by: disposeBag)
-   }
-}
-
-
-extension GalleryViewController: GalleryLayoutDelegate {
-   
-   func collectionView(_ collectionView: UICollectionView, photoSizeAtIndexPath indexPath: IndexPath) -> CGSize {
-      let post = self.data.value[0].items[indexPath.row]
-      return CGSize(width: post.photoSize.0, height: post.photoSize.1)
-   }
-   
-   func collectionView(_ collectionView: UICollectionView, numberOfItemsinSection: Int) -> Int {
-      return data.value[numberOfItemsinSection].data.count
    }
 }
