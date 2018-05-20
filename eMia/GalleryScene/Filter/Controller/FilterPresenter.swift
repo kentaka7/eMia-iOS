@@ -34,10 +34,17 @@ class FilterPresenter: NSObject {
          interactor.lookFor = lookFor
       }
    }
+
+   func setUpStatus(_ status: FilterFavorite) {
+      let favoriteFilter = view.favoriteControllerView.favoriteFilter
+      favoriteFilter.value = status
+      _ = favoriteFilter.asObservable().subscribe() { [weak self] status in
+         self?.status = status.element
+      }
+   }
    
    var status: FilterFavorite! {
       didSet {
-         view.status = status
          interactor.status = status
       }
    }

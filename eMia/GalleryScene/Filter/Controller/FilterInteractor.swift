@@ -28,8 +28,8 @@ class FilterInteractor: NSObject {
          filterModelCopy = FilterModel()
       }
       presenter.setUpLookFor(filterModel!.genderFilter)
+      presenter.setUpStatus(filterModel!.myFavoriteFilter)
       
-      presenter.status = filterModel!.myFavoriteFilter
       presenter.minAge = filterModel!.minAge
       presenter.maxAge = filterModel!.maxAge
       presenter.municipalityId = filterModel!.municipality

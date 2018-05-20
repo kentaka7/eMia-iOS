@@ -11,6 +11,7 @@ final class FiltersViewController: UIViewController {
     var presenter: FilterPresenter!
     
     var genderControllerView: GenderControllerView!
+    var favoriteControllerView: FavoriteControllerView!
     
     //    MARK: Public
     private var municipalityPicker: MunicipalityPicker!
@@ -21,12 +22,6 @@ final class FiltersViewController: UIViewController {
     @IBOutlet weak var genderBackgroundView: UIView!
     @IBOutlet weak var myFavoriteBackgroundView: UIView!
     @IBOutlet weak var municipalityBackgroundView: UIView!
-    
-    @IBOutlet weak var selectedAllView: UIView!
-    @IBOutlet weak var selectedMyFavoriteView: UIView!
-    
-    @IBOutlet weak var allLabel: UILabel!
-    @IBOutlet weak var myFavoriteLabel: UILabel!
     
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var rangeSlider: MARKRangeSlider!
@@ -99,35 +94,6 @@ final class FiltersViewController: UIViewController {
     
     @IBAction func backBarButtonPressed(_ sender: Any) {
         performSegue(.exitToGallery, sender: nil)
-    }
-    
-    var status: FilterFavorite = .none {
-        didSet {
-            
-            allLabel.text = "All".localized
-            myFavoriteLabel.text = "My Favorities".localized
-            
-            selectedAllView.layer.borderColor = UIColor.clear.cgColor
-            selectedMyFavoriteView.layer.borderColor = UIColor.clear.cgColor
-            
-            allLabel.textColor = labelsColor
-            allLabel.font = GlobalFonts.kAvenirBook
-            myFavoriteLabel.textColor = labelsColor
-            myFavoriteLabel.font = GlobalFonts.kAvenirBook
-            
-            switch status {
-            case .none:
-                return
-            case .all:
-                allLabel.textColor = GlobalColors.kBrandNavBarColor
-                allLabel.font = GlobalFonts.kAvenirBold
-                selectedAllView.layer.borderColor = GlobalColors.kBrandNavBarColor.cgColor
-            case .myFavorite:
-                myFavoriteLabel.textColor = GlobalColors.kBrandNavBarColor
-                myFavoriteLabel.font = GlobalFonts.kAvenirBold
-                selectedMyFavoriteView.layer.borderColor = GlobalColors.kBrandNavBarColor.cgColor
-            }
-        }
     }
     
     var municipalityId: String? {
@@ -213,15 +179,10 @@ extension FiltersViewController  {
             myFavoriteBackgroundView.layer.borderWidth = Constants.borderWidth
             myFavoriteBackgroundView.layer.borderColor = UIColor.lightGray.cgColor
             
-            let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(selectedAll(_:)))
-            selectedAllView.addGestureRecognizer(tapGesture1)
-            selectedAllView.layer.cornerRadius = Constants.cornerRadius
-            selectedAllView.layer.borderWidth = Constants.borderWidth
-            
-            let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(selectedMyFavorite(_:)))
-            selectedMyFavoriteView.addGestureRecognizer(tapGesture2)
-            selectedMyFavoriteView.layer.cornerRadius = Constants.cornerRadius
-            selectedMyFavoriteView.layer.borderWidth = Constants.borderWidth
+            favoriteControllerView = Bundle.main.loadNibNamed("FavoriteControllerView", owner: nil, options: nil)![0] as! FavoriteControllerView
+            favoriteControllerView.frame = myFavoriteBackgroundView.bounds
+            favoriteControllerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+            myFavoriteBackgroundView.addSubview(favoriteControllerView)
             
         case municipalityBackgroundView:
             municipalityBackgroundView.layer.cornerRadius = Constants.cornerRadius
@@ -249,6 +210,7 @@ extension FiltersViewController  {
             
         case municipalityLabel:
             municipalityLabel.text = "Municipality".localized
+            labelsColor = municipalityLabel.textColor
             
         case ageLabel:
             ageLabel.text = "Age".localized

@@ -46,6 +46,8 @@
 		7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */; };
 		7F4B289120B1C3D8002BFB47 /* GenderControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */; };
 		7F4B289320B1C484002BFB47 /* GenderControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289220B1C483002BFB47 /* GenderControllerView.xib */; };
+		7F4B289620B1E41F002BFB47 /* FavoriteControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289420B1E41E002BFB47 /* FavoriteControllerView.xib */; };
+		7F4B289720B1E41F002BFB47 /* FavoriteControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289520B1E41E002BFB47 /* FavoriteControllerView.swift */; };
 		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
@@ -198,6 +200,8 @@
 		7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileInteractor.swift; sourceTree = "<group>"; };
 		7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderControllerView.swift; sourceTree = "<group>"; };
 		7F4B289220B1C483002BFB47 /* GenderControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenderControllerView.xib; sourceTree = "<group>"; };
+		7F4B289420B1E41E002BFB47 /* FavoriteControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoriteControllerView.xib; sourceTree = "<group>"; };
+		7F4B289520B1E41E002BFB47 /* FavoriteControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteControllerView.swift; sourceTree = "<group>"; };
 		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
@@ -531,6 +535,8 @@
 			children = (
 				7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */,
 				7F4B289220B1C483002BFB47 /* GenderControllerView.xib */,
+				7F4B289520B1E41E002BFB47 /* FavoriteControllerView.swift */,
+				7F4B289420B1E41E002BFB47 /* FavoriteControllerView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -930,6 +936,7 @@
 				9ADFC8F91B8B771800AB4CD9 /* GalleryHeaderView.xib in Resources */,
 				7F2F18AD202E111800EF4644 /* LucidaGrandeRegular.ttf in Resources */,
 				7FD1FEA8200F2FB700C178E2 /* NewPost.storyboard in Resources */,
+				7F4B289620B1E41F002BFB47 /* FavoriteControllerView.xib in Resources */,
 				7F2F1899202E10C400EF4644 /* close_button@2x.png in Resources */,
 				7F88D6C1200FEA5600394EA2 /* ProfileEditor.storyboard in Resources */,
 				7F4B289320B1C484002BFB47 /* GenderControllerView.xib in Resources */,
@@ -1066,6 +1073,7 @@
 				7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */,
 				7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */,
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
+				7F4B289720B1E41F002BFB47 /* FavoriteControllerView.swift in Sources */,
 				7FFBB25C1FE462A000A22EB0 /* FavoritsManager.swift in Sources */,
 				7FBFF4CF1FE3FA5000788DCB /* ModelData.swift in Sources */,
 				7F4B289120B1C3D8002BFB47 /* GenderControllerView.swift in Sources */,
