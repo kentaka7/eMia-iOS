@@ -44,6 +44,8 @@
 		7F4B288C20B17DE8002BFB47 /* MyProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */; };
 		7F4B288D20B17DE8002BFB47 /* MyProfileDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */; };
 		7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */; };
+		7F4B289120B1C3D8002BFB47 /* GenderControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */; };
+		7F4B289320B1C484002BFB47 /* GenderControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289220B1C483002BFB47 /* GenderControllerView.xib */; };
 		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
@@ -194,6 +196,8 @@
 		7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfilePresenter.swift; sourceTree = "<group>"; };
 		7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileDependencies.swift; sourceTree = "<group>"; };
 		7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileInteractor.swift; sourceTree = "<group>"; };
+		7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderControllerView.swift; sourceTree = "<group>"; };
+		7F4B289220B1C483002BFB47 /* GenderControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenderControllerView.xib; sourceTree = "<group>"; };
 		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
@@ -439,6 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				7F4B287620B101B2002BFB47 /* Controller */,
+				7F4B288F20B1C381002BFB47 /* Views */,
 				7F060C211FF10C09002D04AD /* Gender.swift */,
 				7F060C231FF1229B002D04AD /* FilterFavorite.swift */,
 			);
@@ -519,6 +524,15 @@
 				7F0FD0EB1FEFF0450032689A /* MyProfile2ViewCell.swift */,
 			);
 			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+		7F4B288F20B1C381002BFB47 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */,
+				7F4B289220B1C483002BFB47 /* GenderControllerView.xib */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7F4D8B4C1FE4E6C400FAFE5E /* PhotosManager */ = {
@@ -918,6 +932,7 @@
 				7FD1FEA8200F2FB700C178E2 /* NewPost.storyboard in Resources */,
 				7F2F1899202E10C400EF4644 /* close_button@2x.png in Resources */,
 				7F88D6C1200FEA5600394EA2 /* ProfileEditor.storyboard in Resources */,
+				7F4B289320B1C484002BFB47 /* GenderControllerView.xib in Resources */,
 				7F060C081FF0E735002D04AD /* Filter.storyboard in Resources */,
 				7FD7667E1FE9D45400E32C42 /* Settings.storyboard in Resources */,
 				7F2F18AB202E111800EF4644 /* Assets.xcassets in Resources */,
@@ -1053,6 +1068,7 @@
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
 				7FFBB25C1FE462A000A22EB0 /* FavoritsManager.swift in Sources */,
 				7FBFF4CF1FE3FA5000788DCB /* ModelData.swift in Sources */,
+				7F4B289120B1C3D8002BFB47 /* GenderControllerView.swift in Sources */,
 				7FBFF4DD1FE4068400788DCB /* PostItem.swift in Sources */,
 				7F1337BF202AFF2800D955D6 /* FilterPresenter.swift in Sources */,
 				7FC862241FE94AFA0077C4E2 /* Date.swift in Sources */,

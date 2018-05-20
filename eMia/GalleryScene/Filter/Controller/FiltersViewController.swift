@@ -10,6 +10,8 @@ final class FiltersViewController: UIViewController {
     var eventHandler: FilterPresenter!
     var presenter: FilterPresenter!
     
+    var genderControllerView: GenderControllerView!
+    
     //    MARK: Public
     private var municipalityPicker: MunicipalityPicker!
     
@@ -19,14 +21,6 @@ final class FiltersViewController: UIViewController {
     @IBOutlet weak var genderBackgroundView: UIView!
     @IBOutlet weak var myFavoriteBackgroundView: UIView!
     @IBOutlet weak var municipalityBackgroundView: UIView!
-    
-    @IBOutlet weak var selectedGuysView: UIView!
-    @IBOutlet weak var selectedGirlsView: UIView!
-    @IBOutlet weak var selectedBothView: UIView!
-    
-    @IBOutlet weak var guysLabel: UILabel!
-    @IBOutlet weak var girlsLabel: UILabel!
-    @IBOutlet weak var bothLabel: UILabel!
     
     @IBOutlet weak var selectedAllView: UIView!
     @IBOutlet weak var selectedMyFavoriteView: UIView!
@@ -105,42 +99,6 @@ final class FiltersViewController: UIViewController {
     
     @IBAction func backBarButtonPressed(_ sender: Any) {
         performSegue(.exitToGallery, sender: nil)
-    }
-    
-    var lookFor: Gender = .none {
-        didSet {
-            
-            guysLabel.text = "Guys".localized
-            girlsLabel.text = "Girls".localized
-            bothLabel.text = "Both".localized
-            
-            guysLabel.textColor = labelsColor
-            guysLabel.font = GlobalFonts.kAvenirBook
-            girlsLabel.textColor = labelsColor
-            girlsLabel.font = GlobalFonts.kAvenirBook
-            bothLabel.textColor = labelsColor
-            bothLabel.font = GlobalFonts.kAvenirBook
-            
-            selectedGuysView.layer.borderColor = UIColor.clear.cgColor
-            selectedGirlsView.layer.borderColor = UIColor.clear.cgColor
-            selectedBothView.layer.borderColor = UIColor.clear.cgColor
-            
-            switch lookFor {
-            case .none:   return
-            case .boy:
-                selectedGuysView.layer.borderColor = GlobalColors.kBrandNavBarColor.cgColor
-                guysLabel.textColor = GlobalColors.kBrandNavBarColor
-                guysLabel.font = GlobalFonts.kAvenirBold
-            case .girl:
-                selectedGirlsView.layer.borderColor = GlobalColors.kBrandNavBarColor.cgColor
-                girlsLabel.textColor = GlobalColors.kBrandNavBarColor
-                girlsLabel.font = GlobalFonts.kAvenirBold
-            case .both:
-                selectedBothView.layer.borderColor = GlobalColors.kBrandNavBarColor.cgColor
-                bothLabel.textColor = GlobalColors.kBrandNavBarColor
-                bothLabel.font = GlobalFonts.kAvenirBold
-            }
-        }
     }
     
     var status: FilterFavorite = .none {
@@ -241,26 +199,14 @@ extension FiltersViewController  {
             municipalityPicker = MunicipalityPicker(pickerView: municipalityPickerView)
             
         case genderBackgroundView:
-            labelsColor = guysLabel.textColor
-            
             genderBackgroundView.layer.cornerRadius = Constants.cornerRadius
             genderBackgroundView.layer.borderWidth = Constants.borderWidth
             genderBackgroundView.layer.borderColor = UIColor.lightGray.cgColor
             
-            let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(selectedGuys(_:)))
-            selectedGuysView.addGestureRecognizer(tapGesture1)
-            selectedGuysView.layer.cornerRadius = Constants.cornerRadius
-            selectedGuysView.layer.borderWidth = Constants.borderWidth
-            
-            let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(selectedGirls(_:)))
-            selectedGirlsView.addGestureRecognizer(tapGesture2)
-            selectedGirlsView.layer.cornerRadius = Constants.cornerRadius
-            selectedGirlsView.layer.borderWidth = Constants.borderWidth
-            
-            let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(selectedBoth(_:)))
-            selectedBothView.addGestureRecognizer(tapGesture3)
-            selectedBothView.layer.cornerRadius = Constants.cornerRadius
-            selectedBothView.layer.borderWidth = Constants.borderWidth
+            genderControllerView = Bundle.main.loadNibNamed("GenderControllerView", owner: nil, options: nil)![0] as! GenderControllerView
+            genderControllerView.frame = genderBackgroundView.bounds
+            genderControllerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+            genderBackgroundView.addSubview(genderControllerView)
             
         case myFavoriteBackgroundView:
             myFavoriteBackgroundView.layer.cornerRadius = Constants.cornerRadius
@@ -315,18 +261,6 @@ extension FiltersViewController  {
 // MARK: - Gender Filter
 
 extension FiltersViewController  {
-    
-    @objc func selectedGuys(_ gesture: UITapGestureRecognizer) {
-        presenter.lookFor = .boy
-    }
-    
-    @objc func selectedGirls(_ gesture: UITapGestureRecognizer) {
-        presenter.lookFor = .girl
-    }
-    
-    @objc func selectedBoth(_ gesture: UITapGestureRecognizer) {
-        presenter.lookFor = .both
-    }
     
     @objc func selectedAll(_ gesture: UITapGestureRecognizer) {
         presenter.status = .all

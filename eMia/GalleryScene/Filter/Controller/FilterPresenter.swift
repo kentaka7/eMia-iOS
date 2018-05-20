@@ -21,9 +21,16 @@ class FilterPresenter: NSObject {
       interactor.saveChanges()
    }
 
+   func setUpLookFor(_ lookFor: Gender) {
+      let genderFilter = view.genderControllerView.genderFilter
+      genderFilter.value = lookFor
+      _ = genderFilter.asObservable().subscribe() { [weak self] lookFor in
+         self?.lookFor = lookFor.element
+      }
+   }
+   
    var lookFor: Gender! {
       didSet {
-         view.lookFor = lookFor
          interactor.lookFor = lookFor
       }
    }

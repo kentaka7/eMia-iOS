@@ -7,19 +7,19 @@
 //
 
 import UIKit
+import RxSwift
 import NVActivityIndicatorView
 
 class MyProfileViewController: UIViewController {
-
    var presenter: MyProfilePresenter!
-   
    var user: UserModel!
    var password: String!
-   
    var registerUser: Bool!
+   private let disposeBug = DisposeBag()
    
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var saveDataButton: UIButton!
+   @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
    
    override func viewDidLoad() {
@@ -28,17 +28,35 @@ class MyProfileViewController: UIViewController {
       registerUser = user.userId.isEmpty
       
       navigationItem.title = registerUser ? "Sign Up".localized : "My Profile".localized
+
       configure(tableView)
       configure(saveDataButton)
+      configure(view)
       
       MyProfileDependencies.configure(view: self, tableView: tableView, user: user)
    }
    
-   @IBAction func backButtonPressed(_ sender: Any) {
-      closeWindow()
+   private func configure(_ view: UIView) {
+      switch view {
+      case view:
+         backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
+            self?.closeWindow()
+         }).disposed(by: disposeBug)
+      case saveDataButton:
+         saveDataButton.layer.cornerRadius = saveDataButton.frame.height / 2.0
+         saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
+         saveDataButton.rx.tap.bind(onNext: { [weak self] in
+            self?.saveData()
+         }).disposed(by: disposeBug)
+      case tableView:
+         tableView.delegate = self
+         tableView.dataSource = self
+      default:
+         break
+      }
    }
    
-   @IBAction func saveDataButtonPressed(_ sender: Any) {
+   private func saveData() {
       presenter.updateMyProfile() {
          if self.registerUser {
             presentMainScreen()
@@ -51,22 +69,7 @@ class MyProfileViewController: UIViewController {
    private func closeWindow() {
       navigationController?.popViewController(animated: true)
    }
-   
-   private func configure(_ view: UIView) {
-      switch view {
-      case saveDataButton:
-         saveDataButton.layer.cornerRadius = saveDataButton.frame.height / 2.0
-         saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
-      case tableView:
-         tableView.delegate = self
-         tableView.dataSource = self
-      default:
-         break
-      }
-   }
 }
-
-// MARK: - UITableView delegate protocol
 
 extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
    
