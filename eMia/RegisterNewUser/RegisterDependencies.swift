@@ -31,6 +31,5 @@ class RegisterDependencies: NSObject {
       
       // Configure View
       view.presenter = presenter
-      view.interactor = interactor
    }
 }

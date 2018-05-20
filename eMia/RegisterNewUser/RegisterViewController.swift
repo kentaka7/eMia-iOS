@@ -16,7 +16,6 @@ class RegisterViewController: UIViewController {
    var password: String?
    
    var presenter: RegisterPresenter!
-   var interactor: RegisterInteractor!
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -38,7 +37,7 @@ class RegisterViewController: UIViewController {
    }
    
    @IBAction func signUpButtonPressed(_ sender: Any) {
-      interactor.registerNewUser()
+      presenter.registerNewUser()
    }
    
    private func configure(_ view: UIView) {

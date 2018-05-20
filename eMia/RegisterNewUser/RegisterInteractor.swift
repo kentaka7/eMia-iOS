@@ -10,41 +10,43 @@ import UIKit
 
 class RegisterInteractor: NSObject {
    
+   struct RegisterData {
+      var name: String?
+      var email: String?
+      var password: String?
+      var address: String?
+      var gender: Gender?
+      var yearBirth: Int?
+      var photo: UIImage?
+   }
+   
    weak var tableView: UITableView!
    var user: UserModel?
    var password: String?
    
-   func registerNewUser() {
-      
-      let emailCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Email.rawValue, section: 0)) as! Register1ViewCell
-      let passwordCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Password.rawValue, section: 0)) as! Register2ViewCell
-      let nameCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Name.rawValue, section: 0)) as! Register7ViewCell
-      let genderCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Gender.rawValue, section: 0)) as! Register4ViewCell
-      let yearBirthCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.YearBirth.rawValue, section: 0)) as! Register5ViewCell
-      let photoCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Photo.rawValue, section: 0)) as! Register6ViewCell
-      let addressCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Address.rawValue, section: 0)) as! Register3ViewCell
-      
-      guard let email = emailCell.email, email.isValidEmail() else {
+   func registerNewUser(_ data: RegisterData) {
+
+      guard let email = data.email, email.isValidEmail() else {
          Alert.default.showOk("", message: "Please enter your email address".localized)
          return
       }
-      guard let password = passwordCell.password, password.count > 6 else {
+      guard let password = data.password, password.count > 6 else {
          Alert.default.showOk("", message: "Please enter password (more than 6 characters)".localized)
          return
       }
-      guard let name = nameCell.name, name.isEmpty == false else {
+      guard let name = data.name, name.isEmpty == false else {
          Alert.default.showOk("", message: "Please enter name".localized)
          return
       }
-      guard let image = photoCell.photo else {
+      guard let image = data.photo else {
          Alert.default.showOk("", message: "Please add photo".localized)
          return
       }
-      let address = addressCell.address ?? ""
-      let gender = genderCell.gender
-      let yearBirth = yearBirthCell.yearBirth ?? -1
+      let address = data.address ?? ""
+      let gender = data.gender ?? .both
+      let yearBirth = data.yearBirth ?? -1
       
-      print("\(name), \(email), \(password), \(address), \(gender), \(yearBirth)")
+      print("\(name), \(email), \(password), \(address), \(gender.description) \(yearBirth)")
       
 //      UsersManager.signUp(name: name, email: email, password: password, address: address, gender: gender, yearbirth: yearBirth) { user in
          if let user = user {

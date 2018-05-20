@@ -9,18 +9,18 @@
 import UIKit
 import NVActivityIndicatorView
 
-enum RegisterRows: Int {
-   case Email
-   case Password
-   case Name
-   case Address
-   case Gender
-   case YearBirth
-   case Photo
-   static let allValues = [Email, Password, Name, Address, Gender, YearBirth, Photo]
-}
-
 class RegisterPresenter: NSObject {
+
+   enum RegisterRows: Int {
+      case Email
+      case Password
+      case Name
+      case Address
+      case Gender
+      case YearBirth
+      case Photo
+      static let allValues = [Email, Password, Name, Address, Gender, YearBirth, Photo]
+   }
 
    internal struct CellName {
       static let register1ViewCell = "Register1ViewCell"
@@ -38,6 +38,8 @@ class RegisterPresenter: NSObject {
    var password: String?
    weak var activityIndicator: NVActivityIndicatorView!
    var locationManager: LocationManager!
+   
+   weak var interactor: RegisterInteractor!
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
       switch RegisterRows(rawValue: indexPath.row)! {
@@ -93,6 +95,25 @@ class RegisterPresenter: NSObject {
 
    var numberOfRows: Int {
       return RegisterRows.allValues.count
+   }
+   
+   func registerNewUser() {
+      let emailCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Email.rawValue, section: 0)) as! Register1ViewCell
+      let passwordCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Password.rawValue, section: 0)) as! Register2ViewCell
+      let nameCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Name.rawValue, section: 0)) as! Register7ViewCell
+      let genderCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Gender.rawValue, section: 0)) as! Register4ViewCell
+      let yearBirthCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.YearBirth.rawValue, section: 0)) as! Register5ViewCell
+      let photoCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Photo.rawValue, section: 0)) as! Register6ViewCell
+      let addressCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Address.rawValue, section: 0)) as! Register3ViewCell
+
+      let data = RegisterInteractor.RegisterData(name: nameCell.name,
+                                                 email: emailCell.email,
+                                                 password: passwordCell.password,
+                                                 address: addressCell.address,
+                                                 gender: genderCell.gender,
+                                                 yearBirth: yearBirthCell.yearBirth,
+                                                 photo: photoCell.photo)
+      interactor.registerNewUser(data)
    }
 }
 
