@@ -12,7 +12,7 @@
         <!--Sign Up-->
         <scene sceneID="nfS-op-m2c">
             <objects>
-                <viewController storyboardIdentifier="RegisterViewController" id="lwJ-BK-O1L" customClass="RegisterViewController" customModule="Boblberg" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterViewController" id="lwJ-BK-O1L" customClass="RegisterViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gdA-0B-k3L"/>
                         <viewControllerLayoutGuide type="bottom" id="VDb-yR-Myj"/>
@@ -386,10 +386,6 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="lwJ-BK-O1L" id="eYs-FD-0Si"/>
-                                    <outlet property="delegate" destination="lwJ-BK-O1L" id="FiX-l2-ARX"/>
-                                </connections>
                             </tableView>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1jF-di-D54" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
                                 <rect key="frame" x="137" y="261" width="45" height="45"/>
@@ -417,7 +413,7 @@
                                 </constraints>
                                 <state key="normal" image="icon-save-post"/>
                                 <connections>
-                                    <action selector="signUpButtonPressed:" destination="lwJ-BK-O1L" eventType="touchUpInside" id="deF-lR-95g"/>
+                                    <action selector="signUpButtonPressed:" destination="lwJ-BK-O1L" eventType="touchUpInside" id="vBh-gz-Dj3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -436,14 +432,15 @@
                     <navigationItem key="navigationItem" title="Sign Up" id="PGx-c7-8zz">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="icon-Backbutton" id="9R3-63-2l6">
                             <connections>
-                                <action selector="backButtonPressed:" destination="lwJ-BK-O1L" id="aLW-vm-jQZ"/>
+                                <action selector="backButtonPressed:" destination="lwJ-BK-O1L" id="VPg-Wb-w8Z"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="1jF-di-D54" id="4Kl-CI-Z93"/>
-                        <outlet property="signUpButton" destination="lID-tW-PHX" id="Nvv-o1-Btz"/>
+                        <outlet property="activityIndicator" destination="1jF-di-D54" id="NW6-2F-ExB"/>
+                        <outlet property="signUpButton" destination="lID-tW-PHX" id="I4n-xc-hJ3"/>
+                        <outlet property="tableView" destination="ocg-Rx-FSh" id="C8V-Nr-gUm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qoH-OD-JqQ" userLabel="First Responder" sceneMemberID="firstResponder"/>

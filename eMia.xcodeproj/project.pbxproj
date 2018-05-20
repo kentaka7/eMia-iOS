@@ -41,6 +41,11 @@
 		7F3C59F01FE5F03600A823DC /* ObserverProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EF1FE5F03600A823DC /* ObserverProtocol.swift */; };
 		7F3C59F21FE5FB5C00A823DC /* PostsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59F11FE5FB5C00A823DC /* PostsManager.swift */; };
 		7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */; };
+		7F4B288220B11863002BFB47 /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B287F20B11862002BFB47 /* RegisterPresenter.swift */; };
+		7F4B288320B11863002BFB47 /* RegisterDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288020B11863002BFB47 /* RegisterDependencies.swift */; };
+		7F4B288520B11904002BFB47 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3CE8251FEEC49B005EE4DB /* RegisterViewController.swift */; };
+		7F4B288620B1190A002BFB47 /* RegisterNewUser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F88D6C3200FEAE500394EA2 /* RegisterNewUser.storyboard */; };
+		7F4B288820B14E1E002BFB47 /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288720B14E1E002BFB47 /* RegisterInteractor.swift */; };
 		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
@@ -189,6 +194,9 @@
 		7F3C59F11FE5FB5C00A823DC /* PostsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsManager.swift; sourceTree = "<group>"; };
 		7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsManager.swift; sourceTree = "<group>"; };
 		7F3CE8251FEEC49B005EE4DB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		7F4B287F20B11862002BFB47 /* RegisterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterPresenter.swift; sourceTree = "<group>"; };
+		7F4B288020B11863002BFB47 /* RegisterDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDependencies.swift; sourceTree = "<group>"; };
+		7F4B288720B14E1E002BFB47 /* RegisterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
@@ -409,6 +417,9 @@
 			children = (
 				7F88D6C3200FEAE500394EA2 /* RegisterNewUser.storyboard */,
 				7F3CE8251FEEC49B005EE4DB /* RegisterViewController.swift */,
+				7F4B288020B11863002BFB47 /* RegisterDependencies.swift */,
+				7F4B287F20B11862002BFB47 /* RegisterPresenter.swift */,
+				7F4B288720B14E1E002BFB47 /* RegisterInteractor.swift */,
 			);
 			path = RegisterNewUser;
 			sourceTree = "<group>";
@@ -912,6 +923,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F2F189A202E10C400EF4644 /* README.md in Resources */,
+				7F4B288620B1190A002BFB47 /* RegisterNewUser.storyboard in Resources */,
 				9A99AA8B1B8A219300428802 /* LaunchScreen.storyboard in Resources */,
 				7FD1FEA5200F2E4C00C178E2 /* EditPost.storyboard in Resources */,
 				7F2F1897202E10C400EF4644 /* LICENSE in Resources */,
@@ -1031,6 +1043,7 @@
 				9A2109E71B9C5A020036D151 /* GalleryViewCell.swift in Sources */,
 				7F1337BB202AFEEF00D955D6 /* FilterInteractor.swift in Sources */,
 				7FE89A991FEEDBA40044633D /* String.swift in Sources */,
+				7F4B288220B11863002BFB47 /* RegisterPresenter.swift in Sources */,
 				7FCD79F0201451C200677AC6 /* PhotoPostViewController.swift in Sources */,
 				7F0FD0EC1FEFF0450032689A /* MyProfile2ViewCell.swift in Sources */,
 				7FBA77521FEAB957003B455B /* NewPostViewController.swift in Sources */,
@@ -1053,6 +1066,7 @@
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
 				7FFBB25C1FE462A000A22EB0 /* FavoritsManager.swift in Sources */,
 				7FBFF4CF1FE3FA5000788DCB /* ModelData.swift in Sources */,
+				7F4B288520B11904002BFB47 /* RegisterViewController.swift in Sources */,
 				7FBFF4DD1FE4068400788DCB /* PostItem.swift in Sources */,
 				7F1337BF202AFF2800D955D6 /* FilterPresenter.swift in Sources */,
 				7FC862241FE94AFA0077C4E2 /* Date.swift in Sources */,
@@ -1091,6 +1105,7 @@
 				7FA0B297209342FE00EE2A6A /* Post.swift in Sources */,
 				7F060C201FF10756002D04AD /* SegueHandler.swift in Sources */,
 				7F6FAAA92018B354009F94E0 /* GradientView.swift in Sources */,
+				7F4B288320B11863002BFB47 /* RegisterDependencies.swift in Sources */,
 				7F4D8B521FE4E93A00FAFE5E /* PhotosStorageManager.swift in Sources */,
 				7F2F1898202E10C400EF4644 /* SFFullscreenImageDetailViewController.swift in Sources */,
 				7FBDE1191FE845C700EAAD3E /* EditPost1ViewCell.swift in Sources */,
@@ -1115,6 +1130,7 @@
 				7FBDE1201FE8466A00EAAD3E /* EditPost3ViewCell.swift in Sources */,
 				7F695C991FEA392B008AE127 /* Register4ViewCell.swift in Sources */,
 				7F3C59F21FE5FB5C00A823DC /* PostsManager.swift in Sources */,
+				7F4B288820B14E1E002BFB47 /* RegisterInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
