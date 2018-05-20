@@ -17,7 +17,7 @@ class LoginRouter: NSObject {
    }
 
    struct Segue {
-      static let editProfileViewController = "editProfileSegue"
+      static let MyProfileViewController = "editProfileSegue"
    }
    
    let rootRouter = RootWireframe()
@@ -33,14 +33,14 @@ extension LoginRouter {
       }
       mPassword = password
       mUser = user
-      viewController.performSegue(withIdentifier: LoginRouter.Segue.editProfileViewController, sender: self)
+      viewController.performSegue(withIdentifier: LoginRouter.Segue.MyProfileViewController, sender: self)
    }
    
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      if segue.identifier == LoginRouter.Segue.editProfileViewController {
-         if let editProfileViewController = segue.destination as? EditProfileViewController {
-            editProfileViewController.user = mUser
-            editProfileViewController.password = mPassword
+      if segue.identifier == LoginRouter.Segue.MyProfileViewController {
+         if let MyProfileViewController = segue.destination as? MyProfileViewController {
+            MyProfileViewController.user = mUser
+            MyProfileViewController.password = mPassword
          }
       }
    }

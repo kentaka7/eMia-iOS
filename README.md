@@ -4,9 +4,10 @@ eMia is an application like a forum. You can post topics with a title, descripti
 You can register as an user and then sign in. You can edit your profile.
 The App will sends you push-notification if another user likes your post.
 
-eMia uses 
+eMia developed with 
 - Firebase database, storage, authentication and cloud messages.
 - RxSwift
+- RxCocoa + RxDatasource + Custom Layout for UICollectionView
 - VIPER
 
 ## Requirements

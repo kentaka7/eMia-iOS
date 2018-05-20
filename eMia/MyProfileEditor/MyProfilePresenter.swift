@@ -1,5 +1,5 @@
 //
-//  RegisterPresenter.swift
+//  MyProfilePresenter.swift
 //  eMia
 //
 //  Created by Сергей Кротких on 20/05/2018.
@@ -9,22 +9,22 @@
 import UIKit
 import NVActivityIndicatorView
 
-class RegisterPresenter: NSObject {
+protocol LocationComputing {
+   func calculateWhereAmI()
+}
 
-   enum RegisterRows: Int {
-      case Email
-      case Password
+class MyProfilePresenter: NSObject {
+
+   enum MyProfileRows: Int {
       case Name
       case Address
       case Gender
       case YearBirth
       case Photo
-      static let allValues = [Email, Password, Name, Address, Gender, YearBirth, Photo]
+      static let allValues = [Name, Address, Gender, YearBirth, Photo]
    }
 
    internal struct CellName {
-      static let register1ViewCell = "Register1ViewCell"
-      static let register2ViewCell = "Register2ViewCell"
       static let register3ViewCell = "Register3ViewCell"
       static let register4ViewCell = "Register4ViewCell"
       static let register5ViewCell = "Register5ViewCell"
@@ -35,21 +35,13 @@ class RegisterPresenter: NSObject {
    weak var viewController: UIViewController!
    weak var tableView: UITableView!
    weak var user: UserModel!
-   var password: String?
    weak var activityIndicator: NVActivityIndicatorView!
    var locationManager: LocationManager!
    
-   weak var interactor: RegisterInteractor!
+   var interactor: MyProfileInteractor!
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
-      switch RegisterRows(rawValue: indexPath.row)! {
-      case .Email:
-         let cell = tableView.dequeueReusableCell(withIdentifier: CellName.register1ViewCell) as! Register1ViewCell
-         return cell
-      case .Password:
-         let cell = tableView.dequeueReusableCell(withIdentifier: CellName.register2ViewCell) as! Register2ViewCell
-         cell.password = password
-         return cell
+      switch MyProfileRows(rawValue: indexPath.row)! {
       case .Name:
          let cell = tableView.dequeueReusableCell(withIdentifier: CellName.register7ViewCell) as! Register7ViewCell
          cell.configure(for: user)
@@ -74,12 +66,8 @@ class RegisterPresenter: NSObject {
       }
    }
    
-   func tableView(_ tableView: UITableView, heightCellFor indexPath: IndexPath) -> CGFloat {
-      switch RegisterRows(rawValue: indexPath.row)! {
-      case .Email:
-         return 64.0
-      case .Password:
-         return 64.0
+   func heightCell(for indexPath: IndexPath) -> CGFloat {
+      switch MyProfileRows(rawValue: indexPath.row)! {
       case .Name:
          return 68.0
       case .Address:
@@ -94,32 +82,28 @@ class RegisterPresenter: NSObject {
    }
 
    var numberOfRows: Int {
-      return RegisterRows.allValues.count
+      return MyProfileRows.allValues.count
    }
    
-   func registerNewUser() {
-      let emailCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Email.rawValue, section: 0)) as! Register1ViewCell
-      let passwordCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Password.rawValue, section: 0)) as! Register2ViewCell
-      let nameCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Name.rawValue, section: 0)) as! Register7ViewCell
-      let genderCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Gender.rawValue, section: 0)) as! Register4ViewCell
-      let yearBirthCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.YearBirth.rawValue, section: 0)) as! Register5ViewCell
-      let photoCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Photo.rawValue, section: 0)) as! Register6ViewCell
-      let addressCell = tableView.cellForRow(at: IndexPath(row: RegisterRows.Address.rawValue, section: 0)) as! Register3ViewCell
+   func updateMyProfile(_ completed: @escaping () -> Void) {
+      let nameCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.Name.rawValue, section: 0)) as! Register7ViewCell
+      let genderCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.Gender.rawValue, section: 0)) as! Register4ViewCell
+      let yearBirthCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.YearBirth.rawValue, section: 0)) as! Register5ViewCell
+      let photoCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.Photo.rawValue, section: 0)) as! Register6ViewCell
+      let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.Address.rawValue, section: 0)) as! Register3ViewCell
 
-      let data = RegisterInteractor.RegisterData(name: nameCell.name,
-                                                 email: emailCell.email,
-                                                 password: passwordCell.password,
+      let data = MyProfileInteractor.MyProfileData(name: nameCell.name,
                                                  address: addressCell.address,
                                                  gender: genderCell.gender,
                                                  yearBirth: yearBirthCell.yearBirth,
                                                  photo: photoCell.photo)
-      interactor.registerNewUser(data)
+      interactor.updateMyProfile(data, completed: completed)
    }
 }
 
 // MARK: - Where Am I button pressed
 
-extension RegisterPresenter: LocationComputing {
+extension MyProfilePresenter: LocationComputing {
    
    func calculateWhereAmI() {
       setUpMunicipalityAccordingMyLocation()

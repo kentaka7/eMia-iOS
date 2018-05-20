@@ -14,13 +14,13 @@ class SettingsRouter: NSObject {
    private let disposeBag = DisposeBag()
    
    struct Segue {
-      static let editProfileViewController = "registerSegue"
+      static let MyProfileViewController = "registerSegue"
    }
    
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      if let editProfileViewController = segue.destination as? EditProfileViewController {
+      if let MyProfileViewController = segue.destination as? MyProfileViewController {
          if let currentUser = UsersManager.currentUser {
-            editProfileViewController.user = currentUser
+            MyProfileViewController.user = currentUser
          }
       }
    }
@@ -31,7 +31,7 @@ class SettingsRouter: NSObject {
             switch SettingsPresenter.Menu(rawValue: indexPath.row)! {
             case .MyProfile:
                if let _ = UsersManager.currentUser {
-                  viewController.performSegue(withIdentifier: Segue.editProfileViewController, sender: self)
+                  viewController.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
                }
             case .VisitToAppSite:
                gotoCustomerSite()
