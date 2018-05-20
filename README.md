@@ -1,8 +1,7 @@
 # eMia-iOS
 
-eMia is an application like a forum. You can post topics with a title, description and a body, attach a photo.
-You can register as an user and then sign in. You can edit your profile.
-The App will sends you push-notification if another user likes your post.
+Here is my code example. eMia is an application like a forum. You can register, then post topics with a title, description and a photo.
+There are profile editor, push-notification if another user likes your post.
 
 eMia developed with 
 - Firebase database, storage, authentication and cloud messages.
@@ -12,14 +11,14 @@ eMia developed with
 
 ## Requirements
 
-- Xcode 9.2
+- Xcode 9.3
 - Swift 4
 
 ## Introduction
 
 If you want to try eMia, sign in your Google account, then open Firebase console https://console.firebase.google.com
 Create a new project. Please follow documentations https://firebase.google.com/docs/ios/setup#add_firebase_to_your_app.
-As a result you have to download GoogleService-Info.plist file and replace current one.
+As a result you have to download GoogleService-Info.plist file and replace my current.
 
 ## Installation
 
@@ -31,7 +30,7 @@ Open eMia.xcworkspace
 
 ## Notes
 
-Reviewer, please pay attention, the LoginView, GalleryViewController scenes use RxSwift, VIPER
+LoginScene, GalleryScene, MyProfileScene  developed with RxSwift and VIPER
 
 ## eMia on Android
 

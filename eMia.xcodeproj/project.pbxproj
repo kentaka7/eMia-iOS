@@ -408,7 +408,7 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		7F4B287220B10092002BFB47 /* MyProfileEditor */ = {
+		7F4B287220B10092002BFB47 /* MyProfileScene */ = {
 			isa = PBXGroup;
 			children = (
 				7F88D6BF200FEA5500394EA2 /* ProfileEditor.storyboard */,
@@ -418,7 +418,7 @@
 				7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */,
 				7F4B287320B10117002BFB47 /* TableViewCells */,
 			);
-			path = MyProfileEditor;
+			path = MyProfileScene;
 			sourceTree = "<group>";
 		};
 		7F4B287320B10117002BFB47 /* TableViewCells */ = {
@@ -816,7 +816,7 @@
 				7F81B21E20B0FF2A00CA384A /* StartScene */,
 				7F7E370920286EDC00470139 /* LogInScene */,
 				7F81B21B20B0FACE00CA384A /* SettingScene */,
-				7F4B287220B10092002BFB47 /* MyProfileEditor */,
+				7F4B287220B10092002BFB47 /* MyProfileScene */,
 				7F7E36F720281B8A00470139 /* GalleryScene */,
 				7F695C8A1FEA385E008AE127 /* NewPostScene */,
 				7F4B287B20B10274002BFB47 /* PostEditScene */,
