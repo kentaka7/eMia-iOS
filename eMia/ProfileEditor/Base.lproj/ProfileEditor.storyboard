@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H4s-nO-61G">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H4s-nO-61G">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Avenir.ttc">
-            <string>Avenir-Heavy</string>
-        </array>
-        <array key="AvenirNext.ttc">
-            <string>AvenirNext-Regular</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--My profile-->
         <scene sceneID="mpv-UI-zOa">
             <objects>
-                <viewController storyboardIdentifier="EditProfileViewController" id="H4s-nO-61G" customClass="EditProfileViewController" customModule="Boblberg" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditProfileViewController" id="H4s-nO-61G" customClass="EditProfileViewController" customModule="eMia" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8DV-mB-kgV"/>
                         <viewControllerLayoutGuide type="bottom" id="q21-rv-iKl"/>
@@ -34,7 +26,7 @@
                                 <rect key="frame" x="0.0" y="74" width="320" height="494"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register7ViewCell" rowHeight="64" id="8hK-Zn-a5S" customClass="Register7ViewCell" customModule="Boblberg" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register7ViewCell" rowHeight="64" id="8hK-Zn-a5S" customClass="Register7ViewCell" customModule="eMia" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8hK-Zn-a5S" id="jdZ-UN-vsc">
@@ -84,7 +76,7 @@
                                             <outlet property="nameTitleLabel" destination="Jj0-yR-oOP" id="Y0K-oV-2Hq"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register3ViewCell" rowHeight="146" id="jJd-aM-BEc" customClass="Register3ViewCell" customModule="Boblberg" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register3ViewCell" rowHeight="146" id="jJd-aM-BEc" customClass="Register3ViewCell" customModule="eMia" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="92" width="320" height="146"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jJd-aM-BEc" id="6tH-3n-h3a">
@@ -135,7 +127,7 @@
                                             <outlet property="whereAmIButton" destination="PAf-gh-03y" id="qW3-WN-HIR"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register4ViewCell" rowHeight="94" id="k68-Af-lDS" customClass="Register4ViewCell" customModule="Boblberg" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register4ViewCell" rowHeight="94" id="k68-Af-lDS" customClass="Register4ViewCell" customModule="eMia" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="238" width="320" height="94"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k68-Af-lDS" id="vwV-hr-wB8">
@@ -249,7 +241,7 @@
                                             <outlet property="selectedGuyView" destination="Hym-4m-KSd" id="1h1-BA-kLJ"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register5ViewCell" rowHeight="146" id="DAw-h0-WsS" customClass="Register5ViewCell" customModule="Boblberg" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register5ViewCell" rowHeight="146" id="DAw-h0-WsS" customClass="Register5ViewCell" customModule="eMia" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="332" width="320" height="146"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DAw-h0-WsS" id="jXV-fl-CMF">
@@ -286,7 +278,7 @@
                                             <outlet property="yearPickerView" destination="RqF-uJ-oSg" id="SEg-D0-ky3"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register6ViewCell" rowHeight="291" id="m7r-bo-ccc" customClass="Register6ViewCell" customModule="Boblberg" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Register6ViewCell" rowHeight="291" id="m7r-bo-ccc" customClass="Register6ViewCell" customModule="eMia" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="478" width="320" height="291"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m7r-bo-ccc" id="SJ5-aI-Qe7">
@@ -304,7 +296,7 @@
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="73V-Q9-XA5">
-                                                    <rect key="frame" x="10" y="44" width="300" height="237"/>
+                                                    <rect key="frame" x="10" y="44" width="300" height="236.5"/>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
