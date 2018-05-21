@@ -7,7 +7,7 @@ import UIKit
 
 final class FiltersViewController: UIViewController {
     
-    var eventHandler: FilterPresenter!
+    var eventHandler: FilterInteractor!
     
     // MARK: Components
     var genderControllerView: ShowMeSegmentedControl!

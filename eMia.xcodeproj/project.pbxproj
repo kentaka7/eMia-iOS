@@ -24,7 +24,6 @@
 		7F1337B9202AAF7100D955D6 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1337B8202AAF7100D955D6 /* AppRouter.swift */; };
 		7F1337BB202AFEEF00D955D6 /* FilterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1337BA202AFEEF00D955D6 /* FilterInteractor.swift */; };
 		7F1337BD202AFF1400D955D6 /* FilterDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1337BC202AFF1400D955D6 /* FilterDependencies.swift */; };
-		7F1337BF202AFF2800D955D6 /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1337BE202AFF2800D955D6 /* FilterPresenter.swift */; };
 		7F15FA7A1FF4B81B0092BAD1 /* FilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F15FA791FF4B81B0092BAD1 /* FilterModel.swift */; };
 		7F2F1897202E10C400EF4644 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 7F2F1891202E10C400EF4644 /* LICENSE */; };
 		7F2F1898202E10C400EF4644 /* SFFullscreenImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2F1893202E10C400EF4644 /* SFFullscreenImageDetailViewController.swift */; };
@@ -181,7 +180,6 @@
 		7F1337B8202AAF7100D955D6 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		7F1337BA202AFEEF00D955D6 /* FilterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterInteractor.swift; sourceTree = "<group>"; };
 		7F1337BC202AFF1400D955D6 /* FilterDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDependencies.swift; sourceTree = "<group>"; };
-		7F1337BE202AFF2800D955D6 /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		7F15FA791FF4B81B0092BAD1 /* FilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModel.swift; sourceTree = "<group>"; };
 		7F2F1891202E10C400EF4644 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7F2F1893202E10C400EF4644 /* SFFullscreenImageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFFullscreenImageDetailViewController.swift; sourceTree = "<group>"; };
@@ -469,7 +467,6 @@
 				7F060C091FF0E762002D04AD /* FiltersViewController.swift */,
 				7F1337BA202AFEEF00D955D6 /* FilterInteractor.swift */,
 				7F1337BC202AFF1400D955D6 /* FilterDependencies.swift */,
-				7F1337BE202AFF2800D955D6 /* FilterPresenter.swift */,
 				7F060C0C1FF0E8EA002D04AD /* FilterAnimatedTransitioning.swift */,
 				7F060C0E1FF0E8EB002D04AD /* FilterPresentationSegue.swift */,
 				7F060C0F1FF0E8EB002D04AD /* FilterPresntationController.swift */,
@@ -1093,7 +1090,6 @@
 				7FBFF4CF1FE3FA5000788DCB /* ModelData.swift in Sources */,
 				7F4B289120B1C3D8002BFB47 /* ShowMeSegmentedControl.swift in Sources */,
 				7FBFF4DD1FE4068400788DCB /* PostItem.swift in Sources */,
-				7F1337BF202AFF2800D955D6 /* FilterPresenter.swift in Sources */,
 				7FC862241FE94AFA0077C4E2 /* Date.swift in Sources */,
 				7F7E370520281F7C00470139 /* GalleryDependencies.swift in Sources */,
 				7F7E370D20286F4800470139 /* LoginDependencies.swift in Sources */,

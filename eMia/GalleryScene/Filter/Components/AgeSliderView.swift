@@ -70,4 +70,3 @@ class AgeSliderView: UIView {
       maxAgeFilter.value = Int(rangeSlider.rightValue)
    }
 }
-
