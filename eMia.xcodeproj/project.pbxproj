@@ -350,15 +350,6 @@
 			path = MunicipalityPicker;
 			sourceTree = "<group>";
 		};
-		7F15FA781FF4B5CA0092BAD1 /* Filter */ = {
-			isa = PBXGroup;
-			children = (
-				7FD4E2F61FF296A500D3BDD2 /* FilterManager.swift */,
-				7F15FA791FF4B81B0092BAD1 /* FilterModel.swift */,
-			);
-			path = Filter;
-			sourceTree = "<group>";
-		};
 		7F2F188F202E10C400EF4644 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,15 +440,14 @@
 			name = TableViewCells;
 			sourceTree = "<group>";
 		};
-		7F4B287520B10171002BFB47 /* Filter */ = {
+		7F4B287520B10171002BFB47 /* FilterScene */ = {
 			isa = PBXGroup;
 			children = (
 				7F4B287620B101B2002BFB47 /* Controller */,
 				7F4B288F20B1C381002BFB47 /* Components */,
-				7F060C211FF10C09002D04AD /* Gender.swift */,
-				7F060C231FF1229B002D04AD /* FilterFavorite.swift */,
+				7F7FAB4020B322760052739B /* Model */,
 			);
-			path = Filter;
+			path = FilterScene;
 			sourceTree = "<group>";
 		};
 		7F4B287620B101B2002BFB47 /* Controller */ = {
@@ -467,10 +457,7 @@
 				7F060C091FF0E762002D04AD /* FiltersViewController.swift */,
 				7F1337BA202AFEEF00D955D6 /* FilterInteractor.swift */,
 				7F1337BC202AFF1400D955D6 /* FilterDependencies.swift */,
-				7F060C0C1FF0E8EA002D04AD /* FilterAnimatedTransitioning.swift */,
-				7F060C0E1FF0E8EB002D04AD /* FilterPresentationSegue.swift */,
-				7F060C0F1FF0E8EB002D04AD /* FilterPresntationController.swift */,
-				7F060C0D1FF0E8EA002D04AD /* InteractorTransition.swift */,
+				7F7FAB4120B323740052739B /* Router */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -597,7 +584,6 @@
 				7F619FCD20ADFFAB00AF9D91 /* Layouts */,
 				7F7E370020281C8300470139 /* CollectionCell */,
 				7F7E370320281D6300470139 /* HeaderView */,
-				7F4B287520B10171002BFB47 /* Filter */,
 			);
 			path = GalleryScene;
 			sourceTree = "<group>";
@@ -630,6 +616,28 @@
 				7F7E37102028705800470139 /* LoginRouter.swift */,
 			);
 			path = LogInScene;
+			sourceTree = "<group>";
+		};
+		7F7FAB4020B322760052739B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7FD4E2F61FF296A500D3BDD2 /* FilterManager.swift */,
+				7F15FA791FF4B81B0092BAD1 /* FilterModel.swift */,
+				7F060C231FF1229B002D04AD /* FilterFavorite.swift */,
+				7F060C211FF10C09002D04AD /* Gender.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7F7FAB4120B323740052739B /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				7F060C0E1FF0E8EB002D04AD /* FilterPresentationSegue.swift */,
+				7F060C0F1FF0E8EB002D04AD /* FilterPresntationController.swift */,
+				7F060C0D1FF0E8EA002D04AD /* InteractorTransition.swift */,
+				7F060C0C1FF0E8EA002D04AD /* FilterAnimatedTransitioning.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		7F81B21B20B0FACE00CA384A /* SettingScene */ = {
@@ -669,7 +677,6 @@
 				7FBFF4C51FE3FA5000788DCB /* ModelData */,
 				7FBFF4D21FE4068400788DCB /* User */,
 				7FBFF4D71FE4068400788DCB /* Post */,
-				7F15FA781FF4B5CA0092BAD1 /* Filter */,
 				7FBFF4D51FE4068400788DCB /* Comment */,
 				7FBFF4D01FE4068400788DCB /* Favorite */,
 			);
@@ -847,6 +854,7 @@
 				7F81B21B20B0FACE00CA384A /* SettingScene */,
 				7F4B287220B10092002BFB47 /* MyProfileScene */,
 				7F7E36F720281B8A00470139 /* GalleryScene */,
+				7F4B287520B10171002BFB47 /* FilterScene */,
 				7F695C8A1FEA385E008AE127 /* NewPostScene */,
 				7F4B287B20B10274002BFB47 /* PostEditScene */,
 			);
