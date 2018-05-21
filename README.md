@@ -1,6 +1,6 @@
 # eMia-iOS
 
-Here is my code example. eMia is an application like a forum. You can register, then post topics with a title, description and a photo.
+There is my code example here. eMia is an application like a forum. You can register, then post topics with a title, description and a photo.
 There are profile editor, push-notification if another user likes your post.
 
 eMia developed with 
