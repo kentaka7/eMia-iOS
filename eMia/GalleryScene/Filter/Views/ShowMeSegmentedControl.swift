@@ -1,5 +1,5 @@
 //
-//  GenderControllerView.swift
+//  ShowMeSegmentedControl.swift
 //  eMia
 //
 //  Created by Сергей Кротких on 20/05/2018.
@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class GenderControllerView: UIView {
+class ShowMeSegmentedControl: UIView {
    
    @IBOutlet weak var selectedGuysView: UIView!
    @IBOutlet weak var selectedGirlsView: UIView!
@@ -34,6 +34,14 @@ class GenderControllerView: UIView {
       static let borderWidth: CGFloat = 2.0
    }
    
+   static func getInstance(for superView: UIView) -> ShowMeSegmentedControl {
+      let view = Bundle.main.loadNibNamed("ShowMeSegmentedControl", owner: nil, options: nil)![0] as! ShowMeSegmentedControl
+      view.frame = superView.bounds
+      view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+      superView.addSubview(view)
+      return view
+   }
+   
    override func awakeFromNib() {
       super.awakeFromNib()
       
@@ -55,21 +63,24 @@ class GenderControllerView: UIView {
       labelsColor = guysLabel.textColor
       
       tapGuysRecognizer.rx.event.subscribe({[weak self] _ in
-         self?.genderFilter.value = .boy
+         guard let `self` = self else { return }
+         self.genderFilter.value = .boy
       }).disposed(by: disposeBug)
 
       tapGirlsRecognizer.rx.event.subscribe({[weak self] _ in
-         self?.genderFilter.value = .girl
+         guard let `self` = self else { return }
+         self.genderFilter.value = .girl
       }).disposed(by: disposeBug)
 
       tapBothRecognizer.rx.event.subscribe({[weak self] _ in
-         self?.genderFilter.value = .both
+         guard let `self` = self else { return }
+         self.genderFilter.value = .both
       }).disposed(by: disposeBug)
    }
    
    private func setUpLocalObserver() {
-      _ = genderFilter.asObservable().subscribe { lookFor in
-         
+      _ = genderFilter.asObservable().subscribe { [weak self] lookFor in
+         guard let `self` = self else { return }
          guard let genderReq = lookFor.element else {
             return
          }

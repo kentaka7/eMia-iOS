@@ -50,7 +50,8 @@ class LogInViewController: UIViewController {
       switch view {
       case self.view:
          tapRecognizer.rx.event.subscribe({[weak self] _ in
-            self?.hideKeyboard()
+            guard let `self` = self else { return }
+            self.hideKeyboard()
          }).disposed(by: disposeBug)
       case emailTextField:
          _ = emailTextField.rx.text.map { $0 ?? "" }
@@ -63,14 +64,16 @@ class LogInViewController: UIViewController {
          signInButton.setTitle("Sign In".localized, for: .normal)
          signInButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
          signInButton.rx.tap.bind(onNext: { [weak self] in
-            self?.signInButtonPressed()
+            guard let `self` = self else { return }
+            self.signInButtonPressed()
          }).disposed(by: disposeBug)
       case signUpButton:
          signUpButton.isEnabled = false
          signUpButton.setTitle("Sign Up".localized, for: .normal)
          signUpButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
          signUpButton.rx.tap.bind(onNext: { [weak self] in
-            self?.signUpButtonPressed()
+            guard let `self` = self else { return }
+            self.signUpButtonPressed()
          }).disposed(by: disposeBug)
       default:
          break
@@ -79,7 +82,8 @@ class LogInViewController: UIViewController {
 
    private func subscribeOnValid() {
       _ = presenter.isValid.bind(to: signInButton.rx.isEnabled)
-      _ = presenter.isValid.subscribe(onNext: {[unowned self] isValid in
+      _ = presenter.isValid.subscribe(onNext: {[weak self] isValid in
+         guard let `self` = self else { return }
          self.signInButton.isEnabled = isValid ? true : false
          self.signInButton.setTitleColor(isValid ? UIColor.green : UIColor.lightGray, for: .normal)
          self.signUpButton.isEnabled = isValid ? true : false

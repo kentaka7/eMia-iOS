@@ -51,7 +51,8 @@ class MyProfileInteractor: NSObject {
    private func registerNewUser(with photo: UIImage, completed: @escaping () -> Void) {
       user.tokenIOS = DeviceTokenController.myDeviceTokens.first
       self.activityIndicator.startAnimating()
-      loginInteractor.signUp(user: self.user, password: self.password) { user in
+      loginInteractor.signUp(user: self.user, password: self.password) { [weak self] user in
+         guard let `self` = self else { return }
          self.activityIndicator.stopAnimating()
          if let user = user {
             let avatarFileName = user.userId
@@ -72,7 +73,8 @@ class MyProfileInteractor: NSObject {
    
    private func updateUserData(with photo: UIImage, completed: @escaping () -> Void) {
       self.activityIndicator.startAnimating()
-      self.user.synchronize() { success in
+      self.user.synchronize() { [weak self] success in
+         guard let `self` = self else { return }
          self.activityIndicator.stopAnimating()
          if success {
             let avatarFileName = self.user.userId

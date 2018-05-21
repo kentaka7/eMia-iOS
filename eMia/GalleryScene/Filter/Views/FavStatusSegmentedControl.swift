@@ -1,5 +1,5 @@
 //
-//  FavoriteControllerView.swift
+//  FavStatusSegmentedControl.swift
 //  eMia
 //
 //  Created by Сергей Кротких on 20/05/2018.
@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class FavoriteControllerView: UIView {
+class FavStatusSegmentedControl: UIView {
    
     @IBOutlet weak var selectedAllView: UIView!
     @IBOutlet weak var selectedMyFavoriteView: UIView!
@@ -29,6 +29,14 @@ class FavoriteControllerView: UIView {
    fileprivate struct Constants {
       static let cornerRadius: CGFloat = 3.0
       static let borderWidth: CGFloat = 2.0
+   }
+
+   static func getInstance(for superView: UIView) -> FavStatusSegmentedControl {
+      let view = Bundle.main.loadNibNamed("FavStatusSegmentedControl", owner: nil, options: nil)![0] as! FavStatusSegmentedControl
+      view.frame = superView.bounds
+      view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+      superView.addSubview(view)
+      return view
    }
    
    override func awakeFromNib() {
@@ -53,16 +61,19 @@ class FavoriteControllerView: UIView {
       labelsColor = allLabel.textColor
       
       tapAllRecognizer.rx.event.subscribe({[weak self] _ in
-         self?.favoriteFilter.value = .all
+         guard let `self` = self else { return }
+         self.favoriteFilter.value = .all
       }).disposed(by: disposeBug)
 
       tapMyFavoriteRecognizer.rx.event.subscribe({[weak self] _ in
-         self?.favoriteFilter.value = .myFavorite
+         guard let `self` = self else { return }
+         self.favoriteFilter.value = .myFavorite
       }).disposed(by: disposeBug)
    }
    
    private func setUpLocalObserver() {
-      _ = favoriteFilter.asObservable().subscribe { favStatus in
+      _ = favoriteFilter.asObservable().subscribe { [weak self] favStatus in
+         guard let `self` = self else { return }
          guard let status = favStatus.element else {
             return
          }

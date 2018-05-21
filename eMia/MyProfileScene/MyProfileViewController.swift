@@ -40,13 +40,15 @@ class MyProfileViewController: UIViewController {
       switch view {
       case view:
          backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
-            self?.closeWindow()
+            guard let `self` = self else { return }
+            self.closeWindow()
          }).disposed(by: disposeBug)
       case saveDataButton:
          saveDataButton.layer.cornerRadius = saveDataButton.frame.height / 2.0
          saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
          saveDataButton.rx.tap.bind(onNext: { [weak self] in
-            self?.saveData()
+            guard let `self` = self else { return }
+            self.saveData()
          }).disposed(by: disposeBug)
       case tableView:
          tableView.delegate = self
@@ -57,7 +59,8 @@ class MyProfileViewController: UIViewController {
    }
    
    private func saveData() {
-      presenter.updateMyProfile() {
+      presenter.updateMyProfile() { [weak self] in
+         guard let `self` = self else { return }
          if self.registerUser {
             presentMainScreen()
          } else {

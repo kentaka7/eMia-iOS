@@ -25,7 +25,8 @@ class FilterPresenter: NSObject {
       let genderFilter = view.genderControllerView.genderFilter
       genderFilter.value = lookFor
       _ = genderFilter.asObservable().subscribe() { [weak self] lookFor in
-         self?.lookFor = lookFor.element
+         guard let `self` = self else { return }
+         self.lookFor = lookFor.element
       }
    }
    
@@ -39,7 +40,8 @@ class FilterPresenter: NSObject {
       let favoriteFilter = view.favoriteControllerView.favoriteFilter
       favoriteFilter.value = status
       _ = favoriteFilter.asObservable().subscribe() { [weak self] status in
-         self?.status = status.element
+         guard let `self` = self else { return }
+         self.status = status.element
       }
    }
    
@@ -49,9 +51,17 @@ class FilterPresenter: NSObject {
       }
    }
 
+   func setUpMunicipality(_ municipalityId: String) {
+      let municipalityFilter = view.municipalityControllerView.municipalityFilter
+      municipalityFilter.value = municipalityId
+      _ = municipalityFilter.asObservable().subscribe() { [weak self] municipalityId in
+         guard let `self` = self else { return }
+         self.municipalityId = municipalityId.element
+      }
+   }
+
    var municipalityId: String? {
       didSet {
-         view.municipalityId = municipalityId
          interactor.municipalityId = municipalityId
       }
    }

@@ -44,10 +44,10 @@
 		7F4B288C20B17DE8002BFB47 /* MyProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */; };
 		7F4B288D20B17DE8002BFB47 /* MyProfileDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */; };
 		7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */; };
-		7F4B289120B1C3D8002BFB47 /* GenderControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */; };
-		7F4B289320B1C484002BFB47 /* GenderControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289220B1C483002BFB47 /* GenderControllerView.xib */; };
-		7F4B289620B1E41F002BFB47 /* FavoriteControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289420B1E41E002BFB47 /* FavoriteControllerView.xib */; };
-		7F4B289720B1E41F002BFB47 /* FavoriteControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289520B1E41E002BFB47 /* FavoriteControllerView.swift */; };
+		7F4B289120B1C3D8002BFB47 /* ShowMeSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289020B1C3D8002BFB47 /* ShowMeSegmentedControl.swift */; };
+		7F4B289320B1C484002BFB47 /* ShowMeSegmentedControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289220B1C483002BFB47 /* ShowMeSegmentedControl.xib */; };
+		7F4B289620B1E41F002BFB47 /* FavStatusSegmentedControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */; };
+		7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */; };
 		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
@@ -72,6 +72,8 @@
 		7F7E37112028705800470139 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E370E2028705700470139 /* LoginPresenter.swift */; };
 		7F7E37122028705800470139 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E370F2028705700470139 /* LoginInteractor.swift */; };
 		7F7E37132028705800470139 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E37102028705800470139 /* LoginRouter.swift */; };
+		7F7FAB3A20B2712C0052739B /* MunicipalityControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */; };
+		7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */; };
 		7F81B21720B0F0F300CA384A /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */; };
 		7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */; };
 		7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */; };
@@ -198,10 +200,10 @@
 		7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfilePresenter.swift; sourceTree = "<group>"; };
 		7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileDependencies.swift; sourceTree = "<group>"; };
 		7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileInteractor.swift; sourceTree = "<group>"; };
-		7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderControllerView.swift; sourceTree = "<group>"; };
-		7F4B289220B1C483002BFB47 /* GenderControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenderControllerView.xib; sourceTree = "<group>"; };
-		7F4B289420B1E41E002BFB47 /* FavoriteControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoriteControllerView.xib; sourceTree = "<group>"; };
-		7F4B289520B1E41E002BFB47 /* FavoriteControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteControllerView.swift; sourceTree = "<group>"; };
+		7F4B289020B1C3D8002BFB47 /* ShowMeSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMeSegmentedControl.swift; sourceTree = "<group>"; };
+		7F4B289220B1C483002BFB47 /* ShowMeSegmentedControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowMeSegmentedControl.xib; sourceTree = "<group>"; };
+		7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavStatusSegmentedControl.xib; sourceTree = "<group>"; };
+		7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavStatusSegmentedControl.swift; sourceTree = "<group>"; };
 		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
@@ -226,6 +228,8 @@
 		7F7E370E2028705700470139 /* LoginPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		7F7E370F2028705700470139 /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		7F7E37102028705800470139 /* LoginRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MunicipalityControllerView.xib; sourceTree = "<group>"; };
+		7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MunicipalityControllerView.swift; sourceTree = "<group>"; };
 		7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDependencies.swift; sourceTree = "<group>"; };
@@ -533,10 +537,12 @@
 		7F4B288F20B1C381002BFB47 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7F4B289020B1C3D8002BFB47 /* GenderControllerView.swift */,
-				7F4B289220B1C483002BFB47 /* GenderControllerView.xib */,
-				7F4B289520B1E41E002BFB47 /* FavoriteControllerView.swift */,
-				7F4B289420B1E41E002BFB47 /* FavoriteControllerView.xib */,
+				7F4B289020B1C3D8002BFB47 /* ShowMeSegmentedControl.swift */,
+				7F4B289220B1C483002BFB47 /* ShowMeSegmentedControl.xib */,
+				7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */,
+				7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */,
+				7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */,
+				7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -936,16 +942,17 @@
 				9ADFC8F91B8B771800AB4CD9 /* GalleryHeaderView.xib in Resources */,
 				7F2F18AD202E111800EF4644 /* LucidaGrandeRegular.ttf in Resources */,
 				7FD1FEA8200F2FB700C178E2 /* NewPost.storyboard in Resources */,
-				7F4B289620B1E41F002BFB47 /* FavoriteControllerView.xib in Resources */,
+				7F4B289620B1E41F002BFB47 /* FavStatusSegmentedControl.xib in Resources */,
 				7F2F1899202E10C400EF4644 /* close_button@2x.png in Resources */,
 				7F88D6C1200FEA5600394EA2 /* ProfileEditor.storyboard in Resources */,
-				7F4B289320B1C484002BFB47 /* GenderControllerView.xib in Resources */,
+				7F4B289320B1C484002BFB47 /* ShowMeSegmentedControl.xib in Resources */,
 				7F060C081FF0E735002D04AD /* Filter.storyboard in Resources */,
 				7FD7667E1FE9D45400E32C42 /* Settings.storyboard in Resources */,
 				7F2F18AB202E111800EF4644 /* Assets.xcassets in Resources */,
 				7F6A4A3B1FE2C2AD005C7A0B /* GoogleService-Info.plist in Resources */,
 				7F2F18A9202E111800EF4644 /* Localizable.strings in Resources */,
 				7FC0EFD01FE6CCA800833DB8 /* Login.storyboard in Resources */,
+				7F7FAB3A20B2712C0052739B /* MunicipalityControllerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1035,6 +1042,7 @@
 				7F01B39C1FE5A1560034CAFB /* ImageCache.swift in Sources */,
 				7F060C0A1FF0E762002D04AD /* FiltersViewController.swift in Sources */,
 				7F1337BD202AFF1400D955D6 /* FilterDependencies.swift in Sources */,
+				7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */,
 				7FC20D371FE36B9B000C23A6 /* Image.swift in Sources */,
 				7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */,
 				7F3C59F01FE5F03600A823DC /* ObserverProtocol.swift in Sources */,
@@ -1073,10 +1081,10 @@
 				7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */,
 				7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */,
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
-				7F4B289720B1E41F002BFB47 /* FavoriteControllerView.swift in Sources */,
+				7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */,
 				7FFBB25C1FE462A000A22EB0 /* FavoritsManager.swift in Sources */,
 				7FBFF4CF1FE3FA5000788DCB /* ModelData.swift in Sources */,
-				7F4B289120B1C3D8002BFB47 /* GenderControllerView.swift in Sources */,
+				7F4B289120B1C3D8002BFB47 /* ShowMeSegmentedControl.swift in Sources */,
 				7FBFF4DD1FE4068400788DCB /* PostItem.swift in Sources */,
 				7F1337BF202AFF2800D955D6 /* FilterPresenter.swift in Sources */,
 				7FC862241FE94AFA0077C4E2 /* Date.swift in Sources */,
