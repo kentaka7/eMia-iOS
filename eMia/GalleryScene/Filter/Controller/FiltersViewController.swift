@@ -8,31 +8,32 @@ import UIKit
 final class FiltersViewController: UIViewController {
     
     var eventHandler: FilterPresenter!
-    var presenter: FilterPresenter!
     
+    // MARK: Components
     var genderControllerView: ShowMeSegmentedControl!
     var favoriteControllerView: FavStatusSegmentedControl!
     var municipalityControllerView: MunicipalityControllerView!
+    var ageSliderView: AgeSliderView!
     
-    //    MARK: Outlets
+    // MARK: Outlets
     @IBOutlet weak var genderBackgroundView: UIView!
     @IBOutlet weak var myFavoriteBackgroundView: UIView!
     @IBOutlet weak var municipalityBackgroundView: UIView!
+    @IBOutlet weak var agesSliderBackgroundView: UIView!
     
     @IBOutlet weak var ageLabel: UILabel!
-    @IBOutlet weak var rangeSlider: MARKRangeSlider!
-    @IBOutlet weak var rangeLabel: UILabel!
     
     @IBOutlet weak var separatorLineView: UIView!
     
     @IBOutlet weak var municipalityLabel: UILabel!
     
-    //    MARK: Private
+    // MARK: Private
     private struct Constants {
         static let cornerRadius: CGFloat = 3.0
         static let borderWidth: CGFloat = 2.0
     }
     
+    // MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,21 +45,10 @@ final class FiltersViewController: UIViewController {
         eventHandler.viewDidLoad()
     }
     
-    private func configureView() {
-        configure(self.view)
-        configure(separatorLineView)
-        configure(genderBackgroundView)
-        configure(myFavoriteBackgroundView)
-        configure(municipalityBackgroundView)
-        configure(rangeSlider)
-        configure(rangeLabel)
-        configure(municipalityLabel)
-    }
-    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         switch segueType(for: identifier) {
         case .exitToGallery:
-            presenter.backButtonPressed()
+            eventHandler.backButtonPressed()
             return true
         }
     }
@@ -72,18 +62,6 @@ final class FiltersViewController: UIViewController {
     
     @IBAction func backBarButtonPressed(_ sender: Any) {
         performSegue(.exitToGallery, sender: nil)
-    }
-    
-    var minAge: CGFloat = 0.0 {
-        didSet {
-            rangeSlider.setLeftValue(minAge, rightValue: maxAge)
-        }
-    }
-    
-    var maxAge: CGFloat = 0.0 {
-        didSet {
-            rangeSlider.setLeftValue(minAge, rightValue: maxAge)
-        }
     }
 }
 
@@ -100,6 +78,16 @@ extension FiltersViewController: SegueRawRepresentable {
 
 extension FiltersViewController  {
     
+    private func configureView() {
+        configure(self.view)
+        configure(separatorLineView)
+        configure(genderBackgroundView)
+        configure(myFavoriteBackgroundView)
+        configure(municipalityBackgroundView)
+        configure(municipalityLabel)
+        configureAgeSlider()
+    }
+
     fileprivate func configure(_ view: UIView) {
         switch view {
         case self.view:
@@ -112,7 +100,13 @@ extension FiltersViewController  {
             
         case separatorLineView:
             separatorLineView.backgroundColor = GlobalColors.kBrandNavBarColor
+        case municipalityLabel:
+            municipalityLabel.text = "Municipality".localized
             
+        case ageLabel:
+            ageLabel.text = "Age".localized
+
+        // MARK: Create Components
         case genderBackgroundView:
             genderBackgroundView.layer.cornerRadius = Constants.cornerRadius
             genderBackgroundView.layer.borderWidth = Constants.borderWidth
@@ -128,36 +122,11 @@ extension FiltersViewController  {
         case municipalityBackgroundView:
             municipalityControllerView = MunicipalityControllerView.getInstance(for: municipalityBackgroundView)
             
-        case rangeSlider:
-            rangeSlider.backgroundColor = UIColor.clear
-            rangeSlider.setMinValue(CGFloat(0), maxValue: CGFloat(100))
-            rangeSlider.minimumDistance = 4
-            rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
-            
-        case rangeLabel:
-            rangeLabel.text = "\(Int(rangeSlider.leftValue)) - \(Int(rangeSlider.rightValue))"
-            
-        case municipalityLabel:
-            municipalityLabel.text = "Municipality".localized
-            
-        case ageLabel:
-            ageLabel.text = "Age".localized
-            
         default: break
         }
     }
-}
-
-// MARK: - Age Filter
-
-extension FiltersViewController  {
     
-    //    MARK: Range slider
-    @IBAction func rangeSliderValueChanged(_ sender: MARKRangeSlider) {
-        let minAge = CGFloat(rangeSlider.leftValue)
-        let maxAge = CGFloat(rangeSlider.rightValue)
-        presenter.minAge = minAge
-        presenter.maxAge = maxAge
-        configure(rangeLabel)
+    private func configureAgeSlider() {
+        ageSliderView = AgeSliderView.getInstance(for: agesSliderBackgroundView, min: 0, max: 100)
     }
 }

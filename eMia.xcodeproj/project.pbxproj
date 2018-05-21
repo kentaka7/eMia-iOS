@@ -74,6 +74,8 @@
 		7F7E37132028705800470139 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E37102028705800470139 /* LoginRouter.swift */; };
 		7F7FAB3A20B2712C0052739B /* MunicipalityControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */; };
 		7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */; };
+		7F7FAB3D20B2BCEB0052739B /* AgeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */; };
+		7F7FAB3F20B2D6DF0052739B /* AgeSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3E20B2D6DF0052739B /* AgeSliderView.xib */; };
 		7F81B21720B0F0F300CA384A /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */; };
 		7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */; };
 		7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */; };
@@ -230,6 +232,8 @@
 		7F7E37102028705800470139 /* LoginRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MunicipalityControllerView.xib; sourceTree = "<group>"; };
 		7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MunicipalityControllerView.swift; sourceTree = "<group>"; };
+		7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgeSliderView.swift; sourceTree = "<group>"; };
+		7F7FAB3E20B2D6DF0052739B /* AgeSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AgeSliderView.xib; sourceTree = "<group>"; };
 		7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDependencies.swift; sourceTree = "<group>"; };
@@ -451,7 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				7F4B287620B101B2002BFB47 /* Controller */,
-				7F4B288F20B1C381002BFB47 /* Views */,
+				7F4B288F20B1C381002BFB47 /* Components */,
 				7F060C211FF10C09002D04AD /* Gender.swift */,
 				7F060C231FF1229B002D04AD /* FilterFavorite.swift */,
 			);
@@ -534,7 +538,7 @@
 			path = TableViewCells;
 			sourceTree = "<group>";
 		};
-		7F4B288F20B1C381002BFB47 /* Views */ = {
+		7F4B288F20B1C381002BFB47 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				7F4B289020B1C3D8002BFB47 /* ShowMeSegmentedControl.swift */,
@@ -543,8 +547,10 @@
 				7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */,
 				7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */,
 				7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */,
+				7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */,
+				7F7FAB3E20B2D6DF0052739B /* AgeSliderView.xib */,
 			);
-			path = Views;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		7F4D8B4C1FE4E6C400FAFE5E /* PhotosManager */ = {
@@ -951,6 +957,7 @@
 				7F2F18AB202E111800EF4644 /* Assets.xcassets in Resources */,
 				7F6A4A3B1FE2C2AD005C7A0B /* GoogleService-Info.plist in Resources */,
 				7F2F18A9202E111800EF4644 /* Localizable.strings in Resources */,
+				7F7FAB3F20B2D6DF0052739B /* AgeSliderView.xib in Resources */,
 				7FC0EFD01FE6CCA800833DB8 /* Login.storyboard in Resources */,
 				7F7FAB3A20B2712C0052739B /* MunicipalityControllerView.xib in Resources */,
 			);
@@ -1106,6 +1113,7 @@
 				7F060C131FF0E8EB002D04AD /* FilterPresentationSegue.swift in Sources */,
 				7FD0519C20127A12006D5C6B /* LocalizedString.swift in Sources */,
 				7FBDE11E1FE8466A00EAAD3E /* EditPost5ViewCell.swift in Sources */,
+				7F7FAB3D20B2BCEB0052739B /* AgeSliderView.swift in Sources */,
 				7F7E37132028705800470139 /* LoginRouter.swift in Sources */,
 				7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */,
 				7F695C961FEA392B008AE127 /* Register6ViewCell.swift in Sources */,

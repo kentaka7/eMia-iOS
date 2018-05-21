@@ -65,17 +65,32 @@ class FilterPresenter: NSObject {
          interactor.municipalityId = municipalityId
       }
    }
+
+   func setUpAgesSlider(minAge: CGFloat, maxAge: CGFloat) {
+      view.ageSliderView.minAge = minAge
+      view.ageSliderView.maxAge = maxAge
+      let minAgeFilter = view.ageSliderView.minAgeFilter
+      minAgeFilter.value = Int(minAge)
+      _ = minAgeFilter.asObservable().subscribe() { [weak self] minAge in
+         guard let `self` = self else { return }
+         self.minAge = CGFloat(minAge.element!)
+      }
+      let maxAgeFilter = view.ageSliderView.maxAgeFilter
+      maxAgeFilter.value = Int(maxAge)
+      _ = maxAgeFilter.asObservable().subscribe() { [weak self] maxAge in
+         guard let `self` = self else { return }
+         self.maxAge = CGFloat(maxAge.element!)
+      }
+   }
    
-   var minAge: CGFloat! {
+   private var minAge: CGFloat! {
       didSet {
-         view.minAge = minAge
          interactor.minAge = minAge
       }
    }
    
-   var maxAge: CGFloat! {
+   private var maxAge: CGFloat! {
       didSet {
-         view.maxAge = maxAge
          interactor.maxAge = maxAge
       }
    }

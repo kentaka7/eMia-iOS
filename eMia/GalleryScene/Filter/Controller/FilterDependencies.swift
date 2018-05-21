@@ -15,7 +15,6 @@ class FilterDependencies: NSObject {
       let interactor = FilterInteractor()
       
       view.eventHandler = presenter
-      view.presenter = presenter
       
       presenter.interactor = interactor
       presenter.view = view

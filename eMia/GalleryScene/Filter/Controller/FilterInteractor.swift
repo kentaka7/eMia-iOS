@@ -29,9 +29,7 @@ class FilterInteractor: NSObject {
       }
       presenter.setUpLookFor(filterModel!.genderFilter)
       presenter.setUpStatus(filterModel!.myFavoriteFilter)
-      
-      presenter.minAge = filterModel!.minAge
-      presenter.maxAge = filterModel!.maxAge
+      presenter.setUpAgesSlider(minAge: filterModel!.minAge, maxAge: filterModel!.maxAge)
       presenter.municipalityId = filterModel!.municipality
    }
    
