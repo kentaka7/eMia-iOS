@@ -80,6 +80,9 @@
 		7F81B21720B0F0F300CA384A /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */; };
 		7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */; };
 		7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */; };
+		7F86186A20B3CFEF002F8D57 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */; };
+		7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */; };
+		7F86186E20B3D3B9002F8D57 /* EditPostDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */; };
 		7F88D6BE200FE5A000394EA2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F88D6BD200FE5A000394EA2 /* LocationManager.swift */; };
 		7F88D6C1200FEA5600394EA2 /* ProfileEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F88D6BF200FEA5500394EA2 /* ProfileEditor.storyboard */; };
 		7FA0B297209342FE00EE2A6A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA0B296209342FD00EE2A6A /* Post.swift */; };
@@ -239,6 +242,9 @@
 		7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDependencies.swift; sourceTree = "<group>"; };
+		7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
+		7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostPresenter.swift; sourceTree = "<group>"; };
+		7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostDependencies.swift; sourceTree = "<group>"; };
 		7F88D6BD200FE5A000394EA2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7F88D6C0200FEA5500394EA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfileEditor.storyboard; sourceTree = "<group>"; };
 		7FA0B296209342FD00EE2A6A /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -472,6 +478,7 @@
 				7FD1FEA6200F2FB700C178E2 /* NewPost.storyboard */,
 				7FBA774E1FEAB957003B455B /* NewPostViewController.swift */,
 				7F35135920B34D950004363C /* NewPostPresenter.swift */,
+				7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */,
 				7F35135B20B34DF30004363C /* NewPostDependencies.swift */,
 				7F4B287920B1023F002BFB47 /* TableViewCells */,
 			);
@@ -501,6 +508,8 @@
 			children = (
 				7FD1FEA3200F2E4C00C178E2 /* EditPost.storyboard */,
 				7FBDE1111FE7F8FA00EAAD3E /* EditPostViewController.swift */,
+				7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */,
+				7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */,
 				7F4B287D20B102B1002BFB47 /* TableViewCells */,
 			);
 			path = Controller;
@@ -1067,6 +1076,7 @@
 				7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */,
 				7FC9DE0F2018481000F50D07 /* DeviceTokenController.swift in Sources */,
 				7FD0519B20127A12006D5C6B /* LanguageDefaults.swift in Sources */,
+				7F86186A20B3CFEF002F8D57 /* NewPostInteractor.swift in Sources */,
 				7FC862261FE94E3B0077C4E2 /* CommentModel.swift in Sources */,
 				7F060C271FF1BC41002D04AD /* MunicipalityPicker.swift in Sources */,
 				7FC9DE0B2018481000F50D07 /* PushNotification.swift in Sources */,
@@ -1110,6 +1120,7 @@
 				7F7E370D20286F4800470139 /* LoginDependencies.swift in Sources */,
 				7F695C951FEA392B008AE127 /* Register3ViewCell.swift in Sources */,
 				7FFBB2581FE45E0400A22EB0 /* FireBaseStorageInteractor.swift in Sources */,
+				7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */,
 				7F060C151FF0E8EB002D04AD /* RangeSlider.swift in Sources */,
 				7F7E37112028705800470139 /* LoginPresenter.swift in Sources */,
 				7F060C241FF1229C002D04AD /* FilterFavorite.swift in Sources */,
@@ -1152,6 +1163,7 @@
 				7FBDE1211FE8466A00EAAD3E /* EditPost2ViewCell.swift in Sources */,
 				7FC0EFCD1FE674A400833DB8 /* SplashScreenController.swift in Sources */,
 				7F3C59EC1FE5EE8B00A823DC /* StringIdentifier.swift in Sources */,
+				7F86186E20B3D3B9002F8D57 /* EditPostDependencies.swift in Sources */,
 				7FD8CF2F2014DF5700CBAF1C /* AppWireframe.swift in Sources */,
 				7F7E36FD20281BD200470139 /* GalleryPresenter.swift in Sources */,
 				7FBA77501FEAB957003B455B /* NewPost3ViewCell.swift in Sources */,

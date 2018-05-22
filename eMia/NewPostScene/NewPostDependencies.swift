@@ -12,7 +12,8 @@ class NewPostDependencies: NSObject {
 
    static func configure(view: NewPostViewController, tableView: UITableView) {
       let presenter = NewPostPresenter()
+      let interactor = NewPostInteractor()
+      presenter.interactor = interactor
       view.presenter = presenter
    }
-   
 }

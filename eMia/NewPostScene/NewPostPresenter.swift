@@ -9,6 +9,8 @@
 import UIKit
 
 class NewPostPresenter: NSObject {
+
+   var interactor: NewPostInteractor!
    
    enum Rows: Int {
       case Title
@@ -82,10 +84,6 @@ class NewPostPresenter: NSObject {
 extension NewPostPresenter {
    
    func save(_ completed: @escaping () -> Void) {
-      guard let currentUser = UsersManager.currentUser else {
-         Alert.default.showOk("", message: "Only for registered users!".localized)
-         return
-      }
       let title = titleCell.titlePostText
       if title.isEmpty {
          titleCell.invalidValue()
@@ -96,21 +94,6 @@ extension NewPostPresenter {
          return
       }
       let bodyText = bodyCell.postBodyText
-      let photosize = "\(image.size.width);\(image.size.height)"
-      let newPost = PostModel(uid: currentUser.userId, author: currentUser.name, title: title, body: bodyText, photosize: photosize)
-      newPost.synchronize() { postid in
-         if (postid.isEmpty) {
-            Alert.default.showOk("Somethig went wrong!".localized, message: "We can't upload a photo on server".localized)
-         } else {
-            PhotosManager.uploadPhoto(image, for: postid) { success in
-               if success {
-                  completed()
-               } else {
-                  Alert.default.showOk("Somethig went wrong!".localized, message: "We can't create a new post on server".localized)
-               }
-            }
-         }
-      }
+      interactor.saveNewPost(title: title, image: image, body: bodyText, completed)
    }
 }
-
