@@ -8,7 +8,14 @@
 
 import UIKit
 
-class NewPostPresenter: NSObject {
+protocol NewPostPresenting {
+   func save(_ completed: @escaping () -> Void)
+   var numberOfRows: Int {get}
+   func tableView(_ tableView: UITableView, cellFor indexPath: IndexPath, viewController: UIViewController) -> UITableViewCell
+   func tableView(_ tableView: UITableView, heightCellFor indexPath: IndexPath) -> CGFloat
+}
+
+class NewPostPresenter: NSObject, NewPostPresenting {
 
    var interactor: NewPostInteractor!
    

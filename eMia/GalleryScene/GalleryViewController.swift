@@ -18,9 +18,10 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    static let kHeaderHeight: CGFloat = 40.0
    static let kCellHeight: CGFloat = 250.0
 
-   var eventHandler: GalleryPresenter!
-   var presenter: GalleryPresenter!
-
+   var presenter: GalleryPresentable!
+   var interactor: GallerySearchable!
+   var layoutDelegate: GalleryLayoutDelegate!
+   
    private var refreshControl: UIRefreshControl!
    private var mSearchText: String = ""
    private let disposeBag = DisposeBag()
@@ -47,7 +48,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
       collectionView?.refreshControl = refreshControl
       
       GalleryDependencies.configure(view: self)
-      presenter.configure()
+      interactor.configure()
       configureSubviews()
    }
    
@@ -55,13 +56,13 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
       super.viewWillAppear(animated)
       
       let searchText = searchBar.text ?? ""
-      self.presenter.fetchData(searchText: searchText) { _ in
+      self.interactor.fetchData(searchText: searchText) { _ in
          
       }
    }
    
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      eventHandler.prepare(for: segue, sender: sender)
+      presenter.prepare(for: segue, sender: sender)
    }
    
    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -97,7 +98,7 @@ extension GalleryViewController {
          collectionView!.backgroundColor = UIColor.clear
          collectionView!.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
          if let layout = collectionView!.collectionViewLayout as? GalleryLayout {
-            layout.delegate = presenter
+            layout.delegate = layoutDelegate
          }
       case searchBackgroundView:
          searchBackgroundView.backgroundColor = GlobalColors.kBrandNavBarColor
@@ -191,7 +192,7 @@ extension GalleryViewController: UISearchBarDelegate {
    
    private func search(_ text: String?) -> Bool {
       if let text = text, text.isEmpty == false {
-         presenter.startSearch(text) { _ in
+         interactor.startSearch(text) { _ in
          }
          return true
       } else {
@@ -201,7 +202,7 @@ extension GalleryViewController: UISearchBarDelegate {
    
    private func needStopSearch(for text: String) -> Bool {
       if text.isEmpty {
-         presenter.stopSearch()
+         interactor.stopSearch()
          return true
       } else {
          return false
@@ -223,6 +224,6 @@ extension GalleryViewController: UIViewControllerPreviewingDelegate {
    }
    
    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-      return eventHandler.previewPhoto(for: location)
+      return presenter.previewPhoto(for: location)
    }
 }

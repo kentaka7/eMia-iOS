@@ -15,11 +15,13 @@ class GalleryDependencies {
       
       router.rootViewController = view
       
-      view.eventHandler = presenter
       view.presenter = presenter
+      view.interactor = presenter
+      view.layoutDelegate = presenter
       
       presenter.router = router
       presenter.interactor = interactor
+      
       presenter.view = view
       
       interactor.output = presenter

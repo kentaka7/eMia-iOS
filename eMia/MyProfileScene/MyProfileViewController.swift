@@ -11,7 +11,8 @@ import RxSwift
 import NVActivityIndicatorView
 
 class MyProfileViewController: UIViewController {
-   var presenter: MyProfilePresenter!
+   var presenter: MyProfilePresenting!
+
    var user: UserModel!
    var password: String!
    var registerUser: Bool!

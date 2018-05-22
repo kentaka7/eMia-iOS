@@ -7,7 +7,7 @@ import UIKit
 
 final class FiltersViewController: UIViewController {
     
-    var eventHandler: FilterInteractor!
+    var interactor: FilterStoragable!
     
     // MARK: Components
     var genderControllerView: ShowMeSegmentedControl!
@@ -42,13 +42,13 @@ final class FiltersViewController: UIViewController {
         FilterDependencies.configure(view: self)
         
         configureView()
-        eventHandler.viewDidLoad()
+        interactor.fetchFilterPreferences()
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         switch segueType(for: identifier) {
         case .exitToGallery:
-            eventHandler.backButtonPressed()
+            interactor.saveFilterPreferences()
             return true
         }
     }
@@ -106,7 +106,7 @@ extension FiltersViewController  {
         case ageLabel:
             ageLabel.text = "Age".localized
 
-        // MARK: Create Components
+        // MARK: Add Components
         case genderBackgroundView:
             genderBackgroundView.layer.cornerRadius = Constants.cornerRadius
             genderBackgroundView.layer.borderWidth = Constants.borderWidth

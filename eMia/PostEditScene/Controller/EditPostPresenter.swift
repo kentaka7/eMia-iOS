@@ -13,7 +13,15 @@ protocol CommentsUpdatable {
    func didUpdateCommentsData()
 }
 
-class EditPostPresenter: NSObject {
+protocol EditPostPresenting {
+   func configure()
+   func update()
+   var numberOfRows: Int {get}
+   func tableView(_ tableView: UITableView, heightCellFor indexPath: IndexPath) -> CGFloat
+   func tableView(_ tableView: UITableView, cellFor indexPath: IndexPath) -> UITableViewCell
+}
+
+class EditPostPresenter: NSObject, EditPostPresenting {
    static private let kMinCommentCellHeight: CGFloat = 58.0
 
    enum Rows: Int {

@@ -9,7 +9,7 @@ import NVActivityIndicatorView
 
 class EditPostViewController: UIViewController {
 
-   var presenter: EditPostPresenter!
+   var presenter: EditPostPresenting!
    var post: PostModel!
    
    @IBOutlet weak var tableView: UITableView!

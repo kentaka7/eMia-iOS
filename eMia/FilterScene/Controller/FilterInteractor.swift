@@ -8,17 +8,22 @@
 
 import UIKit
 
-class FilterInteractor: NSObject {
+protocol FilterStoragable {
+   func fetchFilterPreferences()
+   func saveFilterPreferences()
+}
+
+class FilterInteractor: NSObject, FilterStoragable {
    
    weak var view: FiltersViewController!
    private var filterModel: FilterModel!
    private var filterModelCopy: FilterModel!
    
-   func viewDidLoad() {
+   func fetchFilterPreferences() {
       requestFilterValues()
    }
    
-   func backButtonPressed() {
+   func saveFilterPreferences() {
       saveChanges()
    }
 

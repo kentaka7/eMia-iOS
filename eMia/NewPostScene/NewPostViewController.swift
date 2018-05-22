@@ -7,7 +7,7 @@ import UIKit
 
 class NewPostViewController: UIViewController {
    
-   var presenter: NewPostPresenter!
+   var presenter: NewPostPresenting!
    
    @IBOutlet weak var saveButton: UIButton!
    @IBOutlet weak var tableView: UITableView!

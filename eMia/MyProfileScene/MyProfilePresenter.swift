@@ -13,7 +13,14 @@ protocol LocationComputing {
    func calculateWhereAmI()
 }
 
-class MyProfilePresenter: NSObject {
+protocol MyProfilePresenting {
+   var numberOfRows: Int {get}
+   func heightCell(for indexPath: IndexPath) -> CGFloat
+   func cell(for indexPath: IndexPath) -> UITableViewCell
+   func updateMyProfile(_ completed: @escaping () -> Void)
+}
+
+class MyProfilePresenter: NSObject, MyProfilePresenting {
 
    enum MyProfileRows: Int {
       case Name

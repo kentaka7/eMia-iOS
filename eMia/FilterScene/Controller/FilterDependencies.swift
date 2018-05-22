@@ -12,7 +12,7 @@ class FilterDependencies: NSObject {
    
    static func configure(view: FiltersViewController) {
       let interactor = FilterInteractor()
-      view.eventHandler = interactor
+      view.interactor = interactor
       interactor.view = view
    }
 }
