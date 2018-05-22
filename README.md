@@ -3,11 +3,11 @@
 There is my code example here. eMia is an application like a forum. You can register, then post topics with a title, description and a photo.
 There are profile editor, push-notification if another user likes your post.
 
-eMia developed with 
+eMia developed with using 
 - Firebase database, storage, authentication and cloud messages.
 - RxSwift
-- RxCocoa + RxDatasource + Custom Layout for UICollectionView
-- VIPER
+- RxCocoa, RxDatasource and Custom Layout for UICollectionView
+- VIPER arhitecture
 
 ## Requirements
 
@@ -28,12 +28,8 @@ pod install
 
 Open eMia.xcworkspace
 
-## Notes
-
-LoginScene, GalleryScene, MyProfileScene  developed with RxSwift and VIPER
-
 ## eMia on Android
 
 Here (https://github.com/SKrotkih/eMia-Android) you can find the eMia Android version.
 
-02-15-2018
+05-22-2018
