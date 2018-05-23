@@ -1,5 +1,7 @@
 # eMia-iOS
 
+![emia](https://user-images.githubusercontent.com/2775621/40444625-88c20db4-5ed2-11e8-8e50-24a8fd0eea0e.gif)
+
 There is my code example here. eMia is an application like a forum. You can register, then post topics with a title, description and a photo.
 There are profile editor, push-notification if another user likes your post.
 
