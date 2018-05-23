@@ -12,7 +12,7 @@ class SettingsViewController: UIViewController {
 
    @IBOutlet weak var tableView: UITableView!
    
-   var presenter: SettingsPresenter!
+   var presenter: TableViewPresentable!
    var router: SettingsRouter!
    
    override func viewDidLoad() {
@@ -47,10 +47,10 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
    }
    
    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      return presenter.tableView(tableView, heightCellFor: indexPath)
+      return presenter.heightCell(for: indexPath)
    }
    
    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      return presenter.tableView(tableView, cellFor: indexPath)
+      return presenter.cell(for: indexPath)
    }
 }

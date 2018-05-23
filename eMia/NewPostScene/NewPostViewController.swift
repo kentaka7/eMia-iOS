@@ -66,10 +66,10 @@ extension NewPostViewController: UITableViewDelegate, UITableViewDataSource {
    }
    
    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      return presenter.tableView(tableView, heightCellFor: indexPath)
+      return presenter.heightCell(for: indexPath)
    }
    
    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      return presenter.tableView(tableView, cellFor: indexPath, viewController: self)
+      return presenter.cell(for: indexPath)
    }
 }

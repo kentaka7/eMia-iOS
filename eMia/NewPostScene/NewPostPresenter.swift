@@ -8,16 +8,15 @@
 
 import UIKit
 
-protocol NewPostPresenting {
+protocol NewPostPresenting: TableViewPresentable {
    func save(_ completed: @escaping () -> Void)
-   var numberOfRows: Int {get}
-   func tableView(_ tableView: UITableView, cellFor indexPath: IndexPath, viewController: UIViewController) -> UITableViewCell
-   func tableView(_ tableView: UITableView, heightCellFor indexPath: IndexPath) -> CGFloat
 }
 
 class NewPostPresenter: NSObject, NewPostPresenting {
 
    var interactor: NewPostInteractor!
+   var tableView: UITableView!
+   var viewController: UIViewController!
    
    enum Rows: Int {
       case Title
@@ -37,7 +36,7 @@ class NewPostPresenter: NSObject, NewPostPresenting {
    private var bodyCell: NewPost2ViewCell!
    private var photoCell: NewPost3ViewCell!
    
-   func tableView(_ tableView: UITableView, cellFor indexPath: IndexPath, viewController: UIViewController) -> UITableViewCell {
+   func cell(for indexPath: IndexPath) -> UITableViewCell {
       if let selector = Rows(rawValue: indexPath.row) {
          switch selector {
          case .Title:
@@ -48,7 +47,7 @@ class NewPostPresenter: NSObject, NewPostPresenting {
             bodyCell.didChangeHeight = { height in
                if height > self.textBodyHeight {
                   self.textBodyHeight = height
-                  tableView.reloadData()
+                  self.tableView.reloadData()
                   runAfterDelay(0.2) {
                      let _ = self.bodyCell.postBodyTextView.becomeFirstResponder()
                   }
@@ -66,7 +65,7 @@ class NewPostPresenter: NSObject, NewPostPresenting {
       }
    }
 
-   func tableView(_ tableView: UITableView, heightCellFor indexPath: IndexPath) -> CGFloat {
+   func heightCell(for indexPath: IndexPath) -> CGFloat {
       if let selector = Rows(rawValue: indexPath.row) {
          switch selector {
          case .Title:

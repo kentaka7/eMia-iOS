@@ -14,6 +14,8 @@ class NewPostDependencies: NSObject {
       let presenter = NewPostPresenter()
       let interactor = NewPostInteractor()
       presenter.interactor = interactor
+      presenter.tableView = tableView
+      presenter.viewController = view
       view.presenter = presenter
    }
 }

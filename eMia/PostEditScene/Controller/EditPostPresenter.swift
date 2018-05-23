@@ -13,12 +13,9 @@ protocol CommentsUpdatable {
    func didUpdateCommentsData()
 }
 
-protocol EditPostPresenting {
+protocol EditPostPresenting: TableViewPresentable {
    func configure()
    func update()
-   var numberOfRows: Int {get}
-   func tableView(_ tableView: UITableView, heightCellFor indexPath: IndexPath) -> CGFloat
-   func tableView(_ tableView: UITableView, cellFor indexPath: IndexPath) -> UITableViewCell
 }
 
 class EditPostPresenter: NSObject, EditPostPresenting {
@@ -51,7 +48,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    
    weak var activityIndicator: NVActivityIndicatorView!
    var post: PostModel!
-   var tableView: UITableView!
+   weak var tableView: UITableView!
    
    func configure() {
       commentsManager.startCommentsObserver(for: post, delegate: self)
@@ -61,7 +58,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       downloadComments()
    }
    
-   func tableView(_ tableView: UITableView, cellFor indexPath: IndexPath) -> UITableViewCell {
+   func cell(for indexPath: IndexPath) -> UITableViewCell {
       if let selector: Rows = Rows(rawValue: indexPath.row) {
          switch selector {
          case .AvatarPhotoAndUserName:
@@ -88,7 +85,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
             commentCell.didChangeHeight = { newCellHeight in
                if newCellHeight != self.currentCelHeight {
                   self.currentCelHeight = newCellHeight
-                  self.updateView(tableView: tableView)
+                  self.updateView(tableView: self.tableView)
                }
             }
             commentCell.didEnterNewComment = {
@@ -112,7 +109,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
 
    // TODO: - TRY TO USE https://mkswap.net/m/ios/2015/07/08/uitableviewcells-with-dynamic-height.html
 
-   func tableView(_ tableView: UITableView, heightCellFor indexPath: IndexPath) -> CGFloat {
+   func heightCell(for indexPath: IndexPath) -> CGFloat {
       if let selector: Rows = Rows(rawValue: indexPath.row) {
          switch selector {
          case .AvatarPhotoAndUserName:

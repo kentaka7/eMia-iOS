@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsPresenter: NSObject {
+class SettingsPresenter: NSObject, TableViewPresentable {
    
    enum Menu: Int {
       case MyProfile
@@ -21,8 +21,10 @@ class SettingsPresenter: NSObject {
       static let myProfile1ViewCell = "MyProfile1ViewCell"
       static let myProfile2ViewCell = "MyProfile2ViewCell"
    }
+
+   weak var tableView: UITableView!
    
-   func tableView(_ tableView: UITableView, cellFor indexPath: IndexPath) -> UITableViewCell {
+   func cell(for indexPath: IndexPath) -> UITableViewCell {
       switch Menu(rawValue: indexPath.row)! {
       case .MyProfile:
          let cell1 = tableView.dequeueReusableCell(withIdentifier: CellName.myProfile1ViewCell) as! MyProfile1ViewCell
@@ -39,7 +41,7 @@ class SettingsPresenter: NSObject {
       }
    }
 
-   func tableView(_ tableView: UITableView, heightCellFor indexPath: IndexPath) -> CGFloat {
+   func heightCell(for indexPath: IndexPath) -> CGFloat {
       switch Menu(rawValue: indexPath.row)! {
       case .MyProfile:
          return 64.0

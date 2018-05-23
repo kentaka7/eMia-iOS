@@ -12,6 +12,7 @@ class SettingsDependencies: NSObject {
 
    static func configure(view: SettingsViewController, tableView: UITableView) {
       let presenter = SettingsPresenter()
+      presenter.tableView = tableView
       view.presenter = presenter
       let router = SettingsRouter()
       view.router = router
