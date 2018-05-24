@@ -11,8 +11,10 @@ import NVActivityIndicatorView
 
 class LogInViewController: UIViewController {
    
-   var eventHandler: LoginPresenter!
-   var presenter: LoginPresenter!
+   var executor: LogInExecuted!
+   var validator: LogInValidating!
+   var router: LogInRouting!
+   
    let disposeBug = DisposeBag()
    
    @IBOutlet weak var emailTextField: UITextField!
@@ -28,14 +30,14 @@ class LogInViewController: UIViewController {
       super.viewDidLoad()
       
       navigationItem.title = "Log In to ".localized + "\(AppConstants.ApplicationName)"
-      LoginDependencies.configure(viewController: self)
+      LoginDependencies.configure(view: self)
       
       subscribeOnValid()
       configureView()
    }
 
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      eventHandler.prepare(for: segue, sender: sender)
+      router.prepare(for: segue, sender: sender)
    }
    
    private func configureView() {
@@ -55,10 +57,10 @@ class LogInViewController: UIViewController {
          }).disposed(by: disposeBug)
       case emailTextField:
          _ = emailTextField.rx.text.map { $0 ?? "" }
-            .bind(to: presenter.email)
+            .bind(to: validator.email)
       case passwordTextField:
          _ = passwordTextField.rx.text.map {$0 ?? "" }
-            .bind(to: presenter.password)
+            .bind(to: validator.password)
       case signInButton:
          signInButton.isEnabled = false
          signInButton.setTitle("Sign In".localized, for: .normal)
@@ -81,8 +83,8 @@ class LogInViewController: UIViewController {
    }
 
    private func subscribeOnValid() {
-      _ = presenter.isValid.bind(to: signInButton.rx.isEnabled)
-      _ = presenter.isValid.subscribe(onNext: {[weak self] isValid in
+      _ = validator.isValid.bind(to: signInButton.rx.isEnabled)
+      _ = validator.isValid.subscribe(onNext: {[weak self] isValid in
          guard let `self` = self else { return }
          self.signInButton.isEnabled = isValid ? true : false
          self.signInButton.setTitleColor(isValid ? UIColor.green : UIColor.lightGray, for: .normal)
@@ -93,7 +95,7 @@ class LogInViewController: UIViewController {
    
    private func signInButtonPressed() {
       self.hideKeyboard()
-      eventHandler.signIn() { error in
+      executor.signIn() { error in
          guard let error = error else {
             return
          }
@@ -112,7 +114,7 @@ class LogInViewController: UIViewController {
    
    private func signUpButtonPressed() {
       self.hideKeyboard()
-      eventHandler.signUp() { error in
+      executor.signUp() { error in
          guard let error = error else {
             return
          }

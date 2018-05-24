@@ -6,7 +6,23 @@
 import UIKit
 import RxSwift
 
-class LoginPresenter: NSObject {
+protocol LogInValidating {
+   var email: Variable<String> {get}
+   var password: Variable<String> {get}
+   var isValid : Observable<Bool> {get}
+}
+
+protocol LogInExecuted {
+   func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void)
+   func signUp(completion: (LoginPresenter.LoginError?) -> Void)
+}
+
+protocol LogInRouting {
+   func prepare(for segue: UIStoryboardSegue, sender: Any?)
+}
+
+
+class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
 
    var router: LoginRouter!
    var interactor: LoginInteractor!

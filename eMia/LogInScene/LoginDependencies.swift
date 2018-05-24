@@ -7,18 +7,19 @@ import UIKit
 
 class LoginDependencies {
    
-   static func configure(viewController: LogInViewController) {
+   static func configure(view: LogInViewController) {
       let router = LoginRouter()
       let presenter = LoginPresenter()
       let interactor = LoginInteractor()
       
-      router.rootViewController = viewController
+      router.rootViewController = view
       
-      viewController.eventHandler = presenter
-      viewController.presenter = presenter
+      view.executor = presenter
+      view.validator = presenter
+      view.router = presenter
       
       presenter.router = router
       presenter.interactor = interactor
-      presenter.view = viewController
+      presenter.view = view
    }
 }
