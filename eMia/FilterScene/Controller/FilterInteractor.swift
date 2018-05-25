@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol FilterStoragable {
-   func fetchFilterPreferences()
-   func saveFilterPreferences()
-}
-
 class FilterInteractor: FilterStoragable {
    
    weak var view: FiltersViewController!

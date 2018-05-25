@@ -19,9 +19,10 @@ class MyProfileViewController: UIViewController {
    private let disposeBug = DisposeBag()
    
    @IBOutlet weak var tableView: UITableView!
+   @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
+
    @IBOutlet weak var saveDataButton: UIButton!
    @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
-   @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
    
    override func viewDidLoad() {
       super.viewDidLoad()

@@ -21,10 +21,11 @@ class MyProfileInteractor: NSObject {
    
    var loginInteractor: LoginInteractor!
    weak var tableView: UITableView!
+   weak var activityIndicator: NVActivityIndicatorView!
+
    var user: UserModel!
    var password: String!
    var registerUser: Bool = false
-   weak var activityIndicator: NVActivityIndicatorView!
    
    func updateMyProfile(_ data: MyProfileData, completed: @escaping () -> Void) {
 

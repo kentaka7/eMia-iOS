@@ -8,12 +8,6 @@ import NVActivityIndicatorView
 import RxSwift
 import RxDataSources
 
-protocol GalleryViewProtocol {
-   var galleryCollectionView: UICollectionView? { get }
-   func startProgress()
-   func stopProgress()
-}
-
 class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout {
    static let kHeaderHeight: CGFloat = 40.0
    static let kCellHeight: CGFloat = 250.0

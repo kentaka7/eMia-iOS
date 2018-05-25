@@ -9,20 +9,6 @@
 import UIKit
 import NVActivityIndicatorView
 
-protocol LocationComputing {
-   func calculateWhereAmI()
-}
-
-protocol TableViewPresentable {
-   var numberOfRows: Int {get}
-   func heightCell(for indexPath: IndexPath) -> CGFloat
-   func cell(for indexPath: IndexPath) -> UITableViewCell
-}
-
-protocol MyProfilePresenting: TableViewPresentable {
-   func updateMyProfile(_ completed: @escaping () -> Void)
-}
-
 class MyProfilePresenter: NSObject, MyProfilePresenting {
 
    enum MyProfileRows: Int {

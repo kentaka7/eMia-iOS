@@ -83,6 +83,10 @@
 		7F86186A20B3CFEF002F8D57 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */; };
 		7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */; };
 		7F86186E20B3D3B9002F8D57 /* EditPostDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */; };
+		7F87244420B7D3470018A855 /* MyProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F87244320B7D3470018A855 /* MyProfileProtocols.swift */; };
+		7F87244620B7D3990018A855 /* GalleryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F87244520B7D3990018A855 /* GalleryProtocols.swift */; };
+		7F87244820B7D4300018A855 /* FilterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F87244720B7D4300018A855 /* FilterProtocols.swift */; };
+		7F87244A20B7D4AD0018A855 /* EditPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F87244920B7D4AD0018A855 /* EditPostProtocols.swift */; };
 		7F88D6BE200FE5A000394EA2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F88D6BD200FE5A000394EA2 /* LocationManager.swift */; };
 		7F88D6C1200FEA5600394EA2 /* ProfileEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F88D6BF200FEA5500394EA2 /* ProfileEditor.storyboard */; };
 		7FA0B297209342FE00EE2A6A /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA0B296209342FD00EE2A6A /* Post.swift */; };
@@ -245,6 +249,10 @@
 		7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostPresenter.swift; sourceTree = "<group>"; };
 		7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostDependencies.swift; sourceTree = "<group>"; };
+		7F87244320B7D3470018A855 /* MyProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileProtocols.swift; sourceTree = "<group>"; };
+		7F87244520B7D3990018A855 /* GalleryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryProtocols.swift; sourceTree = "<group>"; };
+		7F87244720B7D4300018A855 /* FilterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterProtocols.swift; sourceTree = "<group>"; };
+		7F87244920B7D4AD0018A855 /* EditPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostProtocols.swift; sourceTree = "<group>"; };
 		7F88D6BD200FE5A000394EA2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7F88D6C0200FEA5500394EA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfileEditor.storyboard; sourceTree = "<group>"; };
 		7FA0B296209342FD00EE2A6A /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -431,6 +439,7 @@
 				7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */,
 				7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */,
 				7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */,
+				7F87244320B7D3470018A855 /* MyProfileProtocols.swift */,
 				7F4B287320B10117002BFB47 /* TableViewCells */,
 			);
 			path = MyProfileScene;
@@ -467,6 +476,7 @@
 				7F060C091FF0E762002D04AD /* FiltersViewController.swift */,
 				7F1337BA202AFEEF00D955D6 /* FilterInteractor.swift */,
 				7F1337BC202AFF1400D955D6 /* FilterDependencies.swift */,
+				7F87244720B7D4300018A855 /* FilterProtocols.swift */,
 				7F7FAB4120B323740052739B /* Router */,
 			);
 			path = Controller;
@@ -510,6 +520,7 @@
 				7FBDE1111FE7F8FA00EAAD3E /* EditPostViewController.swift */,
 				7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */,
 				7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */,
+				7F87244920B7D4AD0018A855 /* EditPostProtocols.swift */,
 				7F4B287D20B102B1002BFB47 /* TableViewCells */,
 			);
 			path = Controller;
@@ -596,6 +607,7 @@
 				7F7E36F820281BD200470139 /* GalleryRouter.swift */,
 				7F7E370420281F7B00470139 /* GalleryDependencies.swift */,
 				7FCD79EF201451C200677AC6 /* PhotoPostViewController.swift */,
+				7F87244520B7D3990018A855 /* GalleryProtocols.swift */,
 				7F619FCD20ADFFAB00AF9D91 /* Layouts */,
 				7F7E370020281C8300470139 /* CollectionCell */,
 				7F7E370320281D6300470139 /* HeaderView */,
@@ -1105,8 +1117,10 @@
 				7FBFF4DC1FE4068400788DCB /* CommentItem.swift in Sources */,
 				7FBDE1231FE847D200EAAD3E /* EditPost6ViewCell.swift in Sources */,
 				7F7E36FC20281BD200470139 /* GalleryRouter.swift in Sources */,
+				7F87244620B7D3990018A855 /* GalleryProtocols.swift in Sources */,
 				7FBDE11F1FE8466A00EAAD3E /* EditPost4ViewCell.swift in Sources */,
 				7F060C221FF10C0A002D04AD /* Gender.swift in Sources */,
+				7F87244820B7D4300018A855 /* FilterProtocols.swift in Sources */,
 				7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */,
 				7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */,
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
@@ -1114,6 +1128,7 @@
 				7FFBB25C1FE462A000A22EB0 /* FavoritsManager.swift in Sources */,
 				7FBFF4CF1FE3FA5000788DCB /* ModelData.swift in Sources */,
 				7F4B289120B1C3D8002BFB47 /* ShowMeSegmentedControl.swift in Sources */,
+				7F87244420B7D3470018A855 /* MyProfileProtocols.swift in Sources */,
 				7FBFF4DD1FE4068400788DCB /* PostItem.swift in Sources */,
 				7FC862241FE94AFA0077C4E2 /* Date.swift in Sources */,
 				7F7E370520281F7C00470139 /* GalleryDependencies.swift in Sources */,
@@ -1123,6 +1138,7 @@
 				7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */,
 				7F060C151FF0E8EB002D04AD /* RangeSlider.swift in Sources */,
 				7F7E37112028705800470139 /* LoginPresenter.swift in Sources */,
+				7F87244A20B7D4AD0018A855 /* EditPostProtocols.swift in Sources */,
 				7F060C241FF1229C002D04AD /* FilterFavorite.swift in Sources */,
 				7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */,
 				7FC0EFD21FE6CD5800833DB8 /* LogInViewController.swift in Sources */,

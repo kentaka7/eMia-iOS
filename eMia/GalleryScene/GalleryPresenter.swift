@@ -5,18 +5,6 @@
 
 import UIKit
 
-protocol GallerySearchable {
-   func configure()
-   func fetchData(searchText: String, _ completed: @escaping ([PostModel]) -> Void)
-   func startSearch(_ text: String, _ completed: @escaping ([PostModel]) -> Void)
-   func stopSearch()
-}
-
-protocol GalleryPresentable {
-   func prepare(for segue: UIStoryboardSegue, sender: Any?)
-   func previewPhoto(for location: CGPoint) -> UIViewController?
-}
-
 class GalleryPresenter: NSObject, GallerySearchable, GalleryPresentable {
 
    var router: GalleryRouter!

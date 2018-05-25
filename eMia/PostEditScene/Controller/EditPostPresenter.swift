@@ -9,15 +9,6 @@
 import UIKit
 import NVActivityIndicatorView
 
-protocol CommentsUpdatable {
-   func didUpdateCommentsData()
-}
-
-protocol EditPostPresenting: TableViewPresentable {
-   func configure()
-   func update()
-}
-
 class EditPostPresenter: NSObject, EditPostPresenting {
    static private let kMinCommentCellHeight: CGFloat = 58.0
 
