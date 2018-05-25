@@ -8,13 +8,9 @@
 
 import UIKit
 
-protocol NewPostPresenting: TableViewPresentable {
-   func save(_ completed: @escaping () -> Void)
-}
-
 class NewPostPresenter: NSObject, NewPostPresenting {
 
-   var interactor: NewPostInteractor!
+   var interactor: NewPostStoring!
    var tableView: UITableView!
    var viewController: UIViewController!
    
@@ -35,6 +31,10 @@ class NewPostPresenter: NSObject, NewPostPresenting {
    private var titleCell: NewPost1ViewCell!
    private var bodyCell: NewPost2ViewCell!
    private var photoCell: NewPost3ViewCell!
+   
+   var title: String {
+      return "\(AppConstants.ApplicationName) - My New Post".localized
+   }
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
       if let selector = Rows(rawValue: indexPath.row) {

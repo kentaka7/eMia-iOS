@@ -13,3 +13,11 @@ protocol FilterStoragable {
    func saveFilterPreferences()
 }
 
+protocol FilterPresented {
+   func configure()
+   func close()
+   func addShowMeComponent(_ bacgroundView: UIView)
+   func addFavoriteStatusComponent(_ bacgroundView: UIView)
+   func addMunicipalityComponent(_ bacgroundView: UIView)
+   func addAggesComponent(_ bacgroundView: UIView)
+}

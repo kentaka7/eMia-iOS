@@ -21,7 +21,7 @@ class EditPostViewController: UIViewController {
 
       EditPostDependencies.configure(view: self, post: post, tableView: tableView, activityIndicator: activityIndicator)
       
-      navigationItem.title = post.title
+      navigationItem.title = presenter.title
 
       Appearance.customize(viewController: self)
       

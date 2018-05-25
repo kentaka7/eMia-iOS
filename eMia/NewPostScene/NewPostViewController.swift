@@ -14,10 +14,10 @@ class NewPostViewController: UIViewController {
    
    override func viewDidLoad() {
       super.viewDidLoad()
-
+      
       NewPostDependencies.configure(view: self, tableView: tableView)
-
-      navigationItem.title = "\(AppConstants.ApplicationName) - My New Post".localized
+      
+      navigationItem.title = presenter.title
       configureView()
    }
    

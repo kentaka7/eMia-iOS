@@ -22,6 +22,7 @@ protocol GallerySearchable {
 }
 
 protocol GalleryPresentable {
+   var title: String {get}
    func prepare(for segue: UIStoryboardSegue, sender: Any?)
    func previewPhoto(for location: CGPoint) -> UIViewController?
 }

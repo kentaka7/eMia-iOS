@@ -11,8 +11,12 @@ class GalleryPresenter: NSObject, GallerySearchable, GalleryPresentable {
    var interactor: GalleryInteractor!
    var view: GalleryViewProtocol!
    
+   var title: String {
+      return "\(AppConstants.ApplicationName)"
+   }
+   
    func configure() {
-      //interactor.configure()
+      interactor.configure()
    }
    
    func startProgress() {

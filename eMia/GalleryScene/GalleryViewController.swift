@@ -13,7 +13,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    static let kCellHeight: CGFloat = 250.0
 
    var presenter: GalleryPresentable!
-   var interactor: GallerySearchable!
+   var presenterData: GallerySearchable!
    var layoutDelegate: GalleryLayoutDelegate!
    
    private var refreshControl: UIRefreshControl!
@@ -34,24 +34,19 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    override func viewDidLoad() {
       super.viewDidLoad()
-      
-      navigationItem.title = "\(AppConstants.ApplicationName)"
-      
-      refreshControl = UIRefreshControl()
-      refreshControl?.addTarget(self, action: #selector(simulateRefresh), for: .valueChanged)
-      collectionView?.refreshControl = refreshControl
-      
+
       GalleryDependencies.configure(view: self)
-      interactor.configure()
+
+      navigationItem.title = presenter.title
       configureSubviews()
+      presenterData.configure()
    }
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
       
       let searchText = searchBar.text ?? ""
-      self.interactor.fetchData(searchText: searchText) { _ in
-         
+      presenterData.fetchData(searchText: searchText) { _ in
       }
    }
    
@@ -89,6 +84,10 @@ extension GalleryViewController {
          newPostButton.layer.cornerRadius = newPostButton.frame.width / 2.0
          newPostButton.backgroundColor = GlobalColors.kBrandNavBarColor
       case collectionView!:
+         refreshControl = UIRefreshControl()
+         refreshControl!.addTarget(self, action: #selector(simulateRefresh), for: .valueChanged)
+         collectionView!.refreshControl = refreshControl
+
          collectionView!.backgroundColor = UIColor.clear
          collectionView!.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
          if let layout = collectionView!.collectionViewLayout as? GalleryLayout {
@@ -186,7 +185,7 @@ extension GalleryViewController: UISearchBarDelegate {
    
    private func search(_ text: String?) -> Bool {
       if let text = text, text.isEmpty == false {
-         interactor.startSearch(text) { _ in
+         presenterData.startSearch(text) { _ in
          }
          return true
       } else {
@@ -196,7 +195,7 @@ extension GalleryViewController: UISearchBarDelegate {
    
    private func needStopSearch(for text: String) -> Bool {
       if text.isEmpty {
-         interactor.stopSearch()
+         presenterData.stopSearch()
          return true
       } else {
          return false

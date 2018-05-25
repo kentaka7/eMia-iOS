@@ -42,6 +42,8 @@
 		7F3C59F01FE5F03600A823DC /* ObserverProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EF1FE5F03600A823DC /* ObserverProtocol.swift */; };
 		7F3C59F21FE5FB5C00A823DC /* PostsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59F11FE5FB5C00A823DC /* PostsManager.swift */; };
 		7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */; };
+		7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */; };
+		7F475EC020B83F8400778FBF /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBF20B83F8400778FBF /* FilterPresenter.swift */; };
 		7F4B288C20B17DE8002BFB47 /* MyProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */; };
 		7F4B288D20B17DE8002BFB47 /* MyProfileDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */; };
 		7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */; };
@@ -208,6 +210,8 @@
 		7F3C59EF1FE5F03600A823DC /* ObserverProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverProtocol.swift; sourceTree = "<group>"; };
 		7F3C59F11FE5FB5C00A823DC /* PostsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsManager.swift; sourceTree = "<group>"; };
 		7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsManager.swift; sourceTree = "<group>"; };
+		7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostProtocols.swift; sourceTree = "<group>"; };
+		7F475EBF20B83F8400778FBF /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfilePresenter.swift; sourceTree = "<group>"; };
 		7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileDependencies.swift; sourceTree = "<group>"; };
 		7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileInteractor.swift; sourceTree = "<group>"; };
@@ -247,7 +251,7 @@
 		7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDependencies.swift; sourceTree = "<group>"; };
 		7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
-		7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostPresenter.swift; sourceTree = "<group>"; };
+		7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = EditPostPresenter.swift; sourceTree = "<group>"; tabWidth = 3; };
 		7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostDependencies.swift; sourceTree = "<group>"; };
 		7F87244320B7D3470018A855 /* MyProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileProtocols.swift; sourceTree = "<group>"; };
 		7F87244520B7D3990018A855 /* GalleryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryProtocols.swift; sourceTree = "<group>"; };
@@ -474,6 +478,7 @@
 			children = (
 				7F060C071FF0E734002D04AD /* Filter.storyboard */,
 				7F060C091FF0E762002D04AD /* FiltersViewController.swift */,
+				7F475EBF20B83F8400778FBF /* FilterPresenter.swift */,
 				7F1337BA202AFEEF00D955D6 /* FilterInteractor.swift */,
 				7F1337BC202AFF1400D955D6 /* FilterDependencies.swift */,
 				7F87244720B7D4300018A855 /* FilterProtocols.swift */,
@@ -490,6 +495,7 @@
 				7F35135920B34D950004363C /* NewPostPresenter.swift */,
 				7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */,
 				7F35135B20B34DF30004363C /* NewPostDependencies.swift */,
+				7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */,
 				7F4B287920B1023F002BFB47 /* TableViewCells */,
 			);
 			path = NewPostScene;
@@ -1140,6 +1146,7 @@
 				7F7E37112028705800470139 /* LoginPresenter.swift in Sources */,
 				7F87244A20B7D4AD0018A855 /* EditPostProtocols.swift in Sources */,
 				7F060C241FF1229C002D04AD /* FilterFavorite.swift in Sources */,
+				7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */,
 				7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */,
 				7FC0EFD21FE6CD5800833DB8 /* LogInViewController.swift in Sources */,
 				7FC20D271FE366B7000C23A6 /* Color.swift in Sources */,
@@ -1166,6 +1173,7 @@
 				7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */,
 				7FD766821FE9D8F300E32C42 /* MyProfile1ViewCell.swift in Sources */,
 				7FBFF4D91FE4068400788DCB /* FavoriteItem.swift in Sources */,
+				7F475EC020B83F8400778FBF /* FilterPresenter.swift in Sources */,
 				7FA0B297209342FE00EE2A6A /* Post.swift in Sources */,
 				7F060C201FF10756002D04AD /* SegueHandler.swift in Sources */,
 				7F6FAAA92018B354009F94E0 /* GradientView.swift in Sources */,

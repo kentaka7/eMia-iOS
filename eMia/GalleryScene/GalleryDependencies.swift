@@ -16,7 +16,7 @@ class GalleryDependencies {
       router.rootViewController = view
       
       view.presenter = presenter
-      view.interactor = presenter
+      view.presenterData = presenter
       view.layoutDelegate = presenter
       
       presenter.router = router
@@ -27,8 +27,6 @@ class GalleryDependencies {
       interactor.output = presenter
       interactor.collectionView = view.galleryCollectionView
       interactor.filterManager = filterManager
-      
-      interactor.configure()
    }
 }
 

@@ -10,7 +10,7 @@ import UIKit
 
 class FilterInteractor: FilterStoragable {
    
-   weak var view: FiltersViewController!
+   weak var presenter: FilterPresenter!
    private var filterModel: FilterModel!
    private var filterModelCopy: FilterModel!
    
@@ -74,7 +74,7 @@ extension FilterInteractor {
    // MARK: Show me (by gender)
    private func setUpLookFor(_ lookFor: Gender?) {
       let _lookFor: Gender = lookFor ?? .both
-      let genderFilter = view.genderControllerView.genderFilter
+      let genderFilter = presenter.showMeComponent.genderFilter
       genderFilter.value = _lookFor
       _ = genderFilter.asObservable().subscribe() { [weak self] lookFor in
          guard let `self` = self else { return }
@@ -85,7 +85,7 @@ extension FilterInteractor {
    // MARK: With status (favorite all or my favorite)
    private func setUpStatus(_ status: FilterFavorite?) {
       let _status: FilterFavorite = status ?? .all
-      let favoriteFilter = view.favoriteControllerView.favoriteFilter
+      let favoriteFilter = presenter.favoriteStatusComponent.favoriteFilter
       favoriteFilter.value = _status
       _ = favoriteFilter.asObservable().subscribe() { [weak self] status in
          guard let `self` = self else { return }
@@ -97,15 +97,15 @@ extension FilterInteractor {
    private func setUpAgesSlider(minAge: CGFloat?, maxAge: CGFloat?) {
       let _minAge: CGFloat = minAge ?? 0.0
       let _maxAge: CGFloat = maxAge ?? 100.0
-      view.ageSliderView.minAge = _minAge
-      view.ageSliderView.maxAge = _maxAge
-      let minAgeFilter = view.ageSliderView.minAgeFilter
+      presenter.agesComponent.minAge = _minAge
+      presenter.agesComponent.maxAge = _maxAge
+      let minAgeFilter = presenter.agesComponent.minAgeFilter
       minAgeFilter.value = Int(_minAge)
       _ = minAgeFilter.asObservable().subscribe() { [weak self] minAge in
          guard let `self` = self else { return }
          self.minAge = CGFloat(minAge.element!)
       }
-      let maxAgeFilter = view.ageSliderView.maxAgeFilter
+      let maxAgeFilter = presenter.agesComponent.maxAgeFilter
       maxAgeFilter.value = Int(_maxAge)
       _ = maxAgeFilter.asObservable().subscribe() { [weak self] maxAge in
          guard let `self` = self else { return }
@@ -116,7 +116,7 @@ extension FilterInteractor {
    // MARK: Municipality
    private func setUpMunicipality(_ municipalityId: String?) {
       let _municipalityId = municipalityId ?? ""
-      let municipalityFilter = view.municipalityControllerView.municipalityFilter
+      let municipalityFilter = presenter.municipalityComponent.municipalityFilter
       municipalityFilter.value = _municipalityId
       _ = municipalityFilter.asObservable().subscribe() { [weak self] municipalityId in
          guard let `self` = self else { return }

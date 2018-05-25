@@ -2,18 +2,15 @@
 //  FiltersViewController.swift
 //  eMia
 //
+//  Created by Сергей Кротких on 25/05/2018.
+//  Copyright © 2018 Coded I/S. All rights reserved.
+//
 
 import UIKit
 
 final class FiltersViewController: UIViewController {
-    
-    var interactor: FilterStoragable!
-    
-    // MARK: Components
-    var genderControllerView: ShowMeSegmentedControl!
-    var favoriteControllerView: FavStatusSegmentedControl!
-    var municipalityControllerView: MunicipalityControllerView!
-    var ageSliderView: AgeSliderView!
+
+    var presenter: FilterPresented!
     
     // MARK: Outlets
     @IBOutlet weak var genderBackgroundView: UIView!
@@ -22,9 +19,7 @@ final class FiltersViewController: UIViewController {
     @IBOutlet weak var agesSliderBackgroundView: UIView!
     
     @IBOutlet weak var ageLabel: UILabel!
-    
     @IBOutlet weak var separatorLineView: UIView!
-    
     @IBOutlet weak var municipalityLabel: UILabel!
     
     // MARK: Private
@@ -40,15 +35,15 @@ final class FiltersViewController: UIViewController {
         Appearance.customize(viewController: self)
         
         FilterDependencies.configure(view: self)
-        
         configureView()
-        interactor.fetchFilterPreferences()
+        presenter.configure()
     }
     
+    // MARK: Router
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         switch segueType(for: identifier) {
         case .exitToGallery:
-            interactor.saveFilterPreferences()
+            presenter.close()
             return true
         }
     }
@@ -74,7 +69,7 @@ extension FiltersViewController: SegueRawRepresentable {
     }
 }
 
-//    MARK: - Utilities
+//    MARK: - Configure Components View
 
 extension FiltersViewController  {
     
@@ -85,7 +80,12 @@ extension FiltersViewController  {
         configure(myFavoriteBackgroundView)
         configure(municipalityBackgroundView)
         configure(municipalityLabel)
-        configureAgeSlider()
+        
+        // MARK: Place Components
+        presenter.addShowMeComponent(genderBackgroundView)
+        presenter.addFavoriteStatusComponent(myFavoriteBackgroundView)
+        presenter.addMunicipalityComponent(municipalityBackgroundView)
+        presenter.addAggesComponent(agesSliderBackgroundView)
     }
 
     fileprivate func configure(_ view: UIView) {
@@ -111,22 +111,16 @@ extension FiltersViewController  {
             genderBackgroundView.layer.cornerRadius = Constants.cornerRadius
             genderBackgroundView.layer.borderWidth = Constants.borderWidth
             genderBackgroundView.layer.borderColor = UIColor.lightGray.cgColor
-            genderControllerView = ShowMeSegmentedControl.getInstance(for: genderBackgroundView)
             
         case myFavoriteBackgroundView:
             myFavoriteBackgroundView.layer.cornerRadius = Constants.cornerRadius
             myFavoriteBackgroundView.layer.borderWidth = Constants.borderWidth
             myFavoriteBackgroundView.layer.borderColor = UIColor.lightGray.cgColor
-            favoriteControllerView = FavStatusSegmentedControl.getInstance(for: myFavoriteBackgroundView)
             
         case municipalityBackgroundView:
-            municipalityControllerView = MunicipalityControllerView.getInstance(for: municipalityBackgroundView)
+            break
             
         default: break
         }
-    }
-    
-    private func configureAgeSlider() {
-        ageSliderView = AgeSliderView.getInstance(for: agesSliderBackgroundView, min: 0, max: 100)
     }
 }

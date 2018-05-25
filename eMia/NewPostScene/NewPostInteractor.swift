@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewPostInteractor: NSObject {
+class NewPostInteractor: NewPostStoring {
 
    func saveNewPost(title: String, image: UIImage, body bodyText: String, _ completed: @escaping () -> Void) {
       guard let currentUser = UsersManager.currentUser else {

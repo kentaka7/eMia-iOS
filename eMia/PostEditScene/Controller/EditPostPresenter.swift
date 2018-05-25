@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 
 class EditPostPresenter: NSObject, EditPostPresenting {
    static private let kMinCommentCellHeight: CGFloat = 58.0
-
+   
    enum Rows: Int {
       case AvatarPhotoAndUserName
       case DependsOnTextViewContent
@@ -20,7 +20,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       case EnterCommentTextAndSendButton
       static let allValues = [AvatarPhotoAndUserName, DependsOnTextViewContent, Photo, StaticTextAndSendEmailButton, EnterCommentTextAndSendButton]
    }
-
+   
    internal struct CellName {
       static let editPost1ViewCell = "EditPost1ViewCell"
       static let editPost2ViewCell = "EditPost2ViewCell"
@@ -29,7 +29,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       static let editPost5ViewCell = "EditPost5ViewCell"
       static let editPost6ViewCell = "EditPost6ViewCell"
    }
-
+   
    private var commentCell: EditPost4ViewCell!
    private var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCelHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
@@ -47,6 +47,10 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    
    func update() {
       downloadComments()
+   }
+   
+   var title: String {
+      return post.title
    }
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
@@ -97,9 +101,9 @@ class EditPostPresenter: NSObject, EditPostPresenting {
          }
       }
    }
-
+   
    // TODO: - TRY TO USE https://mkswap.net/m/ios/2015/07/08/uitableviewcells-with-dynamic-height.html
-
+   
    func heightCell(for indexPath: IndexPath) -> CGFloat {
       if let selector: Rows = Rows(rawValue: indexPath.row) {
          switch selector {
@@ -122,7 +126,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
          }
       }
    }
-
+   
    var numberOfRows: Int {
       return Rows.allValues.count + comments.count
    }

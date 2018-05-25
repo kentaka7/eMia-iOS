@@ -13,6 +13,7 @@ protocol CommentsUpdatable {
 }
 
 protocol EditPostPresenting: TableViewPresentable {
+   var title: String {get}
    func configure()
    func update()
 }
