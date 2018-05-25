@@ -33,7 +33,7 @@ class FireBaseStorageInteractor: NSObject {
          let imageView = UIImageView(frame: frame)
          imageView.contentMode = .scaleAspectFit
          imageView.image = image
-         if let icon = screenshotWithContentView(imageView) {
+         if let icon = imageView.takeScreensot() {
             self.saveImage(icon, name: name) { path in
                if let path = path {
                   let imageUrl = FireBaseStorageInteractor.urlFor(path: path)
@@ -47,7 +47,7 @@ class FireBaseStorageInteractor: NSObject {
    }
    
    class func savePhoto(_ image: UIImage, name: String, completion: @escaping (UIImage?) -> Void) {
-      let compactImage = image.transformImage()
+      let compactImage = image.compressImage()
       saveImage(compactImage, name: name) { photoUrl in
          if let _ = photoUrl {
             completion(compactImage)

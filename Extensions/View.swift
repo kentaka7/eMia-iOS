@@ -15,7 +15,7 @@ extension UIView {
       layer.add(animation, forKey: "shake")
    }
 
-   class func loadFromNibNamed(nibNamed: String, bundle : Bundle? = nil) -> UIView? {
+   class func loadFrom(nibNamed: String, bundle : Bundle? = nil) -> UIView? {
       return UINib(nibName: nibNamed, bundle: bundle).instantiate(withOwner: nil, options: nil)[0] as? UIView
    }
 
@@ -29,5 +29,25 @@ extension UIView {
       animator.startAnimation()
    }
    
+   func takeScreensot() -> UIImage? {
+      let size = self.bounds.size
+      var icon: UIImage?
+      
+      if #available(iOS 10.0, *) {
+         let renderer = UIGraphicsImageRenderer(size: size)
+         let image = renderer.image { ctx in
+            self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+         }
+         icon = image
+      } else {
+         UIGraphicsBeginImageContext(size)
+         //UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
+         self.layer.render(in: UIGraphicsGetCurrentContext()!)
+         let image = UIGraphicsGetImageFromCurrentImageContext()
+         UIGraphicsEndImageContext()
+         icon = image
+      }
+      return icon
+   }
    
 }

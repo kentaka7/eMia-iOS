@@ -32,7 +32,7 @@ class FavStatusSegmentedControl: UIView {
    }
 
    static func getInstance(for superView: UIView) -> FavStatusSegmentedControl {
-      let view = Bundle.main.loadNibNamed("FavStatusSegmentedControl", owner: nil, options: nil)![0] as! FavStatusSegmentedControl
+     let view = UIView.loadFrom(nibNamed: "FavStatusSegmentedControl") as! FavStatusSegmentedControl
       view.frame = superView.bounds
       view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
       superView.addSubview(view)

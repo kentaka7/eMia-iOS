@@ -97,7 +97,7 @@ class ReachabilityController: NSObject {
 
 // MARK: - Observable
 
-extension ReachabilityController: FirebaseObservable {
+extension ReachabilityController: AnyObservable {
    
    func registerObserver() {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: ReachabilityChangedNotification, object: reachability)      

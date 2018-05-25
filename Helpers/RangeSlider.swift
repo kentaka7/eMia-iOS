@@ -25,7 +25,6 @@ import UIKit
 		}
 	}
 	
-	
 	@IBInspectable var deltaValue: Float = 0.1
 	
 	var slider: UISlider!
@@ -62,7 +61,6 @@ import UIKit
 		super.init(coder: coder)!
 		setupControl()
 	}
-	
 	
 	//	MARK: - Size
 	override var intrinsicContentSize: CGSize {
@@ -101,7 +99,6 @@ import UIKit
 		
 		minimumThumbView.centerYAnchor.constraint(equalTo: outerTrackView.centerYAnchor).isActive = true
 		
-		
 		// Maximun thumb view
 		maximunThumView = UIImageView(image: iconSlider)
 		addSubview(maximunThumView)
@@ -111,7 +108,6 @@ import UIKit
 		maximunThumbViewTrailingConstraint.isActive = true
 		
 		maximunThumView.centerYAnchor.constraint(equalTo: outerTrackView.centerYAnchor).isActive = true
-		
 		
 		// Inner view
 		innerTrackView = UIView()

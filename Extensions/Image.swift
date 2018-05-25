@@ -84,7 +84,7 @@ extension UIImage {
       return nil
    }
    
-   func transformImage() -> UIImage {
+   func compressImage() -> UIImage {
       var resultImage = self
       if let imageData: Data = UIImageJPEGRepresentation(self, 0.6)  {
          //      if let imageData: Data = UIImagePNGRepresentation(image)  {
@@ -122,5 +122,17 @@ extension UIImage {
       UIGraphicsEndImageContext()
       
       return newImage!
+   }
+   
+   func saveAsPNG(name: String) -> URL? {
+      let imageData = UIImagePNGRepresentation(self)
+      let documentsURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+      do {
+         let imageURL = documentsURL.appendingPathComponent("\(name).png")
+         _ = try imageData?.write(to: imageURL)
+         return imageURL
+      } catch {
+         return nil
+      }
    }
 }

@@ -42,7 +42,7 @@ class MunicipalityControllerView: UIView {
    }
 
    static func getInstance(for superView: UIView) -> MunicipalityControllerView {
-      let view = Bundle.main.loadNibNamed("MunicipalityControllerView", owner: nil, options: nil)![0] as! MunicipalityControllerView
+      let view = UIView.loadFrom(nibNamed: "MunicipalityControllerView") as! MunicipalityControllerView
       view.frame = superView.bounds
       view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
       superView.addSubview(view)

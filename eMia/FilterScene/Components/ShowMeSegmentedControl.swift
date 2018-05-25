@@ -35,7 +35,7 @@ class ShowMeSegmentedControl: UIView {
    }
    
    static func getInstance(for superView: UIView) -> ShowMeSegmentedControl {
-      let view = Bundle.main.loadNibNamed("ShowMeSegmentedControl", owner: nil, options: nil)![0] as! ShowMeSegmentedControl
+      let view = UIView.loadFrom(nibNamed: "ShowMeSegmentedControl") as! ShowMeSegmentedControl
       view.frame = superView.bounds
       view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
       superView.addSubview(view)

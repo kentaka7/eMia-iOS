@@ -32,13 +32,13 @@ class AgeSliderView: UIView {
    }
    
    static func getInstance(for superView: UIView, min: Int, max: Int) -> AgeSliderView {
-      let sliderView = Bundle.main.loadNibNamed("AgeSliderView", owner: nil, options: nil)![0] as! AgeSliderView
-      sliderView.frame = superView.bounds
-      sliderView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-      superView.addSubview(sliderView)
-      sliderView.configureSlider(min: min, max: max)
-      sliderView.subscribeObChanged()
-      return sliderView
+      let view = UIView.loadFrom(nibNamed: "AgeSliderView") as! AgeSliderView
+      view.frame = superView.bounds
+      view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+      superView.addSubview(view)
+      view.configureSlider(min: min, max: max)
+      view.subscribeObChanged()
+      return view
    }
    
    private func configureSlider(min: Int, max: Int) {
