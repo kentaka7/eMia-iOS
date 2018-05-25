@@ -13,18 +13,25 @@ protocol FilterStoragable {
    func saveFilterPreferences()
 }
 
-class FilterInteractor: NSObject, FilterStoragable {
+class FilterInteractor: FilterStoragable {
    
    weak var view: FiltersViewController!
    private var filterModel: FilterModel!
    private var filterModelCopy: FilterModel!
    
    func fetchFilterPreferences() {
-      requestFilterValues()
+      if filterModel == nil {
+         filterModel = FilterModel()
+         filterModelCopy = FilterModel()
+      }
+      configurePresenters()
    }
    
    func saveFilterPreferences() {
-      saveChanges()
+      if filterModel == filterModelCopy {
+         return
+      }
+      filterModel.syncronize()
    }
 
    // MARK: Properties
@@ -58,75 +65,67 @@ class FilterInteractor: NSObject, FilterStoragable {
    }
 }
 
-// MARK: - Private
+// MARK: - Configure Presenters
 
 extension FilterInteractor {
 
-   // MARK: Save filter req
-   private func saveChanges() {
-      if filterModel == filterModelCopy {
-         return
-      }
-      filterModel.syncronize()
-   }
-
-   // MARK: Read saved data
-   private func requestFilterValues() {
-      if filterModel == nil {
-         filterModel = FilterModel()
-         filterModelCopy = FilterModel()
-      }
-      setUpLookFor(filterModel!.genderFilter)
-      setUpStatus(filterModel!.myFavoriteFilter)
-      setUpAgesSlider(minAge: filterModel!.minAge, maxAge: filterModel!.maxAge)
-      municipalityId = filterModel!.municipality
+   private func configurePresenters() {
+      setUpLookFor(filterModel.genderFilter)
+      setUpStatus(filterModel.myFavoriteFilter)
+      setUpAgesSlider(minAge: filterModel.minAge, maxAge: filterModel.maxAge)
+      setUpMunicipality(filterModel.municipality)
    }
    
    // MARK: Show me (by gender)
-   private func setUpLookFor(_ lookFor: Gender) {
+   private func setUpLookFor(_ lookFor: Gender?) {
+      let _lookFor: Gender = lookFor ?? .both
       let genderFilter = view.genderControllerView.genderFilter
-      genderFilter.value = lookFor
+      genderFilter.value = _lookFor
       _ = genderFilter.asObservable().subscribe() { [weak self] lookFor in
          guard let `self` = self else { return }
          self.lookFor = lookFor.element
       }
    }
-
+   
    // MARK: With status (favorite all or my favorite)
-   private func setUpStatus(_ status: FilterFavorite) {
+   private func setUpStatus(_ status: FilterFavorite?) {
+      let _status: FilterFavorite = status ?? .all
       let favoriteFilter = view.favoriteControllerView.favoriteFilter
-      favoriteFilter.value = status
+      favoriteFilter.value = _status
       _ = favoriteFilter.asObservable().subscribe() { [weak self] status in
          guard let `self` = self else { return }
          self.status = status.element
       }
    }
-
-   // MARK: Municipality
-   private func setUpMunicipality(_ municipalityId: String) {
-      let municipalityFilter = view.municipalityControllerView.municipalityFilter
-      municipalityFilter.value = municipalityId
-      _ = municipalityFilter.asObservable().subscribe() { [weak self] municipalityId in
-         guard let `self` = self else { return }
-         self.municipalityId = municipalityId.element
-      }
-   }
-
+   
    // MARK: Age
-   private func setUpAgesSlider(minAge: CGFloat, maxAge: CGFloat) {
-      view.ageSliderView.minAge = minAge
-      view.ageSliderView.maxAge = maxAge
+   private func setUpAgesSlider(minAge: CGFloat?, maxAge: CGFloat?) {
+      let _minAge: CGFloat = minAge ?? 0.0
+      let _maxAge: CGFloat = maxAge ?? 100.0
+      view.ageSliderView.minAge = _minAge
+      view.ageSliderView.maxAge = _maxAge
       let minAgeFilter = view.ageSliderView.minAgeFilter
-      minAgeFilter.value = Int(minAge)
+      minAgeFilter.value = Int(_minAge)
       _ = minAgeFilter.asObservable().subscribe() { [weak self] minAge in
          guard let `self` = self else { return }
          self.minAge = CGFloat(minAge.element!)
       }
       let maxAgeFilter = view.ageSliderView.maxAgeFilter
-      maxAgeFilter.value = Int(maxAge)
+      maxAgeFilter.value = Int(_maxAge)
       _ = maxAgeFilter.asObservable().subscribe() { [weak self] maxAge in
          guard let `self` = self else { return }
          self.maxAge = CGFloat(maxAge.element!)
+      }
+   }
+   
+   // MARK: Municipality
+   private func setUpMunicipality(_ municipalityId: String?) {
+      let _municipalityId = municipalityId ?? ""
+      let municipalityFilter = view.municipalityControllerView.municipalityFilter
+      municipalityFilter.value = _municipalityId
+      _ = municipalityFilter.asObservable().subscribe() { [weak self] municipalityId in
+         guard let `self` = self else { return }
+         self.municipalityId = municipalityId.element
       }
    }
 }

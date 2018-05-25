@@ -39,7 +39,7 @@ class MyProfileViewController: UIViewController {
    
    private func configure(_ view: UIView) {
       switch view {
-      case view:
+      case self.view:
          backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
             guard let `self` = self else { return }
             self.closeWindow()
