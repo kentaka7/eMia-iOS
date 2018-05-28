@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 import NVActivityIndicatorView
 
 class EditPostPresenter: NSObject, EditPostPresenting {
@@ -36,17 +37,22 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    private var commentsManager = CommentsManager()
    private var comments: [CommentModel]!
    private var needUpdateView: Bool = true
+   private let disposeBag = DisposeBag()
    
    weak var activityIndicator: NVActivityIndicatorView!
    var post: PostModel!
    weak var tableView: UITableView!
    
    func configure() {
+      startCommentsListener()
+   }
+   
+   private func startCommentsListener() {
       _ = commentsManager.startCommentsObserver(for: post).subscribe({ [weak self] isUpdated in
          if let updated = isUpdated.event.element, updated == true {
             self?.didUpdateCommentsData()
          }
-      })
+      }).disposed(by: disposeBag)
    }
    
    func update() {

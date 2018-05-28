@@ -2,6 +2,9 @@
 //  CommentsManager.swift
 //  eMia
 //
+//  Created by Сергей Кротких on 20/05/2018.
+//  Copyright © 2018 Coded I/S. All rights reserved.
+//
 
 import UIKit
 import RxSwift
@@ -10,6 +13,7 @@ class CommentsManager: NSObject {
 
    private var _comments = [CommentItem]()
    private var commnetsObserver = CommentsObserver()
+   private let disposeBag = DisposeBag()
    private let wasAdded = Variable<Bool>(false)
    private let wasRemoved = Variable<Bool>(false)
    private let wasUpdated = Variable<Bool>(false)
@@ -31,26 +35,28 @@ class CommentsManager: NSObject {
    
    func startCommentsObserver(for post: PostModel) -> Observable<Bool> {
       ModelData.fetchAllComments(nil, for: post, addComment: { commentItem in
-         self.addCommentsListener(commentItem)
+         self.addComment(commentItem)
       }, completion: {
          let observable = self.commnetsObserver.addObserver(for: post)
          _ = observable.add.subscribe({ addedItem in
-            self.addCommentsListener(addedItem.event.element!)
-         })
+            self.addComment(addedItem.event.element!)
+         }).disposed(by: self.disposeBag)
          _ = observable.update.subscribe({ updatedItem in
-            self.editCommentsListener(updatedItem.event.element!)
-         })
+            self.editComment(updatedItem.event.element!)
+         }).disposed(by: self.disposeBag)
          _ = observable.remove.subscribe({ removedItem in
-            self.deleteCommentsListener(removedItem.event.element!)
-         })
+            self.deleteComment(removedItem.event.element!)
+         }).disposed(by: self.disposeBag)
       })
       return isUpdated
    }
 }
 
+// MARK: Private methods
+
 extension CommentsManager {
    
-   private func addCommentsListener(_ item: CommentItem) {
+   private func addComment(_ item: CommentItem) {
       if let _ = index(of: item) {
       } else {
          _comments.append(item)
@@ -58,14 +64,14 @@ extension CommentsManager {
       }
    }
    
-   private func deleteCommentsListener(_ item: CommentItem) {
+   private func deleteComment(_ item: CommentItem) {
       if let index = index(of: item) {
          _comments.remove(at: index)
          wasRemoved.value = true
       }
    }
    
-   private func editCommentsListener(_  item: CommentItem) {
+   private func editComment(_  item: CommentItem) {
       if let index = index(of: item) {
          _comments[index] = item
          wasUpdated.value = true

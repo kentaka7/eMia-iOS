@@ -113,8 +113,28 @@ class FetchingWorker: NSObject {
     
     private func addObservers() {
         self.usersObserver.addObserver()
-        self.postsObserver.addObserver()
-        self.favoritiesObserver.addObserver()
+
+        let pobservable = self.postsObserver.addObserver()
+        _ = pobservable.add.subscribe({ addedItem in
+            self.addPostsListener(addedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        _ = pobservable.update.subscribe({ updatedItem in
+            self.editPostsListener(updatedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        _ = pobservable.remove.subscribe({ removedItem in
+            self.deletePostsListener(removedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        
+        let fobservable = self.favoritiesObserver.addObserver()
+        _ = fobservable.add.subscribe({ addedItem in
+            self.addFavorite(addedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        _ = fobservable.update.subscribe({ updatedItem in
+            self.editFavorite(updatedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        _ = fobservable.remove.subscribe({ removedItem in
+            self.deleteFavorite(removedItem.event.element!)
+        }).disposed(by: self.disposeBag)
         
         self.usersOutput = UsersManager
         self.favoritiesOutput = FavoritsManager
@@ -345,7 +365,7 @@ extension FetchingWorker {
 
 extension FetchingWorker {
     
-    func addFavoritiesListener(_ item: FavoriteItem) {
+    func addFavorite(_ item: FavoriteItem) {
         if let _ = favoritiesIndex(of: item) {
         } else {
             self.queueFavorities.async {
@@ -355,7 +375,7 @@ extension FetchingWorker {
         }
     }
     
-    func deleteFavoritiesListener(_ item: FavoriteItem) {
+    func deleteFavorite(_ item: FavoriteItem) {
         if let index = favoritiesIndex(of: item) {
             self.queueFavorities.async {
                 self._favorities.remove(at: index)
@@ -364,7 +384,7 @@ extension FetchingWorker {
         }
     }
     
-    func editFavoritiesListener(_  item: FavoriteItem) {
+    func editFavorite(_  item: FavoriteItem) {
         if let index = favoritiesIndex(of: item) {
             self.queueFavorities.async {
                 self._favorities[index] = item
