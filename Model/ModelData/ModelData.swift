@@ -105,40 +105,58 @@ class FetchingWorker: NSObject {
     
     private func didDownloadAllData(_ completion: @escaping () -> Void) {
         print("users=\(self.users.count);posts=\(self.posts.count);favorities=\(self.favorities.count)")
-        self.addObservers()
+        self.startListeners()
         DispatchQueue.main.async {
             completion()
         }
     }
     
-    private func addObservers() {
-        self.usersObserver.addObserver()
+    private func startListeners() {
+        startUsersListener()
+        startPostListener()
+        startFavoritiesListener()
+    }
 
-        let pobservable = self.postsObserver.addObserver()
-        _ = pobservable.add.subscribe({ addedItem in
+    private func startUsersListener() {
+        self.usersOutput = UsersManager
+        let o = self.usersObserver.addObserver()
+        _ = o.add.subscribe({ addedItem in
+            self.addUserListener(addedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        _ = o.update.subscribe({ updatedItem in
+            self.editUserListener(updatedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        _ = o.remove.subscribe({ removedItem in
+            self.deleteUserListener(removedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+    }
+    
+    private func startPostListener() {
+        self.postsOutput = PostsManager
+        let o = self.postsObserver.addObserver()
+        _ = o.add.subscribe({ addedItem in
             self.addPostsListener(addedItem.event.element!)
         }).disposed(by: self.disposeBag)
-        _ = pobservable.update.subscribe({ updatedItem in
+        _ = o.update.subscribe({ updatedItem in
             self.editPostsListener(updatedItem.event.element!)
         }).disposed(by: self.disposeBag)
-        _ = pobservable.remove.subscribe({ removedItem in
+        _ = o.remove.subscribe({ removedItem in
             self.deletePostsListener(removedItem.event.element!)
         }).disposed(by: self.disposeBag)
-        
-        let fobservable = self.favoritiesObserver.addObserver()
-        _ = fobservable.add.subscribe({ addedItem in
+    }
+
+    private func startFavoritiesListener() {
+        self.favoritiesOutput = FavoritsManager
+        let o = self.favoritiesObserver.addObserver()
+        _ = o.add.subscribe({ addedItem in
             self.addFavorite(addedItem.event.element!)
         }).disposed(by: self.disposeBag)
-        _ = fobservable.update.subscribe({ updatedItem in
+        _ = o.update.subscribe({ updatedItem in
             self.editFavorite(updatedItem.event.element!)
         }).disposed(by: self.disposeBag)
-        _ = fobservable.remove.subscribe({ removedItem in
+        _ = o.remove.subscribe({ removedItem in
             self.deleteFavorite(removedItem.event.element!)
         }).disposed(by: self.disposeBag)
-        
-        self.usersOutput = UsersManager
-        self.favoritiesOutput = FavoritsManager
-        self.postsOutput = PostsManager
     }
 }
 

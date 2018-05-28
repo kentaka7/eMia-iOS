@@ -20,6 +20,20 @@ class UserItem: NSObject {
    let yearbirth: Int
    let tokenIOS: String
    let tokenAndroid: String
+
+   override init() {
+      self.key = ""
+      self.userId = ""
+      self.ref = nil
+      self.username = ""
+      self.email = ""
+      self.address = ""
+      self.gender = 0
+      self.yearbirth = 0
+      self.tokenIOS = ""
+      self.tokenAndroid = ""
+      super.init()
+   }
    
    init(user: UserModel) {
       self.key = user.key
