@@ -4,21 +4,20 @@
 //
 
 import UIKit
-
-protocol CommentsListening {
-   func addCommentsListener(_ item: CommentItem)
-   func deleteCommentsListener(_ item: CommentItem)
-   func editCommentsListener(_  item: CommentItem)
-}
+import RxSwift
 
 class CommentsManager: NSObject {
 
-   fileprivate var _comments = [CommentItem]()
-   fileprivate var commnetsObserver = CommentsObserver()
-   fileprivate var _delegate: CommentsUpdatable!
+   private var _comments = [CommentItem]()
+   private var commnetsObserver = CommentsObserver()
+   private let wasAdded = Variable<Bool>(false)
+   private let wasRemoved = Variable<Bool>(false)
+   private let wasUpdated = Variable<Bool>(false)
    
-   override init() {
-      super.init()
+   var isUpdated : Observable<Bool> {
+      return Observable.combineLatest(wasAdded.asObservable(), wasRemoved.asObservable(), wasUpdated.asObservable()){ b1, b2, b3 in
+         b1 || b2 || b3
+      }
    }
    
    var comments: [CommentModel] {
@@ -30,42 +29,50 @@ class CommentsManager: NSObject {
       return comments.sorted(by: {$0.created > $1.created})
    }
    
-   func startCommentsObserver(for post: PostModel, delegate: CommentsUpdatable) {
-      _delegate = delegate
+   func startCommentsObserver(for post: PostModel) -> Observable<Bool> {
       ModelData.fetchAllComments(nil, for: post, addComment: { commentItem in
          self.addCommentsListener(commentItem)
       }, completion: {
-         self.commnetsObserver.addObserver(for: post, delegate: self)
-         self._delegate = delegate
+         let observable = self.commnetsObserver.addObserver(for: post)
+         _ = observable.add.subscribe({ addedItem in
+            self.addCommentsListener(addedItem.event.element!)
+         })
+         _ = observable.update.subscribe({ updatedItem in
+            self.editCommentsListener(updatedItem.event.element!)
+         })
+         _ = observable.remove.subscribe({ removedItem in
+            self.deleteCommentsListener(removedItem.event.element!)
+         })
       })
+      return isUpdated
    }
 }
 
-extension CommentsManager: CommentsListening {
+extension CommentsManager {
    
-   func addCommentsListener(_ item: CommentItem) {
+   private func addCommentsListener(_ item: CommentItem) {
       if let _ = index(of: item) {
       } else {
          _comments.append(item)
-         self._delegate.didUpdateCommentsData()
+         wasAdded.value = true
       }
    }
    
-   func deleteCommentsListener(_ item: CommentItem) {
+   private func deleteCommentsListener(_ item: CommentItem) {
       if let index = index(of: item) {
          _comments.remove(at: index)
-         self._delegate.didUpdateCommentsData()
+         wasRemoved.value = true
       }
    }
    
-   func editCommentsListener(_  item: CommentItem) {
+   private func editCommentsListener(_  item: CommentItem) {
       if let index = index(of: item) {
          _comments[index] = item
-         self._delegate.didUpdateCommentsData()
+         wasUpdated.value = true
       }
    }
    
-   fileprivate func index(of item: CommentItem) -> Int? {
+   private func index(of item: CommentItem) -> Int? {
       var index = 0
       for comment in _comments {
          if comment == item {

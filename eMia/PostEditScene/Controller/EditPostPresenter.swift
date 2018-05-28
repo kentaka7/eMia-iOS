@@ -42,7 +42,11 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    weak var tableView: UITableView!
    
    func configure() {
-      commentsManager.startCommentsObserver(for: post, delegate: self)
+      _ = commentsManager.startCommentsObserver(for: post).subscribe({ [weak self] isUpdated in
+         if let updated = isUpdated.event.element, updated == true {
+            self?.didUpdateCommentsData()
+         }
+      })
    }
    
    func update() {
