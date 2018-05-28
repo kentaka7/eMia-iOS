@@ -17,16 +17,28 @@ class UsersObserver: NSObject {
    private let disposeBag = DisposeBag()
    
    func addObserver() {
-      
-      removeObserver()
+      dbRef.rx
+         .observeEvent(.childAdded)
+         .subscribe(onNext: { snapshot in
+            let item = UserItem(snapshot)
+            ModelData.addUserListener(item)
+         }).disposed(by: disposeBag)
+      dbRef.rx
+         .observeEvent(.childRemoved)
+         .subscribe(onNext: { snapshot in
+            let item = UserItem(snapshot)
+            ModelData.deleteUserListener(item)
+         }).disposed(by: disposeBag)
+      dbRef.rx
+         .observeEvent(.childChanged)
+         .subscribe(onNext: { snapshot in
+            let item = UserItem(snapshot)
+            ModelData.editUserListener(item)
+         }).disposed(by: disposeBag)
+   }
 
-//      dbRef
-//         .rx
-//         .observeEvent(.value)
-//         .subscribe(onNext: { snapshot in
-//            let item = UserItem(snapshot)
-//            ModelData.addUserListener(item)
-//         }).disposed(by: disposeBag)
+   private func oldObserver() {
+      removeObserver()
       
       // Listen for new users in the Firebase database
       _refHandleForAdd = dbRef.observe(.childAdded, with: { (snapshot) -> Void in

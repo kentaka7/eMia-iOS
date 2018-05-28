@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 import Firebase
 
 class CommentsObserver: NSObject {
@@ -16,7 +17,46 @@ class CommentsObserver: NSObject {
 
    lazy var dbRef = FireBaseManager.firebaseRef.child(CommentItemFields.comments)
    
+   private let disposeBag = DisposeBag()
+   
    func addObserver(for post: PostModel, delegate: CommentsListening) {
+      
+      guard let postId = post.id else {
+         return
+      }
+      
+      _delegate = delegate
+      _recordRef = dbRef.child(postId)
+      
+      _recordRef
+         .rx
+         .observeEvent(.childAdded)
+         .subscribe(onNext: { snapshot in
+            if let item = CommentItem.decodeSnapshot(snapshot) {
+               self._delegate.addCommentsListener(item)
+            }
+         }).disposed(by: disposeBag)
+      
+      _recordRef
+         .rx
+         .observeEvent(.childRemoved)
+         .subscribe(onNext: { snapshot in
+            if let item = CommentItem.decodeSnapshot(snapshot) {
+               self._delegate.deleteCommentsListener(item)
+            }
+         }).disposed(by: disposeBag)
+      
+      _recordRef
+         .rx
+         .observeEvent(.childChanged)
+         .subscribe(onNext: { snapshot in
+            if let item = CommentItem.decodeSnapshot(snapshot) {
+               self._delegate.editCommentsListener(item)
+            }
+         }).disposed(by: disposeBag)
+   }
+   
+   private func oldObserver(for post: PostModel, delegate: CommentsListening) {
 
       removeObserver()
       

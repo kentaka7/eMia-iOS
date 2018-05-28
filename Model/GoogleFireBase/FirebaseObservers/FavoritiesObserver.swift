@@ -4,45 +4,37 @@
 //
 
 import UIKit
+import RxSwift
 import Firebase
 
 class FavoritiesObserver: NSObject {
-
-   fileprivate var _refHandleForAdd: DatabaseHandle?
-   fileprivate var _refHandleForRemove: DatabaseHandle?
-   fileprivate var _refHandleForChange: DatabaseHandle?
-
    lazy var dbRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
+   private let disposeBag = DisposeBag()
    
    func addObserver() {
-      
-      removeObserver()
-      
-      // Listen for new users in the Firebase database
-      _refHandleForAdd = dbRef.observe(.childAdded, with: { (snapshot) -> Void in
-         if let item = FavoriteItem.decodeSnapshot(snapshot) {
-            ModelData.addFavoritiesListener(item)
-         }
-      })
-      // Listen for deleted users in the Firebase database
-      _refHandleForRemove = dbRef.observe(.childRemoved, with: { (snapshot) -> Void in
-         if let item = FavoriteItem.decodeSnapshot(snapshot) {
-            ModelData.deleteFavoritiesListener(item)
-         }
-      })
-      // Listen for changed users in the Firebase database
-      _refHandleForChange = dbRef.observe(.childChanged, with: {(snapshot) -> Void in
-         if let item = FavoriteItem.decodeSnapshot(snapshot) {
-            ModelData.editFavoritiesListener(item)
-         }
-      })
-   }
-   
-   func removeObserver() {
-      if let _ = _refHandleForAdd, let _ = _refHandleForRemove, let _ = _refHandleForChange {
-         FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).removeObserver(withHandle: _refHandleForAdd!)
-         FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).removeObserver(withHandle: _refHandleForRemove!)
-         FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).removeObserver(withHandle: _refHandleForChange!)
-      }
+      dbRef
+         .rx
+         .observeEvent(.childAdded)
+         .subscribe(onNext: { snapshot in
+            if let item = FavoriteItem.decodeSnapshot(snapshot) {
+               ModelData.addFavoritiesListener(item)
+            }
+         }).disposed(by: disposeBag)
+      dbRef
+         .rx
+         .observeEvent(.childRemoved)
+         .subscribe(onNext: { snapshot in
+            if let item = FavoriteItem.decodeSnapshot(snapshot) {
+               ModelData.deleteFavoritiesListener(item)
+            }
+         }).disposed(by: disposeBag)
+      dbRef
+         .rx
+         .observeEvent(.childChanged)
+         .subscribe(onNext: { snapshot in
+            if let item = FavoriteItem.decodeSnapshot(snapshot) {
+               ModelData.editFavoritiesListener(item)
+            }
+         }).disposed(by: disposeBag)
    }
 }

@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 import Firebase
 
 class PostsObserver: NSObject {
@@ -13,8 +14,35 @@ class PostsObserver: NSObject {
    fileprivate var _refHandleForChange: DatabaseHandle?
 
    lazy var dbRef = FireBaseManager.firebaseRef.child(PostItemFields.posts)
+   private let disposeBag = DisposeBag()
    
    func addObserver() {
+      dbRef
+         .rx
+         .observeEvent(.childAdded)
+         .subscribe(onNext: { snapshot in
+            let item = PostItem(snapshot)
+            ModelData.addPostsListener(item)
+         }).disposed(by: disposeBag)
+      
+      dbRef
+         .rx
+         .observeEvent(.childRemoved)
+         .subscribe(onNext: { snapshot in
+            let item = PostItem(snapshot)
+            ModelData.deletePostsListener(item)
+         }).disposed(by: disposeBag)
+      
+      dbRef
+         .rx
+         .observeEvent(.childChanged)
+         .subscribe(onNext: { snapshot in
+            let item = PostItem(snapshot)
+            ModelData.editPostsListener(item)
+         }).disposed(by: disposeBag)
+   }
+   
+   private func oldObserver() {
       
       removeObserver()
       
