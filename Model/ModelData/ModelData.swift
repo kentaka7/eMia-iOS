@@ -2,8 +2,12 @@
 //  ModelData.swift
 //  eMia
 //
+//  Created by Сергей Кротких on 27/05/2018.
+//  Copyright © 2018 Coded I/S. All rights reserved.
+//
 
 import UIKit
+import RxSwift
 import Firebase
 
 typealias UserObserverClosure = (UserModel) -> Void
@@ -38,6 +42,7 @@ internal let ModelData = FetchingWorker.sharedInstance
 class FetchingWorker: NSObject {
     
     let FETCHING_DATA_ASYNC = true
+    let disposeBag = DisposeBag()
     
     static let sharedInstance: FetchingWorker = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -181,44 +186,59 @@ extension FetchingWorker {
 extension FetchingWorker {
     
     fileprivate func fetchAllUsers(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let usersRef = dbRef ?? FireBaseManager.firebaseRef.child(UserFields.users)
-        usersRef.queryOrdered(byChild: "\\").observeSingleEvent(of: .value, with: { snapshot in
-            for item in snapshot.children {
-                let item = UserItem(item as! DataSnapshot)
-                self.queueUsers.async {
-                    self._users.append(item)
+        let usersRef = dbRef ?? FireBaseManager.firebaseRef.child(UserFields.users).queryOrdered(byChild: "\\")
+        usersRef
+            .rx
+            .observeSingleEvent(.value)
+            .subscribe(onNext: { snapshot in
+                _ = snapshot.children.map { child in
+                    if let childSnap = child as? DataSnapshot {
+                        let item = UserItem(childSnap)
+                        self.queueUsers.async {
+                            self._users.append(item)
+                        }
+                    }
                 }
-            }
-            completion()
-        })
+                completion()
+            }).disposed(by: disposeBag)
     }
     
     fileprivate func fetchAllPosts(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let postsRef = FireBaseManager.firebaseRef.child(PostItemFields.posts)
-        postsRef.queryOrdered(byChild: "\\").observeSingleEvent(of: .value, with: { snapshot in
-            for item in snapshot.children {
-                let item = PostItem(item as! DataSnapshot)
-                self.queuePosts.async {
-                    self._posts.append(item)
+        let postsRef = FireBaseManager.firebaseRef.child(PostItemFields.posts).queryOrdered(byChild: "\\")
+        postsRef
+            .rx
+            .observeSingleEvent(.value)
+            .subscribe(onNext: { snapshot in
+                _ = snapshot.children.map { child in
+                    if let childSnap = child as? DataSnapshot {
+                        let item = PostItem(childSnap)
+                        self.queuePosts.async {
+                            self._posts.append(item)
+                        }
+                    }
                 }
-            }
-            completion()
-        })
+                completion()
+           }).disposed(by: disposeBag)
     }
     
     fileprivate func fetchAllFavorities(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let favoritiesRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
-        favoritiesRef.queryOrdered(byChild: "\\").observeSingleEvent(of: .value, with: { snapshot in
-            for item in snapshot.children {
-                if let snapshot = item as? DataSnapshot, let _ = snapshot.value as? Dictionary<String, String> {
-                    let item = FavoriteItem(snapshot)
-                    self.queueFavorities.async {
-                        self._favorities.append(item)
+        let favoritiesRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).queryOrdered(byChild: "\\")
+        favoritiesRef
+            .rx
+            .observeSingleEvent(.value)
+            .subscribe(onNext: { snapshot in
+                _ = snapshot.children.map { child in
+                    if let childSnap = child as? DataSnapshot {
+                        if let _ = childSnap.value as? Dictionary<String, String> {
+                            let item = FavoriteItem(childSnap)
+                            self.queueFavorities.async {
+                                self._favorities.append(item)
+                            }
+                        }
                     }
                 }
-            }
-            completion()
-        })
+                completion()
+            }).disposed(by: disposeBag)
     }
     
     func fetchAllComments(_ dbRef: DatabaseReference? = nil, for post: PostModel, addComment: @escaping (CommentItem) -> Void, completion: @escaping () -> Void) {
@@ -226,14 +246,19 @@ extension FetchingWorker {
             completion()
             return
         }
-        let commentsRef = dbRef ?? FireBaseManager.firebaseRef.child(CommentItemFields.comments).child(postId)
-        commentsRef.queryOrdered(byChild: "\\").observeSingleEvent(of: .value, with: { snapshot in
-            for item in snapshot.children {
-                let item = CommentItem(item as! DataSnapshot)
-                addComment(item)
-            }
-            completion()
-        })
+        let commentsRef = dbRef ?? FireBaseManager.firebaseRef.child(CommentItemFields.comments).child(postId).queryOrdered(byChild: "\\")
+        commentsRef
+            .rx
+            .observeSingleEvent(.value)
+            .subscribe(onNext: { snapshot in
+                _ = snapshot.children.map { child in
+                    if let childSnap = child as? DataSnapshot {
+                        let item = CommentItem(childSnap)
+                        addComment(item)
+                    }
+                }
+                completion()
+            }).disposed(by: disposeBag)
     }
 }
 
@@ -353,4 +378,3 @@ extension FetchingWorker {
         return index
     }
 }
-

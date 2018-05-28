@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 import Firebase
 
 class UsersObserver: NSObject {
@@ -13,11 +14,20 @@ class UsersObserver: NSObject {
    fileprivate var _refHandleForChange: DatabaseHandle?
    
    lazy var dbRef = FireBaseManager.firebaseRef.child(UserFields.users)
+   private let disposeBag = DisposeBag()
    
    func addObserver() {
       
       removeObserver()
 
+//      dbRef
+//         .rx
+//         .observeEvent(.value)
+//         .subscribe(onNext: { snapshot in
+//            let item = UserItem(snapshot)
+//            ModelData.addUserListener(item)
+//         }).disposed(by: disposeBag)
+      
       // Listen for new users in the Firebase database
       _refHandleForAdd = dbRef.observe(.childAdded, with: { (snapshot) -> Void in
          let item = UserItem(snapshot)

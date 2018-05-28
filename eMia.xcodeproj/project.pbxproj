@@ -36,6 +36,11 @@
 		7F2F18AD202E111800EF4644 /* LucidaGrandeRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F2F18A6202E111800EF4644 /* LucidaGrandeRegular.ttf */; };
 		7F35135A20B34D960004363C /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F35135920B34D950004363C /* NewPostPresenter.swift */; };
 		7F35135C20B34DF30004363C /* NewPostDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F35135B20B34DF30004363C /* NewPostDependencies.swift */; };
+		7F3B108A20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B107F20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift */; };
+		7F3B108B20BB371C0073BA32 /* FIRDatabaseReference+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */; };
+		7F3B109120BB371C0073BA32 /* RemoteConfig+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */; };
+		7F3B109220BB3A540073BA32 /* RxFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B107020BAFE110073BA32 /* RxFirebase.swift */; };
+		7F3B109420BB3AF50073BA32 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7F3B109320BB3AF50073BA32 /* README.md */; };
 		7F3B53611FE742240089CB34 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B53601FE742240089CB34 /* PostModel.swift */; };
 		7F3C59EC1FE5EE8B00A823DC /* StringIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */; };
 		7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */; };
@@ -55,6 +60,7 @@
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
 		7F4D8B521FE4E93A00FAFE5E /* PhotosStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */; };
+		7F58155A20BBAF15000E693A /* RxUsersObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F58155920BBAF15000E693A /* RxUsersObserver.swift */; };
 		7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */; };
 		7F695C8D1FEA3914008AE127 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F695C8C1FEA3914008AE127 /* MyProfileViewController.swift */; };
 		7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F695C8E1FEA392A008AE127 /* Register5ViewCell.swift */; };
@@ -204,6 +210,11 @@
 		7F2F18A6202E111800EF4644 /* LucidaGrandeRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LucidaGrandeRegular.ttf; sourceTree = "<group>"; };
 		7F35135920B34D950004363C /* NewPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
 		7F35135B20B34DF30004363C /* NewPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostDependencies.swift; sourceTree = "<group>"; };
+		7F3B107020BAFE110073BA32 /* RxFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxFirebase.swift; sourceTree = "<group>"; };
+		7F3B107F20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FIRDatabaseQuery+Rx.swift"; sourceTree = "<group>"; };
+		7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FIRDatabaseReference+Rx.swift"; sourceTree = "<group>"; };
+		7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RemoteConfig+Rx.swift"; sourceTree = "<group>"; };
+		7F3B109320BB3AF50073BA32 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7F3B53601FE742240089CB34 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringIdentifier.swift; sourceTree = "<group>"; };
 		7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityController.swift; sourceTree = "<group>"; };
@@ -223,6 +234,7 @@
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
 		7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosStorageManager.swift; sourceTree = "<group>"; };
+		7F58155920BBAF15000E693A /* RxUsersObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxUsersObserver.swift; sourceTree = "<group>"; };
 		7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryLayout.swift; sourceTree = "<group>"; };
 		7F695C8C1FEA3914008AE127 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		7F695C8E1FEA392A008AE127 /* Register5ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Register5ViewCell.swift; sourceTree = "<group>"; };
@@ -375,6 +387,7 @@
 		7F2F188F202E10C400EF4644 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				7F3B107C20BB371B0073BA32 /* RxFirebase */,
 				7F2F1890202E10C400EF4644 /* SFFullscreenImageDetailViewController */,
 			);
 			path = ThirdParty;
@@ -433,6 +446,34 @@
 				7F2F18A6202E111800EF4644 /* LucidaGrandeRegular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		7F3B107C20BB371B0073BA32 /* RxFirebase */ = {
+			isa = PBXGroup;
+			children = (
+				7F3B109320BB3AF50073BA32 /* README.md */,
+				7F3B107020BAFE110073BA32 /* RxFirebase.swift */,
+				7F3B107E20BB371C0073BA32 /* Database */,
+				7F3B108720BB371C0073BA32 /* RemoteConfig */,
+			);
+			path = RxFirebase;
+			sourceTree = "<group>";
+		};
+		7F3B107E20BB371C0073BA32 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				7F3B107F20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift */,
+				7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		7F3B108720BB371C0073BA32 /* RemoteConfig */ = {
+			isa = PBXGroup;
+			children = (
+				7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */,
+			);
+			path = RemoteConfig;
 			sourceTree = "<group>";
 		};
 		7F475EC120B87FB600778FBF /* FirebaseObservers */ = {
@@ -590,6 +631,14 @@
 			path = PhotosManager;
 			sourceTree = "<group>";
 		};
+		7F58155820BBAEE9000E693A /* RxObservers */ = {
+			isa = PBXGroup;
+			children = (
+				7F58155920BBAF15000E693A /* RxUsersObserver.swift */,
+			);
+			path = RxObservers;
+			sourceTree = "<group>";
+		};
 		7F619FCD20ADFFAB00AF9D91 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
@@ -717,7 +766,6 @@
 		7FBFF4C41FE3FA5000788DCB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7F475EC120B87FB600778FBF /* FirebaseObservers */,
 				7FFBB2541FE45E0400A22EB0 /* GoogleFireBase */,
 				7FBFF4C51FE3FA5000788DCB /* ModelData */,
 				7FBFF4D21FE4068400788DCB /* User */,
@@ -833,6 +881,8 @@
 		7FFBB2541FE45E0400A22EB0 /* GoogleFireBase */ = {
 			isa = PBXGroup;
 			children = (
+				7F58155820BBAEE9000E693A /* RxObservers */,
+				7F475EC120B87FB600778FBF /* FirebaseObservers */,
 				7FFBB2551FE45E0400A22EB0 /* FireBaseInteractor.swift */,
 				7FFBB2561FE45E0400A22EB0 /* FireBaseStorageInteractor.swift */,
 			);
@@ -989,6 +1039,7 @@
 				7F2F189A202E10C400EF4644 /* README.md in Resources */,
 				9A99AA8B1B8A219300428802 /* LaunchScreen.storyboard in Resources */,
 				7FD1FEA5200F2E4C00C178E2 /* EditPost.storyboard in Resources */,
+				7F3B109420BB3AF50073BA32 /* README.md in Resources */,
 				7F2F1897202E10C400EF4644 /* LICENSE in Resources */,
 				9A99AA861B8A219300428802 /* Gallery.storyboard in Resources */,
 				9ADFC8F91B8B771800AB4CD9 /* GalleryHeaderView.xib in Resources */,
@@ -1026,6 +1077,7 @@
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/NextGrowingTextView/NextGrowingTextView.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -1045,6 +1097,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextGrowingTextView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -1093,6 +1146,7 @@
 				7FC9DE0C2018481000F50D07 /* PushNotificationCenter.swift in Sources */,
 				7FBFF4DB1FE4068400788DCB /* UserModel.swift in Sources */,
 				7F01B39C1FE5A1560034CAFB /* ImageCache.swift in Sources */,
+				7F3B109220BB3A540073BA32 /* RxFirebase.swift in Sources */,
 				7F060C0A1FF0E762002D04AD /* FiltersViewController.swift in Sources */,
 				7F1337BD202AFF1400D955D6 /* FilterDependencies.swift in Sources */,
 				7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */,
@@ -1108,6 +1162,7 @@
 				7FC9DE0B2018481000F50D07 /* PushNotification.swift in Sources */,
 				7F695C981FEA392B008AE127 /* Register2ViewCell.swift in Sources */,
 				7FC20D291FE366C1000C23A6 /* Appearance.swift in Sources */,
+				7F3B109120BB371C0073BA32 /* RemoteConfig+Rx.swift in Sources */,
 				7FBFF4CB1FE3FA5000788DCB /* FavoritiesObserver.swift in Sources */,
 				7FBFF4CC1FE3FA5000788DCB /* PostsObserver.swift in Sources */,
 				9A2109E71B9C5A020036D151 /* GalleryViewCell.swift in Sources */,
@@ -1129,6 +1184,7 @@
 				7F1337B9202AAF7100D955D6 /* AppRouter.swift in Sources */,
 				7F7E36FF20281BD200470139 /* GalleryViewController.swift in Sources */,
 				7FBFF4DC1FE4068400788DCB /* CommentItem.swift in Sources */,
+				7F58155A20BBAF15000E693A /* RxUsersObserver.swift in Sources */,
 				7FBDE1231FE847D200EAAD3E /* EditPost6ViewCell.swift in Sources */,
 				7F7E36FC20281BD200470139 /* GalleryRouter.swift in Sources */,
 				7F87244620B7D3990018A855 /* GalleryProtocols.swift in Sources */,
@@ -1170,6 +1226,7 @@
 				7F7E37132028705800470139 /* LoginRouter.swift in Sources */,
 				7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */,
 				7F695C961FEA392B008AE127 /* Register6ViewCell.swift in Sources */,
+				7F3B108A20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift in Sources */,
 				7F7E36FE20281BD200470139 /* GalleryInteractor.swift in Sources */,
 				7FBA77511FEAB957003B455B /* NewPost1ViewCell.swift in Sources */,
 				7FBFEA3F1FE3B39C00C7ADEC /* RefreshController.swift in Sources */,
@@ -1198,6 +1255,7 @@
 				7F86186E20B3D3B9002F8D57 /* EditPostDependencies.swift in Sources */,
 				7FD8CF2F2014DF5700CBAF1C /* AppWireframe.swift in Sources */,
 				7F7E36FD20281BD200470139 /* GalleryPresenter.swift in Sources */,
+				7F3B108B20BB371C0073BA32 /* FIRDatabaseReference+Rx.swift in Sources */,
 				7FBA77501FEAB957003B455B /* NewPost3ViewCell.swift in Sources */,
 				7F2F18AA202E111800EF4644 /* GlobalColors.swift in Sources */,
 				7FD4E2F71FF296A500D3BDD2 /* FilterManager.swift in Sources */,

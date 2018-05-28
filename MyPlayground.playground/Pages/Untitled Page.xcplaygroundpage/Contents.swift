@@ -43,5 +43,3 @@ v2.bounds.origin.y += 10
 print(v1.frame)
 print(v1.bounds)
 v1
-
-

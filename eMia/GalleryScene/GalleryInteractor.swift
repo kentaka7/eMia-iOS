@@ -35,7 +35,7 @@ class GalleryInteractor: NSObject {
    var collectionView: UICollectionView?
    var filterManager: FilterManager!
    
-   fileprivate var mSearchText: String?
+   private var mSearchText: String?
 
    private let disposeBag = DisposeBag()
    
@@ -44,6 +44,7 @@ class GalleryInteractor: NSObject {
    var data = Variable([RxSectionModel]())
    
    func configure() {
+      configureDataSource()
       prepareData() {
          self.prepareListenersData()
          self.subscribeOnSelectGalleryItem()
@@ -64,11 +65,10 @@ class GalleryInteractor: NSObject {
    }
    
    private func prepareData(_ completed: @escaping () -> Void) {
-      configureDataSource()
       self.fetchData(searchText: "") { [weak self] posts in
          let section = [RxSectionModel(title: "Near dig", data: posts)]
          self?.data.value.append(contentsOf: section)
-         DispatchQueue.main.async {
+         DispatchQueue.main.async { [weak self] in
             self?.bindData()
             completed()
          }
@@ -163,4 +163,3 @@ extension GalleryInteractor {
       return photoImageView.image
    }
 }
-

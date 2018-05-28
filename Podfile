@@ -13,6 +13,8 @@ target 'eMia' do
     pod 'RxCocoa'
     pod 'RxDataSources'
 
+    pod 'ObjectMapper'
+
     pod 'IQKeyboardManagerSwift'
     pod 'SwiftyJSON'
     pod 'NextGrowingTextView'
