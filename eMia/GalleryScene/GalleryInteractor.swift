@@ -22,7 +22,6 @@ extension RxSectionModel : AnimatableSectionModelType {
    var items: [Item] {
       return data
    }
-   
    init(original: RxSectionModel, items: [PostModel]) {
       self = original
       data = items
@@ -50,35 +49,20 @@ class GalleryInteractor: NSObject {
    }
    
    private func configureDataModelListener() {
-      _ = PostsManager.isUpdated.subscribe({ dbIsUpdated in
-         self.prepareData() {
-
+      _ = DataModel.postFull.asObservable().subscribe({ b in
+         if let b = b.event.element, b {
+            self.prepareData()
          }
       }).disposed(by: disposeBag)
-   }
-   
-   deinit {
-   }
+      _ = DataModel.postAdd.asObservable().subscribe({ post in
 
-   private func prepareData(_ completed: @escaping () -> Void) {
-      let searchText = self.mSearchText ?? ""
-      self.fetchData(searchText: searchText) { [weak self] posts in
-         let section = [RxSectionModel(title: "Near dig", data: posts)]
-         self?.data.value.append(contentsOf: section)
-         DispatchQueue.main.async { [weak self] in
-            self?.bindData()
-            completed()
-         }
-      }
-   }
-   
-   private func bindData() {
-      guard let dataSource = self.dataSource else {
-         return
-      }
-      data.asDriver()
-         .drive(self.collectionView!.rx.items(dataSource: dataSource))
-         .disposed(by: disposeBag)
+      }).disposed(by: disposeBag)
+      _ = DataModel.postRemove.asObservable().subscribe({ post in
+         
+      }).disposed(by: disposeBag)
+      _ = DataModel.postUpdate.asObservable().subscribe({ post in
+         
+      }).disposed(by: disposeBag)
    }
    
    private func configureRxDataSource() {
@@ -90,20 +74,14 @@ class GalleryInteractor: NSObject {
       })
       self.dataSource = dataSource
    }
-   
-   func fetchData(searchText: String = "", _ completed: @escaping ([PostModel]) -> Void) {
-      DispatchQueue.global(qos: .utility).async() {
-         let data = PostsManager.getData()
-         let filteredData = self.filterPosts(data, searchText: searchText)
-         DispatchQueue.main.async {
-            completed(filteredData)
-         }
+
+   private func bindData() {
+      guard let dataSource = self.dataSource else {
+         return
       }
-   }
-   
-   private func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel] {
-      mSearchText = searchText
-      return filterManager.filterPosts(posts,searchText: searchText)
+      data.asDriver()
+         .drive(self.collectionView!.rx.items(dataSource: dataSource))
+         .disposed(by: disposeBag)
    }
    
    private func subscribeOnSelectGalleryItem() {
@@ -123,6 +101,36 @@ class GalleryInteractor: NSObject {
          return nil
       }
    }
+}
+
+// MARK: - DataSource
+
+extension GalleryInteractor {
+
+   private func prepareData() {
+      let searchText = self.mSearchText ?? ""
+      self.fetchData(searchText: searchText) { posts in
+         DispatchQueue.main.async { [weak self] in
+            let section = [RxSectionModel(title: "Near dig", data: posts)]
+            self?.data.value.append(contentsOf: section)
+            self?.bindData()
+         }
+      }
+   }
+
+   func fetchData(searchText: String = "", _ completed: @escaping ([PostModel]) -> Void) {
+      DispatchQueue.global(qos: .utility).async() {
+         let data = DataModel.posts.sorted(by: {$0.created > $1.created})
+         let filteredData = self.filterPosts(data, searchText: searchText)
+         completed(filteredData)
+      }
+   }
+   
+   private func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel] {
+      mSearchText = searchText
+      return filterManager.filterPosts(posts,searchText: searchText)
+   }
+   
 }
 
 // MARK: -

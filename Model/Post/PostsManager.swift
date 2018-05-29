@@ -15,20 +15,6 @@ class PostsDataBaseInteractor: NSObject {
       return appDelegate.postsManager
    }()
    
-   var isUpdated : Observable<Bool> {
-      let ob1 = DataModel.postWasAdded.asObservable()
-      let ob2 = DataModel.postWasRemoved.asObservable()
-      let ob3 = DataModel.postWasUpdated.asObservable()
-      return Observable.combineLatest(ob1, ob2, ob3){ b1, b2, b3 in
-         b1 || b2 || b3
-      }
-   }
-   
-   func getData() -> [PostModel] {
-      let posts = DataModel.posts
-      return posts.sorted(by: {$0.created > $1.created})
-   }
-   
    func isItMyPost(_ post: PostModel) -> Bool {
       guard let currentUser = UsersManager.currentUser else {
          return false
@@ -37,7 +23,6 @@ class PostsDataBaseInteractor: NSObject {
    }
    
    func getPost(with postId: String) -> PostModel? {
-      return self.getData().first(where: { $0.id == postId })
+      return DataModel.posts.first(where: { $0.id == postId })
    }
-   
 }

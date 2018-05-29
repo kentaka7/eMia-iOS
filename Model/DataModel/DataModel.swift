@@ -59,11 +59,10 @@ class FetchingWorker: NSObject {
     var commentsOutput: CommentsDataBaseObservable?
     
     
-    var postWasAdded = Variable<Bool>(false)
-    var postWasRemoved = Variable<Bool>(false)
-    var postWasUpdated = Variable<Bool>(false)
-    
-    
+    var postFull = Variable<Bool>(false)
+    var postAdd = Variable<PostModel>(PostModel())
+    var postRemove = Variable<PostModel>(PostModel())
+    var postUpdate = Variable<PostModel>(PostModel())
     
     let queueUsers = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).usersQueue")
     let queuePosts = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).postsQueue")
@@ -101,7 +100,7 @@ class FetchingWorker: NSObject {
             self.dataFetched = true
             self.semaphore.signal()
             print("users=\(self.users.count);posts=\(self.posts.count);favorities=\(self.favorities.count)")
-            self.postWasAdded.value = true
+            self.postFull.value = true
             
             self.startListeners()
             DispatchQueue.main.async {
@@ -351,7 +350,7 @@ extension FetchingWorker {
         } else {
             self.queuePosts.async {
                 self._posts.append(post)
-                self.postWasAdded.value = true
+                self.postAdd.value = post
             }
         }
     }
@@ -361,7 +360,7 @@ extension FetchingWorker {
         if let index = postsIndex(of: post) {
             self.queuePosts.async {
                 self._posts.remove(at: index)
-                self.postWasRemoved.value = true
+                self.postRemove.value = post
             }
         }
     }
@@ -371,7 +370,7 @@ extension FetchingWorker {
         if let index = postsIndex(of: post) {
             self.queuePosts.async {
                 self._posts[index] = post
-                self.postWasUpdated.value = true
+                self.postUpdate.value = post
             }
         }
     }
