@@ -44,28 +44,25 @@ class GalleryInteractor: NSObject {
    var data = Variable([RxSectionModel]())
    
    func configure() {
-      configureDataSource()
-      prepareData() {
-         self.prepareListenersData()
-         self.subscribeOnSelectGalleryItem()
-      }
+      configureRxDataSource()
+      subscribeOnSelectGalleryItem()
+      configureDataModelListener()
+   }
+   
+   private func configureDataModelListener() {
+      _ = PostsManager.isUpdated.subscribe({ dbIsUpdated in
+         self.prepareData() {
+
+         }
+      }).disposed(by: disposeBag)
    }
    
    deinit {
-      PostsManager.removeListener()
    }
 
-   private func prepareListenersData() {
-      PostsManager.postsListener() {
-         let searchText = self.mSearchText ?? ""
-         self.fetchData(searchText: searchText) { _ in
-            
-         }
-      }
-   }
-   
    private func prepareData(_ completed: @escaping () -> Void) {
-      self.fetchData(searchText: "") { [weak self] posts in
+      let searchText = self.mSearchText ?? ""
+      self.fetchData(searchText: searchText) { [weak self] posts in
          let section = [RxSectionModel(title: "Near dig", data: posts)]
          self?.data.value.append(contentsOf: section)
          DispatchQueue.main.async { [weak self] in
@@ -75,7 +72,7 @@ class GalleryInteractor: NSObject {
       }
    }
    
-   func bindData() {
+   private func bindData() {
       guard let dataSource = self.dataSource else {
          return
       }
@@ -84,7 +81,7 @@ class GalleryInteractor: NSObject {
          .disposed(by: disposeBag)
    }
    
-   func configureDataSource() {
+   private func configureRxDataSource() {
       let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, dataItem in
          return self.output.prepareGalleryCell(collectionView, indexPath: indexPath, post: dataItem)
       }, configureSupplementaryView: {dataSource, collectionView, kind, indexPath in
@@ -133,8 +130,11 @@ class GalleryInteractor: NSObject {
 extension GalleryInteractor: GalleryLayoutDelegate {
    
    func collectionView(_ collectionView: UICollectionView, photoSizeAtIndexPath indexPath: IndexPath) -> CGSize {
-      let post = self.data.value[0].items[indexPath.row]
-      return CGSize(width: post.photoSize.0, height: post.photoSize.1)
+      if let post = getPost(for: indexPath) {
+         return CGSize(width: post.photoSize.0, height: post.photoSize.1)
+      } else {
+         return CGSize(width: 0, height: 0)
+      }
    }
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsinSection: Int) -> Int {

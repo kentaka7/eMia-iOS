@@ -1,5 +1,5 @@
 //
-//  ModelData.swift
+//  DataModel.swift
 //  eMia
 //
 //  Created by Сергей Кротких on 27/05/2018.
@@ -19,12 +19,6 @@ protocol UsersDataUpdating {
     func removedUserItem()
 }
 
-protocol PostsDataBaseObservable {
-    func addItem(_ item: PostItem)
-    func deleteItem(_ item: PostItem)
-    func editItem(_  item: PostItem)
-}
-
 protocol FavoritesDataBaseObservable {
     func addItem(_ item: FavoriteItem)
     func deleteItem(_ item: FavoriteItem)
@@ -37,7 +31,7 @@ protocol CommentsDataBaseObservable {
     func editItem(_  item: CommentItem)
 }
 
-internal let ModelData = FetchingWorker.sharedInstance
+internal let DataModel = FetchingWorker.sharedInstance
 
 class FetchingWorker: NSObject {
     
@@ -50,7 +44,7 @@ class FetchingWorker: NSObject {
     }()
     
     fileprivate var _users = [UserItem]()
-    fileprivate var _posts = [PostItem]()
+    fileprivate var _posts = [PostModel]()
     fileprivate var _favorities = [FavoriteItem]()
     
     fileprivate var usersObserver = UsersObserver()
@@ -59,10 +53,17 @@ class FetchingWorker: NSObject {
     
     fileprivate var dataFetched = false
     
+    
     var usersOutput: UsersDataUpdating!
-    var postsOutput: PostsDataBaseObservable?
     var favoritiesOutput: FavoritesDataBaseObservable?
     var commentsOutput: CommentsDataBaseObservable?
+    
+    
+    var postWasAdded = Variable<Bool>(false)
+    var postWasRemoved = Variable<Bool>(false)
+    var postWasUpdated = Variable<Bool>(false)
+    
+    
     
     let queueUsers = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).usersQueue")
     let queuePosts = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).postsQueue")
@@ -74,7 +75,7 @@ class FetchingWorker: NSObject {
         return queueUsers.sync{_users}
     }
     
-    var posts: [PostItem] {
+    var posts: [PostModel] {
         return queuePosts.sync{_posts}
     }
     
@@ -99,15 +100,13 @@ class FetchingWorker: NSObject {
         fetchDataFunc() {
             self.dataFetched = true
             self.semaphore.signal()
-            self.didDownloadAllData(completion)
-        }
-    }
-    
-    private func didDownloadAllData(_ completion: @escaping () -> Void) {
-        print("users=\(self.users.count);posts=\(self.posts.count);favorities=\(self.favorities.count)")
-        self.startListeners()
-        DispatchQueue.main.async {
-            completion()
+            print("users=\(self.users.count);posts=\(self.posts.count);favorities=\(self.favorities.count)")
+            self.postWasAdded.value = true
+            
+            self.startListeners()
+            DispatchQueue.main.async {
+                completion()
+            }
         }
     }
     
@@ -121,27 +120,26 @@ class FetchingWorker: NSObject {
         self.usersOutput = UsersManager
         let o = self.usersObserver.addObserver()
         _ = o.add.subscribe({ addedItem in
-            self.addUserListener(addedItem.event.element!)
+            self.addUser(addedItem.event.element!)
         }).disposed(by: self.disposeBag)
         _ = o.update.subscribe({ updatedItem in
-            self.editUserListener(updatedItem.event.element!)
+            self.editUser(updatedItem.event.element!)
         }).disposed(by: self.disposeBag)
         _ = o.remove.subscribe({ removedItem in
-            self.deleteUserListener(removedItem.event.element!)
+            self.deleteUser(removedItem.event.element!)
         }).disposed(by: self.disposeBag)
     }
     
     private func startPostListener() {
-        self.postsOutput = PostsManager
         let o = self.postsObserver.addObserver()
         _ = o.add.subscribe({ addedItem in
-            self.addPostsListener(addedItem.event.element!)
+            self.addPost(addedItem.event.element!)
         }).disposed(by: self.disposeBag)
         _ = o.update.subscribe({ updatedItem in
-            self.editPostsListener(updatedItem.event.element!)
+            self.editPost(updatedItem.event.element!)
         }).disposed(by: self.disposeBag)
         _ = o.remove.subscribe({ removedItem in
-            self.deletePostsListener(removedItem.event.element!)
+            self.deletePost(removedItem.event.element!)
         }).disposed(by: self.disposeBag)
     }
 
@@ -223,7 +221,7 @@ extension FetchingWorker {
 
 extension FetchingWorker {
     
-    fileprivate func fetchAllUsers(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
+    private func fetchAllUsers(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
         let usersRef = dbRef ?? FireBaseManager.firebaseRef.child(UserFields.users).queryOrdered(byChild: "\\")
         usersRef
             .rx
@@ -241,7 +239,7 @@ extension FetchingWorker {
             }).disposed(by: disposeBag)
     }
     
-    fileprivate func fetchAllPosts(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
+    private func fetchAllPosts(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
         let postsRef = FireBaseManager.firebaseRef.child(PostItemFields.posts).queryOrdered(byChild: "\\")
         postsRef
             .rx
@@ -250,16 +248,19 @@ extension FetchingWorker {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = PostItem(childSnap)
+                        
+                        let post = PostModel(postItem: item)
                         self.queuePosts.async {
-                            self._posts.append(item)
+                            self._posts.append(post)
                         }
+                        
                     }
                 }
                 completion()
            }).disposed(by: disposeBag)
     }
     
-    fileprivate func fetchAllFavorities(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
+    private func fetchAllFavorities(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
         let favoritiesRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).queryOrdered(byChild: "\\")
         favoritiesRef
             .rx
@@ -305,8 +306,7 @@ extension FetchingWorker {
 // users database updated
 
 extension FetchingWorker {
-    
-    func addUserListener(_ item: UserItem) {
+    private func addUser(_ item: UserItem) {
         if let _ = usersIndex(of: item) {
             return
         } else {
@@ -317,7 +317,7 @@ extension FetchingWorker {
         }
     }
     
-    func deleteUserListener(_ item: UserItem) {
+    private func deleteUser(_ item: UserItem) {
         if let index = usersIndex(of: item) {
             self.queueUsers.async {
                 self._users.remove(at: index)
@@ -326,7 +326,7 @@ extension FetchingWorker {
         }
     }
     
-    func editUserListener(_  item: UserItem) {
+    private func editUser(_  item: UserItem) {
         if let index = usersIndex(of: item) {
             self.queueUsers.async {
                 self._users[index] = item
@@ -335,7 +335,7 @@ extension FetchingWorker {
         }
     }
     
-    fileprivate func usersIndex(of item: UserItem) -> Int? {
+    private func usersIndex(of item: UserItem) -> Int? {
         let index = users.index(where: {$0 == item})
         return index
     }
@@ -345,36 +345,39 @@ extension FetchingWorker {
 
 extension FetchingWorker {
     
-    func addPostsListener(_ item: PostItem) {
-        if let _ = postsIndex(of: item) {
+    private func addPost(_ item: PostItem) {
+        let post = PostModel(postItem: item)
+        if let _ = postsIndex(of: post) {
         } else {
             self.queuePosts.async {
-                self._posts.append(item)
-                self.postsOutput?.addItem(item)
+                self._posts.append(post)
+                self.postWasAdded.value = true
             }
         }
     }
     
-    func deletePostsListener(_ item: PostItem) {
-        if let index = postsIndex(of: item) {
+    private func deletePost(_ item: PostItem) {
+        let post = PostModel(postItem: item)
+        if let index = postsIndex(of: post) {
             self.queuePosts.async {
                 self._posts.remove(at: index)
-                self.postsOutput?.deleteItem(item)
+                self.postWasRemoved.value = true
             }
         }
     }
     
-    func editPostsListener(_  item: PostItem) {
-        if let index = postsIndex(of: item) {
+    private func editPost(_  item: PostItem) {
+        let post = PostModel(postItem: item)
+        if let index = postsIndex(of: post) {
             self.queuePosts.async {
-                self._posts[index] = item
-                self.postsOutput?.editItem(item)
+                self._posts[index] = post
+                self.postWasUpdated.value = true
             }
         }
     }
     
-    fileprivate func postsIndex(of item: PostItem) -> Int? {
-        let index = posts.index(where: {$0 == item})
+    private func postsIndex(of post: PostModel) -> Int? {
+        let index = posts.index(where: {$0 == post})
         return index
     }
 }
@@ -383,7 +386,7 @@ extension FetchingWorker {
 
 extension FetchingWorker {
     
-    func addFavorite(_ item: FavoriteItem) {
+    private func addFavorite(_ item: FavoriteItem) {
         if let _ = favoritiesIndex(of: item) {
         } else {
             self.queueFavorities.async {
@@ -393,7 +396,7 @@ extension FetchingWorker {
         }
     }
     
-    func deleteFavorite(_ item: FavoriteItem) {
+    private func deleteFavorite(_ item: FavoriteItem) {
         if let index = favoritiesIndex(of: item) {
             self.queueFavorities.async {
                 self._favorities.remove(at: index)
@@ -402,7 +405,7 @@ extension FetchingWorker {
         }
     }
     
-    func editFavorite(_  item: FavoriteItem) {
+    private func editFavorite(_  item: FavoriteItem) {
         if let index = favoritiesIndex(of: item) {
             self.queueFavorities.async {
                 self._favorities[index] = item
@@ -411,7 +414,7 @@ extension FetchingWorker {
         }
     }
     
-    fileprivate func favoritiesIndex(of item: FavoriteItem) -> Int? {
+    private func favoritiesIndex(of item: FavoriteItem) -> Int? {
         let index = favorities.index(where: {$0 == item})
         return index
     }

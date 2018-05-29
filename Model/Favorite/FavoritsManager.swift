@@ -40,7 +40,7 @@ class FavoritsDataBaseInteractor: NSObject {
       if let currentUser = UsersManager.currentUser {
          let item = FavoriteItem(uid: currentUser.userId, postid: postId)
          if let index = self.index(of: item) {
-            let item = ModelData.favorities[index]
+            let item = DataModel.favorities[index]
             item.remove()
          } else {
             item.synchronize() { _ in
@@ -59,7 +59,7 @@ class FavoritsDataBaseInteractor: NSObject {
          return false
       }
       let myId = currentUser.userId
-      if let _ = ModelData.favorities.index(where: {$0.postid == postId && $0.uid == myId}) {
+      if let _ = DataModel.favorities.index(where: {$0.postid == postId && $0.uid == myId}) {
          return true
       } else {
          return false
@@ -87,8 +87,8 @@ extension FavoritsDataBaseInteractor: FavoritesDataBaseObservable {
 extension FavoritsDataBaseInteractor {
    
    fileprivate func index(of favorite: FavoriteItem) -> Int? {
-      for index in 0..<ModelData.favorities.count {
-         let item = ModelData.favorities[index]
+      for index in 0..<DataModel.favorities.count {
+         let item = DataModel.favorities[index]
          if favorite == item {
             return index
          }

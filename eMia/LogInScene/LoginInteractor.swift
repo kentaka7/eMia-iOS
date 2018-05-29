@@ -67,7 +67,7 @@ class LoginInteractor: NSObject {
    }
    
    private func alreadyRegistreredUser(email: String, completion: @escaping (UserModel?) -> Void) {
-      ModelData.fetchData() {
+      DataModel.fetchData() {
          UsersManager.getAllUsers() { userItems in
             if let index = userItems.index(where: {$0.email.lowercased() == email.lowercased()}) {
                completion(userItems[index])

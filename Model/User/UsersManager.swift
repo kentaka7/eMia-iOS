@@ -62,7 +62,7 @@ class UsersDataBaseInteractor: NSObject {
    }
    
    func loadData(completion: ([UserModel]) -> Void) {
-      let userItems = ModelData.users
+      let userItems = DataModel.users
       let users = userItems.map { item -> UserModel in
          let user = UserModel(item: item)
          return user
@@ -73,7 +73,7 @@ class UsersDataBaseInteractor: NSObject {
    // MARK: -
    
    func getUserWith(id userId: String) -> UserModel? {
-      let userItems = ModelData.users
+      let userItems = DataModel.users
       if let index = userItems.index(where: {$0.userId == userId}) {
          let item = userItems[index]
          return UserModel(item: item)

@@ -34,7 +34,7 @@ class CommentsManager: NSObject {
    }
    
    func startCommentsObserver(for post: PostModel) -> Observable<Bool> {
-      ModelData.fetchAllComments(nil, for: post, addComment: { commentItem in
+      DataModel.fetchAllComments(nil, for: post, addComment: { commentItem in
          self.addComment(commentItem)
       }, completion: {
          let observable = self.commnetsObserver.addObserver(for: post)

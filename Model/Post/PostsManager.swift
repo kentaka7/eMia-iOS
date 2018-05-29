@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 
 internal let PostsManager = PostsDataBaseInteractor.sharedInstance
 
@@ -13,25 +14,18 @@ class PostsDataBaseInteractor: NSObject {
       let appDelegate = UIApplication.shared.delegate as! AppDelegate
       return appDelegate.postsManager
    }()
-
-   typealias UpdateListener = () -> Void
    
-   fileprivate var mListener: UpdateListener?
-   
-   func postsListener(postNotification: @escaping () -> Void) {
-      mListener = postNotification
-   }
-   
-   func removeListener() {
-      mListener = nil
+   var isUpdated : Observable<Bool> {
+      let ob1 = DataModel.postWasAdded.asObservable()
+      let ob2 = DataModel.postWasRemoved.asObservable()
+      let ob3 = DataModel.postWasUpdated.asObservable()
+      return Observable.combineLatest(ob1, ob2, ob3){ b1, b2, b3 in
+         b1 || b2 || b3
+      }
    }
    
    func getData() -> [PostModel] {
-      let items = ModelData.posts
-      let posts = items.map { item -> PostModel in
-         let post = PostModel(postItem: item)
-         return post
-      }
+      let posts = DataModel.posts
       return posts.sorted(by: {$0.created > $1.created})
    }
    
@@ -46,30 +40,4 @@ class PostsDataBaseInteractor: NSObject {
       return self.getData().first(where: { $0.id == postId })
    }
    
-}
-
-extension PostsDataBaseInteractor: PostsDataBaseObservable {
-   
-   func addItem(_ item: PostItem) {
-      didChangeData()
-   }
-   
-   func deleteItem(_ item: PostItem) {
-      didChangeData()
-   }
-   
-   func editItem(_  item: PostItem) {
-      didChangeData()
-   }
-}
-
-// MARK: - Private
-
-extension PostsDataBaseInteractor {
-   
-   fileprivate func didChangeData() {
-      if let listener = mListener {
-         listener()
-      }
-   }
 }

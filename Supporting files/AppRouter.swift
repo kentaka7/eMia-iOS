@@ -21,7 +21,7 @@ class AppRouter: NSObject {
    func startApplication() {
       
       // TODO: remove this:
-      ModelData.usersOutput = UsersManager
+      DataModel.usersOutput = UsersManager
       
       loginInteractor.reLogIn() { success in
          if success {
