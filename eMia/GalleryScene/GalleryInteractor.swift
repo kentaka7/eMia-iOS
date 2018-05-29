@@ -2,6 +2,9 @@
 //  GalleryInteractor.swift
 //  eMia
 //
+//  Created by Сергей Кротких on 27/05/2018.
+//  Copyright © 2018 Coded I/S. All rights reserved.
+//
 
 import UIKit
 import RxSwift
@@ -46,6 +49,7 @@ class GalleryInteractor: NSObject {
       configureRxDataSource()
       subscribeOnSelectGalleryItem()
       configureDataModelListener()
+      FavoritsManager.configureDataModelListener()
    }
    
    private func configureDataModelListener() {

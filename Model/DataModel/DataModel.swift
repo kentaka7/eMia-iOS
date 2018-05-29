@@ -19,12 +19,6 @@ protocol UsersDataUpdating {
     func removedUserItem()
 }
 
-protocol FavoritesDataBaseObservable {
-    func addItem(_ item: FavoriteItem)
-    func deleteItem(_ item: FavoriteItem)
-    func editItem(_  item: FavoriteItem)
-}
-
 protocol CommentsDataBaseObservable {
     func addItem(_ item: CommentItem)
     func deleteItem(_ item: CommentItem)
@@ -53,11 +47,11 @@ class FetchingWorker: NSObject {
     
     fileprivate var dataFetched = false
     
-    
     var usersOutput: UsersDataUpdating!
-    var favoritiesOutput: FavoritesDataBaseObservable?
-    var commentsOutput: CommentsDataBaseObservable?
-    
+
+    var favAdd = Variable<FavoriteItem>(FavoriteItem())
+    var favRemove = Variable<FavoriteItem>(FavoriteItem())
+    var favUpdate = Variable<FavoriteItem>(FavoriteItem())
     
     var postFull = Variable<Bool>(false)
     var postAdd = Variable<PostModel>(PostModel())
@@ -143,7 +137,6 @@ class FetchingWorker: NSObject {
     }
 
     private func startFavoritiesListener() {
-        self.favoritiesOutput = FavoritsManager
         let o = self.favoritiesObserver.addObserver()
         _ = o.add.subscribe({ addedItem in
             self.addFavorite(addedItem.event.element!)
@@ -390,7 +383,7 @@ extension FetchingWorker {
         } else {
             self.queueFavorities.async {
                 self._favorities.append(item)
-                self.favoritiesOutput?.addItem(item)
+                self.favAdd.value = item
             }
         }
     }
@@ -399,7 +392,7 @@ extension FetchingWorker {
         if let index = favoritiesIndex(of: item) {
             self.queueFavorities.async {
                 self._favorities.remove(at: index)
-                self.favoritiesOutput?.deleteItem(item)
+                self.favRemove.value = item
             }
         }
     }
@@ -408,7 +401,7 @@ extension FetchingWorker {
         if let index = favoritiesIndex(of: item) {
             self.queueFavorities.async {
                 self._favorities[index] = item
-                self.favoritiesOutput?.editItem(item)
+                self.favUpdate.value = item
             }
         }
     }

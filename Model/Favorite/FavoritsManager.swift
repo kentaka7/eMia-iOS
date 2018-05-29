@@ -4,11 +4,14 @@
 //
 
 import UIKit
+import RxSwift
 
 internal let FavoritsManager = FavoritsDataBaseInteractor.sharedInstance
 
 class FavoritsDataBaseInteractor: NSObject {
 
+   private let disposeBag = DisposeBag()
+   
    static let sharedInstance: FavoritsDataBaseInteractor = {
       let appDelegate = UIApplication.shared.delegate as! AppDelegate
       return appDelegate.favoritsManager
@@ -20,6 +23,18 @@ class FavoritsDataBaseInteractor: NSObject {
    }
 
    deinit {
+   }
+   
+   func configureDataModelListener() {
+      _ = DataModel.favAdd.asObservable().subscribe({ post in
+         self.didChangeData()
+      }).disposed(by: disposeBag)
+      _ = DataModel.favRemove.asObservable().subscribe({ post in
+         self.didChangeData()
+      }).disposed(by: disposeBag)
+      _ = DataModel.favUpdate.asObservable().subscribe({ post in
+         self.didChangeData()
+      }).disposed(by: disposeBag)
    }
    
    fileprivate func subscribeOnNotifications() {
@@ -64,21 +79,6 @@ class FavoritsDataBaseInteractor: NSObject {
       } else {
          return false
       }
-   }
-}
-
-extension FavoritsDataBaseInteractor: FavoritesDataBaseObservable {
-
-   func addItem(_ item: FavoriteItem) {
-      didChangeData()
-   }
-   
-   func deleteItem(_ item: FavoriteItem) {
-      didChangeData()
-   }
-   
-   func editItem(_  item: FavoriteItem) {
-      didChangeData()
    }
 }
 
