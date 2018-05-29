@@ -16,12 +16,11 @@ class GalleryDependencies {
       router.rootViewController = view
       
       view.presenter = presenter
-      view.presenterData = presenter
       view.layoutDelegate = presenter
+      view.searcher = presenter
       
       presenter.router = router
       presenter.interactor = interactor
-      
       presenter.view = view
       
       interactor.output = presenter

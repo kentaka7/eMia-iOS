@@ -13,11 +13,10 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    static let kCellHeight: CGFloat = 250.0
 
    var presenter: GalleryPresentable!
-   var presenterData: GallerySearchable!
    var layoutDelegate: GalleryLayoutDelegate!
+   var searcher: GallerySearching!
    
    private var refreshControl: UIRefreshControl!
-   private var mSearchText: String = ""
    private let disposeBag = DisposeBag()
    
    @IBOutlet weak var collectionView: UICollectionView?
@@ -39,15 +38,13 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
 
       navigationItem.title = presenter.title
       configureSubviews()
-      presenterData.configure()
+      presenter.configure()
+      searcher.configure(searchBar: searchBar)
    }
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-      
-      let searchText = searchBar.text ?? ""
-      presenterData.fetchData(searchText: searchText) { _ in
-      }
+      presenter.reloadData()
    }
    
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -96,7 +93,6 @@ extension GalleryViewController {
       case searchBackgroundView:
          searchBackgroundView.backgroundColor = GlobalColors.kBrandNavBarColor
       case searchBar:
-         searchBar.delegate = self
          searchBar.tintColor = GlobalColors.kBrandNavBarColor
          searchBar.backgroundColor = GlobalColors.kBrandNavBarColor
          searchBar.backgroundImage = UIImage()
@@ -149,7 +145,7 @@ extension GalleryViewController: GalleryViewProtocol {
 extension GalleryViewController {
    
    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-      hideKeyboard()
+      searchBar.resignFirstResponder()
       if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0)
       {
          searchBaxckgroundViewTopConstraint.constant = 0.0
@@ -164,46 +160,6 @@ extension GalleryViewController {
             self.view.layoutIfNeeded()
          }, completion: nil)
       }
-   }
-}
-
-// MARK: - UISearchBarDelegate
-
-extension GalleryViewController: UISearchBarDelegate {
-   
-   public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-      if search(searchBar.text) {
-         hideKeyboard()
-      }
-   }
-   
-   public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-      if needStopSearch(for: searchText) {
-         hideKeyboard()
-      }
-   }
-   
-   private func search(_ text: String?) -> Bool {
-      if let text = text, text.isEmpty == false {
-         presenterData.startSearch(text) { _ in
-         }
-         return true
-      } else {
-         return false
-      }
-   }
-   
-   private func needStopSearch(for text: String) -> Bool {
-      if text.isEmpty {
-         presenterData.stopSearch()
-         return true
-      } else {
-         return false
-      }
-   }
-   
-   fileprivate func hideKeyboard() {
-      searchBar.resignFirstResponder()
    }
 }
 

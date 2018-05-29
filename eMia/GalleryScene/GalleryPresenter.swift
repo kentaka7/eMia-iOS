@@ -5,7 +5,7 @@
 
 import UIKit
 
-class GalleryPresenter: NSObject, GallerySearchable, GalleryPresentable {
+class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
 
    var router: GalleryRouter!
    var interactor: GalleryInteractor!
@@ -13,6 +13,10 @@ class GalleryPresenter: NSObject, GallerySearchable, GalleryPresentable {
    
    var title: String {
       return "\(AppConstants.ApplicationName)"
+   }
+   
+   func configure(searchBar: UISearchBar) {
+      interactor.searchConfiguration(with: searchBar)
    }
    
    func configure() {
@@ -27,21 +31,12 @@ class GalleryPresenter: NSObject, GallerySearchable, GalleryPresentable {
       view.stopProgress()
    }
    
-   func fetchData(searchText: String = "", _ completed: @escaping ([PostModel]) -> Void) {
-      interactor.fetchData(searchText: searchText, completed)
-   }
-   
-   func startSearch(_ text: String, _ completed: @escaping ([PostModel]) -> Void) {
-      fetchData(searchText: text, completed)
-   }
-
-   func stopSearch() {
-      fetchData(searchText: "") { _ in
-      }
-   }
-   
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       router.prepare(for: segue, sender: sender)
+   }
+   
+   func reloadData() {
+      interactor.fetchData()
    }
    
    func previewPhoto(for location: CGPoint) -> UIViewController? {

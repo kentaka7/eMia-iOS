@@ -14,17 +14,14 @@ protocol GalleryViewProtocol {
    func stopProgress()
 }
 
-protocol GallerySearchable {
-   func configure()
-   func fetchData(searchText: String, _ completed: @escaping ([PostModel]) -> Void)
-   func startSearch(_ text: String, _ completed: @escaping ([PostModel]) -> Void)
-   func stopSearch()
-}
-
 protocol GalleryPresentable {
    var title: String {get}
+   func configure()
+   func reloadData()
    func prepare(for segue: UIStoryboardSegue, sender: Any?)
    func previewPhoto(for location: CGPoint) -> UIViewController?
 }
 
-
+protocol GallerySearching {
+   func configure(searchBar: UISearchBar)
+}

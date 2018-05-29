@@ -19,10 +19,6 @@ class AppRouter: NSObject {
    let loginInteractor = LoginInteractor()
    
    func startApplication() {
-      
-      // TODO: remove this:
-      DataModel.usersOutput = UsersManager
-      
       loginInteractor.reLogIn() { success in
          if success {
             self.presentMainScreen()

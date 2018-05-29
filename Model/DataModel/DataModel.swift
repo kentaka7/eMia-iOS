@@ -13,12 +13,6 @@ import Firebase
 typealias UserObserverClosure = (UserModel) -> Void
 typealias DidUpdateObserverClosure = () -> ()
 
-protocol UsersDataUpdating {
-    func newUserItem()
-    func updatedUserItem(_ userItem: UserItem)
-    func removedUserItem()
-}
-
 protocol CommentsDataBaseObservable {
     func addItem(_ item: CommentItem)
     func deleteItem(_ item: CommentItem)
@@ -47,8 +41,10 @@ class FetchingWorker: NSObject {
     
     fileprivate var dataFetched = false
     
-    var usersOutput: UsersDataUpdating!
-
+    var userAdd = Variable<UserItem>(UserItem())
+    var userRemove = Variable<UserItem>(UserItem())
+    var userUpdate = Variable<UserItem>(UserItem())
+    
     var favAdd = Variable<FavoriteItem>(FavoriteItem())
     var favRemove = Variable<FavoriteItem>(FavoriteItem())
     var favUpdate = Variable<FavoriteItem>(FavoriteItem())
@@ -110,7 +106,6 @@ class FetchingWorker: NSObject {
     }
 
     private func startUsersListener() {
-        self.usersOutput = UsersManager
         let o = self.usersObserver.addObserver()
         _ = o.add.subscribe({ addedItem in
             self.addUser(addedItem.event.element!)
@@ -304,7 +299,7 @@ extension FetchingWorker {
         } else {
             self.queueUsers.async {
                 self._users.append(item)
-                self.usersOutput.newUserItem()
+                self.userAdd.value = item
             }
         }
     }
@@ -313,7 +308,7 @@ extension FetchingWorker {
         if let index = usersIndex(of: item) {
             self.queueUsers.async {
                 self._users.remove(at: index)
-                self.usersOutput.removedUserItem()
+                self.userRemove.value = item
             }
         }
     }
@@ -322,7 +317,7 @@ extension FetchingWorker {
         if let index = usersIndex(of: item) {
             self.queueUsers.async {
                 self._users[index] = item
-                self.usersOutput.updatedUserItem(item)
+                self.userUpdate.value = item
             }
         }
     }

@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import RxDataSources
 
 struct RxSectionModel {
@@ -37,6 +38,7 @@ class GalleryInteractor: NSObject {
    var collectionView: UICollectionView?
    var filterManager: FilterManager!
    
+   private weak var searchBar: UISearchBar!
    private var mSearchText: String?
 
    private let disposeBag = DisposeBag()
@@ -50,42 +52,39 @@ class GalleryInteractor: NSObject {
       subscribeOnSelectGalleryItem()
       configureDataModelListener()
       FavoritsManager.configureDataModelListener()
+      UsersManager.configureDataModelListener()
+   }
+
+   func searchConfiguration(with searchBar: UISearchBar) {
+      self.searchBar = searchBar
+      searchBar.delegate = self
+      searchBar.rx.text                                     // observable property
+         .throttle(0.5, scheduler: MainScheduler.instance)  // wait 0.5 seconds for changes
+         .distinctUntilChanged()                            // check if the new value is the same as the old one
+         .subscribe { [unowned self] (query) in
+            if let text = query.event.element {
+               self.mSearchText = text
+               self.fetchData()
+            }
+         }
+         .disposed(by: disposeBag)
    }
    
    private func configureDataModelListener() {
       _ = DataModel.postFull.asObservable().subscribe({ b in
          if let b = b.event.element, b {
-            self.prepareData()
+            self.fetchData()
          }
       }).disposed(by: disposeBag)
       _ = DataModel.postAdd.asObservable().subscribe({ post in
-
+            self.fetchData()
       }).disposed(by: disposeBag)
       _ = DataModel.postRemove.asObservable().subscribe({ post in
-         
+            self.fetchData()
       }).disposed(by: disposeBag)
       _ = DataModel.postUpdate.asObservable().subscribe({ post in
-         
+            self.fetchData()
       }).disposed(by: disposeBag)
-   }
-   
-   private func configureRxDataSource() {
-      let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, dataItem in
-         return self.output.prepareGalleryCell(collectionView, indexPath: indexPath, post: dataItem)
-      }, configureSupplementaryView: {dataSource, collectionView, kind, indexPath in
-         let title = dataSource.sectionModels[indexPath.section].title
-         return self.output.prepareGalleryHeader(collectionView, indexPath: indexPath, kind: kind, text: title)
-      })
-      self.dataSource = dataSource
-   }
-
-   private func bindData() {
-      guard let dataSource = self.dataSource else {
-         return
-      }
-      data.asDriver()
-         .drive(self.collectionView!.rx.items(dataSource: dataSource))
-         .disposed(by: disposeBag)
    }
    
    private func subscribeOnSelectGalleryItem() {
@@ -110,34 +109,49 @@ class GalleryInteractor: NSObject {
 // MARK: - DataSource
 
 extension GalleryInteractor {
+   
+   func fetchData() {
+      DispatchQueue.global(qos: .utility).async() {
+         let posts = DataModel.posts.sorted(by: {$0.created > $1.created})
+         let searchText = self.mSearchText ?? ""
+         let filteredData = self.filterManager.filterPosts(posts,searchText: searchText)
+         
+         if self.data.value.count > 0 {
 
-   private func prepareData() {
-      let searchText = self.mSearchText ?? ""
-      self.fetchData(searchText: searchText) { posts in
+            print("'\(searchText)':\(filteredData.count)")
+
+            return
+         }
+         
          DispatchQueue.main.async { [weak self] in
-            let section = [RxSectionModel(title: "Near dig", data: posts)]
+            let section = [RxSectionModel(title: "Near dig", data: filteredData)]
             self?.data.value.append(contentsOf: section)
             self?.bindData()
          }
       }
    }
-
-   func fetchData(searchText: String = "", _ completed: @escaping ([PostModel]) -> Void) {
-      DispatchQueue.global(qos: .utility).async() {
-         let data = DataModel.posts.sorted(by: {$0.created > $1.created})
-         let filteredData = self.filterPosts(data, searchText: searchText)
-         completed(filteredData)
+   
+   private func configureRxDataSource() {
+      let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, dataItem in
+         return self.output.prepareGalleryCell(collectionView, indexPath: indexPath, post: dataItem)
+      }, configureSupplementaryView: {dataSource, collectionView, kind, indexPath in
+         let title = dataSource.sectionModels[indexPath.section].title
+         return self.output.prepareGalleryHeader(collectionView, indexPath: indexPath, kind: kind, text: title)
+      })
+      self.dataSource = dataSource
+   }
+   
+   private func bindData() {
+      guard let dataSource = self.dataSource else {
+         return
       }
+      data.asDriver()
+         .drive(self.collectionView!.rx.items(dataSource: dataSource))
+         .disposed(by: disposeBag)
    }
-   
-   private func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel] {
-      mSearchText = searchText
-      return filterManager.filterPosts(posts,searchText: searchText)
-   }
-   
 }
 
-// MARK: -
+// MARK: - Gallery Layout
 
 extension GalleryInteractor: GalleryLayoutDelegate {
    
@@ -173,5 +187,45 @@ extension GalleryInteractor {
          return nil
       }
       return photoImageView.image
+   }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension GalleryInteractor: UISearchBarDelegate {
+   
+   public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+      if search(searchBar.text) {
+         hideKeyboard()
+      }
+   }
+   
+   public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+      if needStopSearch(for: searchText) {
+         hideKeyboard()
+      }
+   }
+   
+   private func search(_ text: String?) -> Bool {
+      if let text = text, text.isEmpty == false {
+         mSearchText = text
+         fetchData()
+         return true
+      } else {
+         return false
+      }
+   }
+   
+   private func needStopSearch(for text: String) -> Bool {
+      if text.isEmpty {
+         _ = search("")
+         return true
+      } else {
+         return false
+      }
+   }
+   
+   fileprivate func hideKeyboard() {
+      searchBar.resignFirstResponder()
    }
 }

@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol UsersPresenterModel: class {
    var currentUser: UserModel? {get}
@@ -26,8 +27,10 @@ class UsersDataBaseInteractor: NSObject {
       return appDelegate.usersDataBaseInteractor
    }()
 
-   fileprivate var userObserver = UserObserver()
-   fileprivate var lastUser: UserModel?
+   private var userObserver = UserObserver()
+   private var lastUser: UserModel?
+   
+   private let disposeBag = DisposeBag()
    
    var admin: UserModel?
 
@@ -60,6 +63,18 @@ class UsersDataBaseInteractor: NSObject {
    fileprivate func unSubscribeOnNotifications() {
       NotificationCenter.default.removeObserver(self)
    }
+
+   func configureDataModelListener() {
+      _ = DataModel.userAdd.asObservable().subscribe({ _ in
+
+      }).disposed(by: disposeBag)
+      _ = DataModel.userRemove.asObservable().subscribe({ _ in
+
+      }).disposed(by: disposeBag)
+      _ = DataModel.userUpdate.asObservable().subscribe({ userItem in
+         self.userObserver.didUserUpdate(userItem.event.element!)
+      }).disposed(by: disposeBag)
+   }
    
    func loadData(completion: ([UserModel]) -> Void) {
       let userItems = DataModel.users
@@ -70,7 +85,7 @@ class UsersDataBaseInteractor: NSObject {
       completion(users)
    }
    
-   // MARK: -
+   // MARK: 
    
    func getUserWith(id userId: String) -> UserModel? {
       let userItems = DataModel.users
@@ -139,21 +154,6 @@ extension UsersDataBaseInteractor {
       } else {
          completion()
       }
-   }
-}
-
-// MARK: - UsersDataUpdating
-
-extension UsersDataBaseInteractor: UsersDataUpdating {
-   
-   func newUserItem() {
-   }
-   
-   func updatedUserItem(_ userItem: UserItem) {
-      userObserver.didUserUpdate(userItem)
-   }
-   
-   func removedUserItem() {
    }
 }
 
