@@ -47,6 +47,8 @@ class GalleryInteractor: NSObject {
 
    var data = Variable([RxSectionModel]())
    
+   var binded = false
+   
    func configure() {
       configureRxDataSource()
       subscribeOnSelectGalleryItem()
@@ -116,7 +118,7 @@ extension GalleryInteractor {
          let searchText = self.mSearchText ?? ""
          let filteredData = self.filterManager.filterPosts(posts,searchText: searchText)
          
-         if self.data.value.count > 0 {
+         if self.binded {
 
             print("'\(searchText)':\(filteredData.count)")
 
@@ -145,6 +147,9 @@ extension GalleryInteractor {
       guard let dataSource = self.dataSource else {
          return
       }
+      
+      binded = true
+      
       data.asDriver()
          .drive(self.collectionView!.rx.items(dataSource: dataSource))
          .disposed(by: disposeBag)
