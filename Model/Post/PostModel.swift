@@ -115,7 +115,7 @@ extension PostModel: IdentifiableType {
    typealias Identity = String
    
    var identity : Identity {
-      return uid
+      return id!
    }
 }
 

@@ -65,13 +65,13 @@ class UsersDataBaseInteractor: NSObject {
    }
 
    func configureDataModelListener() {
-      _ = DataModel.userAdd.asObservable().subscribe({ _ in
+      _ = DataModel.userAdd.asObservable().skip(1).subscribe({ _ in
 
       }).disposed(by: disposeBag)
-      _ = DataModel.userRemove.asObservable().subscribe({ _ in
+      _ = DataModel.userRemove.asObservable().skip(1).subscribe({ _ in
 
       }).disposed(by: disposeBag)
-      _ = DataModel.userUpdate.asObservable().subscribe({ userItem in
+      _ = DataModel.userUpdate.asObservable().skip(1).subscribe({ userItem in
          self.userObserver.didUserUpdate(userItem.event.element!)
       }).disposed(by: disposeBag)
    }

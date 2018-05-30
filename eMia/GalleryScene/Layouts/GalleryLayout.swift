@@ -33,7 +33,7 @@ class GalleryLayout: UICollectionViewFlowLayout {
    }
    
    override func prepare() {
-      guard cache.isEmpty == true, let collectionView = collectionView else {
+      guard let collectionView = collectionView else {
          return
       }
       var xOffset = [CGFloat]()
@@ -42,6 +42,7 @@ class GalleryLayout: UICollectionViewFlowLayout {
       }
       var column = 0
       var yOffset = [CGFloat](repeating: 0, count: numberOfColumns)
+      cache.removeAll()
       for item in 0 ..< delegate.collectionView(collectionView, numberOfItemsinSection: 0) {
          let indexPath = IndexPath(item: item, section: 0)
          let photoSize = delegate.collectionView(collectionView, photoSizeAtIndexPath: indexPath)
@@ -82,6 +83,10 @@ class GalleryLayout: UICollectionViewFlowLayout {
    }
    
    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-      return cache[indexPath.item]
+      if indexPath.item < cache.count {
+         return cache[indexPath.item]
+      } else {
+         return nil
+      }
    }
 }

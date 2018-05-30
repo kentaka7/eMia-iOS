@@ -12,7 +12,7 @@ import RxCocoa
 import RxDataSources
 
 struct RxSectionModel {
-   let title: String
+   var title: String
    var data: [PostModel]
 }
 
@@ -40,29 +40,26 @@ class GalleryInteractor: NSObject {
    
    private weak var searchBar: UISearchBar!
    private var mSearchText: String?
-
+   
    private let disposeBag = DisposeBag()
    
-   private var dataSource: RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>?
-
    var data = Variable([RxSectionModel]())
    
-   var binded = false
-   
    func configure() {
-      configureRxDataSource()
+      configureDataSource()
       subscribeOnSelectGalleryItem()
       configureDataModelListener()
       FavoritsManager.configureDataModelListener()
       UsersManager.configureDataModelListener()
    }
-
+   
    func searchConfiguration(with searchBar: UISearchBar) {
       self.searchBar = searchBar
       searchBar.delegate = self
       searchBar.rx.text                                     // observable property
          .throttle(0.5, scheduler: MainScheduler.instance)  // wait 0.5 seconds for changes
          .distinctUntilChanged()                            // check if the new value is the same as the old one
+         .skip(1)
          .subscribe { [unowned self] (query) in
             if let text = query.event.element {
                self.mSearchText = text
@@ -72,20 +69,32 @@ class GalleryInteractor: NSObject {
          .disposed(by: disposeBag)
    }
    
+   private func configureDataSource() {
+      let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, postModel in
+         return self.output.prepareGalleryCell(collectionView, indexPath: indexPath, post: postModel)
+      }, configureSupplementaryView: {dataSource, collectionView, kind, indexPath in
+         let title = dataSource.sectionModels[indexPath.section].title
+         return self.output.prepareGalleryHeader(collectionView, indexPath: indexPath, kind: kind, text: title)
+      })
+      self.data.asDriver()
+         .drive(self.collectionView!.rx.items(dataSource: dataSource))
+         .disposed(by: self.disposeBag)
+   }
+   
    private func configureDataModelListener() {
       _ = DataModel.postFull.asObservable().subscribe({ b in
          if let b = b.event.element, b {
             self.fetchData()
          }
       }).disposed(by: disposeBag)
-      _ = DataModel.postAdd.asObservable().subscribe({ post in
-            self.fetchData()
+      _ = DataModel.postAdd.asObservable().skip(1).subscribe({ post in
+         self.fetchData()
       }).disposed(by: disposeBag)
-      _ = DataModel.postRemove.asObservable().subscribe({ post in
-            self.fetchData()
+      _ = DataModel.postRemove.asObservable().skip(1).subscribe({ post in
+         self.fetchData()
       }).disposed(by: disposeBag)
-      _ = DataModel.postUpdate.asObservable().subscribe({ post in
-            self.fetchData()
+      _ = DataModel.postUpdate.asObservable().skip(1).subscribe({ post in
+         self.fetchData()
       }).disposed(by: disposeBag)
    }
    
@@ -113,46 +122,16 @@ class GalleryInteractor: NSObject {
 extension GalleryInteractor {
    
    func fetchData() {
-      DispatchQueue.global(qos: .utility).async() {
+      DispatchQueue.global(qos: .utility).async() { [weak self] in
+         guard let `self` = self else {
+            return
+         }
          let posts = DataModel.posts.sorted(by: {$0.created > $1.created})
          let searchText = self.mSearchText ?? ""
          let filteredData = self.filterManager.filterPosts(posts,searchText: searchText)
-         
-         if self.binded {
-
-            print("'\(searchText)':\(filteredData.count)")
-
-            return
-         }
-         
-         DispatchQueue.main.async { [weak self] in
-            let section = [RxSectionModel(title: "Near dig", data: filteredData)]
-            self?.data.value.append(contentsOf: section)
-            self?.bindData()
-         }
+         let section: [RxSectionModel] = [RxSectionModel(title: "\(filteredData.count)", data: filteredData)]
+         self.data.value = section
       }
-   }
-   
-   private func configureRxDataSource() {
-      let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, dataItem in
-         return self.output.prepareGalleryCell(collectionView, indexPath: indexPath, post: dataItem)
-      }, configureSupplementaryView: {dataSource, collectionView, kind, indexPath in
-         let title = dataSource.sectionModels[indexPath.section].title
-         return self.output.prepareGalleryHeader(collectionView, indexPath: indexPath, kind: kind, text: title)
-      })
-      self.dataSource = dataSource
-   }
-   
-   private func bindData() {
-      guard let dataSource = self.dataSource else {
-         return
-      }
-      
-      binded = true
-      
-      data.asDriver()
-         .drive(self.collectionView!.rx.items(dataSource: dataSource))
-         .disposed(by: disposeBag)
    }
 }
 
@@ -169,7 +148,11 @@ extension GalleryInteractor: GalleryLayoutDelegate {
    }
    
    func collectionView(_ collectionView: UICollectionView, numberOfItemsinSection: Int) -> Int {
-      return data.value[numberOfItemsinSection].data.count
+      if data.value.count > 0 {
+         return data.value[numberOfItemsinSection].data.count
+      } else {
+         return 0
+      }
    }
 }
 
@@ -234,3 +217,4 @@ extension GalleryInteractor: UISearchBarDelegate {
       searchBar.resignFirstResponder()
    }
 }
+

@@ -44,7 +44,6 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-      presenter.reloadData()
    }
    
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

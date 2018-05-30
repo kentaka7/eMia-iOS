@@ -26,13 +26,13 @@ class FavoritsDataBaseInteractor: NSObject {
    }
    
    func configureDataModelListener() {
-      _ = DataModel.favAdd.asObservable().subscribe({ post in
+      _ = DataModel.favAdd.asObservable().skip(1).subscribe({ post in
          self.didChangeData()
       }).disposed(by: disposeBag)
-      _ = DataModel.favRemove.asObservable().subscribe({ post in
+      _ = DataModel.favRemove.asObservable().skip(1).subscribe({ post in
          self.didChangeData()
       }).disposed(by: disposeBag)
-      _ = DataModel.favUpdate.asObservable().subscribe({ post in
+      _ = DataModel.favUpdate.asObservable().skip(1).subscribe({ post in
          self.didChangeData()
       }).disposed(by: disposeBag)
    }
