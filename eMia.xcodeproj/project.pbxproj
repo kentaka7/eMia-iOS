@@ -39,8 +39,6 @@
 		7F3B108A20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B107F20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift */; };
 		7F3B108B20BB371C0073BA32 /* FIRDatabaseReference+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */; };
 		7F3B109120BB371C0073BA32 /* RemoteConfig+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */; };
-		7F3B109220BB3A540073BA32 /* RxFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B107020BAFE110073BA32 /* RxFirebase.swift */; };
-		7F3B109420BB3AF50073BA32 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7F3B109320BB3AF50073BA32 /* README.md */; };
 		7F3B53611FE742240089CB34 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B53601FE742240089CB34 /* PostModel.swift */; };
 		7F3C59EC1FE5EE8B00A823DC /* StringIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */; };
 		7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */; };
@@ -209,11 +207,9 @@
 		7F2F18A6202E111800EF4644 /* LucidaGrandeRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LucidaGrandeRegular.ttf; sourceTree = "<group>"; };
 		7F35135920B34D950004363C /* NewPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
 		7F35135B20B34DF30004363C /* NewPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostDependencies.swift; sourceTree = "<group>"; };
-		7F3B107020BAFE110073BA32 /* RxFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxFirebase.swift; sourceTree = "<group>"; };
 		7F3B107F20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FIRDatabaseQuery+Rx.swift"; sourceTree = "<group>"; };
 		7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FIRDatabaseReference+Rx.swift"; sourceTree = "<group>"; };
 		7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RemoteConfig+Rx.swift"; sourceTree = "<group>"; };
-		7F3B109320BB3AF50073BA32 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7F3B53601FE742240089CB34 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringIdentifier.swift; sourceTree = "<group>"; };
 		7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityController.swift; sourceTree = "<group>"; };
@@ -449,8 +445,6 @@
 		7F3B107C20BB371B0073BA32 /* RxFirebase */ = {
 			isa = PBXGroup;
 			children = (
-				7F3B109320BB3AF50073BA32 /* README.md */,
-				7F3B107020BAFE110073BA32 /* RxFirebase.swift */,
 				7F3B107E20BB371C0073BA32 /* Database */,
 				7F3B108720BB371C0073BA32 /* RemoteConfig */,
 			);
@@ -1028,7 +1022,6 @@
 				7F2F189A202E10C400EF4644 /* README.md in Resources */,
 				9A99AA8B1B8A219300428802 /* LaunchScreen.storyboard in Resources */,
 				7FD1FEA5200F2E4C00C178E2 /* EditPost.storyboard in Resources */,
-				7F3B109420BB3AF50073BA32 /* README.md in Resources */,
 				7F2F1897202E10C400EF4644 /* LICENSE in Resources */,
 				9A99AA861B8A219300428802 /* Gallery.storyboard in Resources */,
 				9ADFC8F91B8B771800AB4CD9 /* GalleryHeaderView.xib in Resources */,
@@ -1066,7 +1059,6 @@
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/NextGrowingTextView/NextGrowingTextView.framework",
-				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -1086,7 +1078,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextGrowingTextView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -1135,7 +1126,6 @@
 				7FC9DE0C2018481000F50D07 /* PushNotificationCenter.swift in Sources */,
 				7FBFF4DB1FE4068400788DCB /* UserModel.swift in Sources */,
 				7F01B39C1FE5A1560034CAFB /* ImageCache.swift in Sources */,
-				7F3B109220BB3A540073BA32 /* RxFirebase.swift in Sources */,
 				7F060C0A1FF0E762002D04AD /* FiltersViewController.swift in Sources */,
 				7F1337BD202AFF1400D955D6 /* FilterDependencies.swift in Sources */,
 				7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */,
