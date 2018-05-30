@@ -41,7 +41,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    
    weak var activityIndicator: NVActivityIndicatorView!
    var post: PostModel!
-   weak var tableView: UITableView!
+   weak var tableView: UITableView?
    
    func configure() {
       startCommentsListener()
@@ -64,6 +64,10 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    }
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
+      guard let tableView = self.tableView else {
+         return UITableViewCell()
+      }
+      
       if let selector: Rows = Rows(rawValue: indexPath.row) {
          switch selector {
          case .AvatarPhotoAndUserName:
@@ -90,7 +94,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
             commentCell.didChangeHeight = { newCellHeight in
                if newCellHeight != self.currentCelHeight {
                   self.currentCelHeight = newCellHeight
-                  self.updateView(tableView: self.tableView)
+                  self.updateView(tableView: self.tableView!)
                }
             }
             commentCell.didEnterNewComment = {
@@ -158,6 +162,9 @@ class EditPostPresenter: NSObject, EditPostPresenting {
 extension EditPostPresenter: CommentsUpdatable {
    
    fileprivate func downloadComments() {
+      guard let tableView = self.tableView else {
+         return
+      }
       comments = commentsManager.comments
       tableView.reloadData()
    }

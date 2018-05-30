@@ -15,6 +15,9 @@ class PostsDataBaseInteractor: NSObject {
       return appDelegate.postsManager
    }()
    
+   // It isn't very good!
+   var isFilterUpdated = Variable<Bool>(false)
+   
    func isItMyPost(_ post: PostModel) -> Bool {
       guard let currentUser = UsersManager.currentUser else {
          return false

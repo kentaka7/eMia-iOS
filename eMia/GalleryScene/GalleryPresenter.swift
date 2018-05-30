@@ -18,7 +18,7 @@ class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
    func configure(searchBar: UISearchBar) {
       interactor.searchConfiguration(with: searchBar)
    }
-   
+
    func configure() {
       interactor.configure()
    }

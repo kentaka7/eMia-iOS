@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class FilterInteractor: FilterStoragable {
    
@@ -26,6 +27,7 @@ class FilterInteractor: FilterStoragable {
       if filterModel == filterModelCopy {
          return
       }
+      PostsManager.isFilterUpdated.value = true
       filterModel.syncronize()
    }
 

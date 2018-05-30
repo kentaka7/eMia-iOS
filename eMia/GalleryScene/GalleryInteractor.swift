@@ -49,6 +49,7 @@ class GalleryInteractor: NSObject {
       configureDataSource()
       subscribeOnSelectGalleryItem()
       configureDataModelListener()
+      setUpFilterListener()
       FavoritsManager.configureDataModelListener()
       UsersManager.configureDataModelListener()
    }
@@ -69,6 +70,14 @@ class GalleryInteractor: NSObject {
          .disposed(by: disposeBag)
    }
    
+   func setUpFilterListener() {
+      _ = PostsManager.isFilterUpdated.asObservable().subscribe({ updated in
+         if let l = updated.event.element, l {
+            self.fetchData()
+         }
+      }).disposed(by: disposeBag)
+   }
+
    private func configureDataSource() {
       let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, postModel in
          return self.output.prepareGalleryCell(collectionView, indexPath: indexPath, post: postModel)
