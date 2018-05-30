@@ -25,3 +25,7 @@ protocol GalleryPresentable {
 protocol GallerySearching {
    func configure(searchBar: UISearchBar)
 }
+
+protocol PostsFiltering {
+   func filterPosts(_ posts: [PostModel], searchText: String) -> [PostModel]
+}

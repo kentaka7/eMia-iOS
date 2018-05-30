@@ -23,9 +23,9 @@ class GalleryDependencies {
       presenter.interactor = interactor
       presenter.view = view
       
-      interactor.output = presenter
+      interactor.presenter = presenter
       interactor.collectionView = view.galleryCollectionView
-      interactor.filterManager = filterManager
+      interactor.filter = filterManager
    }
 }
 

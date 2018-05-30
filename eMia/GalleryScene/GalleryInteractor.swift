@@ -34,11 +34,12 @@ extension RxSectionModel : AnimatableSectionModelType {
 
 class GalleryInteractor: NSObject {
    
-   var output: GalleryPresenter!
-   var collectionView: UICollectionView?
-   var filterManager: FilterManager!
-   
-   private weak var searchBar: UISearchBar!
+   var presenter: GalleryPresenter!
+   var filter: PostsFiltering!
+
+   weak var collectionView: UICollectionView?
+
+   private weak var mSearchBar: UISearchBar!
    private var mSearchText: String?
    
    private let disposeBag = DisposeBag()
@@ -55,7 +56,7 @@ class GalleryInteractor: NSObject {
    }
    
    func searchConfiguration(with searchBar: UISearchBar) {
-      self.searchBar = searchBar
+      self.mSearchBar = searchBar
       searchBar.delegate = self
       searchBar.rx.text                                     // observable property
          .throttle(0.5, scheduler: MainScheduler.instance)  // wait 0.5 seconds for changes
@@ -70,7 +71,7 @@ class GalleryInteractor: NSObject {
          .disposed(by: disposeBag)
    }
    
-   func setUpFilterListener() {
+   private func setUpFilterListener() {
       _ = PostsManager.isFilterUpdated.asObservable().subscribe({ updated in
          if let l = updated.event.element, l {
             self.fetchData()
@@ -80,10 +81,10 @@ class GalleryInteractor: NSObject {
 
    private func configureDataSource() {
       let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, postModel in
-         return self.output.prepareGalleryCell(collectionView, indexPath: indexPath, post: postModel)
+         return self.presenter.prepareGalleryCell(collectionView, indexPath: indexPath, post: postModel)
       }, configureSupplementaryView: {dataSource, collectionView, kind, indexPath in
          let title = dataSource.sectionModels[indexPath.section].title
-         return self.output.prepareGalleryHeader(collectionView, indexPath: indexPath, kind: kind, text: title)
+         return self.presenter.prepareGalleryHeader(collectionView, indexPath: indexPath, kind: kind, text: title)
       })
       self.data.asDriver()
          .drive(self.collectionView!.rx.items(dataSource: dataSource))
@@ -111,7 +112,7 @@ class GalleryInteractor: NSObject {
       collectionView!.rx.itemSelected.subscribe({ [unowned self] event in
          if let indexPath = event.element {
             if let post = self.getPost(for: indexPath) {
-               self.output.edit(post: post)
+               self.presenter.edit(post: post)
             }
          }
       }).disposed(by: disposeBag)
@@ -137,7 +138,7 @@ extension GalleryInteractor {
          }
          let posts = DataModel.posts.sorted(by: {$0.created > $1.created})
          let searchText = self.mSearchText ?? ""
-         let filteredData = self.filterManager.filterPosts(posts,searchText: searchText)
+         let filteredData = self.filter.filterPosts(posts, searchText: searchText)
          let section: [RxSectionModel] = [RxSectionModel(title: "\(filteredData.count)", data: filteredData)]
          self.data.value = section
       }
@@ -223,7 +224,6 @@ extension GalleryInteractor: UISearchBarDelegate {
    }
    
    fileprivate func hideKeyboard() {
-      searchBar.resignFirstResponder()
+      mSearchBar.resignFirstResponder()
    }
 }
-

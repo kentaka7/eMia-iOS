@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterManager {
+class FilterManager: PostsFiltering {
    
    enum Settings {
       static let filterMinAgeKey = "FilterManager.Settings.minValueKey"
