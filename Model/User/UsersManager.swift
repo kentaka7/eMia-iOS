@@ -64,18 +64,6 @@ class UsersDataBaseInteractor: NSObject {
       NotificationCenter.default.removeObserver(self)
    }
 
-   func configureDataModelListener() {
-      _ = DataModel.userAdd.asObservable().skip(1).subscribe({ _ in
-
-      }).disposed(by: disposeBag)
-      _ = DataModel.userRemove.asObservable().skip(1).subscribe({ _ in
-
-      }).disposed(by: disposeBag)
-      _ = DataModel.userUpdate.asObservable().skip(1).subscribe({ userItem in
-         self.userObserver.didUserUpdate(userItem.event.element!)
-      }).disposed(by: disposeBag)
-   }
-   
    func loadData(completion: ([UserModel]) -> Void) {
       let userItems = DataModel.users
       let users = userItems.map { item -> UserModel in

@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class UserObserver: NSObject {
 
@@ -12,6 +13,12 @@ class UserObserver: NSObject {
    func addObserver(users: [UserModel], closure: @escaping UserObserverClosure) {
       removeObservers(users)
       observers.append((users, closure))
+      _ = DataModel.rxUsers.asObservable().subscribe({ users in
+         guard let users = users.event.element else {
+            return
+         }
+         self.didUserUpdate(users)
+      })
    }
    
    func removeObservers(_ users: [UserModel]) {
@@ -39,13 +46,16 @@ class UserObserver: NSObject {
       }
    }
 
-   func didUserUpdate(_ userIten: UserItem) {
-      for item in observers {
-         let users = item.users
-         for user in users {
-            if user.userId == userIten.userId {
-               let updatedUser = UserModel(item: userIten)
-               item.closure(updatedUser)
+   private func didUserUpdate(_ userItems: [UserItem]) {
+      for userItem in userItems {
+         for item in observers {
+            let users = item.users
+            for user in users {
+               if user.userId == userItem.userId {
+                  let updatedUser = UserModel(item: userItem)
+                  item.closure(updatedUser)
+                  return
+               }
             }
          }
       }

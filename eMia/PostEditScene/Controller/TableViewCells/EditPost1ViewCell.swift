@@ -24,7 +24,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    fileprivate var post: PostModel?
    
    override func awakeFromNib() {
-      _ = DataModel.favorities.asObservable().subscribe({ _ in
+      _ = DataModel.rxFavorities.asObservable().subscribe({ _ in
          self.configure(self.favoriteButtonImageView)
       })
       configure(avatarBackgroundView)

@@ -51,7 +51,6 @@ class GalleryInteractor: NSObject {
       subscribeToSelectGalleryItem()
       configureDataModelListener()
       setUpFilterListener()
-      UsersManager.configureDataModelListener()
    }
    
    func configureSearching(with searchBar: UISearchBar) {
@@ -91,7 +90,7 @@ class GalleryInteractor: NSObject {
    }
    
    private func configureDataModelListener() {
-      _ = DataModel.posts.asObservable().subscribe({ _ in
+      _ = DataModel.rxPosts.asObservable().subscribe({ _ in
          self.fetchData()
       }).disposed(by: self.disposeBag)
    }
@@ -121,7 +120,7 @@ extension GalleryInteractor {
 
    func fetchData() {
       let filteredData = Variable<[PostModel]>([])
-      let _ = DataModel.posts.asObservable()
+      let _ = DataModel.rxPosts.asObservable()
          .map {
             $0.filter {
                let searchText = self.mSearchText ?? ""
