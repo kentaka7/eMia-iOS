@@ -141,10 +141,6 @@ class FilterManager: PostsFiltering {
       
       if let user = UsersManager.getUserWith(id: post.uid) {
          // Gender
-         
-         let ggg = self.genderFilter
-         print("GENDER = \(ggg)")
-         
          if self.genderFilter == .both {
             addGender = true
          } else if self.genderFilter == .boy && user.gender == .boy {

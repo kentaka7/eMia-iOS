@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol ForPostConfigurable {
    func configureView(for post: PostModel) -> CGFloat
@@ -23,15 +24,13 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    fileprivate var post: PostModel?
    
    override func awakeFromNib() {
-      NotificationCenter.default.addObserver(self, selector: #selector(didChangeFavoriteDataBase), name: Notification.Name(Notifications.ChangeData.FavoritesDataBase), object: nil)
+      _ = DataModel.favorities.asObservable().subscribe({ _ in
+         self.configure(self.favoriteButtonImageView)
+      })
       configure(avatarBackgroundView)
       configure(favoriteButtonBackgroundView)
    }
 
-   deinit {
-      NotificationCenter.default.removeObserver(self, name: Notification.Name(Notifications.ChangeData.FavoritesDataBase), object: nil)
-   }
-   
    private func configure(_ view: UIView) {
       switch view {
       case avatarBackgroundView:
@@ -93,9 +92,5 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
          return
       }
       FavoritsManager.addToFavorite(post: post)
-   }
-   
-   @objc func didChangeFavoriteDataBase(_ notification: NSNotification) {
-      configure(favoriteButtonImageView)
    }
 }

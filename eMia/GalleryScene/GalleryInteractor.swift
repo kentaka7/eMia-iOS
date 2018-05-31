@@ -11,12 +11,12 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-struct RxSectionModel {
+struct SectionPostModel {
    var title: String
    var data: [PostModel]
 }
 
-extension RxSectionModel : AnimatableSectionModelType {
+extension SectionPostModel : AnimatableSectionModelType {
    typealias Item = PostModel
    typealias Identity = String
    
@@ -26,7 +26,7 @@ extension RxSectionModel : AnimatableSectionModelType {
    var items: [Item] {
       return data
    }
-   init(original: RxSectionModel, items: [PostModel]) {
+   init(original: SectionPostModel, items: [PostModel]) {
       self = original
       data = items
    }
@@ -44,14 +44,13 @@ class GalleryInteractor: NSObject {
    
    private let disposeBag = DisposeBag()
    
-   var data = Variable([RxSectionModel]())
+   var data = Variable([SectionPostModel]())
    
    func configure() {
       configureDataSource()
       subscribeToSelectGalleryItem()
       configureDataModelListener()
       setUpFilterListener()
-      FavoritsManager.configureDataModelListener()
       UsersManager.configureDataModelListener()
    }
    
@@ -80,7 +79,7 @@ class GalleryInteractor: NSObject {
    }
 
    private func configureDataSource() {
-      let dataSource = RxCollectionViewSectionedAnimatedDataSource<RxSectionModel>(configureCell: { _, collectionView, indexPath, postModel in
+      let dataSource = RxCollectionViewSectionedAnimatedDataSource<SectionPostModel>(configureCell: { _, collectionView, indexPath, postModel in
          return self.presenter.prepareGalleryCell(collectionView, indexPath: indexPath, post: postModel)
       }, configureSupplementaryView: {dataSource, collectionView, kind, indexPath in
          let title = dataSource.sectionModels[indexPath.section].title
@@ -132,7 +131,7 @@ extension GalleryInteractor {
          .bind(to: filteredData)
          .disposed(by: self.disposeBag)
       let posts = filteredData.value.sorted(by: {$0.created > $1.created})
-      let section: [RxSectionModel] = [RxSectionModel(title: "\(posts.count)", data: posts)]
+      let section: [SectionPostModel] = [SectionPostModel(title: "\(posts.count)", data: posts)]
       self.data.value = section
    }
 }

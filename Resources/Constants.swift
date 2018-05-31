@@ -72,7 +72,6 @@ struct Notifications {
       static let UsersDataBase = "UsersDataBaseChanged"
       static let PostsDataBase = "RequestDataBaseChanged"
       static let CommentsDataBase = "AvatarDataBaseChanged"
-      static let FavoritesDataBase = "FavoritesDataBaseChanged"
       static let CurrentUser = "CurrentUserChanged"
    }
    

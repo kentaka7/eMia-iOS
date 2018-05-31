@@ -32,9 +32,9 @@ class FetchingWorker: NSObject {
     }()
     
     var posts = Variable<[PostModel]>([])
-
+    var favorities = Variable<[FavoriteItem]>([])
+    
     private var _users = [UserItem]()
-    private var _favorities = [FavoriteItem]()
     
     fileprivate var usersObserver = UsersObserver()
     fileprivate var postsObserver = PostsObserver()
@@ -44,10 +44,6 @@ class FetchingWorker: NSObject {
     var userRemove = Variable<UserItem>(UserItem())
     var userUpdate = Variable<UserItem>(UserItem())
     
-    var favAdd = Variable<FavoriteItem>(FavoriteItem())
-    var favRemove = Variable<FavoriteItem>(FavoriteItem())
-    var favUpdate = Variable<FavoriteItem>(FavoriteItem())
-    
     let queueUsers = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).usersQueue")
     let queuePosts = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).postsQueue")
     let queueFavorities = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).favoritiesQueue")
@@ -56,10 +52,6 @@ class FetchingWorker: NSObject {
     
     var users: [UserItem] {
         return queueUsers.sync{_users}
-    }
-    
-    var favorities: [FavoriteItem] {
-        return queuePosts.sync{_favorities}
     }
     
     func fetchData(completion: @escaping () -> Void) {
@@ -78,7 +70,7 @@ class FetchingWorker: NSObject {
         }
         fetchDataFunc() {
             self.semaphore.signal()
-            print("users=\(self.users.count);posts=\(self.posts.value.count);favorities=\(self.favorities.count)")
+            print("users=\(self.users.count);posts=\(self.posts.value.count);favorities=\(self.favorities.value.count)")
             self.startListeners()
             DispatchQueue.main.async {
                 completion()
@@ -238,16 +230,16 @@ extension FetchingWorker {
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
+                var _favs = [FavoriteItem]()
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         if let _ = childSnap.value as? Dictionary<String, String> {
                             let item = FavoriteItem(childSnap)
-                            self.queueFavorities.async {
-                                self._favorities.append(item)
-                            }
+                            _favs.append(item)
                         }
                     }
                 }
+                self.favorities.value.append(contentsOf: _favs)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -355,33 +347,24 @@ extension FetchingWorker {
     private func addFavorite(_ item: FavoriteItem) {
         if let _ = favoritiesIndex(of: item) {
         } else {
-            self.queueFavorities.async {
-                self._favorities.append(item)
-                self.favAdd.value = item
-            }
+            favorities.value.append(item)
         }
     }
     
     private func deleteFavorite(_ item: FavoriteItem) {
         if let index = favoritiesIndex(of: item) {
-            self.queueFavorities.async {
-                self._favorities.remove(at: index)
-                self.favRemove.value = item
-            }
+            favorities.value.remove(at: index)
         }
     }
     
     private func editFavorite(_  item: FavoriteItem) {
         if let index = favoritiesIndex(of: item) {
-            self.queueFavorities.async {
-                self._favorities[index] = item
-                self.favUpdate.value = item
-            }
+            favorities.value[index] = item
         }
     }
     
     private func favoritiesIndex(of item: FavoriteItem) -> Int? {
-        let index = favorities.index(where: {$0 == item})
+        let index = favorities.value.index(where: {$0 == item})
         return index
     }
 }
