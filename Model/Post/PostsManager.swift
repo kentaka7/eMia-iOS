@@ -26,6 +26,6 @@ class PostsDataBaseInteractor: NSObject {
    }
    
    func getPost(with postId: String) -> PostModel? {
-      return DataModel.posts.first(where: { $0.id == postId })
+      return DataModel.posts.value.first(where: { $0.id == postId })
    }
 }

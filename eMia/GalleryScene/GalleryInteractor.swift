@@ -48,14 +48,14 @@ class GalleryInteractor: NSObject {
    
    func configure() {
       configureDataSource()
-      subscribeOnSelectGalleryItem()
+      subscribeToSelectGalleryItem()
       configureDataModelListener()
       setUpFilterListener()
       FavoritsManager.configureDataModelListener()
       UsersManager.configureDataModelListener()
    }
    
-   func searchConfiguration(with searchBar: UISearchBar) {
+   func configureSearching(with searchBar: UISearchBar) {
       self.mSearchBar = searchBar
       searchBar.delegate = self
       searchBar.rx.text                                     // observable property
@@ -92,23 +92,12 @@ class GalleryInteractor: NSObject {
    }
    
    private func configureDataModelListener() {
-      _ = DataModel.postFull.asObservable().subscribe({ b in
-         if let b = b.event.element, b {
-            self.fetchData()
-         }
-      }).disposed(by: disposeBag)
-      _ = DataModel.postAdd.asObservable().skip(1).subscribe({ post in
+      _ = DataModel.posts.asObservable().subscribe({ _ in
          self.fetchData()
-      }).disposed(by: disposeBag)
-      _ = DataModel.postRemove.asObservable().skip(1).subscribe({ post in
-         self.fetchData()
-      }).disposed(by: disposeBag)
-      _ = DataModel.postUpdate.asObservable().skip(1).subscribe({ post in
-         self.fetchData()
-      }).disposed(by: disposeBag)
+      }).disposed(by: self.disposeBag)
    }
    
-   private func subscribeOnSelectGalleryItem() {
+   private func subscribeToSelectGalleryItem() {
       collectionView!.rx.itemSelected.subscribe({ [unowned self] event in
          if let indexPath = event.element {
             if let post = self.getPost(for: indexPath) {
@@ -130,18 +119,21 @@ class GalleryInteractor: NSObject {
 // MARK: - DataSource
 
 extension GalleryInteractor {
-   
+
    func fetchData() {
-      DispatchQueue.global(qos: .utility).async() { [weak self] in
-         guard let `self` = self else {
-            return
+      let filteredData = Variable<[PostModel]>([])
+      let _ = DataModel.posts.asObservable()
+         .map {
+            $0.filter {
+               let searchText = self.mSearchText ?? ""
+               return self.filter.check(post: $0, whatSearch: searchText)
+            }
          }
-         let posts = DataModel.posts.sorted(by: {$0.created > $1.created})
-         let searchText = self.mSearchText ?? ""
-         let filteredData = self.filter.filterPosts(posts, searchText: searchText)
-         let section: [RxSectionModel] = [RxSectionModel(title: "\(filteredData.count)", data: filteredData)]
-         self.data.value = section
-      }
+         .bind(to: filteredData)
+         .disposed(by: self.disposeBag)
+      let posts = filteredData.value.sorted(by: {$0.created > $1.created})
+      let section: [RxSectionModel] = [RxSectionModel(title: "\(posts.count)", data: posts)]
+      self.data.value = section
    }
 }
 

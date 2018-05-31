@@ -31,15 +31,14 @@ class FetchingWorker: NSObject {
         return appDelegate.fetchingManager
     }()
     
-    fileprivate var _users = [UserItem]()
-    fileprivate var _posts = [PostModel]()
-    fileprivate var _favorities = [FavoriteItem]()
+    var posts = Variable<[PostModel]>([])
+
+    private var _users = [UserItem]()
+    private var _favorities = [FavoriteItem]()
     
     fileprivate var usersObserver = UsersObserver()
     fileprivate var postsObserver = PostsObserver()
     fileprivate var favoritiesObserver = FavoritiesObserver()
-    
-    fileprivate var dataFetched = false
     
     var userAdd = Variable<UserItem>(UserItem())
     var userRemove = Variable<UserItem>(UserItem())
@@ -48,11 +47,6 @@ class FetchingWorker: NSObject {
     var favAdd = Variable<FavoriteItem>(FavoriteItem())
     var favRemove = Variable<FavoriteItem>(FavoriteItem())
     var favUpdate = Variable<FavoriteItem>(FavoriteItem())
-    
-    var postFull = Variable<Bool>(false)
-    var postAdd = Variable<PostModel>(PostModel())
-    var postRemove = Variable<PostModel>(PostModel())
-    var postUpdate = Variable<PostModel>(PostModel())
     
     let queueUsers = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).usersQueue")
     let queuePosts = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).postsQueue")
@@ -64,16 +58,12 @@ class FetchingWorker: NSObject {
         return queueUsers.sync{_users}
     }
     
-    var posts: [PostModel] {
-        return queuePosts.sync{_posts}
-    }
-    
     var favorities: [FavoriteItem] {
         return queuePosts.sync{_favorities}
     }
     
     func fetchData(completion: @escaping () -> Void) {
-        if dataFetched {
+        if self.posts.value.count > 0 {
             completion()
             return
         }
@@ -87,11 +77,8 @@ class FetchingWorker: NSObject {
             fetchDataFunc = fetchDataSync
         }
         fetchDataFunc() {
-            self.dataFetched = true
             self.semaphore.signal()
-            print("users=\(self.users.count);posts=\(self.posts.count);favorities=\(self.favorities.count)")
-            self.postFull.value = true
-            
+            print("users=\(self.users.count);posts=\(self.posts.value.count);favorities=\(self.favorities.count)")
             self.startListeners()
             DispatchQueue.main.async {
                 completion()
@@ -232,17 +219,15 @@ extension FetchingWorker {
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
+                var _posts = [PostModel]()
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = PostItem(childSnap)
-                        
                         let post = PostModel(postItem: item)
-                        self.queuePosts.async {
-                            self._posts.append(post)
-                        }
-                        
+                        _posts.append(post)
                     }
                 }
+                self.posts.value.append(contentsOf: _posts)
                 completion()
            }).disposed(by: disposeBag)
     }
@@ -334,37 +319,31 @@ extension FetchingWorker {
     
     private func addPost(_ item: PostItem) {
         let post = PostModel(postItem: item)
+        guard let id = post.id, !id.isEmpty else {
+            return
+        }
         if let _ = postsIndex(of: post) {
         } else {
-            self.queuePosts.async {
-                self._posts.append(post)
-                self.postAdd.value = post
-            }
+            self.posts.value.append(post)
         }
     }
     
     private func deletePost(_ item: PostItem) {
         let post = PostModel(postItem: item)
         if let index = postsIndex(of: post) {
-            self.queuePosts.async {
-                self._posts.remove(at: index)
-                self.postRemove.value = post
-            }
+            self.posts.value.remove(at: index)
         }
     }
     
     private func editPost(_  item: PostItem) {
         let post = PostModel(postItem: item)
         if let index = postsIndex(of: post) {
-            self.queuePosts.async {
-                self._posts[index] = post
-                self.postUpdate.value = post
-            }
+            self.posts.value[index] = post
         }
     }
     
     private func postsIndex(of post: PostModel) -> Int? {
-        let index = posts.index(where: {$0 == post})
+        let index = posts.value.index(where: {$0 == post})
         return index
     }
 }

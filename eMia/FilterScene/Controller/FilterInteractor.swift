@@ -27,8 +27,8 @@ class FilterInteractor: FilterStoragable {
       if filterModel == filterModelCopy {
          return
       }
-      PostsManager.isFilterUpdated.value = true
       filterModel.syncronize()
+      PostsManager.isFilterUpdated.value = true
    }
 
    // MARK: Properties
