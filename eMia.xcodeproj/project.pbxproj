@@ -54,6 +54,7 @@
 		7F4B289320B1C484002BFB47 /* ShowMeSegmentedControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289220B1C483002BFB47 /* ShowMeSegmentedControl.xib */; };
 		7F4B289620B1E41F002BFB47 /* FavStatusSegmentedControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */; };
 		7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */; };
+		7F4C1D9B20C0FE1B0057453F /* Reachability+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */; };
 		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
@@ -224,6 +225,7 @@
 		7F4B289220B1C483002BFB47 /* ShowMeSegmentedControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowMeSegmentedControl.xib; sourceTree = "<group>"; };
 		7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavStatusSegmentedControl.xib; sourceTree = "<group>"; };
 		7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavStatusSegmentedControl.swift; sourceTree = "<group>"; };
+		7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reachability+.swift"; sourceTree = "<group>"; };
 		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
@@ -611,6 +613,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		7F4C1D9920C0FDF70057453F /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */,
+				7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
 		7F4D8B4C1FE4E6C400FAFE5E /* PhotosManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -809,13 +820,13 @@
 		7FC20D221FE365C6000C23A6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				7F4C1D9920C0FDF70057453F /* Reachability */,
 				7F060C251FF1BBC8002D04AD /* MunicipalityPicker */,
 				7F6FAAA72018B335009F94E0 /* GradientView */,
 				7F060C161FF104C4002D04AD /* Range slider */,
 				7FC20D281FE366C1000C23A6 /* Appearance.swift */,
 				7FFBB2591FE4620A00A22EB0 /* Helpers.swift */,
 				7F060C1F1FF10756002D04AD /* SegueHandler.swift */,
-				7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */,
 				7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */,
 				7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */,
 				7FBFF4C01FE3DC1300788DCB /* Alert.swift */,
@@ -1057,7 +1068,7 @@
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/NextGrowingTextView/NextGrowingTextView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
@@ -1076,7 +1087,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextGrowingTextView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -1227,6 +1238,7 @@
 				7FC0EFCD1FE674A400833DB8 /* SplashScreenController.swift in Sources */,
 				7F3C59EC1FE5EE8B00A823DC /* StringIdentifier.swift in Sources */,
 				7F86186E20B3D3B9002F8D57 /* EditPostDependencies.swift in Sources */,
+				7F4C1D9B20C0FE1B0057453F /* Reachability+.swift in Sources */,
 				7FD8CF2F2014DF5700CBAF1C /* AppWireframe.swift in Sources */,
 				7F7E36FD20281BD200470139 /* GalleryPresenter.swift in Sources */,
 				7F3B108B20BB371C0073BA32 /* FIRDatabaseReference+Rx.swift in Sources */,

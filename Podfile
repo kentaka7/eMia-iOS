@@ -19,7 +19,7 @@ target 'eMia' do
     pod 'NVActivityIndicatorView'
     
     pod 'SwiftyNotifications', '~>0.2'
-    pod 'ReachabilitySwift', '~> 3'
+    pod 'Reachability'
     
     pod 'AwesomeCache'
     

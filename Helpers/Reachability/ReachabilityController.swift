@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import ReachabilitySwift
+import RxSwift
 import SwiftyNotifications
 
 internal let Network = ReachabilityController.sharedInstance
@@ -16,7 +16,9 @@ class ReachabilityController: NSObject {
       return appDelegate.reachabilityController
    }()
    
-   fileprivate var reachability = Reachability()!
+   private var mReachable: Bool = true
+   private let disposeBag = DisposeBag()
+   
    fileprivate var reachabilityNotificatin: SwiftyNotifications? = nil
 	internal var observers = [Any]()
    
@@ -41,7 +43,7 @@ class ReachabilityController: NSObject {
    }
    
    var reachable: Bool {
-      return reachability.isReachable
+      return mReachable
    }
    
    func startMonitoringReachability() {
@@ -50,18 +52,18 @@ class ReachabilityController: NSObject {
       self.reachabilityNotificatin?.removeFromSuperview()
       self.reachabilityNotificatin = nil
       
-      do{
-         try reachability.startNotifier()
-      } catch {
-         print("could not start reachability notifier")
-      }
+      _ = Reactive.reachable.subscribe({ reacheble in
+         guard let isReacheble = reacheble.event.element else {
+            return
+         }
+         self.mReachable = isReacheble
+         self.reachabilityChanged(to: isReacheble)
+      }).disposed(by: disposeBag)
    }
    
-   @objc func reachabilityChanged(note: Notification) {
+   private func reachabilityChanged(to isReachable: Bool) {
       
-      reachability = note.object as! Reachability
-      
-      if reachability.isReachable {
+      if isReachable {
          if reachabilityNotificatin != nil {
             DispatchQueue.main.async { [unowned self] in
                self.reachabilityNotificatin?.dismiss()
@@ -100,8 +102,6 @@ class ReachabilityController: NSObject {
 extension ReachabilityController: AnyObservable {
    
    func registerObserver() {
-		NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: ReachabilityChangedNotification, object: reachability)      
-      
       let center = NotificationCenter.default
       let queue = OperationQueue.main
       
@@ -111,15 +111,6 @@ extension ReachabilityController: AnyObservable {
                return
             }
             self.startMonitoringReachability()
-         }
-      )
-      
-      observers.append(
-         center.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: queue) {	[weak self] _ in
-            guard let `self` = self else {
-               return
-            }
-            self.reachability.stopNotifier()
          }
       )
    }
