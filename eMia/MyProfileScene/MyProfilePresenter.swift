@@ -20,14 +20,6 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
       static let allValues = [Name, Address, Gender, YearBirth, Photo]
    }
 
-   internal struct CellName {
-      static let register3ViewCell = "Register3ViewCell"
-      static let register4ViewCell = "Register4ViewCell"
-      static let register5ViewCell = "Register5ViewCell"
-      static let register6ViewCell = "Register6ViewCell"
-      static let register7ViewCell = "Register7ViewCell"
-   }
-   
    weak var viewController: UIViewController!
    weak var tableView: UITableView!
    weak var user: UserModel!
@@ -39,26 +31,26 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
    func cell(for indexPath: IndexPath) -> UITableViewCell {
       switch MyProfileRows(rawValue: indexPath.row)! {
       case .Name:
-         let cell = tableView.dequeueReusableCell(withIdentifier: CellName.register7ViewCell) as! Register7ViewCell
-         cell.configure(for: user)
-         return cell
+         return tableView.dequeueCell(ofType: Register7ViewCell.self).then { cell in
+            cell.configure(for: user)
+         }
       case .Address:
-         let cell = tableView.dequeueReusableCell(withIdentifier: CellName.register3ViewCell) as! Register3ViewCell
-         cell.configure(for: user, delegate: self)
-         return cell
+         return tableView.dequeueCell(ofType: Register3ViewCell.self).then { cell in
+            cell.configure(for: user, delegate: self)
+         }
       case .Gender:
-         let cell = tableView.dequeueReusableCell(withIdentifier: CellName.register4ViewCell) as! Register4ViewCell
-         cell.configure(for: user)
-         return cell
+         return tableView.dequeueCell(ofType: Register4ViewCell.self).then { cell in
+            cell.configure(for: user)
+         }
       case .YearBirth:
-         let cell = tableView.dequeueReusableCell(withIdentifier: CellName.register5ViewCell) as! Register5ViewCell
-         cell.configure(for: user)
-         return cell
+         return tableView.dequeueCell(ofType: Register5ViewCell.self).then { cell in
+            cell.configure(for: user)
+         }
       case .Photo:
-         let cell = tableView.dequeueReusableCell(withIdentifier: CellName.register6ViewCell) as! Register6ViewCell
-         cell.viewController = viewController
-         cell.configure(for: user)
-         return cell
+         return tableView.dequeueCell(ofType: Register6ViewCell.self).then { cell in
+            cell.viewController = viewController
+            cell.configure(for: user)
+         }
       }
    }
    

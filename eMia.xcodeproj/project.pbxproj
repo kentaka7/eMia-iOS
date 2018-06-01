@@ -55,6 +55,7 @@
 		7F4B289620B1E41F002BFB47 /* FavStatusSegmentedControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */; };
 		7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */; };
 		7F4C1D9B20C0FE1B0057453F /* Reachability+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */; };
+		7F4C1D9D20C1096F0057453F /* TableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C1D9C20C1096F0057453F /* TableView+.swift */; };
 		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
@@ -226,6 +227,7 @@
 		7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavStatusSegmentedControl.xib; sourceTree = "<group>"; };
 		7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavStatusSegmentedControl.swift; sourceTree = "<group>"; };
 		7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reachability+.swift"; sourceTree = "<group>"; };
+		7F4C1D9C20C1096F0057453F /* TableView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TableView+.swift"; sourceTree = "<group>"; };
 		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
@@ -844,6 +846,7 @@
 				7FE89A981FEEDBA30044633D /* String.swift */,
 				7FC0EFD51FE6F32700833DB8 /* View.swift */,
 				7FC862231FE94AFA0077C4E2 /* Date.swift */,
+				7F4C1D9C20C1096F0057453F /* TableView+.swift */,
 				7FC20D331FE36A84000C23A6 /* Font.swift */,
 				7FC20D261FE366B6000C23A6 /* Color.swift */,
 			);
@@ -1074,6 +1077,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyNotifications/SwiftyNotifications.framework",
+				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -1093,6 +1097,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyNotifications.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1231,6 +1236,7 @@
 				7F2F1898202E10C400EF4644 /* SFFullscreenImageDetailViewController.swift in Sources */,
 				7FBDE1191FE845C700EAAD3E /* EditPost1ViewCell.swift in Sources */,
 				7F7E370720282D9800470139 /* RootWireframe.swift in Sources */,
+				7F4C1D9D20C1096F0057453F /* TableView+.swift in Sources */,
 				9A99AA7F1B8A219300428802 /* AppDelegate.swift in Sources */,
 				7F35135C20B34DF30004363C /* NewPostDependencies.swift in Sources */,
 				7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */,

@@ -22,15 +22,6 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       static let allValues = [AvatarPhotoAndUserName, DependsOnTextViewContent, Photo, StaticTextAndSendEmailButton, EnterCommentTextAndSendButton]
    }
    
-   internal struct CellName {
-      static let editPost1ViewCell = "EditPost1ViewCell"
-      static let editPost2ViewCell = "EditPost2ViewCell"
-      static let editPost3ViewCell = "EditPost3ViewCell"
-      static let editPost4ViewCell = "EditPost4ViewCell"
-      static let editPost5ViewCell = "EditPost5ViewCell"
-      static let editPost6ViewCell = "EditPost6ViewCell"
-   }
-   
    private var commentCell: EditPost4ViewCell!
    private var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCelHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
@@ -71,44 +62,45 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       if let selector: Rows = Rows(rawValue: indexPath.row) {
          switch selector {
          case .AvatarPhotoAndUserName:
-            let cell1 = tableView.dequeueReusableCell(withIdentifier: CellName.editPost1ViewCell) as! EditPost1ViewCell
-            let _ = cell1.configureView(for: post)
-            return cell1
+            return tableView.dequeueCell(ofType: EditPost1ViewCell.self).then { cell in
+               let _ = cell.configureView(for: post)
+            }
          case .DependsOnTextViewContent:
-            let cell2 = tableView.dequeueReusableCell(withIdentifier: CellName.editPost2ViewCell) as! EditPost2ViewCell
-            postBodyTextViewHeight = cell2.configureView(for: post)
-            return cell2
+            return tableView.dequeueCell(ofType: EditPost2ViewCell.self).then { cell in
+               postBodyTextViewHeight = cell.configureView(for: post)
+            }
          case .Photo:
-            let cell6 = tableView.dequeueReusableCell(withIdentifier: CellName.editPost6ViewCell) as! EditPost6ViewCell
-            let _ = cell6.configureView(for: post)
-            return cell6
+            return tableView.dequeueCell(ofType: EditPost6ViewCell.self).then { cell in
+               let _ = cell.configureView(for: post)
+            }
          case .StaticTextAndSendEmailButton:
-            let cell3 = tableView.dequeueReusableCell(withIdentifier: CellName.editPost3ViewCell) as! EditPost3ViewCell
-            let _ = cell3.configureView(for: post)
-            return cell3
+            return tableView.dequeueCell(ofType: EditPost3ViewCell.self).then { cell in
+               let _ = cell.configureView(for: post)
+            }
          case .EnterCommentTextAndSendButton:
-            commentCell = tableView.dequeueReusableCell(withIdentifier: CellName.editPost4ViewCell) as! EditPost4ViewCell
-            let _ = commentCell.configureView(for: post)
-            commentCell.post = post
-            commentCell.activityIndicator = activityIndicator
-            commentCell.didChangeHeight = { newCellHeight in
-               if newCellHeight != self.currentCelHeight {
-                  self.currentCelHeight = newCellHeight
-                  self.updateView(tableView: self.tableView!)
+            return tableView.dequeueCell(ofType: EditPost4ViewCell.self).then { cell in
+               self.commentCell = cell
+               let _ = self.commentCell.configureView(for: post)
+               self.commentCell.post = post
+               self.commentCell.activityIndicator = activityIndicator
+               self.commentCell.didChangeHeight = { newCellHeight in
+                  if newCellHeight != self.currentCelHeight {
+                     self.currentCelHeight = newCellHeight
+                     self.updateView(tableView: self.tableView!)
+                  }
+               }
+               self.commentCell.didEnterNewComment = {
+                  self.needUpdateView = false
                }
             }
-            commentCell.didEnterNewComment = {
-               self.needUpdateView = false
-            }
-            return commentCell
          }
       } else {
          if comments.count > 0 {
-            let cell5 = tableView.dequeueReusableCell(withIdentifier: CellName.editPost5ViewCell) as! EditPost5ViewCell
-            let _ = cell5.configureView(for: post)
-            let comment = comments[indexPath.row - Rows.allValues.count]
-            cell5.configureView(for: comment)
-            return cell5
+            return tableView.dequeueCell(ofType: EditPost5ViewCell.self).then { cell in
+               let _ = cell.configureView(for: post)
+               let comment = comments[indexPath.row - Rows.allValues.count]
+               cell.configureView(for: comment)
+            }
          } else {
             let cell0 = UITableViewCell()
             return cell0

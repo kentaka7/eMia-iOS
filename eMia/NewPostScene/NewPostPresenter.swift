@@ -21,11 +21,6 @@ class NewPostPresenter: NSObject, NewPostPresenting {
       static let allValues = [Title, Body, Photo]
    }
 
-   internal struct CellName {
-      static let newPost1ViewCell = "NewPost1ViewCell"
-      static let newPost2ViewCell = "NewPost2ViewCell"
-      static let newPost3ViewCell = "NewPost3ViewCell"
-   }
    private var textBodyHeight: CGFloat = 78.0
    
    private var titleCell: NewPost1ViewCell!
@@ -40,24 +35,27 @@ class NewPostPresenter: NSObject, NewPostPresenting {
       if let selector = Rows(rawValue: indexPath.row) {
          switch selector {
          case .Title:
-            titleCell = tableView.dequeueReusableCell(withIdentifier: CellName.newPost1ViewCell) as! NewPost1ViewCell
-            return titleCell
+            return tableView.dequeueCell(ofType: NewPost1ViewCell.self).then { cell in
+               self.titleCell = cell
+            }
          case .Body:
-            bodyCell = tableView.dequeueReusableCell(withIdentifier: CellName.newPost2ViewCell) as! NewPost2ViewCell
-            bodyCell.didChangeHeight = { height in
-               if height > self.textBodyHeight {
-                  self.textBodyHeight = height
-                  self.tableView.reloadData()
-                  runAfterDelay(0.2) {
-                     let _ = self.bodyCell.postBodyTextView.becomeFirstResponder()
+            return tableView.dequeueCell(ofType: NewPost2ViewCell.self).then { cell in
+               self.bodyCell = cell
+               bodyCell.didChangeHeight = { height in
+                  if height > self.textBodyHeight {
+                     self.textBodyHeight = height
+                     self.tableView.reloadData()
+                     runAfterDelay(0.2) {
+                        let _ = self.bodyCell.postBodyTextView.becomeFirstResponder()
+                     }
                   }
                }
             }
-            return bodyCell
          case .Photo:
-            photoCell = tableView.dequeueReusableCell(withIdentifier: CellName.newPost3ViewCell) as! NewPost3ViewCell
-            photoCell.viewController = viewController
-            return photoCell
+            return tableView.dequeueCell(ofType: NewPost3ViewCell.self).then { cell in
+               self.photoCell = cell
+               self.photoCell.viewController = viewController
+            }
          }
       } else {
          let cell = UITableViewCell()

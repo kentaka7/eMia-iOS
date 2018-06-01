@@ -19,6 +19,7 @@ target 'eMia' do
     pod 'NVActivityIndicatorView'
     
     pod 'SwiftyNotifications', '~>0.2'
+    pod 'Then', '2.1.0'
     pod 'Reachability'
     
     pod 'AwesomeCache'

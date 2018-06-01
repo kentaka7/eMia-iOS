@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Then
 
 class SettingsPresenter: NSObject, TableViewPresentable {
    
@@ -17,27 +18,22 @@ class SettingsPresenter: NSObject, TableViewPresentable {
       static let allValues = [MyProfile, VisitToAppSite, LogOut]
    }
 
-   internal struct CellName {
-      static let myProfile1ViewCell = "MyProfile1ViewCell"
-      static let myProfile2ViewCell = "MyProfile2ViewCell"
-   }
-
    weak var tableView: UITableView!
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
       switch Menu(rawValue: indexPath.row)! {
       case .MyProfile:
-         let cell1 = tableView.dequeueReusableCell(withIdentifier: CellName.myProfile1ViewCell) as! MyProfile1ViewCell
-         cell1.configure()
-         return cell1
+         return tableView.dequeueCell(ofType: MyProfile1ViewCell.self).then { cell in
+            cell.configure()
+         }
       case .VisitToAppSite:
-         let cell2 = tableView.dequeueReusableCell(withIdentifier: CellName.myProfile2ViewCell) as! MyProfile2ViewCell
-         cell2.titleLabel.text = "Visit to the app site".localized
-         return cell2
+         return tableView.dequeueCell(ofType: MyProfile2ViewCell.self).then { cell in
+            cell.titleLabel.text = "Visit to the app site".localized
+         }
       case .LogOut:
-         let cell3 = tableView.dequeueReusableCell(withIdentifier: CellName.myProfile2ViewCell) as! MyProfile2ViewCell
-         cell3.titleLabel.text = "Log Out".localized
-         return cell3
+         return tableView.dequeueCell(ofType: MyProfile2ViewCell.self).then { cell in
+            cell.titleLabel.text = "Log Out".localized
+         }
       }
    }
 
