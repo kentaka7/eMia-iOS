@@ -66,8 +66,8 @@ extension EditPost4ViewCell {
          return
       }
       activityIndicator.startAnimating()
-      let comment = CommentModel(uid: currentUser.userId, author: currentUser.name, text: text, postid: post.id!)
-      comment.synchronize() { success in
+      let newComment = CommentModel(uid: currentUser.userId, author: currentUser.name, text: text, postid: post.id!)
+      newComment.synchronize() { success in
          if success {
             self.didEnterNewComment()
             self.commentTextView.textView.text = ""

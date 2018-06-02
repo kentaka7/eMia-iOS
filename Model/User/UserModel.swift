@@ -6,6 +6,8 @@
 import Foundation
 import RealmSwift
 import RxDataSources
+import RxSwift
+import RxRealm
 
 final class UserModel: Object {
 
@@ -64,6 +66,19 @@ final class UserModel: Object {
       self.tokenIOS = rhs.tokenIOS
       self.tokenAndroid = rhs.tokenAndroid
    }
+   
+   @discardableResult
+   class func createUser(item: UserItem) -> Observable<UserModel> {
+      let result = FetchingWorker.withRealm("creating") { realm -> Observable<UserModel> in
+         let user = UserModel(item: item)
+         try realm.write {
+            realm.add(user)
+         }
+         return .just(user)
+      }
+      return result ?? .error(EmiaServiceError.creationFailed)
+   }
+
 }
 
 extension UserModel: IdentifiableType {

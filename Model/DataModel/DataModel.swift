@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 import Firebase
 import RealmSwift
-import RxSwift
 import RxRealm
 
 typealias UserObserverClosure = (UserModel) -> Void
@@ -131,6 +130,16 @@ class FetchingWorker: NSObject {
         _ = o.remove.subscribe({ removedItem in
             self.deleteFavorite(removedItem.event.element!)
         }).disposed(by: self.disposeBag)
+    }
+    
+    class func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
+        do {
+            let realm = try Realm()
+            return try action(realm)
+        } catch let err {
+            print("Failed \(operation) realm with error: \(err)")
+            return nil
+        }
     }
 }
 
@@ -283,8 +292,8 @@ extension FetchingWorker {
     private func addUser(_ item: UserItem) {
         if let _ = usersIndex(of: item) {
             return
-        } else {
-            _ = createUser(item: item)
+        } else if item.userId.count > 0 {
+            _ = UserModel.createUser(item: item)
             rxUsers.value.append(item)
         }
     }
@@ -297,7 +306,8 @@ extension FetchingWorker {
     
     private func editUser(_  item: UserItem) {
         if let index = usersIndex(of: item) {
-            _ = createUser(item: item)
+            // If the user alteady exists, it's replacing him
+            _ = UserModel.createUser(item: item)
             rxUsers.value[index] = item
         }
     }
@@ -307,27 +317,6 @@ extension FetchingWorker {
         return index
     }
     
-    private func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
-        do {
-            let realm = try Realm()
-            return try action(realm)
-        } catch let err {
-            print("Failed \(operation) realm with error: \(err)")
-            return nil
-        }
-    }
-    
-    @discardableResult
-    func createUser(item: UserItem) -> Observable<UserModel> {
-        let result = withRealm("creating") { realm -> Observable<UserModel> in
-            let user = UserModel(item: item)
-            try realm.write {
-                realm.add(user)
-            }
-            return .just(user)
-        }
-        return result ?? .error(EmiaServiceError.creationFailed)
-    }
 }
 
 // Posts database updated

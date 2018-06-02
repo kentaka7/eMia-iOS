@@ -27,7 +27,7 @@ class CommentsManager: NSObject {
    var comments: [CommentModel] {
       var comments = [CommentModel]()
       for item in _comments {
-         let commentModel = CommentModel(postItem: item)
+         let commentModel = CommentModel(item: item)
          comments.append(commentModel)
       }
       return comments.sorted(by: {$0.created > $1.created})
@@ -58,7 +58,9 @@ extension CommentsManager {
    
    private func addComment(_ item: CommentItem) {
       if let _ = index(of: item) {
-      } else {
+         return
+      } else if item.id.count > 0 {
+         _ = CommentModel.createComment(item: item)
          _comments.append(item)
          wasAdded.value = true
       }
@@ -74,6 +76,7 @@ extension CommentsManager {
    private func editComment(_  item: CommentItem) {
       if let index = index(of: item) {
          _comments[index] = item
+         _ = CommentModel.createComment(item: item)
          wasUpdated.value = true
       }
    }

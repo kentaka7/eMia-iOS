@@ -3,84 +3,69 @@
 //  eMia
 //
 
-import UIKit
+import Foundation
+import RealmSwift
+import RxDataSources
+import RxSwift
+import RxRealm
 
-final class CommentModel: NSObject, NSCoding {
+final class CommentModel: Object {
    
-   var ref: Any?
-   var key: String?
-   var id: String?
+   @objc dynamic var key: String? = nil
+   @objc dynamic var id: String? = nil
    
-   var uid: String
-   var author: String
-   var text: String
-   var postid: String
-   var created: Double
+   @objc dynamic var uid: String = ""
+   @objc dynamic var author: String = ""
+   @objc dynamic var text: String = ""
+   @objc dynamic var postid: String = ""
+   @objc dynamic var created: Double = 0
 
-   override init() {
-      self.ref = nil
-      self.key = nil
-      self.id = nil
-      
-      self.uid = ""
-      self.author = ""
-      self.text = ""
-      self.postid = ""
-      self.created = 0
+   override class func primaryKey() -> String? {
+      return "id"
    }
-
-   convenience init(coder decoder: NSCoder) {
+   
+   convenience init(uid: String, author: String, text: String, postid: String, created: Double? = nil, key: String? = nil, id: String? = nil) {
       self.init()
-      self.key = decoder.decodeObject(forKey: CommentItemFields.key) as? String ?? ""
-      self.id = decoder.decodeObject(forKey: CommentItemFields.id) as? String ?? ""
-      self.uid = decoder.decodeObject(forKey: CommentItemFields.uid) as? String ?? ""
-      self.author = decoder.decodeObject(forKey: CommentItemFields.author) as? String ?? ""
-      self.text = decoder.decodeObject(forKey: CommentItemFields.text) as? String ?? ""
-      self.postid = decoder.decodeObject(forKey: CommentItemFields.postid) as? String ?? ""
-      self.created = decoder.decodeObject(forKey: CommentItemFields.created) as! TimeInterval
-   }
-   
-   func encode(with coder: NSCoder) {
-      coder.encode(key, forKey: CommentItemFields.key)
-      coder.encode(id, forKey: CommentItemFields.id)
-      coder.encode(uid, forKey: CommentItemFields.uid)
-      coder.encode(author, forKey: CommentItemFields.author)
-      coder.encode(text, forKey: CommentItemFields.text)
-      coder.encode(postid, forKey: CommentItemFields.postid)
-      coder.encode(created, forKey: CommentItemFields.created)
-   }
-   
-   convenience init(uid: String, author: String, text: String, postid: String) {
-      self.init()
+      self.key = key
+      self.id = id
       self.uid = uid
       self.author = author
       self.text = text
       self.postid = postid
-      self.created = Date().timeIntervalSince1970
+      self.created = created ?? Date().timeIntervalSince1970
    }
    
-   init(postItem: CommentItem) {
-      self.ref = postItem.ref
-      self.key = postItem.key
-      self.id = postItem.id
-      
-      self.uid = postItem.uid
-      self.author = postItem.author
-      self.text = postItem.text
-      self.postid = postItem.postid
-      self.created = postItem.created
+   convenience init(item: CommentItem) {
+      self.init(uid: item.uid, author: item.author, text: item.text, postid: item.postid, created: item.created, key: item.key, id: item.id)
    }
    
    func copy(_ rhs: CommentModel) {
-      self.ref = rhs.ref
       self.key = rhs.key
       self.id = rhs.id
-      
       self.uid = rhs.uid
       self.author = rhs.author
       self.text = rhs.text
       self.postid = rhs.postid
       self.created = rhs.created
+   }
+   
+   @discardableResult
+   class func createComment(item: CommentItem) -> Observable<CommentModel> {
+      let result = FetchingWorker.withRealm("creating") { realm -> Observable<CommentModel> in
+         let commentModel = CommentModel(item: item)
+         try realm.write {
+            realm.add(commentModel)
+         }
+         return .just(commentModel)
+      }
+      return result ?? .error(EmiaServiceError.creationFailed)
+   }
+}
+extension CommentModel: IdentifiableType {
+   typealias Identity = String
+   
+   var identity : Identity {
+      return id ?? "0"
    }
 }
 
@@ -88,9 +73,8 @@ extension CommentModel {
    
    func synchronize(_ completion: @escaping (Bool) -> Void) {
       let commentItem = CommentItem(uid: uid, author: author, text: text, postid: postid, created: created)
-      commentItem.setRef(ref: ref)
-      commentItem.key = key ?? ""
-      commentItem.id = id ?? ""
+      commentItem.key = key ?? "0"
+      commentItem.id = id ?? "0"
       commentItem.synchronize(completion: completion)
    }
 }
