@@ -162,8 +162,8 @@ class FilterManager: PostsFiltering {
          if minAge == 0 && maxAge == 100 {
             // Don't filter by age
             addAge = true
-         } else if let yearBirth = user.yearbirth, yearBirth > 0 {
-            let userAge = Date().years - yearBirth
+         } else if user.yearbirth > 0 {
+            let userAge = Date().years - user.yearbirth
             addAge = userAge >= minAge && userAge <= maxAge
          } else {
             addAge = false

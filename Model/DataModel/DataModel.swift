@@ -9,6 +9,9 @@
 import UIKit
 import RxSwift
 import Firebase
+import RealmSwift
+import RxSwift
+import RxRealm
 
 typealias UserObserverClosure = (UserModel) -> Void
 typealias DidUpdateObserverClosure = () -> ()
@@ -17,6 +20,10 @@ protocol CommentsDataBaseObservable {
     func addItem(_ item: CommentItem)
     func deleteItem(_ item: CommentItem)
     func editItem(_  item: CommentItem)
+}
+
+enum EmiaServiceError: Error {
+    case creationFailed
 }
 
 internal let DataModel = FetchingWorker.sharedInstance
@@ -277,6 +284,7 @@ extension FetchingWorker {
         if let _ = usersIndex(of: item) {
             return
         } else {
+            _ = createUser(item: item)
             rxUsers.value.append(item)
         }
     }
@@ -289,6 +297,7 @@ extension FetchingWorker {
     
     private func editUser(_  item: UserItem) {
         if let index = usersIndex(of: item) {
+            _ = createUser(item: item)
             rxUsers.value[index] = item
         }
     }
@@ -296,6 +305,28 @@ extension FetchingWorker {
     private func usersIndex(of item: UserItem) -> Int? {
         let index = rxUsers.value.index(where: {$0 == item})
         return index
+    }
+    
+    private func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
+        do {
+            let realm = try Realm()
+            return try action(realm)
+        } catch let err {
+            print("Failed \(operation) realm with error: \(err)")
+            return nil
+        }
+    }
+    
+    @discardableResult
+    func createUser(item: UserItem) -> Observable<UserModel> {
+        let result = withRealm("creating") { realm -> Observable<UserModel> in
+            let user = UserModel(item: item)
+            try realm.write {
+                realm.add(user)
+            }
+            return .just(user)
+        }
+        return result ?? .error(EmiaServiceError.creationFailed)
     }
 }
 

@@ -28,10 +28,10 @@ class Register5ViewCell: UITableViewCell, ForUserConfigurable {
    }
 
    func configure(for user: UserModel) {
-      guard let year = user.yearbirth else {
+      if user.yearbirth <= 0 {
          return
       }
-      if let row = pickerData.index(of: year) {
+      if let row = pickerData.index(of: user.yearbirth) {
          _yearBirth = pickerData[row]
          yearPickerView.selectRow(row, inComponent: 0, animated: false)
       }

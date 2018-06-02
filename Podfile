@@ -12,6 +12,8 @@ target 'eMia' do
     pod 'RxSwift'
     pod 'RxCocoa'
     pod 'RxDataSources'
+    pod 'RealmSwift'
+    pod 'RxRealm'
 
     pod 'IQKeyboardManagerSwift'
     pod 'SwiftyJSON'

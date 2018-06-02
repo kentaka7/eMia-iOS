@@ -3,57 +3,33 @@
 //  eMia
 //
 
-import UIKit
+import Foundation
+import RealmSwift
+import RxDataSources
 
-final class UserModel: NSObject, NSCoding {
+final class UserModel: Object {
+
+   @objc dynamic var key: String = ""
+   @objc dynamic var userId: String = ""
+   @objc dynamic var name: String = ""
+   @objc dynamic var email: String = ""
+   @objc dynamic var address: String? = nil
+   @objc dynamic var _gender: Int = 0
+   @objc dynamic var yearbirth: Int = 0
+   @objc dynamic var tokenIOS: String? = nil
+   @objc dynamic var tokenAndroid: String? = nil
    
-   var ref: Any?
-   var key: String
-   var userId: String
-   var name: String
-   var email: String
-   var address: String?
-   var gender: Gender?
-   var yearbirth: Int?
-   var tokenIOS: String?
-   var tokenAndroid: String?
-
-   override init() {
-      self.ref = nil
-      self.key = ""
-      self.userId = ""
-      self.name = ""
-      self.email = ""
-      self.address = nil
-      self.gender = nil
-      self.yearbirth = nil
-      self.tokenIOS = nil
-      self.tokenAndroid = nil
-   }
-
-   convenience init(coder decoder: NSCoder) {
-      self.init()
-      self.key = decoder.decodeObject(forKey: UserFields.key) as? String ?? ""
-      self.userId = decoder.decodeObject(forKey: UserFields.userId) as? String ?? ""
-      self.name = decoder.decodeObject(forKey: UserFields.name) as? String ?? ""
-      self.email = decoder.decodeObject(forKey: UserFields.email) as? String ?? ""
-      self.address = decoder.decodeObject(forKey: UserFields.address) as? String ?? ""
-      self.gender = decoder.decodeObject(forKey: UserFields.gender) as? Gender ?? .boy
-      self.yearbirth = decoder.decodeObject(forKey: UserFields.yearbirth) as? Int ?? 0
-      self.tokenIOS = decoder.decodeObject(forKey: UserFields.tokenIOS) as? String ?? ""
-      self.tokenAndroid = decoder.decodeObject(forKey: UserFields.tokenAndroid) as? String ?? ""
+   override class func primaryKey() -> String? {
+      return "userId"
    }
    
-   func encode(with coder: NSCoder) {
-      coder.encode(key, forKey: UserFields.key)
-      coder.encode(userId, forKey: UserFields.userId)
-      coder.encode(name, forKey: UserFields.name)
-      coder.encode(email, forKey: UserFields.email)
-      coder.encode(address, forKey: UserFields.address)
-      coder.encode(gender, forKey: UserFields.gender)
-      coder.encode(yearbirth, forKey: UserFields.yearbirth)
-      coder.encode(tokenIOS, forKey: UserFields.tokenIOS)
-      coder.encode(tokenAndroid, forKey: UserFields.tokenAndroid)
+   var gender: Gender? {
+      get {
+         return Gender(rawValue: self._gender)
+      }
+      set {
+         self._gender = newValue?.rawValue ?? 0
+      }
    }
    
    convenience init(name: String, email: String, address: String?, gender: Gender?, yearbirth: Int?) {
@@ -61,21 +37,20 @@ final class UserModel: NSObject, NSCoding {
       self.name = name
       self.email = email
       self.address = address
-      self.gender = gender
-      self.yearbirth = yearbirth
+      self._gender = gender == nil ? Gender.both.rawValue : gender!.rawValue
+      self.yearbirth = yearbirth ?? 0
    }
-
-   convenience init(key: String, userId: String, name: String, email: String, address: String?, gender: Gender?, yearbirth: Int?, tokenIOS: String?, tokenAndroid: String?, ref: Any?) {
+   
+   convenience init(key: String, userId: String, name: String, email: String, address: String?, gender: Gender?, yearbirth: Int?, tokenIOS: String?, tokenAndroid: String?) {
       self.init(name: name, email: email, address: address, gender: gender, yearbirth: yearbirth)
       self.key = key
-      self.ref = ref
       self.userId = userId
       self.tokenIOS = tokenIOS
       self.tokenAndroid = tokenAndroid
    }
    
    convenience init(item: UserItem) {
-      self.init(key: item.key, userId: item.userId, name: item.username, email: item.email, address: item.address, gender: Gender(rawValue: item.gender), yearbirth: item.yearbirth, tokenIOS: item.tokenIOS, tokenAndroid: item.tokenAndroid, ref: item.ref)
+      self.init(key: item.key, userId: item.userId, name: item.username, email: item.email, address: item.address, gender: Gender(rawValue: item.gender), yearbirth: item.yearbirth, tokenIOS: item.tokenIOS, tokenAndroid: item.tokenAndroid)
    }
    
    func copy(_ rhs: UserModel) {
@@ -84,11 +59,18 @@ final class UserModel: NSObject, NSCoding {
       self.name = rhs.name
       self.email = rhs.email
       self.address = rhs.address
-      self.gender = rhs.gender
+      self._gender = rhs._gender
       self.yearbirth = rhs.yearbirth
       self.tokenIOS = rhs.tokenIOS
       self.tokenAndroid = rhs.tokenAndroid
-      self.ref = rhs.ref
+   }
+}
+
+extension UserModel: IdentifiableType {
+   typealias Identity = String
+   
+   var identity : Identity {
+      return userId
    }
 }
 

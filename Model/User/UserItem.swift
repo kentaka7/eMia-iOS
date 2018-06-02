@@ -7,12 +7,8 @@ import UIKit
 import Firebase
 
 class UserItem: NSObject {
-   
-   // Users
    var key: String
    var userId: String
-   var ref: DatabaseReference?
-   
    let username: String
    let email: String
    let address: String
@@ -24,7 +20,6 @@ class UserItem: NSObject {
    override init() {
       self.key = ""
       self.userId = ""
-      self.ref = nil
       self.username = ""
       self.email = ""
       self.address = ""
@@ -38,21 +33,17 @@ class UserItem: NSObject {
    init(user: UserModel) {
       self.key = user.key
       self.userId = user.userId
-      self.ref = user.ref as? DatabaseReference
-
       self.username = user.name
       self.email = user.email
       self.address = user.address ?? ""
       self.gender = user.gender?.rawValue ?? 0
-      self.yearbirth = user.yearbirth ?? 0
+      self.yearbirth = user.yearbirth
       self.tokenIOS = user.tokenIOS ?? ""
       self.tokenAndroid = user.tokenAndroid ?? ""
    }
    
    init(_ snapshot: DataSnapshot) {
       key = snapshot.key
-      ref = snapshot.ref
-
       let snapshotValue = snapshot.value as! [String: AnyObject]
       userId = snapshotValue[UserFields.userId] as! String
       username = snapshotValue[UserFields.name] as! String
@@ -108,7 +99,7 @@ extension UserItem {
    }
    
    func remove() {
-      self.ref?.removeValue()
+      //self.ref?.removeValue()
    }
 }
 
