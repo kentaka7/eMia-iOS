@@ -13,7 +13,7 @@ class UserObserver: NSObject {
    func addObserver(users: [UserModel], closure: @escaping UserObserverClosure) {
       removeObservers(users)
       observers.append((users, closure))
-      _ = DataModel.rxUsers.asObservable().subscribe({ users in
+      _ = UserModel.rxUsers.asObservable().subscribe({ users in
          guard let users = users.event.element else {
             return
          }

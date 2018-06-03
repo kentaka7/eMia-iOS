@@ -73,7 +73,7 @@ class DeviceTokenController_: NSObject {
    
    private func synchronize(_ tokens: [String], for user: UserModel, completion: @escaping (Bool) -> Void) {
       let tokensIOSValues = tokens.joined(separator: Settings.separator)
-      FetchingWorker.saveWithRealm() {
+      DataModelInteractor.saveWithRealm() {
          user.tokenIOS = tokensIOSValues
       }
       user.synchronize() { success in

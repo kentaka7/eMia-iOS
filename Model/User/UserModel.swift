@@ -20,6 +20,8 @@ final class UserModel: Object {
    @objc dynamic var yearbirth: Int = 0
    @objc dynamic var tokenIOS: String? = nil
    @objc dynamic var tokenAndroid: String? = nil
+
+   static var rxUsers = Variable<[UserModel]>([])
    
    override class func primaryKey() -> String? {
       return "userId"
@@ -69,7 +71,7 @@ final class UserModel: Object {
    
    @discardableResult
    class func createRealm(model: UserModel) -> Observable<UserModel> {
-      let result = FetchingWorker.withRealm("creating") { realm -> Observable<UserModel> in
+      let result = DataModelInteractor.withRealm("creating") { realm -> Observable<UserModel> in
          try realm.write {
             realm.add(model)
          }
@@ -77,7 +79,55 @@ final class UserModel: Object {
       }
       return result ?? .error(EmiaServiceError.creationFailed)
    }
+   
+   class var users: [UserModel] {
+      do {
+         let realm = try Realm()
+         let users = realm.objects(UserModel.self)
+         return users.toArray()
+      } catch _ {
+         return []
+      }
+   }
+   
+   
 }
+
+extension UserModel {
+
+   class func addUser(_ item: UserItem) {
+      let model = UserModel(item: item)
+      if let _ = usersIndex(of: model) {
+         return
+      } else if !model.userId.isEmpty {
+         _ = UserModel.createRealm(model: model)
+         rxUsers.value.append(model)
+      }
+   }
+   
+   class func deleteUser(_ item: UserItem) {
+      let model = UserModel(item: item)
+      if let index = usersIndex(of: model) {
+         rxUsers.value.remove(at: index)
+      }
+   }
+   
+   class func editUser(_  item: UserItem) {
+      let model = UserModel(item: item)
+      if let index = usersIndex(of: model) {
+         // If the user alteady exists, it's replacing him
+         //_ = UserModel.createRealm(model: model)
+         rxUsers.value[index] = model
+      }
+   }
+   
+   class func usersIndex(of item: UserModel) -> Int? {
+      let index = UserModel.users.index(where: {$0 == item})
+      return index
+   }
+   
+}
+
 
 extension UserModel: IdentifiableType {
    typealias Identity = String

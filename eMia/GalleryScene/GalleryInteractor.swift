@@ -90,7 +90,7 @@ class GalleryInteractor: NSObject {
    }
    
    private func configureDataModelListener() {
-      _ = DataModel.rxPosts.asObservable().subscribe({ _ in
+      _ = PostModel.rxPosts.asObservable().subscribe({ _ in
          self.fetchData()
       }).disposed(by: self.disposeBag)
    }
@@ -120,7 +120,7 @@ extension GalleryInteractor {
 
    func fetchData() {
       let filteredData = Variable<[PostModel]>([])
-      let _ = DataModel.rxPosts.asObservable()
+      let _ = PostModel.rxPosts.asObservable()
          .map {
             $0.filter {
                let searchText = self.mSearchText ?? ""

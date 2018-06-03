@@ -24,7 +24,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    fileprivate var post: PostModel?
    
    override func awakeFromNib() {
-      _ = DataModel.rxFavorities.asObservable().subscribe({ _ in
+      _ = FavoriteModel.rxFavorities.asObservable().subscribe({ _ in
          self.configure(self.favoriteButtonImageView)
       })
       configure(avatarBackgroundView)
@@ -47,7 +47,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
       
       case favoriteButtonBackgroundView:
          if let post = self.post {
-            let isItMyPost = PostsManager.isItMyPost(post)
+            let isItMyPost = PostModel.isItMyPost(post)
             self.favoriteButtonBackgroundView.isHidden = isItMyPost
             if isItMyPost == false {
                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(favoriteButtonPressed(_:)))

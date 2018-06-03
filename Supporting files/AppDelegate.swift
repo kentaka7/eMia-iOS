@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
    var application: UIApplication!
    
-   var fetchingManager = FetchingWorker()
+   var fetchingManager = DataModelInteractor()
    
    var fireBaseInteractor = FireBaseInteractor()
    

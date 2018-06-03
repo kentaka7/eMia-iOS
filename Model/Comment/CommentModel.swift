@@ -20,6 +20,9 @@ final class CommentModel: Object {
    @objc dynamic var postid: String = ""
    @objc dynamic var created: Double = 0
 
+   static var rxComments = Variable<[CommentModel]>([])
+   static var rxNewCommentObserved = Variable<CommentModel?>(nil)
+
    override class func primaryKey() -> String? {
       return "id"
    }
@@ -38,6 +41,16 @@ final class CommentModel: Object {
    convenience init(item: CommentItem) {
       self.init(uid: item.uid, author: item.author, text: item.text, postid: item.postid, created: item.created, key: item.key, id: item.id)
    }
+
+   class var comments: [CommentModel] {
+      do {
+         let realm = try Realm()
+         let comms = realm.objects(CommentModel.self)
+         return comms.toArray().sorted(by: {$0.created > $1.created})
+      } catch _ {
+         return []
+      }
+   }
    
    func copy(_ rhs: CommentModel) {
       self.key = rhs.key
@@ -51,7 +64,7 @@ final class CommentModel: Object {
    
    @discardableResult
    class func createRealm(model: CommentModel) -> Observable<CommentModel> {
-      let result = FetchingWorker.withRealm("creating") { realm -> Observable<CommentModel> in
+      let result = DataModelInteractor.withRealm("creating") { realm -> Observable<CommentModel> in
          try realm.write {
             realm.add(model)
          }
@@ -60,6 +73,42 @@ final class CommentModel: Object {
       return result ?? .error(EmiaServiceError.creationFailed)
    }
 }
+
+extension CommentModel {
+   
+   class func addComment(_ item: CommentItem) {
+      let model = CommentModel(item: item)
+      if let _ = commentIndex(of: model) {
+         return
+      } else if !item.id.isEmpty {
+         _ = CommentModel.createRealm(model: model)
+         rxComments.value.append(model)
+         // TODO: Remove it
+         rxNewCommentObserved.value = model
+      }
+   }
+   
+   class func deleteComment(_ item: CommentItem) {
+      let model = CommentModel(item: item)
+      if let index = commentIndex(of: model) {
+         rxComments.value.remove(at: index)
+      }
+   }
+   
+   class func editComment(_  item: CommentItem) {
+      let model = CommentModel(item: item)
+      if let index = commentIndex(of: model) {
+         //_ = FavoriteModel.createRealm(model: model)
+         rxComments.value[index] = model
+      }
+   }
+   
+   class func commentIndex(of model: CommentModel) -> Int? {
+      let index = comments.index(where: {$0 == model})
+      return index
+   }
+}
+
 extension CommentModel: IdentifiableType {
    typealias Identity = String
    

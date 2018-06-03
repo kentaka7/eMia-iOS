@@ -16,6 +16,18 @@ final class FavoriteModel: Object {
    @objc dynamic var uid: String = ""
    @objc dynamic var postid: String = ""
 
+   static var rxFavorities = Variable<[FavoriteModel]>([])
+   
+   class var favorities: [FavoriteModel] {
+      do {
+         let realm = try Realm()
+         let favs = realm.objects(FavoriteModel.self)
+         return favs.toArray()
+      } catch _ {
+         return []
+      }
+   }
+   
    override class func primaryKey() -> String? {
       return "id"
    }
@@ -46,13 +58,46 @@ final class FavoriteModel: Object {
    
    @discardableResult
    class func createRealm(model: FavoriteModel) -> Observable<FavoriteModel> {
-      let result = FetchingWorker.withRealm("creating") { realm -> Observable<FavoriteModel> in
+      let result = DataModelInteractor.withRealm("creating") { realm -> Observable<FavoriteModel> in
          try realm.write {
             realm.add(model)
          }
          return .just(model)
       }
       return result ?? .error(EmiaServiceError.creationFailed)
+   }
+}
+
+extension FavoriteModel {
+   
+   class func addFavorite(_ item: FavoriteItem) {
+      let model = FavoriteModel(item: item)
+      if let _ = favoritiesIndex(of: model) {
+         return
+      } else if !item.id.isEmpty {
+         _ = FavoriteModel.createRealm(model: model)
+         rxFavorities.value.append(model)
+      }
+   }
+   
+   class func deleteFavorite(_ item: FavoriteItem) {
+      let model = FavoriteModel(item: item)
+      if let index = favoritiesIndex(of: model) {
+         rxFavorities.value.remove(at: index)
+      }
+   }
+   
+   class func editFavorite(_  item: FavoriteItem) {
+      let model = FavoriteModel(item: item)
+      if let index = favoritiesIndex(of: model) {
+         //_ = FavoriteModel.createRealm(model: model)
+         rxFavorities.value[index] = model
+      }
+   }
+   
+   class func favoritiesIndex(of model: FavoriteModel) -> Int? {
+      let index = favorities.index(where: {$0 == model})
+      return index
    }
 }
 

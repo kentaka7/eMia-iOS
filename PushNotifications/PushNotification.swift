@@ -19,7 +19,7 @@ enum PushNotificationRecieve {
             return nil
          }
 
-         guard let post = PostsManager.getPost(with: postid) else {
+         guard let post = PostModel.getPost(with: postid) else {
             assertionFailure("User `uid` is not presented!")
             return nil
          }

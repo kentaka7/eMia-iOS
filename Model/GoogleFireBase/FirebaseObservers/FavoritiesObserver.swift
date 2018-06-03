@@ -13,34 +13,28 @@ import Firebase
 class FavoritiesObserver: NSObject {
    lazy var dbRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
    private let disposeBag = DisposeBag()
-
-   private var add = Variable<FavoriteItem>(FavoriteItem())
-   private var update = Variable<FavoriteItem>(FavoriteItem())
-   private var remove = Variable<FavoriteItem>(FavoriteItem())
    
-   func addObserver() -> (add: Observable<FavoriteItem>, update: Observable<FavoriteItem>, remove: Observable<FavoriteItem>) {
+   func startListening() {
       dbRef.rx
          .observeEvent(.childAdded)
          .subscribe(onNext: { snapshot in
             if let item = FavoriteItem.decodeSnapshot(snapshot) {
-               self.add.value = item
+               FavoriteModel.addFavorite(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childRemoved)
          .subscribe(onNext: { snapshot in
             if let item = FavoriteItem.decodeSnapshot(snapshot) {
-               self.remove.value = item
+               FavoriteModel.deleteFavorite(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childChanged)
          .subscribe(onNext: { snapshot in
             if let item = FavoriteItem.decodeSnapshot(snapshot) {
-               self.update.value = item
+               FavoriteModel.editFavorite(item)
             }
          }).disposed(by: disposeBag)
-
-      return (add.asObservable(), update.asObservable(), remove.asObservable())
    }
 }

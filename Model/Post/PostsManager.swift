@@ -17,15 +17,4 @@ class PostsDataBaseInteractor: NSObject {
    
    // It isn't very good!
    var isFilterUpdated = Variable<Bool>(false)
-   
-   func isItMyPost(_ post: PostModel) -> Bool {
-      guard let currentUser = UsersManager.currentUser else {
-         return false
-      }
-      return post.uid == currentUser.userId
-   }
-   
-   func getPost(with postId: String) -> PostModel? {
-      return DataModel.posts.first(where: { $0.id == postId })
-   }
 }

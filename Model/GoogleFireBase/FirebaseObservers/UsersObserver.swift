@@ -10,29 +10,25 @@ import Firebase
 class UsersObserver: NSObject {
    lazy var dbRef = FireBaseManager.firebaseRef.child(UserFields.users)
    private let disposeBag = DisposeBag()
-   private var add = Variable<UserItem>(UserItem())
-   private var update = Variable<UserItem>(UserItem())
-   private var remove = Variable<UserItem>(UserItem())
    
-   func addObserver() -> (add: Observable<UserItem>, update: Observable<UserItem>, remove: Observable<UserItem>) {
+   func startListening() {
       dbRef.rx
          .observeEvent(.childAdded)
          .subscribe(onNext: { snapshot in
             let item = UserItem(snapshot)
-            self.add.value = item
+            UserModel.addUser(item)
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childRemoved)
          .subscribe(onNext: { snapshot in
             let item = UserItem(snapshot)
-            self.remove.value = item
+            UserModel.deleteUser(item)
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childChanged)
          .subscribe(onNext: { snapshot in
             let item = UserItem(snapshot)
-            self.update.value = item
+            UserModel.editUser(item)
          }).disposed(by: disposeBag)
-      return (add.asObservable(), update.asObservable(), remove.asObservable())
    }
 }

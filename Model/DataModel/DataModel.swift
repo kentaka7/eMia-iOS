@@ -25,14 +25,14 @@ enum EmiaServiceError: Error {
     case creationFailed
 }
 
-internal let DataModel = FetchingWorker.sharedInstance
+internal let DataModel = DataModelInteractor.sharedInstance
 
-class FetchingWorker: NSObject {
+class DataModelInteractor: NSObject {
     
     let FETCHING_DATA_ASYNC = true
     let disposeBag = DisposeBag()
     
-    static let sharedInstance: FetchingWorker = {
+    static let sharedInstance: DataModelInteractor = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.fetchingManager
     }()
@@ -44,55 +44,8 @@ class FetchingWorker: NSObject {
     
     let semaphore = DispatchSemaphore(value: 1)
     
-    var rxPosts = Variable<[PostModel]>([])
-    var rxFavorities = Variable<[FavoriteModel]>([])
-    var rxUsers = Variable<[UserModel]>([])
-    var rxComments = Variable<[CommentModel]>([])
-
-    var rxNewCommentObserved = Variable<CommentModel?>(nil)
-    
-    var users: [UserModel] {
-        do {
-            let realm = try Realm()
-            let users = realm.objects(UserModel.self)
-            return users.toArray()
-        } catch _ {
-            return []
-        }
-    }
-
-    var posts: [PostModel] {
-        do {
-            let realm = try Realm()
-            let posts = realm.objects(PostModel.self)
-            return posts.toArray()
-        } catch _ {
-            return []
-        }
-    }
-
-    var favorities: [FavoriteModel] {
-        do {
-            let realm = try Realm()
-            let favs = realm.objects(FavoriteModel.self)
-            return favs.toArray()
-        } catch _ {
-            return []
-        }
-    }
-    
-    var comments: [CommentModel] {
-        do {
-            let realm = try Realm()
-            let comms = realm.objects(CommentModel.self)
-            return comms.toArray().sorted(by: {$0.created > $1.created})
-        } catch _ {
-            return []
-        }
-    }
-    
     func fetchData(completion: @escaping () -> Void) {
-        if self.rxPosts.value.count > 0 {
+        if PostModel.rxPosts.value.count > 0 {
             completion()
             return
         }
@@ -107,7 +60,7 @@ class FetchingWorker: NSObject {
         }
         fetchDataFunc() {
             self.semaphore.signal()
-            print("users=\(self.rxUsers.value.count);posts=\(self.rxPosts.value.count);favorities=\(self.rxFavorities.value.count)")
+            print("users=\(UserModel.rxUsers.value.count);posts=\(PostModel.rxPosts.value.count);favorities=\(FavoriteModel.rxFavorities.value.count)")
             self.startListeners()
             DispatchQueue.main.async {
                 completion()
@@ -116,61 +69,10 @@ class FetchingWorker: NSObject {
     }
     
     private func startListeners() {
-        startUsersListener()
-        startPostListener()
-        startFavoritiesListener()
-    }
-    
-    private func startUsersListener() {
-        let o = self.usersObserver.addObserver()
-        _ = o.add.subscribe({ addedItem in
-            self.addUser(addedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-        _ = o.update.subscribe({ updatedItem in
-            self.editUser(updatedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-        _ = o.remove.subscribe({ removedItem in
-            self.deleteUser(removedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-    }
-    
-    private func startPostListener() {
-        let o = self.postsObserver.addObserver()
-        _ = o.add.subscribe({ addedItem in
-            self.addPost(addedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-        _ = o.update.subscribe({ updatedItem in
-            self.editPost(updatedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-        _ = o.remove.subscribe({ removedItem in
-            self.deletePost(removedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-    }
-    
-    private func startFavoritiesListener() {
-        let o = self.favoritiesObserver.addObserver()
-        _ = o.add.subscribe({ addedItem in
-            self.addFavorite(addedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-        _ = o.update.subscribe({ updatedItem in
-            self.editFavorite(updatedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-        _ = o.remove.subscribe({ removedItem in
-            self.deleteFavorite(removedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-    }
-    
-    func startCommentsListener() {
-        let o = self.commnetsObserver.addObserver()
-        _ = o.add.subscribe({ addedItem in
-            self.addComment(addedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-        _ = o.update.subscribe({ updatedItem in
-            self.editComment(updatedItem.event.element!)
-        }).disposed(by: self.disposeBag)
-        _ = o.remove.subscribe({ removedItem in
-            self.deleteComment(removedItem.event.element!)
-        }).disposed(by: self.disposeBag)
+        self.usersObserver.startListening()
+        self.postsObserver.startListening()
+        self.favoritiesObserver.startListening()
+        self.commnetsObserver.startListening()
     }
     
     class func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
@@ -196,7 +98,7 @@ class FetchingWorker: NSObject {
     }
 }
 
-extension FetchingWorker {
+extension DataModelInteractor {
     
     fileprivate func fetchDataSync(completion: @escaping () -> Void) {
         var x = CFAbsoluteTimeGetCurrent()
@@ -268,7 +170,7 @@ extension FetchingWorker {
 
 // MARK: - Fetching data
 
-extension FetchingWorker {
+extension DataModelInteractor {
     
     private func fetchAllUsers(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
         let usersRef = dbRef ?? FireBaseManager.firebaseRef.child(UserFields.users).queryOrdered(byChild: "\\")
@@ -279,10 +181,10 @@ extension FetchingWorker {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = UserItem(childSnap)
-                        self.addUser(item)
+                        UserModel.addUser(item)
                     }
                 }
-                self.rxUsers.value.append(contentsOf: self.users)
+                UserModel.rxUsers.value.append(contentsOf: UserModel.users)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -296,10 +198,10 @@ extension FetchingWorker {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = PostItem(childSnap)
-                        self.addPost(item)
+                        PostModel.addPost(item)
                     }
                 }
-                self.rxPosts.value.append(contentsOf: self.posts)
+                PostModel.rxPosts.value.append(contentsOf: PostModel.posts)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -314,11 +216,11 @@ extension FetchingWorker {
                     if let childSnap = child as? DataSnapshot {
                         if let _ = childSnap.value as? Dictionary<String, String> {
                             let item = FavoriteItem(childSnap)
-                            self.addFavorite(item)
+                            FavoriteModel.addFavorite(item)
                         }
                     }
                 }
-                self.rxFavorities.value.append(contentsOf: self.favorities)
+                FavoriteModel.rxFavorities.value.append(contentsOf: FavoriteModel.favorities)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -332,158 +234,11 @@ extension FetchingWorker {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = CommentItem(childSnap)
-                        self.addComment(item)
+                        CommentModel.addComment(item)
                     }
                 }
-                self.rxComments.value.append(contentsOf: self.comments)
+                CommentModel.rxComments.value.append(contentsOf: CommentModel.comments)
                 completion()
             }).disposed(by: disposeBag)
-    }
-}
-
-// MARK: - changes on the firebase database listeners
-
-// users database updated
-
-extension FetchingWorker {
-    private func addUser(_ item: UserItem) {
-        let model = UserModel(item: item)
-        if let _ = usersIndex(of: model) {
-            return
-        } else if !model.userId.isEmpty {
-            _ = UserModel.createRealm(model: model)
-            rxUsers.value.append(model)
-        }
-    }
-    
-    private func deleteUser(_ item: UserItem) {
-        let model = UserModel(item: item)
-        if let index = usersIndex(of: model) {
-            rxUsers.value.remove(at: index)
-        }
-    }
-    
-    private func editUser(_  item: UserItem) {
-        let model = UserModel(item: item)
-        if let index = usersIndex(of: model) {
-            // If the user alteady exists, it's replacing him
-            //_ = UserModel.createRealm(model: model)
-            rxUsers.value[index] = model
-        }
-    }
-    
-    private func usersIndex(of item: UserModel) -> Int? {
-        let index = users.index(where: {$0 == item})
-        return index
-    }
-    
-}
-
-// Posts database updated
-
-extension FetchingWorker {
-    
-    private func addPost(_ item: PostItem) {
-        let model = PostModel(item: item)
-        guard let id = model.id, !id.isEmpty else {
-            return
-        }
-        if let _ = postsIndex(of: model) {
-            return
-        } else {
-            _ = PostModel.createRealm(model: model)
-            rxPosts.value.append(model)
-        }
-    }
-    
-    private func deletePost(_ item: PostItem) {
-        let post = PostModel(item: item)
-        if let index = postsIndex(of: post) {
-            rxPosts.value.remove(at: index)
-        }
-    }
-    
-    private func editPost(_  item: PostItem) {
-        let post = PostModel(item: item)
-        if let index = postsIndex(of: post) {
-            rxPosts.value[index] = post
-        }
-    }
-    
-    private func postsIndex(of post: PostModel) -> Int? {
-        let index = posts.index(where: {$0 == post})
-        return index
-    }
-}
-
-// favorities database updated
-
-extension FetchingWorker {
-    
-    private func addFavorite(_ item: FavoriteItem) {
-        let model = FavoriteModel(item: item)
-        if let _ = favoritiesIndex(of: model) {
-            return
-        } else if !item.id.isEmpty {
-            _ = FavoriteModel.createRealm(model: model)
-            rxFavorities.value.append(model)
-        }
-    }
-    
-    private func deleteFavorite(_ item: FavoriteItem) {
-        let model = FavoriteModel(item: item)
-        if let index = favoritiesIndex(of: model) {
-            rxFavorities.value.remove(at: index)
-        }
-    }
-    
-    private func editFavorite(_  item: FavoriteItem) {
-        let model = FavoriteModel(item: item)
-        if let index = favoritiesIndex(of: model) {
-            //_ = FavoriteModel.createRealm(model: model)
-            rxFavorities.value[index] = model
-        }
-    }
-    
-    private func favoritiesIndex(of model: FavoriteModel) -> Int? {
-        let index = favorities.index(where: {$0 == model})
-        return index
-    }
-}
-
-// Comments database updated
-
-extension FetchingWorker {
-    
-    private func addComment(_ item: CommentItem) {
-        let model = CommentModel(item: item)
-        if let _ = commentIndex(of: model) {
-            return
-        } else if !item.id.isEmpty {
-            _ = CommentModel.createRealm(model: model)
-            rxComments.value.append(model)
-            // TODO: Remove it
-            rxNewCommentObserved.value = model
-        }
-    }
-    
-    private func deleteComment(_ item: CommentItem) {
-        let model = CommentModel(item: item)
-        if let index = commentIndex(of: model) {
-            rxComments.value.remove(at: index)
-        }
-    }
-    
-    private func editComment(_  item: CommentItem) {
-        let model = CommentModel(item: item)
-        if let index = commentIndex(of: model) {
-            //_ = FavoriteModel.createRealm(model: model)
-            rxComments.value[index] = model
-        }
-    }
-    
-    private func commentIndex(of model: CommentModel) -> Int? {
-        let index = comments.index(where: {$0 == model})
-        return index
     }
 }

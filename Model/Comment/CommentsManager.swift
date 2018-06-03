@@ -17,7 +17,7 @@ class CommentsManager: NSObject {
       guard let post = self.post else {
          return []
       }
-      let comments = DataModel.comments
+      let comments = CommentModel.comments
       var postComments = [CommentModel]()
       comments.forEach { model in
          if model.postid == post.id {
@@ -31,7 +31,7 @@ class CommentsManager: NSObject {
    
    func startCommentsObserver(for post: PostModel) -> Observable<Bool> {
       self.post = post
-      _ = DataModel.rxNewCommentObserved.asObservable().subscribe({ [weak self] newComment in
+      _ = CommentModel.rxNewCommentObserved.asObservable().subscribe({ [weak self] newComment in
          if let newComment = newComment.event.element, let post = self?.post, newComment?.postid == post.id {
             self?.mNewCommentObservable.value = true
          }

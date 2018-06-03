@@ -21,8 +21,20 @@ final class PostModel: Object {
    @objc dynamic var photosize: String = ""
    @objc dynamic var starCount: Int = 0
 
+   static var rxPosts = Variable<[PostModel]>([])
+   
    override class func primaryKey() -> String? {
       return "id"
+   }
+   
+   class var posts: [PostModel] {
+      do {
+         let realm = try Realm()
+         let posts = realm.objects(PostModel.self)
+         return posts.toArray()
+      } catch _ {
+         return []
+      }
    }
    
    var photoSize: (CGFloat, CGFloat) {
@@ -74,7 +86,7 @@ final class PostModel: Object {
    
    @discardableResult
    class func createRealm(model: PostModel) -> Observable<PostModel> {
-      let result = FetchingWorker.withRealm("creating") { realm -> Observable<PostModel> in
+      let result = DataModelInteractor.withRealm("creating") { realm -> Observable<PostModel> in
          try realm.write {
             realm.add(model)
          }
@@ -82,7 +94,55 @@ final class PostModel: Object {
       }
       return result ?? .error(EmiaServiceError.creationFailed)
    }
+   
+   class func isItMyPost(_ post: PostModel) -> Bool {
+      guard let currentUser = UsersManager.currentUser else {
+         return false
+      }
+      return post.uid == currentUser.userId
+   }
+   
+   class func getPost(with postId: String) -> PostModel? {
+      return PostModel.posts.first(where: { $0.id == postId })
+   }
+   
 }
+
+extension PostModel {
+   
+   class func addPost(_ item: PostItem) {
+      let model = PostModel(item: item)
+      guard let id = model.id, !id.isEmpty else {
+         return
+      }
+      if let _ = postsIndex(of: model) {
+         return
+      } else {
+         _ = PostModel.createRealm(model: model)
+         rxPosts.value.append(model)
+      }
+   }
+   
+   class func deletePost(_ item: PostItem) {
+      let post = PostModel(item: item)
+      if let index = postsIndex(of: post) {
+         rxPosts.value.remove(at: index)
+      }
+   }
+   
+   class func editPost(_  item: PostItem) {
+      let post = PostModel(item: item)
+      if let index = postsIndex(of: post) {
+         rxPosts.value[index] = post
+      }
+   }
+   
+   class func postsIndex(of post: PostModel) -> Int? {
+      let index = posts.index(where: {$0 == post})
+      return index
+   }
+}
+
 
 extension PostModel: IdentifiableType {
    typealias Identity = String
