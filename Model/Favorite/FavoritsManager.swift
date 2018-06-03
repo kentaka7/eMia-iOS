@@ -19,8 +19,8 @@ class FavoritsDataBaseInteractor: NSObject {
    }
 
    func isFavorite(for userId: String, postid: String) -> Bool {
-      let item = FavoriteItem(uid: userId, postid: postid)
-      if let _ = self.index(of: item) {
+      let model = FavoriteModel(uid: userId, postid: postid)
+      if let _ = self.index(of: model) {
          return true
       }
       return false
@@ -31,12 +31,12 @@ class FavoritsDataBaseInteractor: NSObject {
          return
       }
       if let currentUser = UsersManager.currentUser {
-         let item = FavoriteItem(uid: currentUser.userId, postid: postId)
-         if let index = self.index(of: item) {
-            let item = DataModel.favorities[index]
-            item.remove()
+         let model = FavoriteModel(uid: currentUser.userId, postid: postId)
+         if let index = self.index(of: model) {
+            let model = DataModel.favorities[index]
+            model.remove()
          } else {
-            item.synchronize() { _ in
+            model.synchronize() { _ in
                PushNotificationsCenter.send(.like(post: post)) {
                }
             }
@@ -64,10 +64,10 @@ class FavoritsDataBaseInteractor: NSObject {
 
 extension FavoritsDataBaseInteractor {
    
-   fileprivate func index(of favorite: FavoriteItem) -> Int? {
+   fileprivate func index(of favorite: FavoriteModel) -> Int? {
       for index in 0..<DataModel.favorities.count {
-         let item = DataModel.favorities[index]
-         if favorite == item {
+         let model = DataModel.favorities[index]
+         if favorite == model {
             return index
          }
       }

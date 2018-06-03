@@ -48,7 +48,7 @@ class FetchingWorker: NSObject {
     let semaphore = DispatchSemaphore(value: 1)
     
     var rxPosts = Variable<[PostModel]>([])
-    var rxFavorities = Variable<[FavoriteItem]>([])
+    var rxFavorities = Variable<[FavoriteModel]>([])
     var rxUsers = Variable<[UserItem]>([])
 
     var users: [UserItem] {
@@ -59,7 +59,7 @@ class FetchingWorker: NSObject {
         return rxPosts.value
     }
 
-    var favorities: [FavoriteItem] {
+    var favorities: [FavoriteModel] {
         return rxFavorities.value
     }
     
@@ -249,12 +249,13 @@ extension FetchingWorker {
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
-                var _favs = [FavoriteItem]()
+                var _favs = [FavoriteModel]()
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         if let _ = childSnap.value as? Dictionary<String, String> {
                             let item = FavoriteItem(childSnap)
-                            _favs.append(item)
+                            let model = FavoriteModel(item: item)
+                            _favs.append(model)
                         }
                     }
                 }
@@ -359,27 +360,32 @@ extension FetchingWorker {
 extension FetchingWorker {
     
     private func addFavorite(_ item: FavoriteItem) {
-        if let _ = favoritiesIndex(of: item) {
-        } else {
-            rxFavorities.value.append(item)
+        let model = FavoriteModel(item: item)
+        if let _ = favoritiesIndex(of: model) {
+            return
+        } else if item.id.count > 0 {
+            _ = FavoriteModel.createFavorite(model: model)
+            rxFavorities.value.append(model)
         }
     }
     
     private func deleteFavorite(_ item: FavoriteItem) {
-        if let index = favoritiesIndex(of: item) {
+        let model = FavoriteModel(item: item)
+        if let index = favoritiesIndex(of: model) {
             rxFavorities.value.remove(at: index)
         }
     }
     
     private func editFavorite(_  item: FavoriteItem) {
-        if let index = favoritiesIndex(of: item) {
-            rxFavorities.value[index] = item
+        let model = FavoriteModel(item: item)
+        if let index = favoritiesIndex(of: model) {
+            _ = FavoriteModel.createFavorite(model: model)
+            rxFavorities.value[index] = model
         }
     }
     
-    private func favoritiesIndex(of item: FavoriteItem) -> Int? {
-        let index = rxFavorities.value.index(where: {$0 == item})
+    private func favoritiesIndex(of model: FavoriteModel) -> Int? {
+        let index = rxFavorities.value.index(where: {$0 == model})
         return index
     }
 }
-

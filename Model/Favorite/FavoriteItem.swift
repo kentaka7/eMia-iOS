@@ -12,16 +12,13 @@ class FavoriteItem: NSObject, NSCoding {
     
     var key: String
     var id: String
-    var ref: DatabaseReference?
-    
+   
     var uid: String
     var postid: String
     
     override init() {
-        self.key = ""
+      self.key = ""
         self.id = ""
-        self.ref = nil
-        
         self.uid = ""
         self.postid = ""
     }
@@ -39,17 +36,16 @@ class FavoriteItem: NSObject, NSCoding {
         self.postid = decoder.decodeObject(forKey: FavoriteItemFields.postid) as? String ?? ""
     }
     
-    init(uid: String, postid: String){
-        self.key = ""
-        self.id = ""
-        self.ref = nil
+   init(uid: String, postid: String, key: String? = nil, id: String? = nil){
+        self.key = key ?? ""
+        self.id = id ?? ""
         self.uid = uid
         self.postid = postid
     }
     
     init(_ snapshot: DataSnapshot) {
         key = snapshot.key
-        ref = snapshot.ref
+//        ref = snapshot.ref
         let dict = snapshot.value as! Dictionary<String, String>
         id = dict[FavoriteItemFields.id] as String!
         uid = dict[FavoriteItemFields.uid] as String!
@@ -103,7 +99,7 @@ extension FavoriteItem {
     }
     
     func remove() {
-        self.ref?.removeValue()
+        //self.ref?.removeValue()
     }
 }
 
