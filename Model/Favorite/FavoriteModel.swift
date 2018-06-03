@@ -45,7 +45,7 @@ final class FavoriteModel: Object {
    }
    
    @discardableResult
-   class func createFavorite(model: FavoriteModel) -> Observable<FavoriteModel> {
+   class func createRealm(model: FavoriteModel) -> Observable<FavoriteModel> {
       let result = FetchingWorker.withRealm("creating") { realm -> Observable<FavoriteModel> in
          try realm.write {
             realm.add(model)

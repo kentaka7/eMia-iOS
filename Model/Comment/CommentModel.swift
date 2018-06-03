@@ -50,9 +50,9 @@ final class CommentModel: Object {
    }
    
    @discardableResult
-   class func createComment(item: CommentItem) -> Observable<CommentModel> {
+   class func createRealm(model: CommentItem) -> Observable<CommentModel> {
       let result = FetchingWorker.withRealm("creating") { realm -> Observable<CommentModel> in
-         let commentModel = CommentModel(item: item)
+         let commentModel = CommentModel(item: model)
          try realm.write {
             realm.add(commentModel)
          }

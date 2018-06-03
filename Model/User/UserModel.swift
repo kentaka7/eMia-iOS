@@ -68,17 +68,15 @@ final class UserModel: Object {
    }
    
    @discardableResult
-   class func createUser(item: UserItem) -> Observable<UserModel> {
+   class func createRealm(model: UserModel) -> Observable<UserModel> {
       let result = FetchingWorker.withRealm("creating") { realm -> Observable<UserModel> in
-         let user = UserModel(item: item)
          try realm.write {
-            realm.add(user)
+            realm.add(model)
          }
-         return .just(user)
+         return .just(model)
       }
       return result ?? .error(EmiaServiceError.creationFailed)
    }
-
 }
 
 extension UserModel: IdentifiableType {

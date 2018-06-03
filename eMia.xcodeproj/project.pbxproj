@@ -796,8 +796,8 @@
 			children = (
 				7FBFF4D31FE4068400788DCB /* UserItem.swift */,
 				7FBFF4D41FE4068400788DCB /* UserModel.swift */,
-				7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */,
 				7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */,
+				7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";

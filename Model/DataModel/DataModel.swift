@@ -41,17 +41,13 @@ class FetchingWorker: NSObject {
     fileprivate var postsObserver = PostsObserver()
     fileprivate var favoritiesObserver = FavoritiesObserver()
     
-    let queueUsers = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).usersQueue")
-    let queuePosts = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).postsQueue")
-    let queueFavorities = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).favoritiesQueue")
-    
     let semaphore = DispatchSemaphore(value: 1)
     
     var rxPosts = Variable<[PostModel]>([])
     var rxFavorities = Variable<[FavoriteModel]>([])
-    var rxUsers = Variable<[UserItem]>([])
+    var rxUsers = Variable<[UserModel]>([])
 
-    var users: [UserItem] {
+    var users: [UserModel] {
         return rxUsers.value
     }
 
@@ -212,11 +208,12 @@ extension FetchingWorker {
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
-                var _users = [UserItem]()
+                var _users = [UserModel]()
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = UserItem(childSnap)
-                        _users.append(item)
+                        let model = UserModel(item: item)
+                        _users.append(model)
                     }
                 }
                 self.rxUsers.value.append(contentsOf: _users)
@@ -234,7 +231,7 @@ extension FetchingWorker {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = PostItem(childSnap)
-                        let post = PostModel(postItem: item)
+                        let post = PostModel(item: item)
                         _posts.append(post)
                     }
                 }
@@ -291,29 +288,32 @@ extension FetchingWorker {
 
 extension FetchingWorker {
     private func addUser(_ item: UserItem) {
-        if let _ = usersIndex(of: item) {
+        let model = UserModel(item: item)
+        if let _ = usersIndex(of: model) {
             return
-        } else if item.userId.count > 0 {
-            _ = UserModel.createUser(item: item)
-            rxUsers.value.append(item)
+        } else if model.userId.count > 0 {
+            _ = UserModel.createRealm(model: model)
+            rxUsers.value.append(model)
         }
     }
     
     private func deleteUser(_ item: UserItem) {
-        if let index = usersIndex(of: item) {
+        let model = UserModel(item: item)
+        if let index = usersIndex(of: model) {
             rxUsers.value.remove(at: index)
         }
     }
     
     private func editUser(_  item: UserItem) {
-        if let index = usersIndex(of: item) {
+        let model = UserModel(item: item)
+        if let index = usersIndex(of: model) {
             // If the user alteady exists, it's replacing him
-            _ = UserModel.createUser(item: item)
-            rxUsers.value[index] = item
+            _ = UserModel.createRealm(model: model)
+            rxUsers.value[index] = model
         }
     }
     
-    private func usersIndex(of item: UserItem) -> Int? {
+    private func usersIndex(of item: UserModel) -> Int? {
         let index = rxUsers.value.index(where: {$0 == item})
         return index
     }
@@ -325,25 +325,27 @@ extension FetchingWorker {
 extension FetchingWorker {
     
     private func addPost(_ item: PostItem) {
-        let post = PostModel(postItem: item)
-        guard let id = post.id, !id.isEmpty else {
+        let model = PostModel(item: item)
+        guard let id = model.id, !id.isEmpty else {
             return
         }
-        if let _ = postsIndex(of: post) {
+        if let _ = postsIndex(of: model) {
+            return
         } else {
-            rxPosts.value.append(post)
+            _ = PostModel.createRealm(model: model)
+            rxPosts.value.append(model)
         }
     }
     
     private func deletePost(_ item: PostItem) {
-        let post = PostModel(postItem: item)
+        let post = PostModel(item: item)
         if let index = postsIndex(of: post) {
             rxPosts.value.remove(at: index)
         }
     }
     
     private func editPost(_  item: PostItem) {
-        let post = PostModel(postItem: item)
+        let post = PostModel(item: item)
         if let index = postsIndex(of: post) {
             rxPosts.value[index] = post
         }
@@ -364,7 +366,7 @@ extension FetchingWorker {
         if let _ = favoritiesIndex(of: model) {
             return
         } else if item.id.count > 0 {
-            _ = FavoriteModel.createFavorite(model: model)
+            _ = FavoriteModel.createRealm(model: model)
             rxFavorities.value.append(model)
         }
     }
@@ -379,7 +381,7 @@ extension FetchingWorker {
     private func editFavorite(_  item: FavoriteItem) {
         let model = FavoriteModel(item: item)
         if let index = favoritiesIndex(of: model) {
-            _ = FavoriteModel.createFavorite(model: model)
+            _ = FavoriteModel.createRealm(model: model)
             rxFavorities.value[index] = model
         }
     }

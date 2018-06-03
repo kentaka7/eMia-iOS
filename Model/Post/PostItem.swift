@@ -12,8 +12,7 @@ class PostItem: NSObject {
     
     var key: String
     var id: String
-    var ref: DatabaseReference?
-    
+   
     var uid: String
     var author: String
     var title: String
@@ -25,8 +24,7 @@ class PostItem: NSObject {
     override init() {
         self.key = ""
         self.id = ""
-        self.ref = nil
-        
+      
         self.uid = ""
         self.author = ""
         self.title = ""
@@ -49,7 +47,7 @@ class PostItem: NSObject {
     }
     
     init(_ snapshot: DataSnapshot) {
-        ref = snapshot.ref
+//        ref = snapshot.ref
         key = snapshot.key
         let dict = snapshot.value as! [String: AnyObject]
         self.id = dict[PostItemFields.id] as! String
@@ -79,11 +77,6 @@ class PostItem: NSObject {
         let item = PostItem(snapshot)
         return item
     }
-    
-    func setRef(ref: Any?) {
-        self.ref = ref as? DatabaseReference
-    }
-    
 }
 
 //MARK: - Save record
@@ -115,7 +108,7 @@ extension PostItem {
     }
     
     func remove() {
-        self.ref?.removeValue()
+//        self.ref?.removeValue()
     }
 }
 

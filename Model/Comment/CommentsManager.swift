@@ -60,7 +60,7 @@ extension CommentsManager {
       if let _ = index(of: item) {
          return
       } else if item.id.count > 0 {
-         _ = CommentModel.createComment(item: item)
+         _ = CommentModel.createRealm(model: item)
          _comments.append(item)
          wasAdded.value = true
       }
@@ -76,7 +76,7 @@ extension CommentsManager {
    private func editComment(_  item: CommentItem) {
       if let index = index(of: item) {
          _comments[index] = item
-         _ = CommentModel.createComment(item: item)
+         _ = CommentModel.createRealm(model: item)
          wasUpdated.value = true
       }
    }

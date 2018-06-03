@@ -65,21 +65,16 @@ class UsersDataBaseInteractor: NSObject {
    }
 
    func loadData(completion: ([UserModel]) -> Void) {
-      let userItems = DataModel.users
-      let users = userItems.map { item -> UserModel in
-         let user = UserModel(item: item)
-         return user
-      }
-      completion(users)
+      completion(DataModel.users)
    }
    
    // MARK: 
    
    func getUserWith(id userId: String) -> UserModel? {
-      let userItems = DataModel.users
-      if let index = userItems.index(where: {$0.userId == userId}) {
-         let item = userItems[index]
-         return UserModel(item: item)
+      let users = DataModel.users
+      if let index = users.index(where: {$0.userId == userId}) {
+         let user = users[index]
+         return user
       } else {
          return nil
       }

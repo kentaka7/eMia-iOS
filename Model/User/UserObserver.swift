@@ -46,14 +46,13 @@ class UserObserver: NSObject {
       }
    }
 
-   private func didUserUpdate(_ userItems: [UserItem]) {
+   private func didUserUpdate(_ userItems: [UserModel]) {
       for userItem in userItems {
-         for item in observers {
-            let users = item.users
+         for observer in observers {
+            let users = observer.users
             for user in users {
                if user.userId == userItem.userId {
-                  let updatedUser = UserModel(item: userItem)
-                  item.closure(updatedUser)
+                  observer.closure(userItem)
                   return
                }
             }
