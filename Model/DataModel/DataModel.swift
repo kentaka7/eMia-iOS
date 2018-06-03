@@ -37,26 +37,58 @@ class FetchingWorker: NSObject {
         return appDelegate.fetchingManager
     }()
     
-    fileprivate var usersObserver = UsersObserver()
-    fileprivate var postsObserver = PostsObserver()
-    fileprivate var favoritiesObserver = FavoritiesObserver()
+    private var usersObserver = UsersObserver()
+    private var postsObserver = PostsObserver()
+    private var favoritiesObserver = FavoritiesObserver()
+    private var commnetsObserver = CommentsObserver()
     
     let semaphore = DispatchSemaphore(value: 1)
     
     var rxPosts = Variable<[PostModel]>([])
     var rxFavorities = Variable<[FavoriteModel]>([])
     var rxUsers = Variable<[UserModel]>([])
+    var rxComments = Variable<[CommentModel]>([])
 
+    var rxNewCommentObserved = Variable<CommentModel?>(nil)
+    
     var users: [UserModel] {
-        return rxUsers.value
+        do {
+            let realm = try Realm()
+            let users = realm.objects(UserModel.self)
+            return users.toArray()
+        } catch _ {
+            return []
+        }
     }
 
     var posts: [PostModel] {
-        return rxPosts.value
+        do {
+            let realm = try Realm()
+            let posts = realm.objects(PostModel.self)
+            return posts.toArray()
+        } catch _ {
+            return []
+        }
     }
 
     var favorities: [FavoriteModel] {
-        return rxFavorities.value
+        do {
+            let realm = try Realm()
+            let favs = realm.objects(FavoriteModel.self)
+            return favs.toArray()
+        } catch _ {
+            return []
+        }
+    }
+    
+    var comments: [CommentModel] {
+        do {
+            let realm = try Realm()
+            let comms = realm.objects(CommentModel.self)
+            return comms.toArray().sorted(by: {$0.created > $1.created})
+        } catch _ {
+            return []
+        }
     }
     
     func fetchData(completion: @escaping () -> Void) {
@@ -128,6 +160,19 @@ class FetchingWorker: NSObject {
         }).disposed(by: self.disposeBag)
     }
     
+    func startCommentsListener() {
+        let o = self.commnetsObserver.addObserver()
+        _ = o.add.subscribe({ addedItem in
+            self.addComment(addedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        _ = o.update.subscribe({ updatedItem in
+            self.editComment(updatedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+        _ = o.remove.subscribe({ removedItem in
+            self.deleteComment(removedItem.event.element!)
+        }).disposed(by: self.disposeBag)
+    }
+    
     class func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
         do {
             let realm = try Realm()
@@ -135,6 +180,18 @@ class FetchingWorker: NSObject {
         } catch let err {
             print("Failed \(operation) realm with error: \(err)")
             return nil
+        }
+    }
+
+    class func saveWithRealm(_ closure: () -> Void) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                closure()
+            }
+        } catch let err {
+            print("Failed save to user realm with error: \(err)")
+            return
         }
     }
 }
@@ -147,11 +204,14 @@ extension FetchingWorker {
         self.fetchAllUsers(){
             self.fetchAllPosts(){
                 self.fetchAllFavorities(){
-                    
-                    x = (CFAbsoluteTimeGetCurrent() - x) * 1000.0
-                    print("Fetching all dats took \(x) milliseconds")
-                    
-                    completion()
+                    self.fetchAllComments(){
+
+                        x = (CFAbsoluteTimeGetCurrent() - x) * 1000.0
+                        print("Fetching all dats took \(x) milliseconds")
+                        
+                        completion()
+                        
+                    }
                 }
             }
         }
@@ -164,6 +224,7 @@ extension FetchingWorker {
             let usersRef = FireBaseManager.firebaseRef.child(UserFields.users)
             let postsRef = FireBaseManager.firebaseRef.child(PostItemFields.posts)
             let favoritiesRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
+            let commentsRef = FireBaseManager.firebaseRef.child(CommentItemFields.comments)
             let fetchingGroup = DispatchGroup()
             
             fetchingGroup.enter()
@@ -183,6 +244,13 @@ extension FetchingWorker {
             fetchingGroup.enter()
             DispatchQueue.global(qos: .utility).async(group: fetchingGroup, execute: {
                 self.fetchAllFavorities(favoritiesRef){
+                    fetchingGroup.leave()
+                }
+            })
+
+            fetchingGroup.enter()
+            DispatchQueue.global(qos: .utility).async(group: fetchingGroup, execute: {
+                self.fetchAllComments(commentsRef){
                     fetchingGroup.leave()
                 }
             })
@@ -208,65 +276,55 @@ extension FetchingWorker {
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
-                var _users = [UserModel]()
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = UserItem(childSnap)
-                        let model = UserModel(item: item)
-                        _users.append(model)
+                        self.addUser(item)
                     }
                 }
-                self.rxUsers.value.append(contentsOf: _users)
+                self.rxUsers.value.append(contentsOf: self.users)
                 completion()
             }).disposed(by: disposeBag)
     }
     
     private func fetchAllPosts(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let postsRef = FireBaseManager.firebaseRef.child(PostItemFields.posts).queryOrdered(byChild: "\\")
+        let postsRef = dbRef ?? FireBaseManager.firebaseRef.child(PostItemFields.posts).queryOrdered(byChild: "\\")
         postsRef
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
-                var _posts = [PostModel]()
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = PostItem(childSnap)
-                        let post = PostModel(item: item)
-                        _posts.append(post)
+                        self.addPost(item)
                     }
                 }
-                self.rxPosts.value.append(contentsOf: _posts)
+                self.rxPosts.value.append(contentsOf: self.posts)
                 completion()
             }).disposed(by: disposeBag)
     }
     
     private func fetchAllFavorities(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let favoritiesRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).queryOrdered(byChild: "\\")
+        let favoritiesRef = dbRef ?? FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).queryOrdered(byChild: "\\")
         favoritiesRef
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
-                var _favs = [FavoriteModel]()
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         if let _ = childSnap.value as? Dictionary<String, String> {
                             let item = FavoriteItem(childSnap)
-                            let model = FavoriteModel(item: item)
-                            _favs.append(model)
+                            self.addFavorite(item)
                         }
                     }
                 }
-                self.rxFavorities.value.append(contentsOf: _favs)
+                self.rxFavorities.value.append(contentsOf: self.favorities)
                 completion()
             }).disposed(by: disposeBag)
     }
     
-    func fetchAllComments(_ dbRef: DatabaseReference? = nil, for post: PostModel, addComment: @escaping (CommentItem) -> Void, completion: @escaping () -> Void) {
-        guard let postId = post.id else {
-            completion()
-            return
-        }
-        let commentsRef = dbRef ?? FireBaseManager.firebaseRef.child(CommentItemFields.comments).child(postId).queryOrdered(byChild: "\\")
+    func fetchAllComments(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
+        let commentsRef = dbRef ?? FireBaseManager.firebaseRef.child(CommentItemFields.comments).queryOrdered(byChild: "\\")
         commentsRef
             .rx
             .observeSingleEvent(.value)
@@ -274,9 +332,10 @@ extension FetchingWorker {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         let item = CommentItem(childSnap)
-                        addComment(item)
+                        self.addComment(item)
                     }
                 }
+                self.rxComments.value.append(contentsOf: self.comments)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -291,7 +350,7 @@ extension FetchingWorker {
         let model = UserModel(item: item)
         if let _ = usersIndex(of: model) {
             return
-        } else if model.userId.count > 0 {
+        } else if !model.userId.isEmpty {
             _ = UserModel.createRealm(model: model)
             rxUsers.value.append(model)
         }
@@ -308,13 +367,13 @@ extension FetchingWorker {
         let model = UserModel(item: item)
         if let index = usersIndex(of: model) {
             // If the user alteady exists, it's replacing him
-            _ = UserModel.createRealm(model: model)
+            //_ = UserModel.createRealm(model: model)
             rxUsers.value[index] = model
         }
     }
     
     private func usersIndex(of item: UserModel) -> Int? {
-        let index = rxUsers.value.index(where: {$0 == item})
+        let index = users.index(where: {$0 == item})
         return index
     }
     
@@ -352,7 +411,7 @@ extension FetchingWorker {
     }
     
     private func postsIndex(of post: PostModel) -> Int? {
-        let index = rxPosts.value.index(where: {$0 == post})
+        let index = posts.index(where: {$0 == post})
         return index
     }
 }
@@ -365,7 +424,7 @@ extension FetchingWorker {
         let model = FavoriteModel(item: item)
         if let _ = favoritiesIndex(of: model) {
             return
-        } else if item.id.count > 0 {
+        } else if !item.id.isEmpty {
             _ = FavoriteModel.createRealm(model: model)
             rxFavorities.value.append(model)
         }
@@ -381,13 +440,50 @@ extension FetchingWorker {
     private func editFavorite(_  item: FavoriteItem) {
         let model = FavoriteModel(item: item)
         if let index = favoritiesIndex(of: model) {
-            _ = FavoriteModel.createRealm(model: model)
+            //_ = FavoriteModel.createRealm(model: model)
             rxFavorities.value[index] = model
         }
     }
     
     private func favoritiesIndex(of model: FavoriteModel) -> Int? {
-        let index = rxFavorities.value.index(where: {$0 == model})
+        let index = favorities.index(where: {$0 == model})
+        return index
+    }
+}
+
+// Comments database updated
+
+extension FetchingWorker {
+    
+    private func addComment(_ item: CommentItem) {
+        let model = CommentModel(item: item)
+        if let _ = commentIndex(of: model) {
+            return
+        } else if !item.id.isEmpty {
+            _ = CommentModel.createRealm(model: model)
+            rxComments.value.append(model)
+            // TODO: Remove it
+            rxNewCommentObserved.value = model
+        }
+    }
+    
+    private func deleteComment(_ item: CommentItem) {
+        let model = CommentModel(item: item)
+        if let index = commentIndex(of: model) {
+            rxComments.value.remove(at: index)
+        }
+    }
+    
+    private func editComment(_  item: CommentItem) {
+        let model = CommentModel(item: item)
+        if let index = commentIndex(of: model) {
+            //_ = FavoriteModel.createRealm(model: model)
+            rxComments.value[index] = model
+        }
+    }
+    
+    private func commentIndex(of model: CommentModel) -> Int? {
+        let index = comments.index(where: {$0 == model})
         return index
     }
 }

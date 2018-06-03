@@ -37,11 +37,12 @@ class MyProfileInteractor: NSObject {
          Alert.default.showOk("", message: "Please add photo".localized)
          return
       }
-      user.name = name
-      user.address = data.address ?? ""
-      user.gender = data.gender
-      user.yearbirth = data.yearBirth ?? -1
-
+      FetchingWorker.saveWithRealm {
+         user.name = name
+         user.address = data.address ?? ""
+         user.gender = data.gender
+         user.yearbirth = data.yearBirth ?? -1
+      }
       if self.registerUser {
          registerNewUser(with: image, completed: completed)
       } else {
@@ -50,7 +51,9 @@ class MyProfileInteractor: NSObject {
    }
    
    private func registerNewUser(with photo: UIImage, completed: @escaping () -> Void) {
-      user.tokenIOS = DeviceTokenController.myDeviceTokens.first
+      FetchingWorker.saveWithRealm {
+         user.tokenIOS = DeviceTokenController.myDeviceTokens.first
+      }
       self.activityIndicator.startAnimating()
       loginInteractor.signUp(user: self.user, password: self.password) { [weak self] user in
          guard let `self` = self else { return }

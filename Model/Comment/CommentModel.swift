@@ -50,13 +50,12 @@ final class CommentModel: Object {
    }
    
    @discardableResult
-   class func createRealm(model: CommentItem) -> Observable<CommentModel> {
+   class func createRealm(model: CommentModel) -> Observable<CommentModel> {
       let result = FetchingWorker.withRealm("creating") { realm -> Observable<CommentModel> in
-         let commentModel = CommentModel(item: model)
          try realm.write {
-            realm.add(commentModel)
+            realm.add(model)
          }
-         return .just(commentModel)
+         return .just(model)
       }
       return result ?? .error(EmiaServiceError.creationFailed)
    }
@@ -65,7 +64,7 @@ extension CommentModel: IdentifiableType {
    typealias Identity = String
    
    var identity : Identity {
-      return id ?? "0"
+      return id ?? ""
    }
 }
 
@@ -73,8 +72,8 @@ extension CommentModel {
    
    func synchronize(_ completion: @escaping (Bool) -> Void) {
       let commentItem = CommentItem(uid: uid, author: author, text: text, postid: postid, created: created)
-      commentItem.key = key ?? "0"
-      commentItem.id = id ?? "0"
+      commentItem.key = key ?? ""
+      commentItem.id = id ?? ""
       commentItem.synchronize(completion: completion)
    }
 }

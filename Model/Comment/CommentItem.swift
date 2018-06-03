@@ -11,8 +11,6 @@ import Firebase
 class CommentItem: NSObject, NSCoding {
    var key: String
    var id: String
-   var ref: DatabaseReference?
-
    var uid: String
    var author: String
    var text: String
@@ -27,7 +25,6 @@ class CommentItem: NSObject, NSCoding {
       self.text = ""
       self.postid = ""
       self.created = 0
-      self.ref = nil
       super.init()
    }
    
@@ -63,7 +60,8 @@ class CommentItem: NSObject, NSCoding {
    
    init(_ snapshot: DataSnapshot) {
       key = snapshot.key
-      ref = snapshot.ref
+      
+//      ref = snapshot.ref
       
       let dict = snapshot.value as! [String: AnyObject]
       self.id = dict[CommentItemFields.id] as! String
@@ -90,10 +88,6 @@ class CommentItem: NSObject, NSCoding {
       let item = CommentItem(snapshot)
       return item
    }
-   
-   func setRef(ref: Any?) {
-      self.ref = ref as? DatabaseReference
-   }
 }
 
 //MARK: - Save record
@@ -110,7 +104,7 @@ extension CommentItem {
    
    // Update exists data to Firebase Database
    private func update(completion: @escaping (Bool) -> Void) {
-      let childUpdates = ["/\(CommentItemFields.comments)/\(self.postid)/\(self.key)": self.toDictionary()]
+      let childUpdates = ["/\(CommentItemFields.comments)/\(self.id)": self.toDictionary()]
       FireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
          completion(true)
       })
@@ -118,7 +112,7 @@ extension CommentItem {
    
    // Save new data to Firebase Database
    private func save(completion: @escaping (Bool) -> Void) {
-      let key = FireBaseManager.firebaseRef.child(CommentItemFields.comments).child(self.postid).childByAutoId().key
+      let key = FireBaseManager.firebaseRef.child(CommentItemFields.comments).childByAutoId().key
       self.key = key
       self.id = key
       self.created = Date().timeIntervalSince1970
@@ -126,7 +120,7 @@ extension CommentItem {
    }
    
    func remove() {
-      self.ref?.removeValue()
+//      self.ref?.removeValue()
    }
 }
 

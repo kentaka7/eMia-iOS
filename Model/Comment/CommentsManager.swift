@@ -6,89 +6,36 @@
 //  Copyright © 2018 Coded I/S. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import RxSwift
 
 class CommentsManager: NSObject {
 
-   private var _comments = [CommentItem]()
-   private var commnetsObserver = CommentsObserver()
-   private let disposeBag = DisposeBag()
-   private let wasAdded = Variable<Bool>(false)
-   private let wasRemoved = Variable<Bool>(false)
-   private let wasUpdated = Variable<Bool>(false)
-   
-   var isUpdated : Observable<Bool> {
-      return Observable.combineLatest(wasAdded.asObservable(), wasRemoved.asObservable(), wasUpdated.asObservable()){ b1, b2, b3 in
-         b1 || b2 || b3
-      }
-   }
+   private var post: PostModel?
    
    var comments: [CommentModel] {
-      var comments = [CommentModel]()
-      for item in _comments {
-         let commentModel = CommentModel(item: item)
-         comments.append(commentModel)
+      guard let post = self.post else {
+         return []
       }
-      return comments.sorted(by: {$0.created > $1.created})
+      let comments = DataModel.comments
+      var postComments = [CommentModel]()
+      comments.forEach { model in
+         if model.postid == post.id {
+            postComments.append(model)
+         }
+      }
+      return postComments
    }
+
+   private var mNewCommentObservable = Variable<Bool>(false)
    
    func startCommentsObserver(for post: PostModel) -> Observable<Bool> {
-      DataModel.fetchAllComments(nil, for: post, addComment: { commentItem in
-         self.addComment(commentItem)
-      }, completion: {
-         let observable = self.commnetsObserver.addObserver(for: post)
-         _ = observable.add.subscribe({ addedItem in
-            self.addComment(addedItem.event.element!)
-         }).disposed(by: self.disposeBag)
-         _ = observable.update.subscribe({ updatedItem in
-            self.editComment(updatedItem.event.element!)
-         }).disposed(by: self.disposeBag)
-         _ = observable.remove.subscribe({ removedItem in
-            self.deleteComment(removedItem.event.element!)
-         }).disposed(by: self.disposeBag)
-      })
-      return isUpdated
-   }
-}
-
-// MARK: Private methods
-
-extension CommentsManager {
-   
-   private func addComment(_ item: CommentItem) {
-      if let _ = index(of: item) {
-         return
-      } else if item.id.count > 0 {
-         _ = CommentModel.createRealm(model: item)
-         _comments.append(item)
-         wasAdded.value = true
-      }
-   }
-   
-   private func deleteComment(_ item: CommentItem) {
-      if let index = index(of: item) {
-         _comments.remove(at: index)
-         wasRemoved.value = true
-      }
-   }
-   
-   private func editComment(_  item: CommentItem) {
-      if let index = index(of: item) {
-         _comments[index] = item
-         _ = CommentModel.createRealm(model: item)
-         wasUpdated.value = true
-      }
-   }
-   
-   private func index(of item: CommentItem) -> Int? {
-      var index = 0
-      for comment in _comments {
-         if comment == item {
-            return index
+      self.post = post
+      _ = DataModel.rxNewCommentObserved.asObservable().subscribe({ [weak self] newComment in
+         if let newComment = newComment.event.element, let post = self?.post, newComment?.postid == post.id {
+            self?.mNewCommentObservable.value = true
          }
-         index += 1
-      }
-      return nil
+      })
+      return mNewCommentObservable.asObservable()
    }
 }
