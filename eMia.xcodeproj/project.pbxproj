@@ -79,7 +79,6 @@
 		7F7E370D20286F4800470139 /* LoginDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E370C20286F4700470139 /* LoginDependencies.swift */; };
 		7F7E37112028705800470139 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E370E2028705700470139 /* LoginPresenter.swift */; };
 		7F7E37122028705800470139 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E370F2028705700470139 /* LoginInteractor.swift */; };
-		7F7E37132028705800470139 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E37102028705800470139 /* LoginRouter.swift */; };
 		7F7FAB3A20B2712C0052739B /* MunicipalityControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */; };
 		7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */; };
 		7F7FAB3D20B2BCEB0052739B /* AgeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */; };
@@ -254,7 +253,6 @@
 		7F7E370C20286F4700470139 /* LoginDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDependencies.swift; sourceTree = "<group>"; };
 		7F7E370E2028705700470139 /* LoginPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		7F7E370F2028705700470139 /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
-		7F7E37102028705800470139 /* LoginRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MunicipalityControllerView.xib; sourceTree = "<group>"; };
 		7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MunicipalityControllerView.swift; sourceTree = "<group>"; };
 		7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgeSliderView.swift; sourceTree = "<group>"; };
@@ -707,7 +705,6 @@
 				7F7E370C20286F4700470139 /* LoginDependencies.swift */,
 				7F7E370F2028705700470139 /* LoginInteractor.swift */,
 				7F7E370E2028705700470139 /* LoginPresenter.swift */,
-				7F7E37102028705800470139 /* LoginRouter.swift */,
 			);
 			path = LogInScene;
 			sourceTree = "<group>";
@@ -1239,7 +1236,6 @@
 				7F47D9DD20C37725001210E4 /* FavoriteModel.swift in Sources */,
 				7FBDE11E1FE8466A00EAAD3E /* EditPost5ViewCell.swift in Sources */,
 				7F7FAB3D20B2BCEB0052739B /* AgeSliderView.swift in Sources */,
-				7F7E37132028705800470139 /* LoginRouter.swift in Sources */,
 				7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */,
 				7F695C961FEA392B008AE127 /* Register6ViewCell.swift in Sources */,
 				7F3B108A20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift in Sources */,

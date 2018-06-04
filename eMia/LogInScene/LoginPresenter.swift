@@ -24,7 +24,6 @@ protocol LogInRouting {
 
 class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
 
-   var router: LoginRouter!
    var interactor: LoginInteractor!
    var view: LogInViewController!
 
@@ -47,7 +46,6 @@ class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
    }
 
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      router.prepare(for: segue, sender: sender)
    }
    
    func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void) {
@@ -65,7 +63,9 @@ class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
    func signUp(completion: (LoginPresenter.LoginError?) -> Void) {
       let name = email.value.components(separatedBy: "@").first!
       let user = UserModel(name: name, email: email.value, address: nil, gender: nil, yearbirth: nil)
-      router.performEditProfile(password.value, user)
+      let password = self.password.value
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      appDelegate.appRouter.transition(to: .myProfile(user, password), type: .push)
    }
 }
 

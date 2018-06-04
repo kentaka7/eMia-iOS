@@ -21,7 +21,7 @@ class LoginInteractor: NSObject {
       let email = user.email
       FireBaseManager.signUp(email: email, password: password) { userId in
          guard let userId = userId else {
-            Alert.default.showOk("Server error".localized, message: "Can't register a new user!".localized)
+            Alert.default.showOk("Server error".localized, message: "Can't register you on our system!".localized)
             completion(nil)
             return
          }
@@ -38,7 +38,7 @@ class LoginInteractor: NSObject {
                      UsersManager.currentUser = newUser
                      completion(newUser)
                   } else {
-                     Alert.default.showOk("Server error".localized, message: "Can't register a new user!".localized)
+                     Alert.default.showOk("Server error".localized, message: "Can't register you on our system!".localized)
                      completion(nil)
                   }
                }

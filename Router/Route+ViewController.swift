@@ -23,6 +23,7 @@ extension Route {
 
     case .settings:
       return UIViewController()
+      
     case .myProfile(let user, let password):
       let storyboard = UIStoryboard(name: Storyboards.myProfile, bundle: nil)
       let vc = storyboard.instantiateInitialViewController() as! MyProfileViewController
@@ -32,10 +33,13 @@ extension Route {
 
     case .filter:
       return UIViewController()
+      
     case .newPost:
       return UIViewController()
+      
     case .editPost:
       return UIViewController()
+      
    }
   }
 }
