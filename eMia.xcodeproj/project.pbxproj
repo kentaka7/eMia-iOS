@@ -85,6 +85,11 @@
 		7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */; };
 		7F7FAB3D20B2BCEB0052739B /* AgeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */; };
 		7F7FAB3F20B2D6DF0052739B /* AgeSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3E20B2D6DF0052739B /* AgeSliderView.xib */; };
+		7F817B9D20C4E84D00B7C7F6 /* Route+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F817B9820C4E84D00B7C7F6 /* Route+ViewController.swift */; };
+		7F817B9E20C4E84D00B7C7F6 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F817B9920C4E84D00B7C7F6 /* Route.swift */; };
+		7F817B9F20C4E84D00B7C7F6 /* RouteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F817B9A20C4E84D00B7C7F6 /* RouteCoordinator.swift */; };
+		7F817BA020C4E84D00B7C7F6 /* RouteCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F817B9B20C4E84D00B7C7F6 /* RouteCoordinatorType.swift */; };
+		7F817BA120C4E84D00B7C7F6 /* RouteTransitionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F817B9C20C4E84D00B7C7F6 /* RouteTransitionType.swift */; };
 		7F81B21720B0F0F300CA384A /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */; };
 		7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */; };
 		7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */; };
@@ -258,6 +263,11 @@
 		7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MunicipalityControllerView.swift; sourceTree = "<group>"; };
 		7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgeSliderView.swift; sourceTree = "<group>"; };
 		7F7FAB3E20B2D6DF0052739B /* AgeSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AgeSliderView.xib; sourceTree = "<group>"; };
+		7F817B9820C4E84D00B7C7F6 /* Route+ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Route+ViewController.swift"; sourceTree = "<group>"; };
+		7F817B9920C4E84D00B7C7F6 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		7F817B9A20C4E84D00B7C7F6 /* RouteCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteCoordinator.swift; sourceTree = "<group>"; };
+		7F817B9B20C4E84D00B7C7F6 /* RouteCoordinatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteCoordinatorType.swift; sourceTree = "<group>"; };
+		7F817B9C20C4E84D00B7C7F6 /* RouteTransitionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTransitionType.swift; sourceTree = "<group>"; };
 		7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDependencies.swift; sourceTree = "<group>"; };
@@ -730,6 +740,18 @@
 			path = Router;
 			sourceTree = "<group>";
 		};
+		7F817B9720C4E84D00B7C7F6 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				7F817B9920C4E84D00B7C7F6 /* Route.swift */,
+				7F817B9820C4E84D00B7C7F6 /* Route+ViewController.swift */,
+				7F817B9A20C4E84D00B7C7F6 /* RouteCoordinator.swift */,
+				7F817B9B20C4E84D00B7C7F6 /* RouteCoordinatorType.swift */,
+				7F817B9C20C4E84D00B7C7F6 /* RouteTransitionType.swift */,
+			);
+			path = Router;
+			sourceTree = SOURCE_ROOT;
+		};
 		7F81B21B20B0FACE00CA384A /* SettingScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -892,6 +914,7 @@
 				7FCD79ED20143E8600677AC6 /* MyPlayground.playground */,
 				7F2F188F202E10C400EF4644 /* ThirdParty */,
 				7FC20D251FE36668000C23A6 /* Extensions */,
+				7F817B9720C4E84D00B7C7F6 /* Router */,
 				7FC20D221FE365C6000C23A6 /* Helpers */,
 				7FD0519820127A11006D5C6B /* Localization */,
 				7F4D8B4C1FE4E6C400FAFE5E /* PhotosManager */,
@@ -1200,6 +1223,7 @@
 				7F4B289120B1C3D8002BFB47 /* ShowMeSegmentedControl.swift in Sources */,
 				7F87244420B7D3470018A855 /* MyProfileProtocols.swift in Sources */,
 				7FBFF4DD1FE4068400788DCB /* PostItem.swift in Sources */,
+				7F817B9E20C4E84D00B7C7F6 /* Route.swift in Sources */,
 				7FC862241FE94AFA0077C4E2 /* Date.swift in Sources */,
 				7F7E370520281F7C00470139 /* GalleryDependencies.swift in Sources */,
 				7F7E370D20286F4800470139 /* LoginDependencies.swift in Sources */,
@@ -1231,8 +1255,10 @@
 				7F7E36FE20281BD200470139 /* GalleryInteractor.swift in Sources */,
 				7FBA77511FEAB957003B455B /* NewPost1ViewCell.swift in Sources */,
 				7FBFEA3F1FE3B39C00C7ADEC /* RefreshController.swift in Sources */,
+				7F817BA020C4E84D00B7C7F6 /* RouteCoordinatorType.swift in Sources */,
 				7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */,
 				7FFBB25A1FE4620A00A22EB0 /* Helpers.swift in Sources */,
+				7F817BA120C4E84D00B7C7F6 /* RouteTransitionType.swift in Sources */,
 				7FC20D391FE36E9A000C23A6 /* EnumIteration.swift in Sources */,
 				7FC9DE092018481000F50D07 /* PushNotificationsInteractor.swift in Sources */,
 				7F695C8D1FEA3914008AE127 /* MyProfileViewController.swift in Sources */,
@@ -1248,6 +1274,7 @@
 				7F7E370720282D9800470139 /* RootWireframe.swift in Sources */,
 				7F4C1D9D20C1096F0057453F /* TableView+.swift in Sources */,
 				9A99AA7F1B8A219300428802 /* AppDelegate.swift in Sources */,
+				7F817B9F20C4E84D00B7C7F6 /* RouteCoordinator.swift in Sources */,
 				7F35135C20B34DF30004363C /* NewPostDependencies.swift in Sources */,
 				7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */,
 				7FBDE1211FE8466A00EAAD3E /* EditPost2ViewCell.swift in Sources */,
@@ -1257,6 +1284,7 @@
 				7F4C1D9B20C0FE1B0057453F /* Reachability+.swift in Sources */,
 				7FD8CF2F2014DF5700CBAF1C /* AppWireframe.swift in Sources */,
 				7F7E36FD20281BD200470139 /* GalleryPresenter.swift in Sources */,
+				7F817B9D20C4E84D00B7C7F6 /* Route+ViewController.swift in Sources */,
 				7F3B108B20BB371C0073BA32 /* FIRDatabaseReference+Rx.swift in Sources */,
 				7FBA77501FEAB957003B455B /* NewPost3ViewCell.swift in Sources */,
 				7F2F18AA202E111800EF4644 /* GlobalColors.swift in Sources */,
