@@ -21,7 +21,6 @@ class GalleryRouter: NSObject {
 
    var rootViewController: GalleryViewController?
    
-   var rootRouter = RootWireframe()
    private var selectedPost: PostModel?
 }
 

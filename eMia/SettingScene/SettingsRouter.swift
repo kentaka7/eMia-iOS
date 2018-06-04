@@ -34,7 +34,8 @@ class SettingsRouter: NSObject {
                   viewController.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
                }
             case .VisitToAppSite:
-               gotoCustomerSite()
+               let appDelegate = UIApplication.shared.delegate as! AppDelegate
+               appDelegate.gotoCustomerSite()
             case .LogOut:
                UsersManager.logOut()
             }

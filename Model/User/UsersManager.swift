@@ -154,7 +154,8 @@ extension UsersDataBaseInteractor: UsersPresenterModel {
 
    func logOut() {
       self.signOut()
-      presentLoginScreen()
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      _ = appDelegate.appRouter.transition(to: Route.login, type: .root)
    }
 }
 

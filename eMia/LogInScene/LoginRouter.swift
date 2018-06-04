@@ -19,8 +19,6 @@ class LoginRouter: NSObject {
    struct Segue {
       static let MyProfileViewController = "editProfileSegue"
    }
-   
-   let rootRouter = RootWireframe()
 }
 
 // MARK: - Edit post

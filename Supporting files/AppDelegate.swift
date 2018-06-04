@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
    var deviceTokenController = DeviceTokenController_()
    
-   var appRouter = AppRouter()
+   var appRouter: RouteCoordinator!
    
    static var shared: AppDelegate {
       guard let `self` = UIApplication.shared.delegate as? AppDelegate else {
@@ -62,7 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
       IQKeyboardManager.shared.enable = true
       
-      appRouter.startApplication()
+      appRouter = RouteCoordinator(window: window!)
+      appRouter.launchFirstScene()
 
       return true
    }
@@ -101,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    // MARK: - 3D touch on the app home screen icon handler
    
    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-      completionHandler(appRouter.handleAction(for: shortcutItem))
+      completionHandler(handleAction(for: shortcutItem))
    }
 }
 
@@ -138,3 +139,37 @@ extension AppDelegate {
    }
 }
 
+// MARK: - 3D touch on the app home screen icon handler
+
+extension AppDelegate {
+
+   func handleAction(for shortcutItem: UIApplicationShortcutItem) -> Bool {
+      if shortcutItem == .createpost {
+         createNewPost()
+         return true
+      } else if shortcutItem == .customersitelink {
+         gotoCustomerSite()
+         return true
+      } else if shortcutItem == .aboutus {
+         gotoOurSite()
+         return true
+      } else {
+         return false
+      }
+   }
+   
+   func gotoCustomerSite() {
+      if let url = URL(string: "http://www.coded.dk") {
+         UIApplication.shared.open(url, options: [:])
+      }
+   }
+   
+   func gotoOurSite() {
+      if let url = URL(string: "http://www.coded.dk") {
+         UIApplication.shared.open(url, options: [:])
+      }
+   }
+   
+   func createNewPost() {
+   }
+}

@@ -16,6 +16,11 @@ extension Route {
       let nc = storyboard.instantiateInitialViewController() as! UINavigationController
       return nc
 
+    case .gallery:
+      let storyboard = UIStoryboard(name: Storyboards.gallery, bundle: nil)
+      let nc = storyboard.instantiateInitialViewController() as! UINavigationController
+      return nc
+
     case .settings:
       return UIViewController()
     case .myProfile(let user, let password):
@@ -24,11 +29,6 @@ extension Route {
       vc.user = user
       vc.password = password
       return vc
-
-    case .gallery:
-      let storyboard = UIStoryboard(name: Storyboards.gallery, bundle: nil)
-      let nc = storyboard.instantiateInitialViewController() as! UINavigationController
-      return nc
 
     case .filter:
       return UIViewController()
