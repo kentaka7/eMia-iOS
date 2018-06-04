@@ -119,17 +119,10 @@ class GalleryInteractor: NSObject {
 extension GalleryInteractor {
 
    func fetchData() {
-      let filteredData = Variable<[PostModel]>([])
-      let _ = PostModel.rxPosts.asObservable()
-         .map {
-            $0.filter {
-               let searchText = self.mSearchText ?? ""
-               return self.filter.check(post: $0, whatSearch: searchText)
-            }
-         }
-         .bind(to: filteredData)
-         .disposed(by: self.disposeBag)
-      let posts = filteredData.value.sorted(by: {$0.created > $1.created})
+      let posts = PostModel.posts.filter({ post -> Bool in
+         let searchText = self.mSearchText ?? ""
+         return self.filter.check(post: post, whatSearch: searchText)
+      }).sorted(by: {$0.created > $1.created})
       let section: [SectionPostModel] = [SectionPostModel(title: "\(posts.count)", data: posts)]
       self.data.value = section
    }

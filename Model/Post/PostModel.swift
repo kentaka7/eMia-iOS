@@ -32,9 +32,19 @@ final class PostModel: Object {
          let realm = try Realm()
          let posts = realm.objects(PostModel.self)
          return posts.toArray()
-      } catch _ {
+      } catch let err {
+         print("Failed read realm user data with error: \(err)")
          return []
       }
+   }
+
+   class func postsObservable() -> Observable<Results<PostModel>> {
+      let result = DataModelInteractor.withRealm("getting posts") { realm -> Observable<Results<PostModel>> in
+         let realm = try Realm()
+         let posts = realm.objects(PostModel.self)
+         return Observable.collection(from: posts)
+      }
+      return result ?? .empty()
    }
    
    var photoSize: (CGFloat, CGFloat) {
@@ -92,8 +102,31 @@ final class PostModel: Object {
          }
          return .just(model)
       }
-      return result ?? .error(EmiaServiceError.creationFailed)
+      return result ?? .error(PostServiceError.creationFailed)
    }
+
+   @discardableResult
+   class func delete(post: PostModel) -> Observable<Void> {
+      let result = DataModelInteractor.withRealm("deleting") { realm-> Observable<Void> in
+         try realm.write {
+            realm.delete(post)
+         }
+         return .empty()
+      }
+      return result ?? .error(PostServiceError.deletionFailed(post))
+   }
+   
+   @discardableResult
+   class func update(post: PostModel, title: String) -> Observable<PostModel> {
+      let result = DataModelInteractor.withRealm("updating title") { realm -> Observable<PostModel> in
+         try realm.write {
+            post.title = title
+         }
+         return .just(post)
+      }
+      return result ?? .error(PostServiceError.updateFailed(post))
+   }
+   
    
    class func isItMyPost(_ post: PostModel) -> Bool {
       guard let currentUser = UsersManager.currentUser else {

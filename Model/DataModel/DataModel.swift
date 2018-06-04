@@ -21,8 +21,11 @@ protocol CommentsDataBaseObservable {
     func editItem(_  item: CommentItem)
 }
 
-enum EmiaServiceError: Error {
+enum PostServiceError: Error {
     case creationFailed
+    case updateFailed(PostModel)
+    case deletionFailed(PostModel)
+    case toggleFailed(PostModel)
 }
 
 internal let DataModel = DataModelInteractor.sharedInstance

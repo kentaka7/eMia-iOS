@@ -64,7 +64,7 @@ final class FavoriteModel: Object {
          }
          return .just(model)
       }
-      return result ?? .error(EmiaServiceError.creationFailed)
+      return result ?? .error(PostServiceError.creationFailed)
    }
 }
 

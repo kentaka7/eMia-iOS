@@ -77,7 +77,7 @@ final class UserModel: Object {
          }
          return .just(model)
       }
-      return result ?? .error(EmiaServiceError.creationFailed)
+      return result ?? .error(PostServiceError.creationFailed)
    }
    
    class var users: [UserModel] {
