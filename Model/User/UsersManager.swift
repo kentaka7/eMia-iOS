@@ -1,5 +1,5 @@
 //
-//  UsersManager.swift
+//  gUsersManager.swift
 //  eMia
 //
 
@@ -18,13 +18,12 @@ protocol UserDataObservable {
 }
 
 /// Singleton instance for Users tracker
-internal let UsersManager = UsersDataBaseInteractor.sharedInstance
+internal let gUsersManager = UsersDataBaseInteractor.sharedInstance
 
 class UsersDataBaseInteractor: NSObject {
    
    static let sharedInstance: UsersDataBaseInteractor = {
-      let appDelegate = UIApplication.shared.delegate as! AppDelegate
-      return appDelegate.usersDataBaseInteractor
+      return AppDelegate.instance.usersDataBaseInteractor
    }()
 
    private var userObserver = UserObserver()
@@ -57,11 +56,10 @@ class UsersDataBaseInteractor: NSObject {
       unSubscribeOnNotifications()
    }
    
-   fileprivate func subscribeOnNotifications() {
+   private func subscribeOnNotifications() {
    }
    
-   fileprivate func unSubscribeOnNotifications() {
-      NotificationCenter.default.removeObserver(self)
+   private func unSubscribeOnNotifications() {
    }
 
    func loadData(completion: ([UserModel]) -> Void) {
@@ -81,11 +79,7 @@ class UsersDataBaseInteractor: NSObject {
    }
    
    func userExists(_ userId: String) -> Bool {
-      if let _ = getUserWith(id: userId) {
-         return true
-      } else {
-         return false
-      }
+      return getUserWith(id: userId) != nil
    }
    
    fileprivate func changeCurrentUserDataIfNeeded() {
@@ -120,7 +114,7 @@ extension UsersDataBaseInteractor {
    fileprivate func deleteUser(_ user: UserModel, completion: @escaping () -> Void) {
       let userItem = UserItem(user: user)
       userItem.remove()
-      PhotosManager.removeAvatar(user: user) { _ in
+      gPhotosManager.removeAvatar(user: user) { _ in
          completion()
       }
    }

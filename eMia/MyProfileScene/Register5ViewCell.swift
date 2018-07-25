@@ -45,8 +45,8 @@ class Register5ViewCell: UITableViewCell, ForUserConfigurable {
          
          yearPickerView.tintColor = GlobalColors.kBrandNavBarColor
          
-         for i in (1900...2006).reversed()  {
-            pickerData.append(i)
+         for year in (1900...2006).reversed() {
+            pickerData.append(year)
          }
       case yearBirthTitleLabel:
          yearBirthTitleLabel.textColor = GlobalColors.kBrandNavBarColor

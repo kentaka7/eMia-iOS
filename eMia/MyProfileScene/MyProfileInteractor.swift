@@ -52,7 +52,7 @@ class MyProfileInteractor: NSObject {
    
    private func registerNewUser(with photo: UIImage, completed: @escaping () -> Void) {
       DataModelInteractor.saveWithRealm {
-         user.tokenIOS = DeviceTokenController.myDeviceTokens.first
+         user.tokenIOS = gDeviceTokenController.myDeviceTokens.first
       }
       self.activityIndicator.startAnimating()
       loginInteractor.signUp(user: self.user, password: self.password) { [weak self] user in
@@ -61,7 +61,7 @@ class MyProfileInteractor: NSObject {
          if let user = user {
             let avatarFileName = user.userId
             self.activityIndicator.startAnimating()
-            PhotosManager.uploadPhoto(photo, for: avatarFileName) { success in
+            gPhotosManager.uploadPhoto(photo, for: avatarFileName) { success in
                self.activityIndicator.stopAnimating()
                if success {
                   completed()
@@ -83,10 +83,10 @@ class MyProfileInteractor: NSObject {
          if success {
             let avatarFileName = self.user.userId
             self.activityIndicator.startAnimating()
-            PhotosManager.uploadPhoto(photo, for: avatarFileName) { success in
+            gPhotosManager.uploadPhoto(photo, for: avatarFileName) { success in
                self.activityIndicator.stopAnimating()
                if success {
-                  PhotosManager.cleanPhotoCache(for: self.user)
+                  gPhotosManager.cleanPhotoCache(for: self.user)
                   completed()
                } else {
                   Alert.default.showOk("We can't upload photo on server".localized, message: "Please try it later".localized)

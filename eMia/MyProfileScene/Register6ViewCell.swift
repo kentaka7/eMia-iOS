@@ -37,7 +37,7 @@ class Register6ViewCell: UITableViewCell, ForUserConfigurable {
       guard !user.userId.isEmpty else {
          return
       }
-      PhotosManager.downloadAvatar(for: user.userId) { image in
+      gPhotosManager.downloadAvatar(for: user.userId) { image in
          self.setUpPhoto(image)
       }
    }
@@ -89,28 +89,24 @@ extension Register6ViewCell: UIImagePickerControllerDelegate, UINavigationContro
    }
    
    fileprivate func openCamera() {
-      if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
-      {
+      if UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
          imagePicker.delegate = self
          imagePicker.allowsEditing = true
          imagePicker.sourceType = .camera
          self.viewController.present(imagePicker, animated: true, completion: nil)
-      }
-      else
-      {
+      } else {
          Alert.default.showOk("Warning".localized, message: "You don't have a camera".localized)
       }
    }
    
-   fileprivate func openGallary()
-   {
+   fileprivate func openGallary() {
       imagePicker.delegate = self
       imagePicker.allowsEditing = true
       imagePicker.sourceType = .photoLibrary
       self.viewController.present(imagePicker, animated: true, completion: nil)
    }
    
-   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
       if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
          var photo: UIImage
          if let image =  pickedImage.fitToSize() {

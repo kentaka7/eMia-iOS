@@ -7,19 +7,18 @@ import UIKit
 import RxSwift
 import SwiftyNotifications
 
-internal let Network = ReachabilityController.sharedInstance
+internal let gNetwork = ReachabilityController.sharedInstance
 
 class ReachabilityController: NSObject {
 
    static let sharedInstance: ReachabilityController = {
-      let appDelegate = UIApplication.shared.delegate as! AppDelegate
-      return appDelegate.reachabilityController
+      return AppDelegate.instance.reachabilityController
    }()
    
    private var mReachable: Bool = true
    private let disposeBag = DisposeBag()
    
-   fileprivate var reachabilityNotificatin: SwiftyNotifications? = nil
+   fileprivate var reachabilityNotificatin: SwiftyNotifications?
 	internal var observers = [Any]()
    
    override init() {
@@ -106,7 +105,7 @@ extension ReachabilityController: AnyObservable {
       let queue = OperationQueue.main
       
       observers.append(
-         center.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: queue) { [weak self] _ in
+         _ = center.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: queue) { [weak self] _ in
             guard let `self` = self else {
                return
             }

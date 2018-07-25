@@ -38,7 +38,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
 
       case avatarUserImageView:
          if let userId = post?.uid {
-            PhotosManager.downloadAvatar(for:  userId) { image in
+            gPhotosManager.downloadAvatar(for:  userId) { image in
                DispatchQueue.main.async {
                   self.avatarUserImageView.image = image
                }
@@ -57,7 +57,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
 
       case favoriteButtonImageView:
          if let post = self.post {
-            let isItMyFavoritePost = FavoritsManager.isItMyFavoritePost(post)
+            let isItMyFavoritePost = gFavoritsManager.isItMyFavoritePost(post)
             DispatchQueue.main.async {
                self.favoriteButtonImageView.image = UIImage(named: isItMyFavoritePost ? "icon-toggle_star" : "icon-toggle_star_outline")
             }
@@ -65,7 +65,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
       
       case nameUserLabel:
          if let userId = post?.uid {
-            if let user = UsersManager.getUserWith(id: userId) {
+            if let user = gUsersManager.getUserWith(id: userId) {
                self.nameUserLabel.text = user.name
             } else {
                self.nameUserLabel.text = nil
@@ -91,6 +91,6 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
       guard let post = self.post else {
          return
       }
-      FavoritsManager.addToFavorite(post: post)
+      gFavoritsManager.addToFavorite(post: post)
    }
 }

@@ -25,4 +25,3 @@ class EditPost3ViewCell: UITableViewCell, ForPostConfigurable {
    }
    
 }
-

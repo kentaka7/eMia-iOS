@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>472437465631-bqa1iv3rvfah2virfhd0bk8c2fhc7hsf.apps.googleusercontent.com</string>
+	<string>504296480517-l4galjn3j6p86r3qecu9jdressvs26t5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.472437465631-bqa1iv3rvfah2virfhd0bk8c2fhc7hsf</string>
+	<string>com.googleusercontent.apps.504296480517-l4galjn3j6p86r3qecu9jdressvs26t5</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDz2tjeLshyrjKjVB_fhRBXLvzkbHpGBdk</string>
+	<string>AIzaSyDo8FbKO8rNmM2gsZ3mEUy9PXDMeSMoCWM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>472437465631</string>
+	<string>504296480517</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.skappledev.boblberg</string>
 	<key>PROJECT_ID</key>
-	<string>emia-885b7</string>
+	<string>boblberg-b8a0f</string>
 	<key>STORAGE_BUCKET</key>
-	<string>emia-885b7.appspot.com</string>
+	<string>boblberg-b8a0f.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:472437465631:ios:7e3cc8aaf9324df0</string>
+	<string>1:504296480517:ios:7e3cc8aaf9324df0</string>
 	<key>DATABASE_URL</key>
-	<string>https://emia-885b7.firebaseio.com</string>
+	<string>https://boblberg-b8a0f.firebaseio.com</string>
 </dict>
 </plist>

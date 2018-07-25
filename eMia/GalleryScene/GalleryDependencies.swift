@@ -11,7 +11,7 @@ class GalleryDependencies {
       let router = GalleryRouter()
       let presenter = GalleryPresenter()
       let interactor = GalleryInteractor()
-      let filterManager = FilterManager()
+      let filterStorage = FilterStorage()
       
       router.rootViewController = view
       
@@ -25,7 +25,6 @@ class GalleryDependencies {
       
       interactor.presenter = presenter
       interactor.collectionView = view.galleryCollectionView
-      interactor.filter = filterManager
+      interactor.filter = filterStorage
    }
 }
-

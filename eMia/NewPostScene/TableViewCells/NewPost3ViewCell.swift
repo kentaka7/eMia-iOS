@@ -40,7 +40,7 @@ class NewPost3ViewCell: UITableViewCell {
    }
 
    @objc func didPressImageView(_ recognizer: UITapGestureRecognizer) {
-      guard let _ = photoImage else {
+      if photoImage == nil {
          return
       }
       _imageViewController = SFFullscreenImageDetailViewController(imageView: photoImageView)
@@ -72,15 +72,12 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
    }
    
    fileprivate func openCamera() {
-      if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera))
-      {
+      if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
          imagePicker.delegate = self
          imagePicker.allowsEditing = true
          imagePicker.sourceType = .camera
          self.viewController.present(imagePicker, animated: true, completion: nil)
-      }
-      else
-      {
+      } else {
          Alert.default.showOk("Warning".localized, message: "You don't have a camera".localized)
       }
    }
@@ -93,7 +90,7 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
       self.viewController.present(imagePicker, animated: true, completion: nil)
    }
    
-   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
       if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
          var image: UIImage
          if let fixedImage =  pickedImage.fitToSize() {

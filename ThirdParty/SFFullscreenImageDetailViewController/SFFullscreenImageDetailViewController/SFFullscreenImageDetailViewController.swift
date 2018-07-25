@@ -45,7 +45,6 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
       return view
    }()
    
-   
    public init (imageView view: UIImageView) {
       self.originalView = view
       var calculationView: UIView = view
@@ -63,17 +62,23 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
       
       self.originFrame = visibleRect
       self.imageView.contentMode = .scaleAspectFit    //view.contentMode
-      self.image = view.image!.copy() as! UIImage
-      
+      if let image = view.image!.copy() as? UIImage {
+         self.image = image
+      } else {
+         self.image = UIImage()
+      }
       super.init(nibName: nil, bundle: nil)
       
       self.closeButton.addTarget(self, action: #selector(self.closeTapped(_:)), for: .touchUpInside)
    }
    
    required public init?(coder aDecoder: NSCoder) {
-      self.image = aDecoder.decodeObject(forKey: "image") as! UIImage
+      if let image = aDecoder.decodeObject(forKey: "image") as? UIImage {
+         self.image = image
+      } else {
+         self.image = UIImage()
+      }
       self.originFrame = aDecoder.decodeCGRect(forKey: "originFrame")
-      
       super.init(coder: aDecoder)
    }
    
@@ -91,8 +96,8 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
       self.scrollView.frame = CGRect(x: 15, y: 60, width: self.view.bounds.width - 30, height: self.view.bounds.height - 80)
       self.scrollView.delegate = self
       self.view.addSubview(self.scrollView)
-      let x = self.view.frame.width / 2.0 - 15.0
-      self.closeButton.frame = CGRect(x: x, y: 25, width: 35, height: 35)
+      let xCoord = self.view.frame.width / 2.0 - 15.0
+      self.closeButton.frame = CGRect(x: xCoord, y: 25, width: 35, height: 35)
       self.view.addSubview(self.closeButton)
       
       let recognizer = UIPanGestureRecognizer(target: self, action: #selector(self.panGestureCallback(_:)))

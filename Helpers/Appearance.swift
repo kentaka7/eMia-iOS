@@ -6,9 +6,10 @@
 import UIKit
 
 final class Appearance {
-   private init(){}
+   private init() {
+   }
    
-   //    MARK: - Class functions
+   // MARK: - Class functions
    
    static func customize() {
       
@@ -22,12 +23,12 @@ final class Appearance {
    
    static func customizeNavigationBar() {
       let navBar = UINavigationBar.appearance()
-      navBar.tintColor = UIColor.navigation.tintColor
+      navBar.tintColor = UIColor.Navigation.tintColor
       
       // Navigation bar title
       let attr: [NSAttributedStringKey : Any] = [
-         NSAttributedStringKey.foregroundColor: UIColor.white,
-         NSAttributedStringKey.font: UIFont.title.navigationBar
+         .foregroundColor: UIColor.white,
+         .font: UIFont.Title.navigationBar
       ]
       navBar.titleTextAttributes = attr
       
@@ -39,7 +40,7 @@ final class Appearance {
       
       // Navigation bar item
       let navBarButton = UIBarButtonItem.appearance()
-      let barButtonAttr = [ NSAttributedStringKey.font: UIFont.title.barButton]
+      let barButtonAttr = [ NSAttributedStringKey.font: UIFont.Title.barButton]
       navBarButton.setTitleTextAttributes(barButtonAttr, for: .normal)
       
    }
@@ -53,7 +54,7 @@ final class Appearance {
    
 }
 
-//   MARK: - UISwitch
+// MARK: - UISwitch
 
 extension Appearance {
    static func customizeSwithController() {
@@ -63,7 +64,7 @@ extension Appearance {
    }
 }
 
-//   MARK: - Segmented control
+// MARK: - Segmented control
 
 extension Appearance {
    static func customizeSegmentedControl() {
