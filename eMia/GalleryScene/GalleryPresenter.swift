@@ -49,15 +49,21 @@ class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
    }
    
    func prepareGalleryCell(_ collectionView: UICollectionView, indexPath: IndexPath, post: PostModel) -> UICollectionViewCell {
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
-      cell.update(with: post)
-      return cell
+      if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as? GalleryViewCell {
+         cell.update(with: post)
+         return cell
+      } else {
+         return UICollectionViewCell()
+      }
    }
 
    func prepareGalleryHeader(_ collectionView: UICollectionView, indexPath: IndexPath, kind: String, text: String) -> UICollectionReusableView {
-      let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as! GalleryHeaderView
-      headerView.title.text = text
-      return headerView
+      if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as? GalleryHeaderView {
+         headerView.title.text = text
+         return headerView
+      } else {
+         return UICollectionReusableView()
+      }
    }
 }
 
@@ -82,5 +88,3 @@ extension GalleryPresenter: GalleryLayoutDelegate {
       return interactor.collectionView(collectionView, numberOfItemsinSection: section)
    }
 }
-
-

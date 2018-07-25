@@ -11,7 +11,7 @@ import RxSwift
 import Firebase
 
 class CommentsObserver: NSObject {
-   lazy var dbRef = FireBaseManager.firebaseRef.child(CommentItemFields.comments)
+   lazy var dbRef = gFireBaseManager.firebaseRef.child(CommentItemFields.comments)
    private let disposeBag = DisposeBag()
    
    func startListening() {

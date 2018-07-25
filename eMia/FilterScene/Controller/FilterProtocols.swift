@@ -23,5 +23,5 @@ protocol FilterPresented {
 }
 
 protocol PostsFiltering {
-   func check(post: PostModel, whatSearch: String) -> Bool
+   func check(post: PostModel, searchTemplate: String) -> Bool
 }

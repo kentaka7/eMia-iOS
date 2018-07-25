@@ -8,7 +8,7 @@ import RxSwift
 import Firebase
 
 class UsersObserver: NSObject {
-   lazy var dbRef = FireBaseManager.firebaseRef.child(UserFields.users)
+   lazy var dbRef = gFireBaseManager.firebaseRef.child(UserFields.users)
    private let disposeBag = DisposeBag()
    
    func startListening() {

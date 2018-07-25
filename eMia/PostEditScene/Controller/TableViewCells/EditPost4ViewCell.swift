@@ -62,16 +62,16 @@ extension EditPost4ViewCell {
       guard let text = commentTextView.textView.text, text.isEmpty == false else {
          return
       }
-      guard let currentUser = UsersManager.currentUser else {
+      guard let currentUser = gUsersManager.currentUser else {
          return
       }
       activityIndicator.startAnimating()
       let newComment = CommentModel(uid: currentUser.userId, author: currentUser.name, text: text, postid: post.id!)
-      newComment.synchronize() { success in
+      newComment.synchronize { success in
          if success {
             self.didEnterNewComment()
             self.commentTextView.textView.text = ""
-            let _ = self.commentTextView.resignFirstResponder()
+            _ = self.commentTextView.resignFirstResponder()
          }
          self.activityIndicator.stopAnimating()
       }

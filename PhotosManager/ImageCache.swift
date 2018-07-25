@@ -52,7 +52,7 @@ extension ImageCache: ImagesCacheble {
       if let cachedImage = cache[storageRef.fullPath] {
          completion(cachedImage)
          return nil
-      } else if Network.reachable {
+      } else if gNetwork.reachable {
          return storageRef.getData(maxSize: self.kMaxImageSize) { (data, error) -> Void in
             guard error == nil else {
                print("Cannot load image: ", error!.localizedDescription)
@@ -74,7 +74,7 @@ extension ImageCache: ImagesCacheble {
       if let cachedImage = cache[storageRef.fullPath] {
          completion(cachedImage, downloadID)
          return nil
-      } else if Network.reachable {
+      } else if gNetwork.reachable {
          return storageRef.getData(maxSize: self.kMaxImageSize) { (data, error) -> Void in
             guard error == nil else {
                print("Cannot load image: ", error!.localizedDescription)
@@ -95,4 +95,3 @@ extension ImageCache: ImagesCacheble {
 extension StorageReference {
    var cacheKey: NSString { return self.fullPath as NSString }
 }
-

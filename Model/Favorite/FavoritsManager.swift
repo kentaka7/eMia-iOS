@@ -5,13 +5,12 @@
 
 import UIKit
 
-internal let FavoritsManager = FavoritsDataBaseInteractor.sharedInstance
+internal let gFavoritsManager = FavoritsDataBaseInteractor.sharedInstance
 
 class FavoritsDataBaseInteractor: NSObject {
 
    static let sharedInstance: FavoritsDataBaseInteractor = {
-      let appDelegate = UIApplication.shared.delegate as! AppDelegate
-      return appDelegate.favoritsManager
+      return AppDelegate.instance.favoritsManager
    }()
    
    override init() {
@@ -20,24 +19,21 @@ class FavoritsDataBaseInteractor: NSObject {
 
    func isFavorite(for userId: String, postid: String) -> Bool {
       let model = FavoriteModel(uid: userId, postid: postid)
-      if let _ = self.index(of: model) {
-         return true
-      }
-      return false
+      return self.index(of: model) != nil
    }
 
    func addToFavorite(post: PostModel) {
       guard let postId = post.id else {
          return
       }
-      if let currentUser = UsersManager.currentUser {
+      if let currentUser = gUsersManager.currentUser {
          let model = FavoriteModel(uid: currentUser.userId, postid: postId)
          if let index = self.index(of: model) {
             let model = FavoriteModel.favorities[index]
             model.remove()
          } else {
-            model.synchronize() { _ in
-               PushNotificationsCenter.send(.like(post: post)) {
+            model.synchronize { _ in
+               gPushNotificationsCenter.send(.like(post: post)) {
                }
             }
          }
@@ -45,17 +41,17 @@ class FavoritsDataBaseInteractor: NSObject {
    }
    
    func isItMyFavoritePost(_ post: PostModel) -> Bool {
-      guard let currentUser = UsersManager.currentUser else {
+      guard let currentUser = gUsersManager.currentUser else {
          return false
       }
       guard let postId = post.id else {
          return false
       }
       let myId = currentUser.userId
-      if let _ = FavoriteModel.favorities.index(where: {$0.postid == postId && $0.uid == myId}) {
-         return true
-      } else {
+      if FavoriteModel.favorities.index(where: {$0.postid == postId && $0.uid == myId}) == nil {
          return false
+      } else {
+         return true
       }
    }
 }

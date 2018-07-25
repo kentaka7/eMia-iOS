@@ -22,4 +22,3 @@ class EditPost2ViewCell: UITableViewCell, ForPostConfigurable {
       return bodyTextView.frame.height
    }
 }
-

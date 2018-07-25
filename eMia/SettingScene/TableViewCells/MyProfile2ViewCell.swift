@@ -38,4 +38,3 @@ class MyProfile2ViewCell: UITableViewCell {
    }
    
 }
-

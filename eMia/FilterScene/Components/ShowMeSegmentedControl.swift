@@ -35,11 +35,14 @@ class ShowMeSegmentedControl: UIView {
    }
    
    static func getInstance(for superView: UIView) -> ShowMeSegmentedControl {
-      let view = UIView.loadFrom(nibNamed: "ShowMeSegmentedControl") as! ShowMeSegmentedControl
-      view.frame = superView.bounds
-      view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-      superView.addSubview(view)
-      return view
+      if let view = UIView.loadFrom(nibNamed: "ShowMeSegmentedControl") as? ShowMeSegmentedControl {
+         view.frame = superView.bounds
+         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+         superView.addSubview(view)
+         return view
+      } else {
+         assert(false, "ShowMeSegmentedControl is not defined!")
+      }
    }
    
    override func awakeFromNib() {

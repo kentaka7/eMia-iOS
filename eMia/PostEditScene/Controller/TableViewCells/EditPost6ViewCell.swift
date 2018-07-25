@@ -18,7 +18,7 @@ class EditPost6ViewCell: UITableViewCell, ForPostConfigurable {
    }
 
    func configureView(for post: PostModel) -> CGFloat {
-      post.getPhoto() { image in
+      post.getPhoto { image in
          self.photoImageView.image = image
       }
       return -1.0

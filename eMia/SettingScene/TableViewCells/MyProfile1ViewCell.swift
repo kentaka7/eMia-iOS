@@ -28,14 +28,14 @@ class MyProfile1ViewCell: UITableViewCell {
       switch view {
       case titleLabel:
          titleLabel.textColor = GlobalColors.kBrandNavBarColor
-         if let currentUser = UsersManager.currentUser {
+         if let currentUser = gUsersManager.currentUser {
             titleLabel.text = currentUser.name
          }
       case avatarBackgroundView:
          avatarBackgroundView.layer.cornerRadius = avatarBackgroundView.frame.height / 2.0
       case avatarImageView:
-         if let currentUser = UsersManager.currentUser {
-            PhotosManager.downloadAvatar(for: currentUser.userId) { image in
+         if let currentUser = gUsersManager.currentUser {
+            gPhotosManager.downloadAvatar(for: currentUser.userId) { image in
                self.avatarImageView.image = image
             }
          }
@@ -51,4 +51,3 @@ class MyProfile1ViewCell: UITableViewCell {
    }
    
 }
-

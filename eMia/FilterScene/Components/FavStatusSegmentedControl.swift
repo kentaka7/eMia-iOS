@@ -32,11 +32,14 @@ class FavStatusSegmentedControl: UIView {
    }
 
    static func getInstance(for superView: UIView) -> FavStatusSegmentedControl {
-     let view = UIView.loadFrom(nibNamed: "FavStatusSegmentedControl") as! FavStatusSegmentedControl
-      view.frame = superView.bounds
-      view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-      superView.addSubview(view)
-      return view
+      if let view = UIView.loadFrom(nibNamed: "FavStatusSegmentedControl") as? FavStatusSegmentedControl {
+         view.frame = superView.bounds
+         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+         superView.addSubview(view)
+         return view
+      } else {
+         assert(false, "FavStatusSegmentedControl is not defined!")
+      }
    }
    
    override func awakeFromNib() {

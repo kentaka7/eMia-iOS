@@ -46,8 +46,8 @@ class GalleryLayout: UICollectionViewFlowLayout {
       for item in 0 ..< delegate.collectionView(collectionView, numberOfItemsinSection: 0) {
          let indexPath = IndexPath(item: item, section: 0)
          let photoSize = delegate.collectionView(collectionView, photoSizeAtIndexPath: indexPath)
-         let k = columnWidth / photoSize.width
-         let height = photoSize.height * k + cellPadding * 2 + 54.0
+         let scale = columnWidth / photoSize.width
+         let height = photoSize.height * scale + cellPadding * 2 + 54.0
          let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
          let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
          let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
@@ -65,7 +65,7 @@ class GalleryLayout: UICollectionViewFlowLayout {
       
       let attributesArray = super.layoutAttributesForElements(in: rect)
 
-      guard let _ = self.collectionView else {
+      if self.collectionView == nil {
          return attributesArray
       }
       

@@ -32,13 +32,16 @@ class AgeSliderView: UIView {
    }
    
    static func getInstance(for superView: UIView, min: Int, max: Int) -> AgeSliderView {
-      let view = UIView.loadFrom(nibNamed: "AgeSliderView") as! AgeSliderView
-      view.frame = superView.bounds
-      view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-      superView.addSubview(view)
-      view.configureSlider(min: min, max: max)
-      view.subscribeObChanged()
-      return view
+      if let view = UIView.loadFrom(nibNamed: "AgeSliderView") as? AgeSliderView {
+         view.frame = superView.bounds
+         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+         superView.addSubview(view)
+         view.configureSlider(min: min, max: max)
+         view.subscribeObChanged()
+         return view
+      } else {
+         assert(false, "AgeSliderView is not defined!")
+      }
    }
    
    private func configureSlider(min: Int, max: Int) {

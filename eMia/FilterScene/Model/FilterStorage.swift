@@ -1,5 +1,5 @@
 //
-//  FilterManager.swift
+//  FilterStorage.swift
 //  eMia
 //
 //  Created by Сергей Кротких on 27/05/2018.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-class FilterManager: PostsFiltering {
+class FilterStorage: PostsFiltering {
    
    enum Settings {
-      static let filterMinAgeKey = "FilterManager.Settings.minValueKey"
-      static let filterMaxAgeKey = "FilterManager.Settings.maxValueKey"
-      static let filterMyFavoriteKey = "FilterManager.Settings.myFavoriteKey"
-      static let filterGenderKey = "FilterManager.Settings.gender"
-      static let filterMunicipalityKey = "FilterManager.Settings.municipality"
-      static let filterIsInitialized = "FilterManager.Settings.filterIsInitialized"
+      static let filterMinAgeKey = "FilterStorage.Settings.minValueKey"
+      static let filterMaxAgeKey = "FilterStorage.Settings.maxValueKey"
+      static let filterMyFavoriteKey = "FilterStorage.Settings.myFavoriteKey"
+      static let filterGenderKey = "FilterStorage.Settings.gender"
+      static let filterMunicipalityKey = "FilterStorage.Settings.municipality"
+      static let filterIsInitialized = "FilterStorage.Settings.filterIsInitialized"
    }
    
    private var queue: DispatchQueue = DispatchQueue(label: "\(AppConstants.ManufacturingName).\(AppConstants.ApplicationName).filterQueue")
@@ -37,7 +37,7 @@ class FilterManager: PostsFiltering {
       UserDefaults.standard.synchronize()
    }
    
-   var myFavoriteFilter :FilterFavorite {
+   var myFavoriteFilter: FilterFavorite {
       set {
          queue.async {
             UserDefaults.standard.set(newValue.rawValue, forKey: Settings.filterMyFavoriteKey)
@@ -119,16 +119,16 @@ class FilterManager: PostsFiltering {
    
    func filterPosts(_ posts: [PostModel], searchText: String = "") -> [PostModel] {
       let filteredPosts = posts.filter({ post in
-         return self.check(post: post, whatSearch: searchText)
+         return self.check(post: post, searchTemplate: searchText)
       })
       return filteredPosts
    }
    
-   func check(post: PostModel, whatSearch: String) -> Bool {
+   func check(post: PostModel, searchTemplate: String) -> Bool {
       // Favorities
       var addFavorite = false
       if self.myFavoriteFilter == .myFavorite {
-         if FavoritsManager.isItMyFavoritePost(post) {
+         if gFavoritsManager.isItMyFavoritePost(post) {
             addFavorite = true
          }
       } else if self.myFavoriteFilter == .all {
@@ -139,7 +139,7 @@ class FilterManager: PostsFiltering {
       var addMunicipality = false
       var addAge = false
       
-      if let user = UsersManager.getUserWith(id: post.uid) {
+      if let user = gUsersManager.getUserWith(id: post.uid) {
          // Gender
          if self.genderFilter == .both {
             addGender = true
@@ -172,14 +172,14 @@ class FilterManager: PostsFiltering {
       
       if addFavorite && addGender && addMunicipality && addAge {
          var isValidvalue = false
-         if whatSearch.isEmpty {
+         if searchTemplate.isEmpty {
             isValidvalue = true
          } else {
             let title = post.title
             let body = post.body
-            if title.lowercased().range(of: whatSearch.lowercased()) != nil {
+            if title.lowercased().range(of: searchTemplate.lowercased()) != nil {
                isValidvalue = true
-            } else if body.lowercased().range(of: whatSearch.lowercased()) != nil {
+            } else if body.lowercased().range(of: searchTemplate.lowercased()) != nil {
                isValidvalue = true
             }
          }

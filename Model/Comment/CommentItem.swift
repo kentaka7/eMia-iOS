@@ -28,7 +28,7 @@ class CommentItem: NSObject, NSCoding {
       super.init()
    }
    
-   convenience init(uid: String, author: String, text: String, postid: String, created: Double){
+   convenience init(uid: String, author: String, text: String, postid: String, created: Double) {
       self.init()
       self.uid = uid
       self.author = author
@@ -45,7 +45,7 @@ class CommentItem: NSObject, NSCoding {
       self.author = decoder.decodeObject(forKey: CommentItemFields.author) as? String ?? ""
       self.text = decoder.decodeObject(forKey: CommentItemFields.text) as? String ?? ""
       self.postid = decoder.decodeObject(forKey: CommentItemFields.postid) as? String ?? ""
-      self.created = decoder.decodeObject(forKey: CommentItemFields.created) as! TimeInterval
+      self.created = decoder.decodeObject(forKey: CommentItemFields.created) as? TimeInterval ?? 0
    }
    
    func encode(with coder: NSCoder) {
@@ -58,18 +58,20 @@ class CommentItem: NSObject, NSCoding {
       coder.encode(created, forKey: CommentItemFields.created)
    }
    
-   init(_ snapshot: DataSnapshot) {
+   convenience init(_ snapshot: DataSnapshot) {
+      self.init()
       key = snapshot.key
       
 //      ref = snapshot.ref
       
-      let dict = snapshot.value as! [String: AnyObject]
-      self.id = dict[CommentItemFields.id] as! String
-      self.uid = dict[CommentItemFields.uid] as! String
-      self.author = dict[CommentItemFields.author] as! String
-      self.text = dict[CommentItemFields.text] as! String
-      self.postid = dict[CommentItemFields.postid] as! String
-      self.created = dict[CommentItemFields.created] as! TimeInterval
+      if let dict = snapshot.value as? [String: AnyObject] {
+         self.id = dict[CommentItemFields.id] as? String ?? ""
+         self.uid = dict[CommentItemFields.uid] as? String ?? ""
+         self.author = dict[CommentItemFields.author] as? String ?? ""
+         self.text = dict[CommentItemFields.text] as? String ?? ""
+         self.postid = dict[CommentItemFields.postid] as? String ?? ""
+         self.created = dict[CommentItemFields.created] as? TimeInterval ?? 0
+      }
 
    }
    
@@ -90,7 +92,7 @@ class CommentItem: NSObject, NSCoding {
    }
 }
 
-//MARK: - Save record
+// MARK: - Save record
 
 extension CommentItem {
 
@@ -105,14 +107,14 @@ extension CommentItem {
    // Update exists data to Firebase Database
    private func update(completion: @escaping (Bool) -> Void) {
       let childUpdates = ["/\(CommentItemFields.comments)/\(self.id)": self.toDictionary()]
-      FireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
+      gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
          completion(true)
       })
    }
    
    // Save new data to Firebase Database
    private func save(completion: @escaping (Bool) -> Void) {
-      let key = FireBaseManager.firebaseRef.child(CommentItemFields.comments).childByAutoId().key
+      let key = gFireBaseManager.firebaseRef.child(CommentItemFields.comments).childByAutoId().key
       self.key = key
       self.id = key
       self.created = Date().timeIntervalSince1970
@@ -124,7 +126,7 @@ extension CommentItem {
    }
 }
 
-//MARK: -
+// MARK: -
 
 func ==(lhs: CommentItem, rhs: CommentItem) -> Bool {
    let result = lhs.id == rhs.id
