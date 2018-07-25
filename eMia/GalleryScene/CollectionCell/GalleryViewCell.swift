@@ -24,14 +24,14 @@ class GalleryViewCell: UICollectionViewCell {
     @IBOutlet weak var border4: UIView!
     
     func update(with post: PostModel) {
-        post.getPhoto { image in
+        post.getPhoto() { image in
             self.photoImageView.image = image
             if post.photoSize == (0.0, 0.0), let size = image?.size {
                 post.photoSize = (size.width, size.height)
-                post.synchronize { _ in}
+                post.synchronize() { _ in}
             }
         }
-        let isItMyFavoritePost = gFavoritsManager.isItMyFavoritePost(post)
+        let isItMyFavoritePost = FavoritsManager.isItMyFavoritePost(post)
         favoriteImageView.image = isItMyFavoritePost ? UIImage(named: "icon-toggle_star") : nil
         titleLabel.text = post.title
         bodyLabel.text = post.body
@@ -60,3 +60,4 @@ class GalleryViewCell: UICollectionViewCell {
         border4.backgroundColor = borderColor
     }
 }
+

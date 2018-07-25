@@ -11,8 +11,8 @@ import RxRealm
 
 final class CommentModel: Object {
    
-   @objc dynamic var key: String?
-   @objc dynamic var id: String?
+   @objc dynamic var key: String? = nil
+   @objc dynamic var id: String? = nil
    
    @objc dynamic var uid: String = ""
    @objc dynamic var author: String = ""
@@ -120,7 +120,7 @@ extension CommentModel: IdentifiableType {
 extension CommentModel {
    
    func synchronize(_ completion: @escaping (Bool) -> Void) {
-      var commentItem = CommentItem(uid: uid, author: author, text: text, postid: postid, created: created)
+      let commentItem = CommentItem(uid: uid, author: author, text: text, postid: postid, created: created)
       commentItem.key = key ?? ""
       commentItem.id = id ?? ""
       commentItem.synchronize(completion: completion)

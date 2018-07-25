@@ -11,7 +11,8 @@ import RxSwift
 import RxCocoa
 
 func presentMainScreen() {
-   AppDelegate.instance.appRouter.presentMainScreen()
+   let appDelegate = UIApplication.shared.delegate as! AppDelegate
+   appDelegate.appRouter.presentMainScreen()
 }
 
 class RouteCoordinator: RouteCoordinatorType {
@@ -46,7 +47,7 @@ class RouteCoordinator: RouteCoordinatorType {
          
       case .push:
          guard let navigationController = currentViewController.navigationController else {
-            fatalError("Can't push the view controller without navigation controller!")
+            fatalError("Can't push a view controller without a current navigation controller")
          }
          // one-off subscription to be notified when push complete
          _ = navigationController.rx.delegate
@@ -97,7 +98,7 @@ class RouteCoordinator: RouteCoordinatorType {
 extension RouteCoordinator {
    
    func launchFirstScene() {
-      loginInteractor.reLogIn { success in
+      loginInteractor.reLogIn() { success in
          if success {
             self.presentMainScreen()
          } else {
@@ -111,7 +112,7 @@ extension RouteCoordinator {
    func presentMainScreen() {
       NotificationCenter.default.post(name: Notification.Name(Notifications.WillEnterMainScreen), object: nil)
       runAfterDelay(0.5) {
-         gPushNotificationsCenter.registerRemoteNotifications(for: AppDelegate.shared.application) { [weak self] in
+         PushNotificationsCenter.registerRemoteNotifications(for: AppDelegate.shared.application) { [weak self] in
             DispatchQueue.main.async {
                _ = self?.transition(to: Route.gallery, type: .root)
             }

@@ -27,10 +27,10 @@ class EditPost5ViewCell: UITableViewCell, ForPostConfigurable {
    }
    
    func configureView(for comment: CommentModel) {
-      gPhotosManager.downloadAvatar(for: comment.uid) { image in
+      PhotosManager.downloadAvatar(for: comment.uid) { image in
          self.avatarImageView.image = image
       }
-      if let user = gUsersManager.getUserWith(id: comment.uid) {
+      if let user = UsersManager.getUserWith(id: comment.uid) {
          self.titleLabel.text = user.name
       } else {
          self.titleLabel.text = nil

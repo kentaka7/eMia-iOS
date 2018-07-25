@@ -12,12 +12,12 @@ import NVActivityIndicatorView
 class MyProfilePresenter: NSObject, MyProfilePresenting {
 
    enum MyProfileRows: Int {
-      case name
-      case address
-      case gender
-      case yearBirth
-      case photo
-      static let allValues = [name, address, gender, yearBirth, photo]
+      case Name
+      case Address
+      case Gender
+      case YearBirth
+      case Photo
+      static let allValues = [Name, Address, Gender, YearBirth, Photo]
    }
 
    weak var viewController: UIViewController!
@@ -30,24 +30,24 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
       switch MyProfileRows(rawValue: indexPath.row)! {
-      case .name:
-         return tableView.dequeueCell(ofType: Register7ViewCell.self)!.then { cell in
+      case .Name:
+         return tableView.dequeueCell(ofType: Register7ViewCell.self).then { cell in
             cell.configure(for: user)
          }
-      case .address:
-         return tableView.dequeueCell(ofType: Register3ViewCell.self)!.then { cell in
+      case .Address:
+         return tableView.dequeueCell(ofType: Register3ViewCell.self).then { cell in
             cell.configure(for: user, delegate: self)
          }
-      case .gender:
-         return tableView.dequeueCell(ofType: Register4ViewCell.self)!.then { cell in
+      case .Gender:
+         return tableView.dequeueCell(ofType: Register4ViewCell.self).then { cell in
             cell.configure(for: user)
          }
-      case .yearBirth:
-         return tableView.dequeueCell(ofType: Register5ViewCell.self)!.then { cell in
+      case .YearBirth:
+         return tableView.dequeueCell(ofType: Register5ViewCell.self).then { cell in
             cell.configure(for: user)
          }
-      case .photo:
-         return tableView.dequeueCell(ofType: Register6ViewCell.self)!.then { cell in
+      case .Photo:
+         return tableView.dequeueCell(ofType: Register6ViewCell.self).then { cell in
             cell.viewController = viewController
             cell.configure(for: user)
          }
@@ -56,15 +56,15 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
    
    func heightCell(for indexPath: IndexPath) -> CGFloat {
       switch MyProfileRows(rawValue: indexPath.row)! {
-      case .name:
+      case .Name:
          return 68.0
-      case .address:
+      case .Address:
          return 146.0
-      case .gender:
+      case .Gender:
          return 94.0
-      case .yearBirth:
+      case .YearBirth:
          return 146.0
-      case .photo:
+      case .Photo:
          return 291.0
       }
    }
@@ -74,25 +74,18 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
    }
    
    func updateMyProfile(_ completed: @escaping () -> Void) {
-      let nameCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.name.rawValue, section: 0)) as? Register7ViewCell
-      let genderCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.gender.rawValue, section: 0)) as? Register4ViewCell
-      let yearBirthCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.yearBirth.rawValue, section: 0)) as? Register5ViewCell
-      let photoCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.photo.rawValue, section: 0)) as? Register6ViewCell
-      let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.address.rawValue, section: 0)) as? Register3ViewCell
-      if let name = nameCell?.name,
-         let address = addressCell?.address,
-         let gender = genderCell?.gender,
-         let yearBirth = yearBirthCell?.yearBirth,
-         let photo = photoCell?.photo {
-         let data = MyProfileInteractor.MyProfileData(name: name,
-                                                      address: address,
-                                                      gender: gender,
-                                                      yearBirth: yearBirth,
-                                                      photo: photo)
-         interactor.updateMyProfile(data, completed: completed)
-      } else {
-         completed()
-      }
+      let nameCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.Name.rawValue, section: 0)) as! Register7ViewCell
+      let genderCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.Gender.rawValue, section: 0)) as! Register4ViewCell
+      let yearBirthCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.YearBirth.rawValue, section: 0)) as! Register5ViewCell
+      let photoCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.Photo.rawValue, section: 0)) as! Register6ViewCell
+      let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.Address.rawValue, section: 0)) as! Register3ViewCell
+
+      let data = MyProfileInteractor.MyProfileData(name: nameCell.name,
+                                                 address: addressCell.address,
+                                                 gender: genderCell.gender,
+                                                 yearBirth: yearBirthCell.yearBirth,
+                                                 photo: photoCell.photo)
+      interactor.updateMyProfile(data, completed: completed)
    }
 }
 

@@ -64,7 +64,8 @@ class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
       let name = email.value.components(separatedBy: "@").first!
       let user = UserModel(name: name, email: email.value, address: nil, gender: nil, yearbirth: nil)
       let password = self.password.value
-      AppDelegate.instance.appRouter.transition(to: .myProfile(user, password), type: .push)
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      appDelegate.appRouter.transition(to: .myProfile(user, password), type: .push)
    }
 }
 

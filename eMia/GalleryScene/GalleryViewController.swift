@@ -145,12 +145,15 @@ extension GalleryViewController {
    
    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
       searchBar.resignFirstResponder()
-      if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0) {
+      if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0)
+      {
          searchBaxckgroundViewTopConstraint.constant = 0.0
          UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.view.layoutIfNeeded()
          }, completion: nil)
-      } else {
+      }
+      else
+      {
          searchBaxckgroundViewTopConstraint.constant = -64.0
          UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.view.layoutIfNeeded()

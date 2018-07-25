@@ -26,8 +26,8 @@ import Foundation
   import UIKit
 
   extension UITableView {
-    func dequeueCell<T>(ofType type: T.Type) -> T? {
-      return dequeueReusableCell(withIdentifier: String(describing: T.self)) as? T
+    func dequeueCell<T>(ofType type: T.Type) -> T {
+      return dequeueReusableCell(withIdentifier: String(describing: T.self)) as! T
     }
   }
 
@@ -35,8 +35,8 @@ import Foundation
   import Cocoa
 
   extension NSTableView {
-    func dequeueCell<T>(ofType type: T.Type) -> T? {
-      return make(withIdentifier: String(describing: T.self), owner: self) as? T
+    func dequeueCell<T>(ofType type: T.Type) -> T {
+      return make(withIdentifier: String(describing: T.self), owner: self) as! T
     }
   }
 

@@ -36,34 +36,32 @@ class FavoriteItem: NSObject, NSCoding {
         self.postid = decoder.decodeObject(forKey: FavoriteItemFields.postid) as? String ?? ""
     }
     
-   init(uid: String, postid: String, key: String? = nil, id: String? = nil) {
+   init(uid: String, postid: String, key: String? = nil, id: String? = nil){
         self.key = key ?? ""
         self.id = id ?? ""
         self.uid = uid
         self.postid = postid
     }
     
-    convenience init(_ snapshot: DataSnapshot) {
-      self.init()
-      key = snapshot.key
+    init(_ snapshot: DataSnapshot) {
+        key = snapshot.key
 //        ref = snapshot.ref
-      if var dict = snapshot.value as? [String: String] {
-         id = dict[FavoriteItemFields.id] ?? ""
-         uid = dict[FavoriteItemFields.uid] ?? ""
-         postid = dict[FavoriteItemFields.postid] ?? ""
-      }
+        let dict = snapshot.value as! Dictionary<String, String>
+        id = dict[FavoriteItemFields.id] as String!
+        uid = dict[FavoriteItemFields.uid] as String!
+        postid = dict[FavoriteItemFields.postid] as String!
     }
     
-    func toDictionary() -> [String: Any] {
+    func toDictionary() -> [String : Any] {
         return [
-            FavoriteItemFields.id: id,
-            FavoriteItemFields.uid: uid,
-            FavoriteItemFields.postid: postid
+            FavoriteItemFields.id : id,
+            FavoriteItemFields.uid : uid,
+            FavoriteItemFields.postid : postid
         ]
     }
     
     class func decodeSnapshot(_ snapshot: DataSnapshot) -> FavoriteItem? {
-        if snapshot.value as? DataSnapshot != nil {
+        if let _ = snapshot.value as? Dictionary<String, String> {
             let item = FavoriteItem(snapshot)
             return item
         } else {
@@ -72,7 +70,7 @@ class FavoriteItem: NSObject, NSCoding {
     }
 }
 
-// MARK: - Save record
+//MARK: - Save record
 
 extension FavoriteItem {
     
@@ -87,14 +85,14 @@ extension FavoriteItem {
     // Update exists data to Firebase Database
     private func update(completion: @escaping (Bool) -> Void) {
         let childUpdates = ["/\(FavoriteItemFields.favorits)/\(self.key)": self.toDictionary()]
-        gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
+        FireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
             completion(true)
         })
     }
     
     // Save new data to Firebase Database
     private func save(completion: @escaping (Bool) -> Void) {
-        let key = gFireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).childByAutoId().key
+        let key = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).childByAutoId().key
         self.key = key
         self.id = key
         update(completion: completion)
@@ -105,7 +103,7 @@ extension FavoriteItem {
     }
 }
 
-// MARK: -
+//MARK: -
 
 func == (lhs: FavoriteItem, rhs: FavoriteItem) -> Bool {
     let result = lhs.uid == rhs.uid && lhs.postid == rhs.postid

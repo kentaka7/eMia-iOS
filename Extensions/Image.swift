@@ -5,16 +5,16 @@
 
 import UIKit
 
-// MARK: - Asset image types
+//    MARK: - Asset image types
 protocol ImageAssetType: Testable  {}
 
 extension UIImage {
    
-   enum Logo: String, ImageAssetType {
+   enum logo: String, ImageAssetType {
       case middle = "logo-middle"
    }
    
-   enum Icon: String, ImageAssetType {
+   enum icon: String, ImageAssetType {
       case profile = "Icon-Profile"
       case filter = "Icon-Filter"
       case marker = "icon-mapmarker"
@@ -28,7 +28,7 @@ extension UIImage {
       static let shevron = UIImage(named: "Icon-Expand")!
    }
    
-   enum Backgorund: String, ImageAssetType {
+   enum backgorund: String, ImageAssetType {
       case navigationBar = "Backgorund-NavigationBar"
       case buttonFacebook = "Bkg-Btn-FB"
       case splash = "spash"
@@ -36,11 +36,11 @@ extension UIImage {
    
 }
 
-typealias Background = UIImage.Backgorund
-typealias Logo = UIImage.Logo
-typealias Icon = UIImage.Icon
+typealias Background = UIImage.backgorund
+typealias Logo = UIImage.logo
+typealias Icon = UIImage.icon
 
-// MARK: - Initialization
+//    MARK: - Initialization
 
 extension UIImage {
 
@@ -89,9 +89,9 @@ extension UIImage {
       if let imageData: Data = UIImageJPEGRepresentation(self, 0.6)  {
          //      if let imageData: Data = UIImagePNGRepresentation(image)  {
          if imageData.count > 500000 {
-            let scale: CGFloat = 500000.0 / CGFloat(imageData.count)
+            let k: CGFloat = 500000.0 / CGFloat(imageData.count)
             let size = self.size
-            let targetSize = CGSize(width: size.width * scale, height: size.height * scale)
+            let targetSize = CGSize(width: size.width * k, height: size.height * k)
             resultImage = resizeImage(targetSize: targetSize)
          }
       }
@@ -109,7 +109,7 @@ extension UIImage {
       if(widthRatio > heightRatio) {
          newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
       } else {
-         newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+         newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
       }
       
       // This is the rect that we've calculated out and this is what is actually used below

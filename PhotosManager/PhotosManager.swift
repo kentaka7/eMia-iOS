@@ -6,7 +6,7 @@
 import UIKit
 import Firebase
 
-internal let gPhotosManager = PhotosTracker.sharedInstance
+internal let PhotosManager = PhotosTracker.sharedInstance
 
 class PhotosTracker: NSObject {
    
@@ -15,7 +15,8 @@ class PhotosTracker: NSObject {
    fileprivate var stopDownloading: Bool!
    
    static let sharedInstance: PhotosTracker = {
-      return AppDelegate.instance.avatarManager
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      return appDelegate.avatarManager
    }()
    
    override init() {
@@ -42,7 +43,7 @@ class PhotosTracker: NSObject {
    
    func cleanPhotoCache(for user: UserModel) {
       let avatarFileName = user.userId
-      gStorageManager.cleanCache(for: avatarFileName)
+      StorageManager.cleanCache(for: avatarFileName)
    }
    
 }
@@ -54,19 +55,19 @@ extension PhotosTracker {
          completion(nil)
          return
       }
-      gStorageManager.downloadImage(for: photoName) { image in
+      StorageManager.downloadImage(for: photoName) { image in
          completion(image)
       }
    }
 
    func downloadAvatar(for userId: String, completion: @escaping (UIImage?) -> Void) {
-      gStorageManager.downloadImage(for: userId) { image in
+      StorageManager.downloadImage(for: userId) { image in
          completion(image)
       }
    }
    
    func uploadPhoto(_ image: UIImage, for name: String, completion: @escaping (Bool) -> Void) {
-      gStorageManager.uploadImage(image, name: name) { image in
+      StorageManager.uploadImage(image, name: name) { image in
          completion(image != nil)
       }
    }

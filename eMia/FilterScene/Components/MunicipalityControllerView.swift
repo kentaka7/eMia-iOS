@@ -31,7 +31,7 @@ class MunicipalityControllerView: UIView {
    private var municipality: String? {
       return municipalityPicker.municipality?.0
    }
-    private var selectedMunicipality: (String, String)?
+    private var selectedMunicipality: (String,String)?
    
    var municipalityFilter = Variable<String>("")
    private let disposeBug = DisposeBag()
@@ -42,14 +42,11 @@ class MunicipalityControllerView: UIView {
    }
 
    static func getInstance(for superView: UIView) -> MunicipalityControllerView {
-      if let view = UIView.loadFrom(nibNamed: "MunicipalityControllerView") as? MunicipalityControllerView {
-         view.frame = superView.bounds
-         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-         superView.addSubview(view)
-         return view
-      } else {
-         assert(false, "MunicipalityControllerView is not defined!")
-      }
+      let view = UIView.loadFrom(nibNamed: "MunicipalityControllerView") as! MunicipalityControllerView
+      view.frame = superView.bounds
+      view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+      superView.addSubview(view)
+      return view
    }
    
    override func awakeFromNib() {

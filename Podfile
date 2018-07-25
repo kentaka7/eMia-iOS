@@ -26,8 +26,6 @@ target 'eMia' do
     
     pod 'AwesomeCache'
     
-    pod 'SwiftLint'
-    
 end
 
 # enable tracing resources

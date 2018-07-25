@@ -21,3 +21,4 @@ protocol TableViewPresentable {
 protocol MyProfilePresenting: TableViewPresentable {
    func updateMyProfile(_ completed: @escaping () -> Void)
 }
+

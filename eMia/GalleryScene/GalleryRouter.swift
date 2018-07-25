@@ -38,7 +38,8 @@ extension GalleryRouter {
    
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       if segue.identifier == GalleryRouter.Segue.editPostViewController {
-         if let selectedPost = selectedPost, let editPostViewController = segue.destination as? EditPostViewController {
+         if let selectedPost = selectedPost {
+            let editPostViewController = segue.destination as! EditPostViewController
             editPostViewController.post = selectedPost
          }
       }
@@ -56,3 +57,4 @@ extension GalleryRouter {
       return photoPostViewController
    }
 }
+

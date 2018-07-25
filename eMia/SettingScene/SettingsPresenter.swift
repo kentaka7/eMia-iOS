@@ -12,26 +12,26 @@ import Then
 class SettingsPresenter: NSObject, TableViewPresentable {
    
    enum Menu: Int {
-      case myProfile
-      case visitToAppSite
-      case logOut
-      static let allValues = [myProfile, visitToAppSite, logOut]
+      case MyProfile
+      case VisitToAppSite
+      case LogOut
+      static let allValues = [MyProfile, VisitToAppSite, LogOut]
    }
 
    weak var tableView: UITableView!
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
       switch Menu(rawValue: indexPath.row)! {
-      case .myProfile:
-         return tableView.dequeueCell(ofType: MyProfile1ViewCell.self)!.then { cell in
+      case .MyProfile:
+         return tableView.dequeueCell(ofType: MyProfile1ViewCell.self).then { cell in
             cell.configure()
          }
-      case .visitToAppSite:
-         return tableView.dequeueCell(ofType: MyProfile2ViewCell.self)!.then { cell in
+      case .VisitToAppSite:
+         return tableView.dequeueCell(ofType: MyProfile2ViewCell.self).then { cell in
             cell.titleLabel.text = "Visit to the app site".localized
          }
-      case .logOut:
-         return tableView.dequeueCell(ofType: MyProfile2ViewCell.self)!.then { cell in
+      case .LogOut:
+         return tableView.dequeueCell(ofType: MyProfile2ViewCell.self).then { cell in
             cell.titleLabel.text = "Log Out".localized
          }
       }
@@ -39,11 +39,11 @@ class SettingsPresenter: NSObject, TableViewPresentable {
 
    func heightCell(for indexPath: IndexPath) -> CGFloat {
       switch Menu(rawValue: indexPath.row)! {
-      case .myProfile:
+      case .MyProfile:
          return 64.0
-      case .visitToAppSite:
+      case .VisitToAppSite:
          return 52.0
-      case .logOut:
+      case .LogOut:
          return 52.0
       }
    }

@@ -29,7 +29,7 @@ enum PushNotificationRecieve {
 				return nil
 			}
 			
-         guard let user = gUsersManager.getUserWith(id: uid) else {
+         guard let user = UsersManager.getUserWith(id: uid) else {
             assertionFailure("User `uid` is not presented!")
             return nil
          }
@@ -62,7 +62,7 @@ enum PushNotification {
 extension PushNotification {
 
 	var title: String {
-      let userName = gUsersManager.currentUser!.name
+      let userName = UsersManager.currentUser!.name
       return String.localizedStringWithFormat("User `%@` likes your post".localized, userName)
 	}
 	
@@ -87,7 +87,7 @@ extension PushNotification {
                var json = JSON([:])
                json["to"].stringValue = token
                json["data"] = JSON([:])
-               json["data"]["uid"].string = gUsersManager.currentUser!.userId
+               json["data"]["uid"].string = UsersManager.currentUser!.userId
                json["data"]["title"].string = self.title
                json["data"]["body"].string = self.body
                json["data"]["messageType"].stringValue = self.identifier
@@ -112,7 +112,7 @@ extension PushNotification {
                   json["notification"]["title"].string = self.title
                   json["notification"]["sound"].string = "default"
                   json["data"] = JSON([:])
-                  json["data"]["uid"].string = gUsersManager.currentUser!.userId
+                  json["data"]["uid"].string = UsersManager.currentUser!.userId
                   json["data"]["userinfo"].string = post.id!
                   json["data"]["messageType"].stringValue = self.identifier
                   do {
@@ -132,18 +132,18 @@ extension PushNotification {
 	}
 
    fileprivate func getTokens(user: UserModel, _ completion: @escaping ([String], [String]) -> Void) {
-      gDeviceTokenController.androidTokens(for: user) { androidTokens in
-         gDeviceTokenController.iOSTokens(for: user) { iOSTokens in
+      DeviceTokenController.androidTokens(for: user) { androidTokens in
+         DeviceTokenController.iOSTokens(for: user) { iOSTokens in
             completion(androidTokens, iOSTokens)
          }
       }
    }
    
    private func acceptedToken(_ token: String) -> Bool {
-      return gDeviceTokenController.myDeviceTokens.index(where: {$0 == token}) == nil
+      return DeviceTokenController.myDeviceTokens.index(where: {$0 == token}) == nil
    }
    
    private func senderPost(_ post: PostModel) -> UserModel? {
-      return gUsersManager.getUserWith(id: post.uid)
+      return UsersManager.getUserWith(id: post.uid)
    }
 }

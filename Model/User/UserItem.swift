@@ -9,13 +9,13 @@ import Firebase
 class UserItem: NSObject {
    var key: String
    var userId: String
-   var username: String
-   var email: String
-   var address: String
-   var gender: Int
-   var yearbirth: Int
-   var tokenIOS: String
-   var tokenAndroid: String
+   let username: String
+   let email: String
+   let address: String
+   let gender: Int
+   let yearbirth: Int
+   let tokenIOS: String
+   let tokenAndroid: String
 
    override init() {
       self.key = ""
@@ -42,23 +42,21 @@ class UserItem: NSObject {
       self.tokenAndroid = user.tokenAndroid ?? ""
    }
    
-   convenience init(_ snapshot: DataSnapshot) {
-      self.init()
+   init(_ snapshot: DataSnapshot) {
       key = snapshot.key
-      if var snapshotValue = snapshot.value as? [String: AnyObject] {
-         userId = snapshotValue[UserFields.userId] as? String ?? ""
-         username = snapshotValue[UserFields.name] as? String ?? ""
-         email = snapshotValue[UserFields.email] as? String ?? ""
-         address = snapshotValue[UserFields.address] as? String ?? ""
-         gender = snapshotValue[UserFields.gender] as? Int ?? 0
-         if let stringYear = snapshotValue[UserFields.yearbirth] as? String {
-            yearbirth = Int(stringYear)!
-         } else {
-            yearbirth = snapshotValue[UserFields.yearbirth] as? Int ?? 0
-         }
-         tokenIOS = snapshotValue[UserFields.tokenIOS] as? String ?? ""
-         tokenAndroid = snapshotValue[UserFields.tokenAndroid] as? String ?? ""
+      let snapshotValue = snapshot.value as! [String: AnyObject]
+      userId = snapshotValue[UserFields.userId] as! String
+      username = snapshotValue[UserFields.name] as! String
+      email = snapshotValue[UserFields.email] as! String
+      address = snapshotValue[UserFields.address] as? String ?? ""
+      gender = snapshotValue[UserFields.gender] as? Int ?? 0
+      if let stringYear = snapshotValue[UserFields.yearbirth] as? String {
+         yearbirth = Int(stringYear)!
+      } else {
+         yearbirth = snapshotValue[UserFields.yearbirth] as? Int ?? 0
       }
+      tokenIOS = snapshotValue[UserFields.tokenIOS] as? String ?? ""
+      tokenAndroid = snapshotValue[UserFields.tokenAndroid] as? String ?? ""
    }
    
    func toDictionary() -> [String : Any] {
@@ -90,7 +88,7 @@ extension UserItem {
    // Update exists data to Firebase Database
    private func update(completion: @escaping (Bool) -> Void) {
       let childUpdates = ["/\(UserFields.users)/\(self.userId)": self.toDictionary()]
-      gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
+      FireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
          if let error = error {
             print("Error while synchronize user item: \(error.localizedDescription)")
             completion(false)
@@ -104,3 +102,4 @@ extension UserItem {
       //self.ref?.removeValue()
    }
 }
+

@@ -10,7 +10,7 @@ import UIKit
 
 struct FilterModel: Equatable {
    
-   private var storage = FilterStorage()
+   private var manager = FilterManager()
    
    var myFavoriteFilter: FilterFavorite
    var genderFilter: Gender
@@ -19,20 +19,19 @@ struct FilterModel: Equatable {
    var municipality: String?
 
    init() {
-      myFavoriteFilter = storage.myFavoriteFilter
-      genderFilter = storage.genderFilter
-      minAge = storage.minAge
-      maxAge = storage.maxAge
-      municipality = storage.municipality
+      myFavoriteFilter = manager.myFavoriteFilter
+      genderFilter = manager.genderFilter
+      minAge = manager.minAge
+      maxAge = manager.maxAge
+      municipality = manager.municipality
    }
    
    func syncronize() {
-      storage.myFavoriteFilter = myFavoriteFilter
-      storage.genderFilter = genderFilter
-      storage.minAge = minAge
-      storage.maxAge = maxAge
-      storage.municipality = municipality
-      NotificationCenter.default.post(name: Notification.Name(Notifications.UpdatedFilter), object: nil)
+      manager.myFavoriteFilter = myFavoriteFilter
+      manager.genderFilter = genderFilter
+      manager.minAge = minAge
+      manager.maxAge = maxAge
+      manager.municipality = municipality
    }
 }
 

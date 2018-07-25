@@ -6,7 +6,7 @@
 import UIKit
 import FirebaseStorage
 
-internal let gStorageManager = PhotosStorageManager.sharedInstance
+internal let StorageManager = PhotosStorageManager.sharedInstance
 
 class PhotosStorageManager: NSObject {
 

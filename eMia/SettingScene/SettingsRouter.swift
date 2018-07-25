@@ -18,9 +18,9 @@ class SettingsRouter: NSObject {
    }
    
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      if let myProfileViewController = segue.destination as? MyProfileViewController {
-         if let currentUser = gUsersManager.currentUser {
-            myProfileViewController.user = currentUser
+      if let MyProfileViewController = segue.destination as? MyProfileViewController {
+         if let currentUser = UsersManager.currentUser {
+            MyProfileViewController.user = currentUser
          }
       }
    }
@@ -29,14 +29,15 @@ class SettingsRouter: NSObject {
       tableView.rx.itemSelected
          .subscribe(onNext: { indexPath in
             switch SettingsPresenter.Menu(rawValue: indexPath.row)! {
-            case .myProfile:
-               if gUsersManager.currentUser != nil {
+            case .MyProfile:
+               if let _ = UsersManager.currentUser {
                   viewController.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
                }
-            case .visitToAppSite:
-               AppDelegate.instance.gotoCustomerSite()
-            case .logOut:
-               gUsersManager.logOut()
+            case .VisitToAppSite:
+               let appDelegate = UIApplication.shared.delegate as! AppDelegate
+               appDelegate.gotoCustomerSite()
+            case .LogOut:
+               UsersManager.logOut()
             }
          })
          .disposed(by: disposeBag)

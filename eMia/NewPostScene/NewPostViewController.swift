@@ -46,7 +46,7 @@ class NewPostViewController: UIViewController {
    }
    
    @IBAction func saveButtonPressed(_ sender: Any) {
-      presenter.save { [weak self] in
+      presenter.save() { [weak self] in
          guard let `self` = self else { return }
          self.close()
       }

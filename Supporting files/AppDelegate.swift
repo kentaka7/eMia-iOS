@@ -10,9 +10,6 @@ import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-   
-   static var instance: AppDelegate!
-   
    var window: UIWindow?
 
    var shouldSupportAllOrientation = false
@@ -31,7 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
    var avatarManager = PhotosTracker()
    
-   var deviceTokenController = DeviceTokenControllerImpl()
+   var postsManager = PostsDataBaseInteractor()
+   
+   var deviceTokenController = DeviceTokenController_()
    
    var appRouter: RouteCoordinator!
    
@@ -50,14 +49,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    }
    
    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
-
-      AppDelegate.instance = self
       
       self.application  = application
       
-      gFireBaseManager.configure()
+      FireBaseManager.configure()
       
-      gDeviceTokenController.configure()
+      DeviceTokenController.configure()
       
       application.shortcutItems = [.createpost, .customersitelink, .aboutus]
       
@@ -90,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    // MARK: - Interface Orientation
    
    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-      if shouldSupportAllOrientation == true {
+      if (shouldSupportAllOrientation == true){
          return UIInterfaceOrientationMask.all
       }
       return UIInterfaceOrientationMask.portrait
@@ -114,31 +111,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
    
    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-      gDeviceTokenController.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+      DeviceTokenController.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
    }
    
    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-      gDeviceTokenController.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+      DeviceTokenController.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
    }
    
    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-      gPushNotificationsCenter.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
+      PushNotificationsCenter.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
    }
    
    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-      gPushNotificationsCenter.application(application, didReceiveRemoteNotification: userInfo)
+      PushNotificationsCenter.application(application, didReceiveRemoteNotification: userInfo)
    }
    
    func userNotificationCenter(_ center: UNUserNotificationCenter,
                                willPresent notification: UNNotification,
                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-      gPushNotificationsCenter.userNotificationCenter(center, willPresent: notification, withCompletionHandler: completionHandler)
+      PushNotificationsCenter.userNotificationCenter(center, willPresent: notification, withCompletionHandler: completionHandler)
    }
    
    func userNotificationCenter(_ center: UNUserNotificationCenter,
                                didReceive response: UNNotificationResponse,
                                withCompletionHandler completionHandler: @escaping () -> Void) {
-      gPushNotificationsCenter.userNotificationCenter(center, didReceive: response, withCompletionHandler: completionHandler)
+      PushNotificationsCenter.userNotificationCenter(center, didReceive: response, withCompletionHandler: completionHandler)
    }
 }
 

@@ -16,6 +16,7 @@ protocol ForUserConfigurable {
    @IBOutlet weak var emailTitleLabel: UILabel!
    @IBOutlet weak var emailTextField: UITextField!
    
+   
    func configure(for user: UserModel) {
    }
    

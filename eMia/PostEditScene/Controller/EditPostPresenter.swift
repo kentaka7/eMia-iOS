@@ -14,12 +14,12 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    static private let kMinCommentCellHeight: CGFloat = 58.0
    
    enum Rows: Int {
-      case avatarPhotoAndUserName
-      case dependsOnTextViewContent
-      case photo
-      case staticTextAndSendEmailButton
-      case enterCommentTextAndSendButton
-      static let allValues = [avatarPhotoAndUserName, dependsOnTextViewContent, photo, staticTextAndSendEmailButton, enterCommentTextAndSendButton]
+      case AvatarPhotoAndUserName
+      case DependsOnTextViewContent
+      case Photo
+      case StaticTextAndSendEmailButton
+      case EnterCommentTextAndSendButton
+      static let allValues = [AvatarPhotoAndUserName, DependsOnTextViewContent, Photo, StaticTextAndSendEmailButton, EnterCommentTextAndSendButton]
    }
    
    private var commentCell: EditPost4ViewCell!
@@ -61,26 +61,26 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       
       if let selector: Rows = Rows(rawValue: indexPath.row) {
          switch selector {
-         case .avatarPhotoAndUserName:
-            return tableView.dequeueCell(ofType: EditPost1ViewCell.self)!.then { cell in
-               _ = cell.configureView(for: post)
+         case .AvatarPhotoAndUserName:
+            return tableView.dequeueCell(ofType: EditPost1ViewCell.self).then { cell in
+               let _ = cell.configureView(for: post)
             }
-         case .dependsOnTextViewContent:
-            return tableView.dequeueCell(ofType: EditPost2ViewCell.self)!.then { cell in
+         case .DependsOnTextViewContent:
+            return tableView.dequeueCell(ofType: EditPost2ViewCell.self).then { cell in
                postBodyTextViewHeight = cell.configureView(for: post)
             }
-         case .photo:
-            return tableView.dequeueCell(ofType: EditPost6ViewCell.self)!.then { cell in
-               _ = cell.configureView(for: post)
+         case .Photo:
+            return tableView.dequeueCell(ofType: EditPost6ViewCell.self).then { cell in
+               let _ = cell.configureView(for: post)
             }
-         case .staticTextAndSendEmailButton:
-            return tableView.dequeueCell(ofType: EditPost3ViewCell.self)!.then { cell in
-               _ = cell.configureView(for: post)
+         case .StaticTextAndSendEmailButton:
+            return tableView.dequeueCell(ofType: EditPost3ViewCell.self).then { cell in
+               let _ = cell.configureView(for: post)
             }
-         case .enterCommentTextAndSendButton:
-            return tableView.dequeueCell(ofType: EditPost4ViewCell.self)!.then { cell in
+         case .EnterCommentTextAndSendButton:
+            return tableView.dequeueCell(ofType: EditPost4ViewCell.self).then { cell in
                self.commentCell = cell
-               _ = self.commentCell.configureView(for: post)
+               let _ = self.commentCell.configureView(for: post)
                self.commentCell.post = post
                self.commentCell.activityIndicator = activityIndicator
                self.commentCell.didChangeHeight = { newCellHeight in
@@ -96,8 +96,8 @@ class EditPostPresenter: NSObject, EditPostPresenting {
          }
       } else {
          if comments.count > 0 {
-            return tableView.dequeueCell(ofType: EditPost5ViewCell.self)!.then { cell in
-               _ = cell.configureView(for: post)
+            return tableView.dequeueCell(ofType: EditPost5ViewCell.self).then { cell in
+               let _ = cell.configureView(for: post)
                let comment = comments[indexPath.row - Rows.allValues.count]
                cell.configureView(for: comment)
             }
@@ -113,15 +113,15 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    func heightCell(for indexPath: IndexPath) -> CGFloat {
       if let selector: Rows = Rows(rawValue: indexPath.row) {
          switch selector {
-         case .avatarPhotoAndUserName:
+         case .AvatarPhotoAndUserName:
             return 70.0
-         case .dependsOnTextViewContent:
+         case .DependsOnTextViewContent:
             return postBodyTextViewHeight
-         case .photo:
+         case .Photo:
             return 300.0
-         case .staticTextAndSendEmailButton:
+         case .StaticTextAndSendEmailButton:
             return 135.0
-         case .enterCommentTextAndSendButton:
+         case .EnterCommentTextAndSendButton:
             return currentCelHeight
          }
       } else {
@@ -144,7 +144,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
          return
       }
       runAfterDelay(0.3) {
-         _ = self.commentCell.commentTextView.becomeFirstResponder()
+         let _ = self.commentCell.commentTextView.becomeFirstResponder()
       }
    }
 }

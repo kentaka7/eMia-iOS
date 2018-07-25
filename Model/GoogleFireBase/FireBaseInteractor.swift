@@ -10,7 +10,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import FirebaseRemoteConfig
 
-internal let gFireBaseManager = FireBaseInteractor.sharedInstance
+internal let FireBaseManager = FireBaseInteractor.sharedInstance
 
 class FireBaseInteractor: NSObject {
 
@@ -24,15 +24,20 @@ class FireBaseInteractor: NSObject {
    }
    
    var storageRef: StorageReference {
-      return Storage.storage().reference(forURL: Firebase.StorageURL)
+      return Storage.storage().reference(forURL: Firebase.Storage_url)
    }
 
    static let sharedInstance: FireBaseInteractor = {
-      return AppDelegate.instance.fireBaseInteractor
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      return appDelegate.fireBaseInteractor
    }()
    
    var databaseConnected: Bool {
-      return currentFireBaseUser != nil
+      if let _ = currentFireBaseUser {
+         return true
+      } else {
+         return false
+      }
    }
 
    func signUp(email: String, password: String, completion: @escaping (String?) -> Void) {
@@ -98,7 +103,7 @@ extension FireBaseInteractor {
       var expirationDuration: Double = 3600
       // If in developer mode cacheExpiration is set to 0 so each fetch will retrieve values from
       // the server.
-      if self.remoteConfig.configSettings.isDeveloperModeEnabled {
+      if (self.remoteConfig.configSettings.isDeveloperModeEnabled) {
          expirationDuration = 0
       }
       
@@ -107,7 +112,7 @@ extension FireBaseInteractor {
       // more than cacheExpiration seconds ago. Thus the next fetch would go to the server unless
       // throttling is in progress. The default expiration duration is 43200 (12 hours).
       remoteConfig.fetch(withExpirationDuration: expirationDuration) { (status, error) in
-         if status == .success {
+         if (status == .success) {
             print("Config fetched!")
             self.remoteConfig.activateFetched()
          } else {

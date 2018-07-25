@@ -69,9 +69,9 @@ extension FiltersViewController: SegueRawRepresentable {
     }
 }
 
-// MARK: - Configure Components View
+//    MARK: - Configure Components View
 
-extension FiltersViewController {
+extension FiltersViewController  {
     
     private func configureView() {
         configure(self.view)

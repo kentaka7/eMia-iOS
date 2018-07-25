@@ -21,7 +21,7 @@ import UIKit
       }
    }
    
-   @IBInspectable var borderWidth: Int {
+   @IBInspectable var borderWidth : Int {
       set {
          self.layer.borderWidth = CGFloat(newValue)
       } get {
@@ -49,4 +49,6 @@ import UIKit
    override func awakeFromNib() {
       configure()
    }
+   
+   
 }

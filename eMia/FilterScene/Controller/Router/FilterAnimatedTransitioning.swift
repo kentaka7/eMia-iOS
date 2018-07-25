@@ -6,7 +6,7 @@
 import UIKit
 
 class FilterAnimatedTransitioning: NSObject {
-	var isPresentation: Bool = false
+	var isPresentation : Bool = false
 }
 
 extension FilterAnimatedTransitioning: UIViewControllerAnimatedTransitioning {
@@ -46,5 +46,19 @@ extension FilterAnimatedTransitioning: UIViewControllerAnimatedTransitioning {
 			}
 			transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
 		}
+		
+		
+//		UIView.animate(withDuration: transitionDuration(using: transitionContext), delay:0, usingSpringWithDamping:1.0, initialSpringVelocity:1.0, options:UIViewAnimationOptions.allowUserInteraction, animations:{
+//			animatingView?.frame = finalFrame
+//		}, completion:{ (value: Bool) in
+//			if !self.isPresentation {
+//				fromView?.removeFromSuperview()
+//			}
+////			transitionContext.completeTransition(true)
+//			
+//			transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+//		})
+		
 	}
+
 }

@@ -53,8 +53,8 @@ final class PostModel: Object {
             return (0.0, 0.0)
          } else {
             let arr = photosize.split(separator: ";")
-            if arr.count == 2, let width = Double(arr[0]), let height = Double(arr[1]) {
-               return (CGFloat(width), CGFloat(height))
+            if arr.count == 2, let w = Double(arr[0]), let h = Double(arr[1]) {
+               return (CGFloat(w), CGFloat(h))
             } else {
                return (0.0, 0.0)
             }
@@ -129,7 +129,7 @@ final class PostModel: Object {
    
    
    class func isItMyPost(_ post: PostModel) -> Bool {
-      guard let currentUser = gUsersManager.currentUser else {
+      guard let currentUser = UsersManager.currentUser else {
          return false
       }
       return post.uid == currentUser.userId
@@ -176,6 +176,7 @@ extension PostModel {
    }
 }
 
+
 extension PostModel: IdentifiableType {
    typealias Identity = String
    
@@ -208,7 +209,7 @@ extension PostModel {
    }
    
    func getPhoto(completion: @escaping (UIImage?) -> Void) {
-      gPhotosManager.downloadPhoto(for: self) { image in
+      PhotosManager.downloadPhoto(for: self) { image in
          completion(image)
       }
    }

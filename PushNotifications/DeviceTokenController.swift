@@ -8,15 +8,17 @@ import RealmSwift
 import RxSwift
 import RxRealm
 
-internal let gDeviceTokenController = DeviceTokenControllerImpl.sharedInstance
+internal let DeviceTokenController = DeviceTokenController_.sharedInstance
 
-class DeviceTokenControllerImpl: NSObject {
+class DeviceTokenController_: NSObject {
    
    internal var observers = [Any] ()
    
-   static let sharedInstance: DeviceTokenControllerImpl = {
-      return AppDelegate.instance.deviceTokenController
+   static let sharedInstance: DeviceTokenController_ = {
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      return appDelegate.deviceTokenController
    }()
+   
    
    /// Device token, if Firebase is used then we store `fcmToken`
    fileprivate var deviceToken: String? {
@@ -45,7 +47,7 @@ class DeviceTokenControllerImpl: NSObject {
    }
    
    fileprivate func updateDeviceToken() {
-      add(token: self.deviceToken)
+      self.add(token: self.deviceToken)
    }
    
    /// Add device token for current user
@@ -55,7 +57,7 @@ class DeviceTokenControllerImpl: NSObject {
       guard let token = token, !token.isEmpty else {
          return
       }
-      guard let currentUser = gUsersManager.currentUser else {
+      guard let currentUser = UsersManager.currentUser else {
          return
       }
       self.userDefaultDeviceTokenUpdate(for: token)
@@ -71,17 +73,17 @@ class DeviceTokenControllerImpl: NSObject {
    
    private func synchronize(_ tokens: [String], for user: UserModel, completion: @escaping (Bool) -> Void) {
       let tokensIOSValues = tokens.joined(separator: Settings.separator)
-      DataModelInteractor.saveWithRealm {
+      DataModelInteractor.saveWithRealm() {
          user.tokenIOS = tokensIOSValues
       }
-      user.synchronize { success in
+      user.synchronize() { success in
          completion(success)
       }
    }
    
    private func userDefaultDeviceTokenUpdate(for decviceToken: String) {
       var tokens = myDeviceTokens
-      if tokens.index(of: decviceToken) != nil {
+      if let _ = tokens.index(of: decviceToken) {
          return
       }
       tokens.append(decviceToken)
@@ -116,7 +118,7 @@ class DeviceTokenControllerImpl: NSObject {
 
 // MARK: - Messaging Delegate
 
-extension DeviceTokenControllerImpl: MessagingDelegate {
+extension DeviceTokenController_: MessagingDelegate {
    
    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
       print(#function)
@@ -126,7 +128,7 @@ extension DeviceTokenControllerImpl: MessagingDelegate {
 
 // MARK: - AppDelegate protocol
 
-extension DeviceTokenControllerImpl {
+extension DeviceTokenController_ {
    
    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
       DispatchQueue.main.async {
@@ -142,8 +144,8 @@ extension DeviceTokenControllerImpl {
    
    private func output(deviceToken: Data) {
       var token = ""
-      for tokenItem in deviceToken {
-         token += String(format: "%02.2hhx", arguments: [tokenItem])
+      for i in 0..<deviceToken.count {
+         token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
       }
       print("Registration succeeded! Token: ", token)
       let fcmToken = Messaging.messaging().fcmToken
@@ -153,7 +155,7 @@ extension DeviceTokenControllerImpl {
 
 // MARK: - Current DEvice Tokens
 
-extension DeviceTokenControllerImpl {
+extension DeviceTokenController_ {
    
    func iOSTokens(for user: UserModel, _ completion: @escaping ([String]) -> Void) {
       userDeviceTokens(for: user, fieldName: UserFields.tokenIOS, completion: completion)
@@ -165,13 +167,15 @@ extension DeviceTokenControllerImpl {
    }
    
    private func userDeviceTokens(for user: UserModel, fieldName: String, completion: @escaping ([String]) -> Void) {
-      gFireBaseManager.firebaseRef.child(UserFields.users).child(user.userId).child(fieldName).observeSingleEvent(of: .value, with: { snapshot in
+      FireBaseManager.firebaseRef.child(UserFields.users).child(user.userId).child(fieldName).observeSingleEvent(of: .value, with: { snapshot in
          if snapshot.exists() {
             if let tokens = snapshot.value as? String {
                var newDeviceTokens = [String]()
                let deviceTokens = tokens.components(separatedBy: Settings.separator)
-               for token in deviceTokens where token.count > 10 {
-                  newDeviceTokens.append(token)
+               for token in deviceTokens {
+                  if token.count > 10 {
+                     newDeviceTokens.append(token)
+                  }
                }
                completion(newDeviceTokens)
             } else {
@@ -183,3 +187,5 @@ extension DeviceTokenControllerImpl {
       })
    }
 }
+
+

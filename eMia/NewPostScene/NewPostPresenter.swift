@@ -15,10 +15,10 @@ class NewPostPresenter: NSObject, NewPostPresenting {
    var viewController: UIViewController!
    
    enum Rows: Int {
-      case title
-      case body
-      case photo
-      static let allValues = [title, body, photo]
+      case Title
+      case Body
+      case Photo
+      static let allValues = [Title, Body, Photo]
    }
 
    private var textBodyHeight: CGFloat = 78.0
@@ -34,25 +34,25 @@ class NewPostPresenter: NSObject, NewPostPresenting {
    func cell(for indexPath: IndexPath) -> UITableViewCell {
       if let selector = Rows(rawValue: indexPath.row) {
          switch selector {
-         case .title:
-            return tableView.dequeueCell(ofType: NewPost1ViewCell.self)!.then { cell in
+         case .Title:
+            return tableView.dequeueCell(ofType: NewPost1ViewCell.self).then { cell in
                self.titleCell = cell
             }
-         case .body:
-            return tableView.dequeueCell(ofType: NewPost2ViewCell.self)!.then { cell in
+         case .Body:
+            return tableView.dequeueCell(ofType: NewPost2ViewCell.self).then { cell in
                self.bodyCell = cell
                bodyCell.didChangeHeight = { height in
                   if height > self.textBodyHeight {
                      self.textBodyHeight = height
                      self.tableView.reloadData()
                      runAfterDelay(0.2) {
-                        _ = self.bodyCell.postBodyTextView.becomeFirstResponder()
+                        let _ = self.bodyCell.postBodyTextView.becomeFirstResponder()
                      }
                   }
                }
             }
-         case .photo:
-            return tableView.dequeueCell(ofType: NewPost3ViewCell.self)!.then { cell in
+         case .Photo:
+            return tableView.dequeueCell(ofType: NewPost3ViewCell.self).then { cell in
                self.photoCell = cell
                self.photoCell.viewController = viewController
             }
@@ -66,11 +66,11 @@ class NewPostPresenter: NSObject, NewPostPresenting {
    func heightCell(for indexPath: IndexPath) -> CGFloat {
       if let selector = Rows(rawValue: indexPath.row) {
          switch selector {
-         case .title:
+         case .Title:
             return 59.0
-         case .body:
+         case .Body:
             return textBodyHeight
-         case .photo:
+         case .Photo:
             return 364.0
          }
       } else {
@@ -94,7 +94,7 @@ extension NewPostPresenter {
          return
       }
       guard let image = photoCell.photoImage else {
-         Alert.default.showOk("", message: "Please add photo to the post!".localized)
+         Alert.default.showOk("", message: "Please add photo to your post!".localized)
          return
       }
       let bodyText = bodyCell.postBodyText

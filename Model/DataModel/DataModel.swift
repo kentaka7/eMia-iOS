@@ -28,15 +28,16 @@ enum PostServiceError: Error {
     case toggleFailed(PostModel)
 }
 
-internal let gDataModel = DataModelInteractor.sharedInstance
+internal let DataModel = DataModelInteractor.sharedInstance
 
 class DataModelInteractor: NSObject {
     
-    let kFetchingDataAsync = true
+    let FETCHING_DATA_ASYNC = true
     let disposeBag = DisposeBag()
     
     static let sharedInstance: DataModelInteractor = {
-        return AppDelegate.instance.fetchingManager
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.fetchingManager
     }()
     
     private var usersObserver = UsersObserver()
@@ -55,12 +56,12 @@ class DataModelInteractor: NSObject {
         
         var fetchDataFunc: (@escaping() -> Void) -> Void
         
-        if kFetchingDataAsync {
+        if FETCHING_DATA_ASYNC {
             fetchDataFunc = fetchDataAsync
         } else {
             fetchDataFunc = fetchDataSync
         }
-        fetchDataFunc {
+        fetchDataFunc() {
             self.semaphore.signal()
             print("users=\(UserModel.rxUsers.value.count);posts=\(PostModel.rxPosts.value.count);favorities=\(FavoriteModel.rxFavorities.value.count)")
             self.startListeners()
@@ -103,15 +104,15 @@ class DataModelInteractor: NSObject {
 extension DataModelInteractor {
     
     fileprivate func fetchDataSync(completion: @escaping () -> Void) {
-        var currentTime = CFAbsoluteTimeGetCurrent()
+        var x = CFAbsoluteTimeGetCurrent()
         
-        self.fetchAllUsers {
-            self.fetchAllPosts {
-                self.fetchAllFavorities {
-                    self.fetchAllComments {
+        self.fetchAllUsers(){
+            self.fetchAllPosts(){
+                self.fetchAllFavorities(){
+                    self.fetchAllComments(){
 
-                        currentTime = (CFAbsoluteTimeGetCurrent() - currentTime) * 1000.0
-                        print("Fetching all dats took \(currentTime) milliseconds")
+                        x = (CFAbsoluteTimeGetCurrent() - x) * 1000.0
+                        print("Fetching all dats took \(x) milliseconds")
                         
                         completion()
                         
@@ -122,47 +123,47 @@ extension DataModelInteractor {
     }
     
     fileprivate func fetchDataAsync(completion: @escaping () -> Void) {
-        var currentTime = CFAbsoluteTimeGetCurrent()
+        var x = CFAbsoluteTimeGetCurrent()
         
         DispatchQueue.main.async {
-            let usersRef = gFireBaseManager.firebaseRef.child(UserFields.users)
-            let postsRef = gFireBaseManager.firebaseRef.child(PostItemFields.posts)
-            let favoritiesRef = gFireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
-            let commentsRef = gFireBaseManager.firebaseRef.child(CommentItemFields.comments)
+            let usersRef = FireBaseManager.firebaseRef.child(UserFields.users)
+            let postsRef = FireBaseManager.firebaseRef.child(PostItemFields.posts)
+            let favoritiesRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
+            let commentsRef = FireBaseManager.firebaseRef.child(CommentItemFields.comments)
             let fetchingGroup = DispatchGroup()
             
             fetchingGroup.enter()
             DispatchQueue.global(qos: .utility).async(group: fetchingGroup, execute: {
-                self.fetchAllUsers(usersRef) {
+                self.fetchAllUsers(usersRef){
                     fetchingGroup.leave()
                 }
             })
             
             fetchingGroup.enter()
             DispatchQueue.global(qos: .utility).async(group: fetchingGroup, execute: {
-                self.fetchAllPosts(postsRef) {
+                self.fetchAllPosts(postsRef){
                     fetchingGroup.leave()
                 }
             })
             
             fetchingGroup.enter()
             DispatchQueue.global(qos: .utility).async(group: fetchingGroup, execute: {
-                self.fetchAllFavorities(favoritiesRef) {
+                self.fetchAllFavorities(favoritiesRef){
                     fetchingGroup.leave()
                 }
             })
 
             fetchingGroup.enter()
             DispatchQueue.global(qos: .utility).async(group: fetchingGroup, execute: {
-                self.fetchAllComments(commentsRef) {
+                self.fetchAllComments(commentsRef){
                     fetchingGroup.leave()
                 }
             })
             
             fetchingGroup.notify(queue: DispatchQueue.main) {
                 
-                currentTime = (CFAbsoluteTimeGetCurrent() - currentTime) * 1000.0
-                print("Fetching all dats took \(currentTime) milliseconds")
+                x = (CFAbsoluteTimeGetCurrent() - x) * 1000.0
+                print("Fetching all dats took \(x) milliseconds")
                 
                 completion()
             }
@@ -175,7 +176,7 @@ extension DataModelInteractor {
 extension DataModelInteractor {
     
     private func fetchAllUsers(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let usersRef = dbRef ?? gFireBaseManager.firebaseRef.child(UserFields.users).queryOrdered(byChild: "\\")
+        let usersRef = dbRef ?? FireBaseManager.firebaseRef.child(UserFields.users).queryOrdered(byChild: "\\")
         usersRef
             .rx
             .observeSingleEvent(.value)
@@ -192,7 +193,7 @@ extension DataModelInteractor {
     }
     
     private func fetchAllPosts(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let postsRef = dbRef ?? gFireBaseManager.firebaseRef.child(PostItemFields.posts).queryOrdered(byChild: "\\")
+        let postsRef = dbRef ?? FireBaseManager.firebaseRef.child(PostItemFields.posts).queryOrdered(byChild: "\\")
         postsRef
             .rx
             .observeSingleEvent(.value)
@@ -209,14 +210,14 @@ extension DataModelInteractor {
     }
     
     private func fetchAllFavorities(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let favoritiesRef = dbRef ?? gFireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).queryOrdered(byChild: "\\")
+        let favoritiesRef = dbRef ?? FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).queryOrdered(byChild: "\\")
         favoritiesRef
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
-                        if let _ = childSnap.value as? [String: String] {
+                        if let _ = childSnap.value as? Dictionary<String, String> {
                             let item = FavoriteItem(childSnap)
                             FavoriteModel.addFavorite(item)
                         }
@@ -228,7 +229,7 @@ extension DataModelInteractor {
     }
     
     func fetchAllComments(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let commentsRef = dbRef ?? gFireBaseManager.firebaseRef.child(CommentItemFields.comments).queryOrdered(byChild: "\\")
+        let commentsRef = dbRef ?? FireBaseManager.firebaseRef.child(CommentItemFields.comments).queryOrdered(byChild: "\\")
         commentsRef
             .rx
             .observeSingleEvent(.value)

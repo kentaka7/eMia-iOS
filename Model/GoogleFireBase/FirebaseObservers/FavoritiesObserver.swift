@@ -11,7 +11,7 @@ import RxSwift
 import Firebase
 
 class FavoritiesObserver: NSObject {
-   lazy var dbRef = gFireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
+   lazy var dbRef = FireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
    private let disposeBag = DisposeBag()
    
    func startListening() {

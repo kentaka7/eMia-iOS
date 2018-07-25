@@ -10,13 +10,14 @@ class FilterPresntationController: UIPresentationController {
 	var dimmingView: UIView! = UIView()
 	var interactor = InteractorTransition()
 	
+	
 	override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
 		super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
-		dimmingView.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+		dimmingView.backgroundColor = UIColor(white:0.0, alpha:0.4)
 		dimmingView.alpha = 0.0
 	}
 	
-	override var frameOfPresentedViewInContainerView: CGRect {
+	override var frameOfPresentedViewInContainerView : CGRect {
 		var presentedViewFrame = CGRect.zero
 		let containerBounds = containerView!.bounds
 		presentedViewFrame.size = size(forChildContentContainer: presentedViewController, withParentContainerSize: containerBounds.size)
@@ -34,7 +35,7 @@ class FilterPresntationController: UIPresentationController {
 		dimmingView.frame = (self.containerView?.bounds)!
 		dimmingView.alpha = 0.0
 		dimmingView.isOpaque = false
-		containerView?.insertSubview(dimmingView, at: 0)
+		containerView?.insertSubview(dimmingView, at:0)
 		
 		// Tap handler
 		let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
@@ -42,6 +43,7 @@ class FilterPresntationController: UIPresentationController {
 		
 		dimmingView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:))))
 		presentedViewController.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:))))
+		
 		
 		let coordinator = presentedViewController.transitionCoordinator
 		if (coordinator != nil) {
@@ -70,7 +72,7 @@ class FilterPresntationController: UIPresentationController {
 	
 	override func dismissalTransitionWillBegin() {
 		let coordinator = presentedViewController.transitionCoordinator
-		if coordinator != nil {
+		if (coordinator != nil) {
 			coordinator!.animate(alongsideTransition: { (context:UIViewControllerTransitionCoordinatorContext!) -> Void in
 				self.dimmingView.alpha = 0.0
 			}, completion:nil)
@@ -105,7 +107,7 @@ class FilterPresntationController: UIPresentationController {
 	}
 	
 	@IBAction func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
-		let percentThreshold: CGFloat = 0.3
+		let percentThreshold:CGFloat = 0.3
 		
 		let view = presentedViewController.view!
 		

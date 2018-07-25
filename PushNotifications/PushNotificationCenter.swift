@@ -8,7 +8,7 @@ import Firebase
 import UserNotifications
 import SwiftyJSON
 
-internal let gPushNotificationsCenter = NotificationsManager.default
+internal let PushNotificationsCenter = NotificationsManager.default
 
 protocol PushNotificationsListenable {
    func registerRemoteNotifications(for application: UIApplication, completion: @escaping () -> Void)
@@ -116,3 +116,4 @@ extension NotificationsManager {
       sender.send(type, completion: completion)
    }
 }
+

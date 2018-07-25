@@ -58,11 +58,11 @@ class FireBaseStorageInteractor: NSObject {
    }
    
    class func urlFor(path: String) -> String {
-      return gFireBaseManager.storageRef.child(path).description
+      return FireBaseManager.storageRef.child(path).description
    }
    
    class func urlFor(imageName: String) -> String {
-      let url = "\(Firebase.StorageURL)/\(imageName).jpg"
+      let url = "\(Firebase.Storage_url)/\(imageName).jpg"
       return url
    }
    
@@ -86,7 +86,7 @@ class FireBaseStorageInteractor: NSObject {
    
    class func removeImage(name: String, completion: @escaping (Bool) -> Void) {
       let imagePath = "\(name).jpg"
-      gFireBaseManager.storageRef.child(imagePath).delete() { error in
+      FireBaseManager.storageRef.child(imagePath).delete() { error in
          if let error = error {
             print("Failed delete file: \(error.localizedDescription)")
             completion(false)

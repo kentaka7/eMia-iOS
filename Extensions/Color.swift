@@ -5,7 +5,7 @@
 
 import UIKit
 
-// MARK: - Color types
+//    MARK: - Color types
 enum ColorType: UInt32 {
    case pink = 0xff3366
    case crimson = 0xb8083e
@@ -18,7 +18,7 @@ enum ColorType: UInt32 {
    var color: UIColor { return UIColor(self) }
 }
 
-// MARK: - Initialization
+//    MARK: - Initialization
 extension UIColor {
    
    convenience init(_ type: ColorType) {
@@ -46,18 +46,18 @@ extension UIColor {
       let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
       var int = UInt32()
       Scanner(string: hex).scanHexInt32(&int)
-      let alpha, red, green, blue: UInt32
+      let a, r, g, b: UInt32
       switch hex.count {
       case 3: // RGB (12-bit)
-         (alpha, red, green, blue) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+         (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
       case 6: // RGB (24-bit)
-         (alpha, red, green, blue) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+         (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
       case 8: // ARGB (32-bit)
-         (alpha, red, green, blue) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+         (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
       default:
-         (alpha, red, green, blue) = (1, 1, 1, 0)
+         (a, r, g, b) = (1, 1, 1, 0)
       }
-      self.init(red: CGFloat(red) / 255, green: CGFloat(green) / 255, blue: CGFloat(blue) / 255, alpha: CGFloat(alpha) / 255)
+      self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
    }
    
    var imageRepresentation: UIImage {
@@ -82,25 +82,34 @@ extension UIColor {
       return UIColor.black
    }
    
-   enum Navigation {
+   enum navigation {
       static var background: UIColor {
          return GlobalColors.kBrandNavBarColor
       }
       static var tintColor = UIColor.white
    }
    
-   enum Background {
+   enum separator {
+      static var loginController = UIColor(.gray)
+      static var tableViewCells = UIColor(.gray).withAlphaComponent(0.5)
+   }
+   
+   enum clickable {
+      static var text = UIColor(rgbValue: 0x0071FF)
+   }
+   
+   enum background {
       static var forAdditionalInfo = UIColor(rgbValue: 0xfff6f8)
       static var settings = UIColor.white
       static var main = UIColor.white
       
    }
    
-   enum TintColor {
+   enum tintColor {
       static let textView = UIColor(.blue)
    }
    
-   enum Text {
+   enum text {
       static let title = UIColor(rgbValue: 0x464646)
       static let subtitle = UIColor(rgbValue: 0x838383)
    }

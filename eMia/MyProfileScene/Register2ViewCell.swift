@@ -29,3 +29,4 @@ class Register2ViewCell: UITableViewCell, ForUserConfigurable {
       passwordTitleLabel.textColor = GlobalColors.kBrandNavBarColor
    }
 }
+

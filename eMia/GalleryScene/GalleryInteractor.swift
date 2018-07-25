@@ -16,7 +16,7 @@ struct SectionPostModel {
    var data: [PostModel]
 }
 
-extension SectionPostModel: AnimatableSectionModelType {
+extension SectionPostModel : AnimatableSectionModelType {
    typealias Item = PostModel
    typealias Identity = String
    
@@ -45,14 +45,6 @@ class GalleryInteractor: NSObject {
    private let disposeBag = DisposeBag()
    
    var data = Variable([SectionPostModel]())
-
-   private var updateFilterObserver: Any?
-   
-   deinit {
-      if let updateFilterObserver = self.updateFilterObserver {
-         NotificationCenter.default.removeObserver(updateFilterObserver)
-      }
-   }
    
    func configure() {
       configureDataSource()
@@ -78,13 +70,11 @@ class GalleryInteractor: NSObject {
    }
    
    private func setUpFilterListener() {
-      let queue = OperationQueue.main
-      updateFilterObserver = NotificationCenter.default.addObserver(forName: Notification.Name(Notifications.UpdatedFilter), object: nil, queue: queue) { [weak self] _ in
-         guard let `self` = self else {
-            return
+      _ = PostsManager.isFilterUpdated.asObservable().subscribe({ updated in
+         if let l = updated.event.element, l {
+            self.fetchData()
          }
-         self.fetchData()
-      }
+      }).disposed(by: disposeBag)
    }
 
    private func configureDataSource() {
@@ -131,7 +121,7 @@ extension GalleryInteractor {
    func fetchData() {
       let posts = PostModel.posts.filter({ post -> Bool in
          let searchText = self.mSearchText ?? ""
-         return self.filter.check(post: post, searchTemplate: searchText)
+         return self.filter.check(post: post, whatSearch: searchText)
       }).sorted(by: {$0.created > $1.created})
       let section: [SectionPostModel] = [SectionPostModel(title: "\(posts.count)", data: posts)]
       self.data.value = section
