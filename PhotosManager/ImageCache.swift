@@ -18,9 +18,9 @@ class ImageCache {
    static var budleID: String {
       return  "\(Bundle.main.bundleIdentifier!).\(String(describing: ImageCache.self))"
    }
-   fileprivate let concurrentPhotoQueue = DispatchQueue(label: ImageCache.budleID, attributes: .concurrent)
+   private let concurrentPhotoQueue = DispatchQueue(label: ImageCache.budleID, attributes: .concurrent)
    
-   fileprivate let cache = try! Cache<UIImage>(name: "ImageCache")
+   private let cache = try! Cache<UIImage>(name: "ImageCache")
    
    private init() {
    }

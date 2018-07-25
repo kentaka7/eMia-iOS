@@ -13,7 +13,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    static let kCellHeight: CGFloat = 250.0
 
    var presenter: GalleryPresentable!
-   var layoutDelegate: GalleryLayoutDelegate!
+   weak var layoutDelegate: GalleryLayoutDelegate!
    var searcher: GallerySearching!
    
    private var refreshControl: UIRefreshControl!
@@ -145,7 +145,7 @@ extension GalleryViewController {
    
    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
       searchBar.resignFirstResponder()
-      if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0) {
+      if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
          searchBaxckgroundViewTopConstraint.constant = 0.0
          UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.view.layoutIfNeeded()

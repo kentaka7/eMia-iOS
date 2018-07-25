@@ -11,7 +11,7 @@ import UIKit
 class PhotoPostViewController: UIViewController {
 
    @IBOutlet weak var imageView: UIImageView!
-   public var image: UIImage? = nil
+   public var image: UIImage?
 
    override func viewDidLoad() {
         super.viewDidLoad()

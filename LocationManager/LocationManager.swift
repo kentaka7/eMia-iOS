@@ -11,7 +11,7 @@ import CoreLocation
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
 
-   typealias DidUpdateLocationClosure = (CLLocation?) -> ()
+   typealias DidUpdateLocationClosure = (CLLocation?) -> Void
    private var _myLocation: CLLocation?
    private var _completionClosure: DidUpdateLocationClosure?
    
@@ -33,15 +33,15 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
    
    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
       _completionClosure?(nil)
-      //TODO: handle the error
+      // TODO: handle the error
    }
    
    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-      if case .authorizedWhenInUse = status{
+      if case .authorizedWhenInUse = status {
          manager.requestLocation()
       } else {
          _completionClosure?(nil)
-         //TODO: we didn't get access, handle this
+         // TODO: we didn't get access, handle this
       }
    }
    

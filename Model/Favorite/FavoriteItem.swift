@@ -111,4 +111,3 @@ func == (lhs: FavoriteItem, rhs: FavoriteItem) -> Bool {
     let result = lhs.uid == rhs.uid && lhs.postid == rhs.postid
     return result
 }
-

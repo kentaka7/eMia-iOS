@@ -52,11 +52,11 @@ class AgeSliderView: UIView {
    }
    
    private func subscribeObChanged() {
-      _ = minAgeFilter.asObservable().subscribe() { [weak self] minAge in
+      _ = minAgeFilter.asObservable().subscribe { [weak self] minAge in
          guard let `self` = self else { return }
          self.showRange()
          }.disposed(by: disposeBug)
-      _ = maxAgeFilter.asObservable().subscribe() { [weak self] maxAge in
+      _ = maxAgeFilter.asObservable().subscribe { [weak self] maxAge in
          guard let `self` = self else { return }
          self.showRange()
          }.disposed(by: disposeBug)

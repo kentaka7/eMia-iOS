@@ -2,19 +2,17 @@
 //  Date.swift
 //  eMia
 //
-//  Copyright © 2017 Vesedia. All rights reserved.
-//
 
 import Foundation
 
 extension Date {
-   var yearsFromNow:   Int { return Calendar.current.dateComponents([.year],       from: self, to: Date()).year        ?? 0 }
-   var monthsFromNow:  Int { return Calendar.current.dateComponents([.month],      from: self, to: Date()).month       ?? 0 }
-   var weeksFromNow:   Int { return Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear  ?? 0 }
-   var daysFromNow:    Int { return Calendar.current.dateComponents([.day],        from: self, to: Date()).day         ?? 0 }
-   var hoursFromNow:   Int { return Calendar.current.dateComponents([.hour],       from: self, to: Date()).hour        ?? 0 }
-   var minutesFromNow: Int { return Calendar.current.dateComponents([.minute],     from: self, to: Date()).minute      ?? 0 }
-   var secondsFromNow: Int { return Calendar.current.dateComponents([.second],     from: self, to: Date()).second      ?? 0 }
+   var yearsFromNow: Int { return Calendar.current.dateComponents([.year], from: self, to: Date()).year ?? 0 }
+   var monthsFromNow: Int { return Calendar.current.dateComponents([.month], from: self, to: Date()).month ?? 0 }
+   var weeksFromNow: Int { return Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear  ?? 0 }
+   var daysFromNow: Int { return Calendar.current.dateComponents([.day], from: self, to: Date()).day ?? 0 }
+   var hoursFromNow: Int { return Calendar.current.dateComponents([.hour], from: self, to: Date()).hour ?? 0 }
+   var minutesFromNow: Int { return Calendar.current.dateComponents([.minute], from: self, to: Date()).minute ?? 0 }
+   var secondsFromNow: Int { return Calendar.current.dateComponents([.second], from: self, to: Date()).second ?? 0 }
    var relativeTime: String {
       if yearsFromNow   > 0 { return "\(yearsFromNow) year"    + (yearsFromNow    > 1 ? "s" : "") + " ago" }
       if monthsFromNow  > 0 { return "\(monthsFromNow) month"  + (monthsFromNow   > 1 ? "s" : "") + " ago" }
@@ -38,7 +36,7 @@ extension Date {
    
    func toLocalTime() -> Date {
       let timeZone = TimeZone.autoupdatingCurrent
-      let seconds : TimeInterval = Double(timeZone.secondsFromGMT(for: self))
+      let seconds: TimeInterval = Double(timeZone.secondsFromGMT(for: self))
       let localDate = Date(timeInterval: seconds, since: self)
       return localDate
    }
@@ -98,7 +96,6 @@ extension Date {
       return dateWithHoursAdded
    }
    
-   
    func addMinutes(minutesToAdd: Int) -> Date {
       let secondsInHours: TimeInterval = Double(minutesToAdd) * 60
       let dateWithMinutesAdded: Date = self.addingTimeInterval(secondsInHours)
@@ -106,7 +103,6 @@ extension Date {
       //Return Result
       return dateWithMinutesAdded
    }
-   
    
    func addSeconds(secondsToAdd: TimeInterval) -> Date {
       let dateWithSecondsAdded: Date = self.addingTimeInterval(secondsToAdd)
@@ -129,5 +125,3 @@ extension Date {
    }
    
 }
-
-

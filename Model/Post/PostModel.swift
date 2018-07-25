@@ -11,8 +11,8 @@ import RxRealm
 
 final class PostModel: Object {
    
-   @objc dynamic var key: String? = nil
-   @objc dynamic var id: String? = nil
+   @objc dynamic var key: String?
+   @objc dynamic var id: String?
    @objc dynamic var uid: String = ""
    @objc dynamic var author: String = ""
    @objc dynamic var title: String = ""
@@ -127,7 +127,6 @@ final class PostModel: Object {
       return result ?? .error(PostServiceError.updateFailed(post))
    }
    
-   
    class func isItMyPost(_ post: PostModel) -> Bool {
       guard let currentUser = gUsersManager.currentUser else {
          return false
@@ -145,15 +144,14 @@ extension PostModel {
    
    class func addPost(_ item: PostItem) {
       let model = PostModel(item: item)
-      guard let id = model.id, !id.isEmpty else {
+      guard let modelId = model.id, !modelId.isEmpty else {
          return
       }
-      if let _ = postsIndex(of: model) {
+      if postsIndex(of: model) != nil {
          return
-      } else {
-         _ = PostModel.createRealm(model: model)
-         rxPosts.value.append(model)
       }
+      _ = PostModel.createRealm(model: model)
+      rxPosts.value.append(model)
    }
    
    class func deletePost(_ item: PostItem) {
@@ -179,7 +177,7 @@ extension PostModel {
 extension PostModel: IdentifiableType {
    typealias Identity = String
    
-   var identity : Identity {
+   var identity: Identity {
       return id!
    }
 }
@@ -190,7 +188,7 @@ extension PostModel {
       let postItem = PostItem(uid: uid, author: author, title: title, body: body, photosize: photosize, starCount: starCount, created: created)
       postItem.id = id ?? ""
       postItem.key = key ?? ""
-      postItem.synchronize() { _ in
+      postItem.synchronize { _ in
          completion(postItem.id)
       }
    }
@@ -213,4 +211,3 @@ extension PostModel {
       }
    }
 }
-

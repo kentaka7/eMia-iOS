@@ -26,7 +26,7 @@ final class Appearance {
       navBar.tintColor = UIColor.Navigation.tintColor
       
       // Navigation bar title
-      let attr: [NSAttributedStringKey : Any] = [
+      let attr: [NSAttributedStringKey: Any] = [
          .foregroundColor: UIColor.white,
          .font: UIFont.Title.navigationBar
       ]

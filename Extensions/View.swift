@@ -15,12 +15,12 @@ extension UIView {
       layer.add(animation, forKey: "shake")
    }
 
-   class func loadFrom(nibNamed: String, bundle : Bundle? = nil) -> UIView? {
+   class func loadFrom(nibNamed: String, bundle: Bundle? = nil) -> UIView? {
       return UINib(nibName: nibNamed, bundle: bundle).instantiate(withOwner: nil, options: nil)[0] as? UIView
    }
 
    func testAnimation() {
-      let animator = UIViewPropertyAnimator(duration: 1.0, curve: .easeIn){[weak self] in
+      let animator = UIViewPropertyAnimator(duration: 1.0, curve: .easeIn) {[weak self] in
          guard let `self` = self else {
             return
          }
@@ -35,7 +35,7 @@ extension UIView {
       
       if #available(iOS 10.0, *) {
          let renderer = UIGraphicsImageRenderer(size: size)
-         let image = renderer.image { ctx in
+         let image = renderer.image { _ in
             self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
          }
          icon = image

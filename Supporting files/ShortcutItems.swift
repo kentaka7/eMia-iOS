@@ -8,8 +8,7 @@
 
 import Foundation
 
-func == (lhs: UIApplicationShortcutItem,
-         rhs: UIApplicationShortcutItem) -> Bool{
+func == (lhs: UIApplicationShortcutItem, rhs: UIApplicationShortcutItem) -> Bool {
    return lhs.hashValue == rhs.hashValue }
 
 extension UIApplicationShortcutItem {

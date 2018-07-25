@@ -21,14 +21,14 @@ class Register4ViewCell: UITableViewCell, ForUserConfigurable {
 
    fileprivate var labelsColor: UIColor!
 
-   private var _gender: Gender?
+   private var mGender: Gender?
    
    var gender: Gender {
       get {
-         return _gender ?? .boy
+         return mGender ?? .boy
       }
       set {
-         _gender = newValue
+         mGender = newValue
       }
    }
 

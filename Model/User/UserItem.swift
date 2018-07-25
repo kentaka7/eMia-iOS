@@ -61,7 +61,7 @@ class UserItem: NSObject {
       }
    }
    
-   func toDictionary() -> [String : Any] {
+   func toDictionary() -> [String: Any] {
       return [
          UserFields.userId: userId,
          UserFields.name: username,
@@ -90,7 +90,7 @@ extension UserItem {
    // Update exists data to Firebase Database
    private func update(completion: @escaping (Bool) -> Void) {
       let childUpdates = ["/\(UserFields.users)/\(self.userId)": self.toDictionary()]
-      gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
+      gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, _) in
          if let error = error {
             print("Error while synchronize user item: \(error.localizedDescription)")
             completion(false)

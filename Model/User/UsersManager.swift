@@ -148,8 +148,7 @@ extension UsersDataBaseInteractor: UsersPresenterModel {
 
    func logOut() {
       self.signOut()
-      let appDelegate = UIApplication.shared.delegate as! AppDelegate
-      _ = appDelegate.appRouter.transition(to: Route.login, type: .root)
+      _ = AppDelegate.instance.appRouter.transition(to: Route.login, type: .root)
    }
 }
 
@@ -165,4 +164,3 @@ extension UsersDataBaseInteractor: UserDataObservable {
       userObserver.removeObservers(users)
    }
 }
-

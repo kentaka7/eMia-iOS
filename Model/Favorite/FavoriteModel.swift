@@ -11,8 +11,8 @@ import RxRealm
 
 final class FavoriteModel: Object {
    
-   @objc dynamic var key: String? = nil
-   @objc dynamic var id: String? = nil
+   @objc dynamic var key: String?
+   @objc dynamic var id: String?
    @objc dynamic var uid: String = ""
    @objc dynamic var postid: String = ""
 
@@ -72,9 +72,10 @@ extension FavoriteModel {
    
    class func addFavorite(_ item: FavoriteItem) {
       let model = FavoriteModel(item: item)
-      if let _ = favoritiesIndex(of: model) {
+      if favoritiesIndex(of: model) != nil {
          return
-      } else if !item.id.isEmpty {
+      }
+      if item.id.isEmpty == false {
          _ = FavoriteModel.createRealm(model: model)
          rxFavorities.value.append(model)
       }
@@ -104,7 +105,7 @@ extension FavoriteModel {
 extension FavoriteModel: IdentifiableType {
    typealias Identity = String
    
-   var identity : Identity {
+   var identity: Identity {
       return id ?? "0"
    }
 }

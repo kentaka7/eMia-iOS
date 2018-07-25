@@ -18,7 +18,7 @@ class NewPostInteractor: NewPostStoring {
       let photosize = "\(image.size.width);\(image.size.height)"
       let newPost = PostModel(uid: currentUser.userId, author: currentUser.name, title: title, body: bodyText, photosize: photosize)
       newPost.synchronize { postid in
-         if (postid.isEmpty) {
+         if postid.isEmpty {
             Alert.default.showOk("Somethig went wrong!".localized, message: "We can't upload a photo on server".localized)
          } else {
             gPhotosManager.uploadPhoto(image, for: postid) { success in

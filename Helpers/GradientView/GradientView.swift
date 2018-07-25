@@ -8,7 +8,7 @@ import UIKit
 class GradientView: UIView {
     
     // Default Colors
-    var colors:[UIColor] = [UIColor.clear, UIColor.black.withAlphaComponent(0.4)]
+    var colors: [UIColor] = [UIColor.clear, UIColor.black.withAlphaComponent(0.4)]
     
     override func draw(_ rect: CGRect) {
         

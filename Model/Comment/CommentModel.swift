@@ -78,9 +78,10 @@ extension CommentModel {
    
    class func addComment(_ item: CommentItem) {
       let model = CommentModel(item: item)
-      if let _ = commentIndex(of: model) {
+      if commentIndex(of: model) != nil {
          return
-      } else if !item.id.isEmpty {
+      }
+      if !item.id.isEmpty {
          _ = CommentModel.createRealm(model: model)
          rxComments.value.append(model)
          // TODO: Remove it
@@ -112,7 +113,7 @@ extension CommentModel {
 extension CommentModel: IdentifiableType {
    typealias Identity = String
    
-   var identity : Identity {
+   var identity: Identity {
       return id ?? ""
    }
 }
@@ -120,7 +121,7 @@ extension CommentModel: IdentifiableType {
 extension CommentModel {
    
    func synchronize(_ completion: @escaping (Bool) -> Void) {
-      var commentItem = CommentItem(uid: uid, author: author, text: text, postid: postid, created: created)
+      let commentItem = CommentItem(uid: uid, author: author, text: text, postid: postid, created: created)
       commentItem.key = key ?? ""
       commentItem.id = id ?? ""
       commentItem.synchronize(completion: completion)

@@ -5,13 +5,12 @@
 
 import UIKit
 
-
 final class Alert {
    
    static let `default` = Alert()
    
-   var popupWindow : UIWindow!
-   var rootVC : UIViewController!
+   var popupWindow: UIWindow!
+   var rootVC: UIViewController!
    
    fileprivate init() {
       let screenBounds = UIScreen.main.bounds
@@ -23,7 +22,7 @@ final class Alert {
       
    }
 
-   func showButton(_ title: String, message: String, buttonTitle: String, onComplete: @escaping ()->Void = {  }) {
+   func showButton(_ title: String, message: String, buttonTitle: String, onComplete: @escaping () -> Void = {  }) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -35,8 +34,7 @@ final class Alert {
       }
    }
    
-   
-   func showOk(_ title: String, message: String, onComplete: @escaping ()->Void = {  }) {
+   func showOk(_ title: String, message: String, onComplete: @escaping () -> Void = {  }) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -48,7 +46,7 @@ final class Alert {
       }
    }
 	
-	func showError(_ title: String = "Error".localized, message: String, onComplete: @escaping ()->Void = {  }) {
+	func showError(_ title: String = "Error".localized, message: String, onComplete: @escaping () -> Void = {  }) {
 		DispatchQueue.main.async {
 			self.popupWindow.isHidden = false
 			let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -60,7 +58,7 @@ final class Alert {
 		}
 	}
 	
-   func showOkCancel(_ title: String, message: String, onComplete: (()->Void)?, onCancel: (()->Void)?) {
+   func showOkCancel(_ title: String, message: String, onComplete: (() -> Void)?, onCancel: (() -> Void)?) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -78,7 +76,7 @@ final class Alert {
       }
    }
    
-   func showYesNo(_ title: String, message: String, onYes: @escaping ()->Void = {}, onNo: @escaping ()->Void = {}) {
+   func showYesNo(_ title: String, message: String, onYes: @escaping () -> Void = {}, onNo: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -97,7 +95,7 @@ final class Alert {
       }
    }
    
-   func showConfirmCancel(_ title: String, message: String, onConfirm: @escaping ()->Void = {}, onCancel: @escaping ()->Void = {}) {
+   func showConfirmCancel(_ title: String, message: String, onConfirm: @escaping () -> Void = {}, onCancel: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -116,7 +114,7 @@ final class Alert {
       }
    }
    
-   func showConfirmChange(_ title: String, message: String, onConfirm: @escaping ()->Void = {}, onChange: @escaping ()->Void = {}) {
+   func showConfirmChange(_ title: String, message: String, onConfirm: @escaping () -> Void = {}, onChange: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -135,7 +133,7 @@ final class Alert {
       }
    }
    
-   func showOkChange(_ title: String, message: String, onOk: @escaping ()->Void = {}, onChange: @escaping ()->Void = {}) {
+   func showOkChange(_ title: String, message: String, onOk: @escaping () -> Void = {}, onChange: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -154,7 +152,7 @@ final class Alert {
       }
    }
    
-   func showSettingsCancel(_ title: String, message: String, onSettings: @escaping ()->Void = {}, onCancel: @escaping ()->Void = {}) {
+   func showSettingsCancel(_ title: String, message: String, onSettings: @escaping () -> Void = {}, onCancel: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -171,7 +169,7 @@ final class Alert {
       }
    }
    
-   func showOkNo(_ title: String, message: String, onOk: @escaping ()->Void = {}, onNo: @escaping ()->Void = {}) {
+   func showOkNo(_ title: String, message: String, onOk: @escaping () -> Void = {}, onNo: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
          let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -199,7 +197,7 @@ final class Alert {
 }
 
 final class StatusBarShowingViewController: UIViewController {
-	override var prefersStatusBarHidden : Bool {
+	override var prefersStatusBarHidden: Bool {
 		return false
 	}
 }

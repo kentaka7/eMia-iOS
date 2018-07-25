@@ -9,7 +9,7 @@ import RxSwift
 protocol LogInValidating {
    var email: Variable<String> {get}
    var password: Variable<String> {get}
-   var isValid : Observable<Bool> {get}
+   var isValid: Observable<Bool> {get}
 }
 
 protocol LogInExecuted {
@@ -21,7 +21,6 @@ protocol LogInRouting {
    func prepare(for segue: UIStoryboardSegue, sender: Any?)
 }
 
-
 class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
 
    var interactor: LoginInteractor!
@@ -31,8 +30,8 @@ class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
    var password = Variable<String>("")
    
    // Computed property to retunr the result of expected validation
-   var isValid : Observable<Bool> {
-      return Observable.combineLatest(email.asObservable(), password.asObservable()){ emailString, passwordString in
+   var isValid: Observable<Bool> {
+      return Observable.combineLatest(email.asObservable(), password.asObservable()) { emailString, passwordString in
          emailString.isValidEmail() && passwordString.count > 6
       }
    }
@@ -72,14 +71,13 @@ class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
 
 extension LoginPresenter {
    
-   public enum LoginError: Error, CustomStringConvertible
-   {
+   public enum LoginError: Error, CustomStringConvertible {
       case emailIsAbsent
       case emailIsWrong
       case passwordIsWrong
       case accessDenied
       
-      public var description : String {
+      public var description: String {
          switch self {
          case .emailIsAbsent:
             return "Please enter your email address".localized

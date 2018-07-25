@@ -6,7 +6,8 @@
 import UIKit
 
 // MARK: - Asset image types
-protocol ImageAssetType: Testable  {}
+protocol ImageAssetType: Testable {
+}
 
 extension UIImage {
    
@@ -44,7 +45,7 @@ typealias Icon = UIImage.Icon
 
 extension UIImage {
 
-   convenience init<T>(_ imageAssetType: T) where T: ImageAssetType, T: RawRepresentable, T.RawValue == String  {
+   convenience init<T>(_ imageAssetType: T) where T: ImageAssetType, T: RawRepresentable, T.RawValue == String {
       self.init(named: imageAssetType.rawValue)!
    }
 }
@@ -76,7 +77,7 @@ extension UIImage {
       let bitmapInfo = cgImage.bitmapInfo
       if let colorSpace = cgImage.colorSpace, let context = CGContext(data: nil, width: Int(newSize.width), height: Int(newSize.height), bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo.rawValue) {
          context.interpolationQuality = .high
-         context.draw(cgImage, in: CGRect(x: 0.0,y: 0.0, width: newSize.width, height: newSize.height))
+         context.draw(cgImage, in: CGRect(x: 0.0, y: 0.0, width: newSize.width, height: newSize.height))
          if let cgi = context.makeImage() {
             return UIImage(cgImage: cgi)
          }
@@ -86,7 +87,7 @@ extension UIImage {
    
    func compressImage() -> UIImage {
       var resultImage = self
-      if let imageData: Data = UIImageJPEGRepresentation(self, 0.6)  {
+      if let imageData: Data = UIImageJPEGRepresentation(self, 0.6) {
          //      if let imageData: Data = UIImagePNGRepresentation(image)  {
          if imageData.count > 500000 {
             let scale: CGFloat = 500000.0 / CGFloat(imageData.count)
@@ -106,7 +107,7 @@ extension UIImage {
       
       // Figure out what our orientation is, and use that to form the rectangle
       var newSize: CGSize
-      if(widthRatio > heightRatio) {
+      if widthRatio > heightRatio {
          newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
       } else {
          newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)

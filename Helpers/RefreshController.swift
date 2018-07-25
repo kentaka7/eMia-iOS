@@ -30,7 +30,7 @@ open class RefreshController: NSObject {
    }
    
    @objc func refreshData(_ sender: AnyObject) {
-      self.delegate.refreshData(){
+      self.delegate.refreshData {
          DispatchQueue.main.async(execute: {
             self.refreshControl.endRefreshing()
          })

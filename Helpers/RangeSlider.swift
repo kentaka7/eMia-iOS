@@ -7,8 +7,8 @@ import UIKit
 
 @IBDesignable  class RangeSlider: UIControl {
 
-	@IBInspectable var outterTrackTintColor = UIColor(red: 151/255, green: 151/255, blue: 151/255, alpha: 1)
-	@IBInspectable var innerTrackTintColor = UIColor(red: 255/255, green: 51/255, blue: 102/255, alpha: 1)
+   @IBInspectable var outterTrackTintColor: UIColor = UIColor(red: 151/255, green: 151/255, blue: 151/255, alpha: 1)
+	@IBInspectable var innerTrackTintColor: UIColor = UIColor(red: 255/255, green: 51/255, blue: 102/255, alpha: 1)
 	
 	@IBInspectable var minimumValue: Float = 0
 	@IBInspectable var maximumValue: Float = 1
@@ -44,14 +44,14 @@ import UIKit
 	}
 	
 	private struct Constants {
-		private init(){}
+		private init() {
+      }
 		static let thumbWidth: CGFloat = 33
 		static let outerTrackViewHeight: CGFloat = 2
 		static let innerTrackViewHeight: CGFloat = 40
 	}
 	
-	
-	//	MARK: - Initialization
+   // MARK: Initialization
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupControl()
@@ -62,12 +62,12 @@ import UIKit
 		setupControl()
 	}
 	
-	//	MARK: - Size
+   // MARK: Size
 	override var intrinsicContentSize: CGSize {
 		return CGSize(width: super.intrinsicContentSize.width, height: Constants.thumbWidth)
 	}
 	
-	//	MARK: - Utility
+   // MARK: Utility
 	private func setupControl() {
 		for view in subviews {
 			view.removeFromSuperview()
@@ -120,7 +120,6 @@ import UIKit
 		innerTrackView.centerYAnchor.constraint(equalTo: outerTrackView.centerYAnchor).isActive = true
 		innerTrackView.heightAnchor.constraint(equalToConstant: Constants.outerTrackViewHeight).isActive = true
 		
-		
 		// Pan gesture
 		let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
 		addGestureRecognizer(panGesture)
@@ -165,7 +164,7 @@ import UIKit
 			
 			if movingThumbView == minimumThumbView {
 				if center.x > minimumThumbView.bounds.width / 2 - 2
-					&& (center.x + minimumThumbView.bounds.width / 2)  < outerTrackView.frame.maxX - maximunThumView.frame.width - deltaWidth{
+					&& (center.x + minimumThumbView.bounds.width / 2)  < outerTrackView.frame.maxX - maximunThumView.frame.width - deltaWidth {
 					minimumThumbViewLeadingingConstraint.constant = center.x
 					layoutIfNeeded()
 					if minimumThumbView.frame.maxX > maximunThumView.frame.minX - deltaWidth {

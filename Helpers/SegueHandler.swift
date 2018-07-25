@@ -16,7 +16,7 @@ extension SegueRawRepresentable where Self: UIViewController, SegueType.RawValue
 	/// - Parameters:
 	///   - identifier: Segue type
 	///   - sender: any control or view
-	func executeSegue(_ identifier: SegueType, sender: Any?){
+	func executeSegue(_ identifier: SegueType, sender: Any?) {
 		if shouldPerformSegue(withIdentifier: identifier.rawValue, sender: sender) {
 			performSegue(withIdentifier: identifier.rawValue, sender: sender)
 		}

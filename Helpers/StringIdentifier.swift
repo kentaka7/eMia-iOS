@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct StringIdentifier: RawRepresentable  {
+struct StringIdentifier: RawRepresentable {
    let rawValue: String
    init(rawValue: String) {
       self.rawValue = rawValue
@@ -21,7 +21,7 @@ extension StringIdentifier: Hashable {
 
 // MARK: - Equatable
 extension StringIdentifier: Equatable {
-   static func ==(lhs: StringIdentifier, rhs: StringIdentifier) -> Bool {
+   static func == (lhs: StringIdentifier, rhs: StringIdentifier) -> Bool {
       return lhs.rawValue == rhs.rawValue
    }
 }

@@ -77,7 +77,7 @@ class MyProfileInteractor: NSObject {
    
    private func updateUserData(with photo: UIImage, completed: @escaping () -> Void) {
       self.activityIndicator.startAnimating()
-      self.user.synchronize() { [weak self] success in
+      self.user.synchronize { [weak self] success in
          guard let `self` = self else { return }
          self.activityIndicator.stopAnimating()
          if success {

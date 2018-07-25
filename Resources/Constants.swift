@@ -56,7 +56,6 @@ struct CommentItemFields {
    static let created = "created"
 }
 
-
 // MARK: -
 
 struct Notifications {

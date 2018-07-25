@@ -72,7 +72,7 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
    }
    
    fileprivate func openCamera() {
-      if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
+      if UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
          imagePicker.delegate = self
          imagePicker.allowsEditing = true
          imagePicker.sourceType = .camera
@@ -82,8 +82,7 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
       }
    }
    
-   fileprivate func openGallary()
-   {
+   fileprivate func openGallary() {
       imagePicker.delegate = self
       imagePicker.allowsEditing = true
       imagePicker.sourceType = .photoLibrary

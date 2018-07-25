@@ -49,7 +49,7 @@ class FireBaseStorageInteractor: NSObject {
    class func savePhoto(_ image: UIImage, name: String, completion: @escaping (UIImage?) -> Void) {
       let compactImage = image.compressImage()
       saveImage(compactImage, name: name) { photoUrl in
-         if let _ = photoUrl {
+         if photoUrl != nil {
             completion(compactImage)
          } else {
             completion(nil)
@@ -86,7 +86,7 @@ class FireBaseStorageInteractor: NSObject {
    
    class func removeImage(name: String, completion: @escaping (Bool) -> Void) {
       let imagePath = "\(name).jpg"
-      gFireBaseManager.storageRef.child(imagePath).delete() { error in
+      gFireBaseManager.storageRef.child(imagePath).delete { error in
          if let error = error {
             print("Failed delete file: \(error.localizedDescription)")
             completion(false)

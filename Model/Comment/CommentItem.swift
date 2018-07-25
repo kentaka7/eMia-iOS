@@ -75,7 +75,7 @@ class CommentItem: NSObject, NSCoding {
 
    }
    
-   func toDictionary() -> [String : Any] {
+   func toDictionary() -> [String: Any] {
       return [
          CommentItemFields.id: id,
          CommentItemFields.uid: uid,
@@ -128,7 +128,7 @@ extension CommentItem {
 
 // MARK: -
 
-func ==(lhs: CommentItem, rhs: CommentItem) -> Bool {
+func == (lhs: CommentItem, rhs: CommentItem) -> Bool {
    let result = lhs.id == rhs.id
    return result
 }

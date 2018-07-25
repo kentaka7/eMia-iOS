@@ -42,7 +42,7 @@ extension PushNotificationsInteractor: PushNotificationsSendable {
       request.setValue("application/json", forHTTPHeaderField: "Content-Type")
       request.setValue("key=\(Firebase.ServerKey)", forHTTPHeaderField: "Authorization")
       
-      type.notifications() { data in
+      type.notifications { data in
          for jsonData in data {
             
             request.httpBody = jsonData

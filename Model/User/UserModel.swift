@@ -15,11 +15,11 @@ final class UserModel: Object {
    @objc dynamic var userId: String = ""
    @objc dynamic var name: String = ""
    @objc dynamic var email: String = ""
-   @objc dynamic var address: String? = nil
-   @objc dynamic var _gender: Int = 0
+   @objc dynamic var address: String?
+   @objc dynamic var mGender: Int = 0
    @objc dynamic var yearbirth: Int = 0
-   @objc dynamic var tokenIOS: String? = nil
-   @objc dynamic var tokenAndroid: String? = nil
+   @objc dynamic var tokenIOS: String?
+   @objc dynamic var tokenAndroid: String?
 
    static var rxUsers = Variable<[UserModel]>([])
    
@@ -29,10 +29,10 @@ final class UserModel: Object {
    
    var gender: Gender? {
       get {
-         return Gender(rawValue: self._gender)
+         return Gender(rawValue: self.mGender)
       }
       set {
-         self._gender = newValue?.rawValue ?? 0
+         self.mGender = newValue?.rawValue ?? 0
       }
    }
    
@@ -41,7 +41,7 @@ final class UserModel: Object {
       self.name = name
       self.email = email
       self.address = address
-      self._gender = gender == nil ? Gender.both.rawValue : gender!.rawValue
+      self.mGender = gender == nil ? Gender.both.rawValue : gender!.rawValue
       self.yearbirth = yearbirth ?? 0
    }
    
@@ -63,7 +63,7 @@ final class UserModel: Object {
       self.name = rhs.name
       self.email = rhs.email
       self.address = rhs.address
-      self._gender = rhs._gender
+      self.mGender = rhs.mGender
       self.yearbirth = rhs.yearbirth
       self.tokenIOS = rhs.tokenIOS
       self.tokenAndroid = rhs.tokenAndroid
@@ -89,17 +89,16 @@ final class UserModel: Object {
          return []
       }
    }
-   
-   
 }
 
 extension UserModel {
 
    class func addUser(_ item: UserItem) {
       let model = UserModel(item: item)
-      if let _ = usersIndex(of: model) {
+      if usersIndex(of: model) != nil {
          return
-      } else if !model.userId.isEmpty {
+      }
+      if model.userId.isEmpty == false {
          _ = UserModel.createRealm(model: model)
          rxUsers.value.append(model)
       }
@@ -128,11 +127,10 @@ extension UserModel {
    
 }
 
-
 extension UserModel: IdentifiableType {
    typealias Identity = String
    
-   var identity : Identity {
+   var identity: Identity {
       return userId
    }
 }

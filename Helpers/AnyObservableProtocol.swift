@@ -12,7 +12,7 @@ import Firebase
    func unregisterObserver()
 }
 
-extension AnyObservable where Self: Any{
+extension AnyObservable where Self: Any {
 
    func unregisterObserver() {
         observers.forEach {

@@ -15,12 +15,12 @@ class LanguageDefaults: NSObject {
       struct SingletonWrapper {
          static let sharedInstance = LanguageDefaults()
       }
-      return SingletonWrapper.sharedInstance;
+      return SingletonWrapper.sharedInstance
    }
    
    fileprivate override init() {
       let userDefaults = UserDefaults.standard
-      if let currentLanguage = userDefaults.string(forKey: LanguageDefaults.kCurrentLanguageKey){
+      if let currentLanguage = userDefaults.string(forKey: LanguageDefaults.kCurrentLanguageKey) {
          _currentLanguage = currentLanguage
       } else {
          _currentLanguage = Locale.preferredLanguages[0]

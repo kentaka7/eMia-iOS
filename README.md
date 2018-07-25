@@ -20,8 +20,9 @@ eMia is developing with using following things:
 ## Introduction
 
 If you want to try eMia, sign in your Google account, then open Firebase console https://console.firebase.google.com
-Create a new project. Please follow documentations https://firebase.google.com/docs/ios/setup#add_firebase_to_your_app.
-As a result you have to download GoogleService-Info.plist file and replace my current.
+Create a new project. Please follow documentation https://firebase.google.com/docs/ios/setup#add_firebase_to_your_app.
+As a result, you have to download GoogleService-Info.plist file and copy it to the "Supporting files" folder. Also, you should replace 
+Firebase.ServerKey on your. Take it at the console from the Project settings tab filed "Web API Key". 
 
 ## Installation
 

@@ -95,7 +95,7 @@ class LogInViewController: UIViewController {
    
    private func signInButtonPressed() {
       self.hideKeyboard()
-      executor.signIn() { error in
+      executor.signIn { error in
          guard let error = error else {
             return
          }
@@ -114,7 +114,7 @@ class LogInViewController: UIViewController {
    
    private func signUpButtonPressed() {
       self.hideKeyboard()
-      executor.signUp() { error in
+      executor.signUp { error in
          guard let error = error else {
             return
          }

@@ -61,7 +61,7 @@ class PostItem: NSObject {
       }
    }
    
-   func toDictionary() -> [String : Any] {
+   func toDictionary() -> [String: Any] {
       return [
          PostItemFields.id: id,
          PostItemFields.uid: uid,
@@ -119,4 +119,3 @@ func == (lhs: PostItem, rhs: PostItem) -> Bool {
    let result = lhs.id == rhs.id
    return result
 }
-
