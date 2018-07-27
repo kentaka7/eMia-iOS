@@ -8,7 +8,7 @@ import RxSwift
 
 class UserObserver: NSObject {
 
-   fileprivate var observers: Array<(users: [UserModel], closure: UserObserverClosure)> = []
+   fileprivate var observers: [(users: [UserModel], closure: UserObserverClosure)] = []
 
    func addObserver(users: [UserModel], closure: @escaping UserObserverClosure) {
       removeObservers(users)
@@ -50,11 +50,9 @@ class UserObserver: NSObject {
       for userItem in userItems {
          for observer in observers {
             let users = observer.users
-            for user in users {
-               if user.userId == userItem.userId {
-                  observer.closure(userItem)
-                  return
-               }
+            for user in users where user.userId == userItem.userId {
+               observer.closure(userItem)
+               return
             }
          }
       }

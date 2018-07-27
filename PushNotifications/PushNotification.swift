@@ -144,4 +144,3 @@ extension PushNotification {
       return gUsersManager.getUserWith(id: post.uid)
    }
 }
-

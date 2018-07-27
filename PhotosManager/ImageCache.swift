@@ -11,7 +11,7 @@ class ImageCache {
    
    static let `default` = ImageCache()
    
-   let kMaxImageSize: Int64 = 1 * 1024 * 1024
+   let kMaxImageSize: Int64 = 1 * 1024 * 1024      // 1Mb
    
    typealias DownloadIdentifier = StringIdentifier
    
@@ -20,7 +20,7 @@ class ImageCache {
    }
    private let concurrentPhotoQueue = DispatchQueue(label: ImageCache.budleID, attributes: .concurrent)
    
-   private let cache = try! Cache<UIImage>(name: "ImageCache")
+   private let cache = try! Cache<UIImage>(name: "ImageCache")  // TODO: Force tries should be avoided.
    
    private init() {
    }

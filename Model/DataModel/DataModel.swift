@@ -13,7 +13,7 @@ import RealmSwift
 import RxRealm
 
 typealias UserObserverClosure = (UserModel) -> Void
-typealias DidUpdateObserverClosure = () -> ()
+typealias DidUpdateObserverClosure = () -> Void
 
 protocol CommentsDataBaseObservable {
     func addItem(_ item: CommentItem)
@@ -216,7 +216,7 @@ extension DataModelInteractor {
             .subscribe(onNext: { snapshot in
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
-                        if let _ = childSnap.value as? [String: String] {
+                        if childSnap.value as? [String: String] != nil {
                             let item = FavoriteItem(childSnap)
                             FavoriteModel.addFavorite(item)
                         }

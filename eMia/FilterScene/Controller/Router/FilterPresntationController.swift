@@ -44,11 +44,10 @@ class FilterPresntationController: UIPresentationController {
 		presentedViewController.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:))))
 		
 		let coordinator = presentedViewController.transitionCoordinator
-		if (coordinator != nil) {
-			coordinator!.animate(alongsideTransition: {
-				(context:UIViewControllerTransitionCoordinatorContext!) -> Void in
+		if coordinator != nil {
+			coordinator!.animate(alongsideTransition: { (_: UIViewControllerTransitionCoordinatorContext!) -> Void in
 				self.dimmingView.alpha = 1.0
-			}, completion:nil)
+			}, completion: nil)
 		} else {
 			dimmingView.alpha = 1.0
 		}
@@ -71,9 +70,10 @@ class FilterPresntationController: UIPresentationController {
 	override func dismissalTransitionWillBegin() {
 		let coordinator = presentedViewController.transitionCoordinator
 		if coordinator != nil {
-			coordinator!.animate(alongsideTransition: { (context:UIViewControllerTransitionCoordinatorContext!) -> Void in
+			coordinator!.animate(alongsideTransition: { (_: UIViewControllerTransitionCoordinatorContext!) -> Void in
 				self.dimmingView.alpha = 0.0
-			}, completion:nil)
+			},
+                              completion: nil)
 		} else {
 			dimmingView.alpha = 0.0
 		}

@@ -13,7 +13,7 @@ class Register3ViewCell: UITableViewCell {
    @IBOutlet weak var pickerView: UIPickerView!
    @IBOutlet weak var whereAmIButton: UIButton!
    
-   var delegate: LocationComputing!
+   var loactionAgent: LocationComputing!
    private var municipalityPicker: MunicipalityPicker!
    
    override func awakeFromNib() {
@@ -23,7 +23,7 @@ class Register3ViewCell: UITableViewCell {
    }
 
    @IBAction func whereAmIButtonPressed(_ sender: Any) {
-      delegate.calculateWhereAmI()
+      loactionAgent.calculateWhereAmI()
    }
    
    private func configure(_ view: UIView) {
@@ -39,7 +39,7 @@ class Register3ViewCell: UITableViewCell {
    }
 
    func configure(for user: UserModel, delegate: LocationComputing) {
-      self.delegate = delegate
+      self.loactionAgent = delegate
       municipalityPicker.configure(for: user)
    }
    

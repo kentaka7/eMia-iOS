@@ -26,7 +26,7 @@ extension PushNotificationsInteractor: PushNotificationsSendable {
          completion()
       } else {
          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { (success, error) in
+         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { (_, _) in
             DispatchQueue.main.async {
                application.registerForRemoteNotifications()
                completion()
@@ -49,7 +49,7 @@ extension PushNotificationsInteractor: PushNotificationsSendable {
             self._sendmessageGroup.enter()
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                
-               guard let _ = data, let response = response, error == nil else {
+               guard data != nil, let response = response, error == nil else {
                   print("Error=\(error!.localizedDescription)")
                   return
                }

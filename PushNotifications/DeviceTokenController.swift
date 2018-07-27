@@ -31,7 +31,7 @@ class DeviceTokenControllerImpl: NSObject {
    fileprivate func registerObservers() {
       let queue = OperationQueue.main
       observers.append(
-         NotificationCenter.default.addObserver(forName: Notification.Name(Notifications.ChangeData.CurrentUser), object: nil, queue: queue) { notification in
+         _ = NotificationCenter.default.addObserver(forName: Notification.Name(Notifications.ChangeData.CurrentUser), object: nil, queue: queue) { _ in
             self.updateDeviceToken()
          }
       )
@@ -60,7 +60,7 @@ class DeviceTokenControllerImpl: NSObject {
       }
       self.userDefaultDeviceTokenUpdate(for: token)
       self.iOSTokens(for: currentUser) { tokens in
-         if let _ = tokens.index(of: token) {
+         if tokens.index(of: token) != nil {
             return
          }
          var tokens = tokens
@@ -118,7 +118,7 @@ class DeviceTokenControllerImpl: NSObject {
 
 extension DeviceTokenControllerImpl: MessagingDelegate {
    
-   func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+   func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
       print(#function)
       updateDeviceToken()
    }

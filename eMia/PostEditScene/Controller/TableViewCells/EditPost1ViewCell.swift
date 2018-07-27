@@ -38,7 +38,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
 
       case avatarUserImageView:
          if let userId = post?.uid {
-            gPhotosManager.downloadAvatar(for:  userId) { image in
+            gPhotosManager.downloadAvatar(for: userId) { image in
                DispatchQueue.main.async {
                   self.avatarUserImageView.image = image
                }

@@ -31,15 +31,15 @@ view.layer.borderWidth = 10
 view.layer.cornerRadius = 20
 view
 
-let v1 = UIView(frame: CGRect(x: 113, y: 111, width: 132, height: 194))
-v1.backgroundColor = UIColor.black
-print(v1)
-let v2 = UIView(frame: v1.bounds.insetBy(dx: 10, dy: 10))
-v2.backgroundColor = UIColor.red
-v1.addSubview(v2)
-print(v1.frame)
-v2.bounds.origin.x += 10
-v2.bounds.origin.y += 10
-print(v1.frame)
-print(v1.bounds)
-v1
+let view1 = UIView(frame: CGRect(x: 113, y: 111, width: 132, height: 194))
+view1.backgroundColor = UIColor.black
+print(view1)
+let view2 = UIView(frame: view1.bounds.insetBy(dx: 10, dy: 10))
+view2.backgroundColor = UIColor.red
+view1.addSubview(view2)
+print(view1.frame)
+view2.bounds.origin.x += 10
+view2.bounds.origin.y += 10
+print(view1.frame)
+print(view1.bounds)
+view1

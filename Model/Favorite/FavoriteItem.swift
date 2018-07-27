@@ -87,7 +87,7 @@ extension FavoriteItem {
     // Update exists data to Firebase Database
     private func update(completion: @escaping (Bool) -> Void) {
         let childUpdates = ["/\(FavoriteItemFields.favorits)/\(self.key)": self.toDictionary()]
-        gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, ref) in
+        gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (_, _) in
             completion(true)
         })
     }

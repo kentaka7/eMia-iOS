@@ -118,11 +118,11 @@ open class MunicipalityPicker: NSObject {
    
    var didSelectMunicipality: ((String, String)?) -> Void = {_ in }
    
-   func getName(for id: String?) -> String? {
-      guard let id = id else {
+   func getName(for nameId: String?) -> String? {
+      guard let nameId = nameId else {
          return nil
       }
-      return municipalities.filter({$0.0 == id}).first?.1
+      return municipalities.filter({$0.0 == nameId}).first?.1
    }
    
    var municipality: (String, String)? {

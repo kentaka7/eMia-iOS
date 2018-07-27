@@ -61,7 +61,7 @@ class MyProfileViewController: UIViewController {
    }
    
    private func saveData() {
-      presenter.updateMyProfile() { [weak self] in
+      presenter.updateMyProfile { [weak self] in
          guard let `self` = self else { return }
          if self.registerUser {
             presentMainScreen()

@@ -40,7 +40,7 @@ extension FilterAnimatedTransitioning: UIViewControllerAnimatedTransitioning {
 		
 		UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: { 
 			animatingView?.frame = finalFrame
-		}) { finished in
+		}) { _ in
 			if !transitionContext.transitionWasCancelled, !self.isPresentation {
 					fromView?.removeFromSuperview()
 			}
