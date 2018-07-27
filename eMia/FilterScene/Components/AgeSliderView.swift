@@ -15,8 +15,8 @@ class AgeSliderView: UIView {
    @IBOutlet weak var rangeSlider: MARKRangeSlider!
    @IBOutlet weak var rangeLabel: UILabel!
    
-   var minAgeFilter = Variable<Int>(0)
-   var maxAgeFilter = Variable<Int>(0)
+   var minAgeFilter = BehaviorSubject<Int>(value: 0)
+   var maxAgeFilter = BehaviorSubject<Int>(value: 0)
    private let disposeBug = DisposeBag()
    
    var minAge: CGFloat = 0.0 {
@@ -69,7 +69,7 @@ class AgeSliderView: UIView {
    }
    
    @objc private func rangeSliderValueChanged(_ sender: MARKRangeSlider) {
-      minAgeFilter.value = Int(rangeSlider.leftValue)
-      maxAgeFilter.value = Int(rangeSlider.rightValue)
+      minAgeFilter.onNext(Int(rangeSlider.leftValue))
+      maxAgeFilter.onNext(Int(rangeSlider.rightValue))
    }
 }

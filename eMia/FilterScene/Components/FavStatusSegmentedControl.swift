@@ -23,7 +23,7 @@ class FavStatusSegmentedControl: UIView {
    
    private var labelsColor: UIColor!
    
-   var favoriteFilter = Variable<FilterFavorite>(.none)
+   var favoriteFilter = BehaviorSubject<FilterFavorite>(value: .none)
    private let disposeBug = DisposeBag()
    
    fileprivate struct Constants {
@@ -65,12 +65,12 @@ class FavStatusSegmentedControl: UIView {
       
       tapAllRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
-         self.favoriteFilter.value = .all
+         self.favoriteFilter.onNext(.all)
       }).disposed(by: disposeBug)
 
       tapMyFavoriteRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
-         self.favoriteFilter.value = .myFavorite
+         self.favoriteFilter.onNext(.myFavorite)
       }).disposed(by: disposeBug)
    }
    

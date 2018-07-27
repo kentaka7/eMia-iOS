@@ -21,7 +21,7 @@ final class UserModel: Object {
    @objc dynamic var tokenIOS: String?
    @objc dynamic var tokenAndroid: String?
 
-   static var rxUsers = Variable<[UserModel]>([])
+   static var rxUsers = BehaviorSubject<[UserModel]>(value: [])
    
    override class func primaryKey() -> String? {
       return "userId"
@@ -100,23 +100,35 @@ extension UserModel {
       }
       if model.userId.isEmpty == false {
          _ = UserModel.createRealm(model: model)
-         rxUsers.value.append(model)
+         try? rxUsers.onNext(rxUsers.value() + [model])
       }
    }
    
    class func deleteUser(_ item: UserItem) {
       let model = UserModel(item: item)
       if let index = usersIndex(of: model) {
-         rxUsers.value.remove(at: index)
+         do {
+            var array = try rxUsers.value()
+            array.remove(at: index)
+            rxUsers.onNext(array)
+         } catch {
+            print(error)
+         }
       }
    }
    
    class func editUser(_  item: UserItem) {
-      let model = UserModel(item: item)
-      if let index = usersIndex(of: model) {
+      let user = UserModel(item: item)
+      if let index = usersIndex(of: user) {
          // If the user alteady exists, it's replacing him
          //_ = UserModel.createRealm(model: model)
-         rxUsers.value[index] = model
+         do {
+            var array = try rxUsers.value()
+            array[index] = user
+            rxUsers.onNext(array)
+         } catch {
+            print(error)
+         }
       }
    }
    

@@ -33,7 +33,7 @@ class MunicipalityControllerView: UIView {
    }
     private var selectedMunicipality: (String, String)?
    
-   var municipalityFilter = Variable<String>("")
+   var municipalityFilter = BehaviorSubject<String>(value: "")
    private let disposeBug = DisposeBag()
    
    fileprivate struct Constants {
@@ -81,16 +81,16 @@ class MunicipalityControllerView: UIView {
       
       tapAllRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
-         self.municipalityFilter.value = ""
+         self.municipalityFilter.onNext("")
       }).disposed(by: disposeBug)
 
       tapMunicipalityRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
          if let selectedMunicipality = self.selectedMunicipality {
             let currentMunicipalityId = selectedMunicipality.0
-            self.municipalityFilter.value = currentMunicipalityId
+            self.municipalityFilter.onNext(currentMunicipalityId)
          } else {
-            self.municipalityFilter.value = ""
+            self.municipalityFilter.onNext("")
          }
       }).disposed(by: disposeBug)
    }
@@ -101,12 +101,14 @@ class MunicipalityControllerView: UIView {
          self.selectedMunicipality = municipality
          if let municipality = municipality {
             self.selectMunicipalityLabel.text = municipality.1
-            self.municipalityFilter.value = municipality.0
+            self.municipalityFilter.onNext(municipality.0)
          }
       }
-      if self.municipalityFilter.value.count > 0 {
-         municipalityPicker.select(self.municipalityFilter.value)
-      }
+      do {
+         if try self.municipalityFilter.value().count > 0 {
+            municipalityPicker.select(try self.municipalityFilter.value())
+         }
+      } catch {}
    }
    
    private func setUpLocalObserver() {

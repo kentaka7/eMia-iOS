@@ -16,7 +16,7 @@ final class FavoriteModel: Object {
    @objc dynamic var uid: String = ""
    @objc dynamic var postid: String = ""
 
-   static var rxFavorities = Variable<[FavoriteModel]>([])
+   static var rxFavorities = BehaviorSubject<[FavoriteModel]>(value: [])
    
    class var favorities: [FavoriteModel] {
       do {
@@ -77,14 +77,20 @@ extension FavoriteModel {
       }
       if item.id.isEmpty == false {
          _ = FavoriteModel.createRealm(model: model)
-         rxFavorities.value.append(model)
+         try? rxFavorities.onNext(rxFavorities.value() + [model])
       }
    }
    
    class func deleteFavorite(_ item: FavoriteItem) {
       let model = FavoriteModel(item: item)
       if let index = favoritiesIndex(of: model) {
-         rxFavorities.value.remove(at: index)
+         do {
+            var array = try rxFavorities.value()
+            array.remove(at: index)
+            rxFavorities.onNext(array)
+         } catch {
+            print(error)
+         }
       }
    }
    
@@ -92,7 +98,13 @@ extension FavoriteModel {
       let model = FavoriteModel(item: item)
       if let index = favoritiesIndex(of: model) {
          //_ = FavoriteModel.createRealm(model: model)
-         rxFavorities.value[index] = model
+         do {
+            var array = try rxFavorities.value()
+            array[index] = model
+            rxFavorities.onNext(array)
+         } catch {
+            print(error)
+         }
       }
    }
    

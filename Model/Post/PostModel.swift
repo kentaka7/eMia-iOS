@@ -21,7 +21,7 @@ final class PostModel: Object {
    @objc dynamic var photosize: String = ""
    @objc dynamic var starCount: Int = 0
 
-   static var rxPosts = Variable<[PostModel]>([])
+   static var rxPosts = BehaviorSubject<[PostModel]>(value: [])
    
    override class func primaryKey() -> String? {
       return "id"
@@ -137,7 +137,6 @@ final class PostModel: Object {
    class func getPost(with postId: String) -> PostModel? {
       return PostModel.posts.first(where: { $0.id == postId })
    }
-   
 }
 
 extension PostModel {
@@ -151,20 +150,32 @@ extension PostModel {
          return
       }
       _ = PostModel.createRealm(model: model)
-      rxPosts.value.append(model)
+      try? rxPosts.onNext(rxPosts.value() + [model])
    }
    
    class func deletePost(_ item: PostItem) {
       let post = PostModel(item: item)
       if let index = postsIndex(of: post) {
-         rxPosts.value.remove(at: index)
+         do {
+            var array = try rxPosts.value()
+            array.remove(at: index)
+            rxPosts.onNext(array)
+         } catch {
+            print(error)
+         }
       }
    }
    
    class func editPost(_  item: PostItem) {
       let post = PostModel(item: item)
       if let index = postsIndex(of: post) {
-         rxPosts.value[index] = post
+         do {
+            var array = try rxPosts.value()
+            array[index] = post
+            rxPosts.onNext(array)
+         } catch {
+            print(error)
+         }
       }
    }
    

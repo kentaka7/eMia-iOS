@@ -26,7 +26,7 @@ class ShowMeSegmentedControl: UIView {
    
    private var labelsColor: UIColor!
    
-   var genderFilter = Variable<Gender>(.both)
+   var genderFilter = BehaviorSubject<Gender>(value: .both)
    private let disposeBug = DisposeBag()
    
    fileprivate struct Constants {
@@ -67,17 +67,17 @@ class ShowMeSegmentedControl: UIView {
       
       tapGuysRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
-         self.genderFilter.value = .boy
+         self.genderFilter.onNext(.boy)
       }).disposed(by: disposeBug)
 
       tapGirlsRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
-         self.genderFilter.value = .girl
+         self.genderFilter.onNext(.girl)
       }).disposed(by: disposeBug)
 
       tapBothRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
-         self.genderFilter.value = .both
+         self.genderFilter.onNext(.both)
       }).disposed(by: disposeBug)
    }
    

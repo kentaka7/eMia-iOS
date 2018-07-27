@@ -7,8 +7,8 @@ import UIKit
 import RxSwift
 
 protocol LogInValidating {
-   var email: Variable<String> {get}
-   var password: Variable<String> {get}
+   var email: BehaviorSubject<String> {get}
+   var password: BehaviorSubject<String> {get}
    var isValid: Observable<Bool> {get}
 }
 
@@ -26,8 +26,8 @@ class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
    var interactor: LoginInteractor!
    var view: LogInViewController!
 
-   var email = Variable<String>("")
-   var password = Variable<String>("")
+   var email = BehaviorSubject<String>(value: "")
+   var password = BehaviorSubject<String>(value: "")
    
    // Computed property to retunr the result of expected validation
    var isValid: Observable<Bool> {
@@ -49,21 +49,31 @@ class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
    
    func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void) {
       startProgress()
-      interactor.signIn(email: email.value, password: password.value) { success in
-         self.stopProgress()
-         if success {
-            presentMainScreen()
-         } else {
-            completion(.accessDenied)
+      do {
+         interactor.signIn(email: try email.value(), password: try password.value()) { success in
+            self.stopProgress()
+            if success {
+               presentMainScreen()
+            } else {
+               completion(.accessDenied)
+            }
          }
+      } catch {
+         print(error)
+         completion(.accessDenied)
       }
    }
    
    func signUp(completion: (LoginPresenter.LoginError?) -> Void) {
-      let name = email.value.components(separatedBy: "@").first!
-      let user = UserModel(name: name, email: email.value, address: nil, gender: nil, yearbirth: nil)
-      let password = self.password.value
-      AppDelegate.instance.appRouter.transition(to: .myProfile(user, password), type: .push)
+      do {
+         let name = try email.value().components(separatedBy: "@").first!
+         let user = UserModel(name: name, email: try email.value(), address: nil, gender: nil, yearbirth: nil)
+         let password = try self.password.value()
+         AppDelegate.instance.appRouter.transition(to: .myProfile(user, password), type: .push)
+      } catch {
+         print(error)
+         completion(.accessDenied)
+      }
    }
 }
 

@@ -47,7 +47,7 @@ class DataModelInteractor: NSObject {
     let semaphore = DispatchSemaphore(value: 1)
     
     func fetchData(completion: @escaping () -> Void) {
-        if PostModel.rxPosts.value.count > 0 {
+        if try! PostModel.rxPosts.value().count > 0 {
             completion()
             return
         }
@@ -62,7 +62,7 @@ class DataModelInteractor: NSObject {
         }
         fetchDataFunc {
             self.semaphore.signal()
-            print("users=\(UserModel.rxUsers.value.count);posts=\(PostModel.rxPosts.value.count);favorities=\(FavoriteModel.rxFavorities.value.count)")
+            try? print("users=\(UserModel.rxUsers.value().count);posts=\(PostModel.rxPosts.value().count);favorities=\(FavoriteModel.rxFavorities.value().count)")
             self.startListeners()
             DispatchQueue.main.async {
                 completion()
@@ -186,7 +186,7 @@ extension DataModelInteractor {
                         UserModel.addUser(item)
                     }
                 }
-                UserModel.rxUsers.value.append(contentsOf: UserModel.users)
+                try? UserModel.rxUsers.onNext(UserModel.rxUsers.value() + UserModel.users)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -203,7 +203,7 @@ extension DataModelInteractor {
                         PostModel.addPost(item)
                     }
                 }
-                PostModel.rxPosts.value.append(contentsOf: PostModel.posts)
+                try? PostModel.rxPosts.onNext(PostModel.rxPosts.value() + PostModel.posts)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -222,7 +222,7 @@ extension DataModelInteractor {
                         }
                     }
                 }
-                FavoriteModel.rxFavorities.value.append(contentsOf: FavoriteModel.favorities)
+                try? FavoriteModel.rxFavorities.onNext(FavoriteModel.rxFavorities.value() + FavoriteModel.favorities)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -239,7 +239,7 @@ extension DataModelInteractor {
                         CommentModel.addComment(item)
                     }
                 }
-                CommentModel.rxComments.value.append(contentsOf: CommentModel.comments)
+                try? CommentModel.rxComments.onNext(CommentModel.rxComments.value() + CommentModel.comments)
                 completion()
             }).disposed(by: disposeBag)
     }

@@ -27,13 +27,13 @@ class CommentsManager: NSObject {
       return postComments
    }
 
-   private var mNewCommentObservable = Variable<Bool>(false)
+   private var mNewCommentObservable = BehaviorSubject<Bool>(value: false)
    
    func startCommentsObserver(for post: PostModel) -> Observable<Bool> {
       self.post = post
       _ = CommentModel.rxNewCommentObserved.asObservable().subscribe({ [weak self] newComment in
          if let newComment = newComment.event.element, let post = self?.post, newComment?.postid == post.id {
-            self?.mNewCommentObservable.value = true
+            self?.mNewCommentObservable.onNext(true)
          }
       })
       return mNewCommentObservable.asObservable()

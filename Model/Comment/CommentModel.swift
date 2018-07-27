@@ -20,8 +20,8 @@ final class CommentModel: Object {
    @objc dynamic var postid: String = ""
    @objc dynamic var created: Double = 0
 
-   static var rxComments = Variable<[CommentModel]>([])
-   static var rxNewCommentObserved = Variable<CommentModel?>(nil)
+   static var rxComments = BehaviorSubject<[CommentModel]>(value: [])
+   static var rxNewCommentObserved = BehaviorSubject<CommentModel?>(value: nil)
 
    override class func primaryKey() -> String? {
       return "id"
@@ -83,16 +83,22 @@ extension CommentModel {
       }
       if !item.id.isEmpty {
          _ = CommentModel.createRealm(model: model)
-         rxComments.value.append(model)
+         try? rxComments.onNext(rxComments.value() + [model])
          // TODO: Remove it
-         rxNewCommentObserved.value = model
+         rxNewCommentObserved.onNext(model)
       }
    }
    
    class func deleteComment(_ item: CommentItem) {
       let model = CommentModel(item: item)
       if let index = commentIndex(of: model) {
-         rxComments.value.remove(at: index)
+         do {
+            var array = try rxComments.value()
+            array.remove(at: index)
+            rxComments.onNext(array)
+         } catch {
+            print(error)
+         }
       }
    }
    
@@ -100,7 +106,13 @@ extension CommentModel {
       let model = CommentModel(item: item)
       if let index = commentIndex(of: model) {
          //_ = FavoriteModel.createRealm(model: model)
-         rxComments.value[index] = model
+         do {
+            var array = try rxComments.value()
+            array[index] = model
+            rxComments.onNext(array)
+         } catch {
+            print(error)
+         }
       }
    }
    

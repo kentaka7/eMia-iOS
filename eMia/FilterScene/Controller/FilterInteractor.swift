@@ -76,7 +76,7 @@ extension FilterInteractor {
    private func setUpLookFor(_ lookFor: Gender?) {
       let value: Gender = lookFor ?? .both
       let genderFilter = presenter.showMeComponent.genderFilter
-      genderFilter.value = value
+      genderFilter.onNext(value)
       _ = genderFilter.asObservable().subscribe { [weak self] lookFor in
          guard let `self` = self else { return }
          self.lookFor = lookFor.element
@@ -87,7 +87,7 @@ extension FilterInteractor {
    private func setUpStatus(_ status: FilterFavorite?) {
       let value: FilterFavorite = status ?? .all
       let favoriteFilter = presenter.favoriteStatusComponent.favoriteFilter
-      favoriteFilter.value = value
+      favoriteFilter.onNext(value)
       _ = favoriteFilter.asObservable().subscribe { [weak self] status in
          guard let `self` = self else { return }
          self.status = status.element
@@ -101,13 +101,13 @@ extension FilterInteractor {
       presenter.agesComponent.minAge = value1
       presenter.agesComponent.maxAge = value2
       let minAgeFilter = presenter.agesComponent.minAgeFilter
-      minAgeFilter.value = Int(value1)
+      minAgeFilter.onNext(Int(value1))
       _ = minAgeFilter.asObservable().subscribe { [weak self] minAge in
          guard let `self` = self else { return }
          self.minAge = CGFloat(minAge.element!)
       }
       let maxAgeFilter = presenter.agesComponent.maxAgeFilter
-      maxAgeFilter.value = Int(value2)
+      maxAgeFilter.onNext(Int(value2))
       _ = maxAgeFilter.asObservable().subscribe { [weak self] maxAge in
          guard let `self` = self else { return }
          self.maxAge = CGFloat(maxAge.element!)
@@ -118,7 +118,7 @@ extension FilterInteractor {
    private func setUpMunicipality(_ municipalityId: String?) {
       let value = municipalityId ?? ""
       let municipalityFilter = presenter.municipalityComponent.municipalityFilter
-      municipalityFilter.value = value
+      municipalityFilter.onNext(value)
       _ = municipalityFilter.asObservable().subscribe { [weak self] municipalityId in
          guard let `self` = self else { return }
          self.municipalityId = municipalityId.element
