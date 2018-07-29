@@ -57,7 +57,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
 
       case favoriteButtonImageView:
          if let post = self.post {
-            let isItMyFavoritePost = gFavoritsManager.isItMyFavoritePost(post)
+            let isItMyFavoritePost = FavoritsManager.isItMyFavoritePost(post)
             DispatchQueue.main.async {
                self.favoriteButtonImageView.image = UIImage(named: isItMyFavoritePost ? "icon-toggle_star" : "icon-toggle_star_outline")
             }
@@ -91,6 +91,6 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
       guard let post = self.post else {
          return
       }
-      gFavoritsManager.addToFavorite(post: post)
+      FavoritsManager.addToFavorite(post: post)
    }
 }

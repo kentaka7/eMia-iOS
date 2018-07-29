@@ -2,9 +2,6 @@
 //  RouteCoordinator.swift
 //  eMia
 //
-//  Created by Sergey Krotkih on 2/7/18.
-//  Copyright © 2018 Coded I/S. All rights reserved.
-//
 
 import UIKit
 import RxSwift
@@ -63,7 +60,6 @@ class RouteCoordinator: RouteCoordinatorType {
          currentViewController = RouteCoordinator.actualViewController(for: viewController)
       }
       return subject.asObservable()
-         .take(1)
    }
    
    @discardableResult

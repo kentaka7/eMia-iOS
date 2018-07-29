@@ -41,7 +41,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
          manager.requestLocation()
       } else {
          _completionClosure?(nil)
-         // TODO: we didn't get access, handle this
+         // TODO: we have not gone access: handle this
       }
    }
    

@@ -128,7 +128,7 @@ class FilterStorage: PostsFiltering {
       // Favorities
       var addFavorite = false
       if self.myFavoriteFilter == .myFavorite {
-         if gFavoritsManager.isItMyFavoritePost(post) {
+         if FavoritsManager.isItMyFavoritePost(post) {
             addFavorite = true
          }
       } else if self.myFavoriteFilter == .all {

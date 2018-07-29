@@ -34,6 +34,7 @@ class LogInViewController: UIViewController {
       
       subscribeOnValid()
       configureView()
+      emailTextField.becomeFirstResponder()
    }
 
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

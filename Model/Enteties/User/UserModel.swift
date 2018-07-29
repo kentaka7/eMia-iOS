@@ -71,7 +71,7 @@ final class UserModel: Object {
    
    @discardableResult
    class func createRealm(model: UserModel) -> Observable<UserModel> {
-      let result = DataModelInteractor.withRealm("creating") { realm -> Observable<UserModel> in
+      let result = DataBaseImpl.withRealm("creating") { realm -> Observable<UserModel> in
          try realm.write {
             realm.add(model)
          }
@@ -118,13 +118,13 @@ extension UserModel {
    }
    
    class func editUser(_  item: UserItem) {
-      let user = UserModel(item: item)
-      if let index = usersIndex(of: user) {
+      let model = UserModel(item: item)
+      if let index = usersIndex(of: model) {
          // If the user alteady exists, it's replacing him
          //_ = UserModel.createRealm(model: model)
          do {
             var array = try rxUsers.value()
-            array[index] = user
+            array[index] = model
             rxUsers.onNext(array)
          } catch {
             print(error)
@@ -133,8 +133,7 @@ extension UserModel {
    }
    
    class func usersIndex(of item: UserModel) -> Int? {
-      let index = UserModel.users.index(where: {$0 == item})
-      return index
+      return UserModel.users.index(where: {$0 == item})
    }
    
 }

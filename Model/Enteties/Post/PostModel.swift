@@ -39,7 +39,7 @@ final class PostModel: Object {
    }
 
    class func postsObservable() -> Observable<Results<PostModel>> {
-      let result = DataModelInteractor.withRealm("getting posts") { realm -> Observable<Results<PostModel>> in
+      let result = DataBaseImpl.withRealm("getting posts") { realm -> Observable<Results<PostModel>> in
          let realm = try Realm()
          let posts = realm.objects(PostModel.self)
          return Observable.collection(from: posts)
@@ -83,20 +83,20 @@ final class PostModel: Object {
    }
    
    func copy(_ rhs: PostModel) {
-      self.key = rhs.key
-      self.id = rhs.id
-      self.uid = rhs.uid
-      self.author = rhs.author
-      self.title = rhs.title
-      self.body = rhs.body
-      self.created = rhs.created
-      self.starCount = rhs.starCount
-      self.photosize = rhs.photosize
+      key = rhs.key
+      id = rhs.id
+      uid = rhs.uid
+      author = rhs.author
+      title = rhs.title
+      body = rhs.body
+      created = rhs.created
+      starCount = rhs.starCount
+      photosize = rhs.photosize
    }
    
    @discardableResult
    class func createRealm(model: PostModel) -> Observable<PostModel> {
-      let result = DataModelInteractor.withRealm("creating") { realm -> Observable<PostModel> in
+      let result = DataBaseImpl.withRealm("creating") { realm -> Observable<PostModel> in
          try realm.write {
             realm.add(model)
          }
@@ -107,7 +107,7 @@ final class PostModel: Object {
 
    @discardableResult
    class func delete(post: PostModel) -> Observable<Void> {
-      let result = DataModelInteractor.withRealm("deleting") { realm-> Observable<Void> in
+      let result = DataBaseImpl.withRealm("deleting") { realm-> Observable<Void> in
          try realm.write {
             realm.delete(post)
          }
@@ -118,7 +118,7 @@ final class PostModel: Object {
    
    @discardableResult
    class func update(post: PostModel, title: String) -> Observable<PostModel> {
-      let result = DataModelInteractor.withRealm("updating title") { realm -> Observable<PostModel> in
+      let result = DataBaseImpl.withRealm("updating title") { realm -> Observable<PostModel> in
          try realm.write {
             post.title = title
          }
@@ -205,10 +205,6 @@ extension PostModel {
    }
 }
 
-func == (lhs: PostModel, rhs: PostModel) -> Bool {
-   return lhs.id == rhs.id
-}
-
 extension PostModel {
    
    func relativeTimeToCreated() -> String {
@@ -221,4 +217,8 @@ extension PostModel {
          completion(image)
       }
    }
+}
+
+func == (lhs: PostModel, rhs: PostModel) -> Bool {
+   return lhs.id == rhs.id
 }

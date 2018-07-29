@@ -1,5 +1,5 @@
 //
-//  PushNotificationsCenter.swift
+//  PushNotificationsCenterImpl.swift
 //  eMia
 //
 
@@ -8,15 +8,15 @@ import Firebase
 import UserNotifications
 import SwiftyJSON
 
-internal let gPushNotificationsCenter = NotificationsManager.default
+internal let gPushNotificationsCenter = PushNotificationsCenterImpl.default
 
 protocol PushNotificationsListenable {
    func registerRemoteNotifications(for application: UIApplication, completion: @escaping () -> Void)
 }
 
-final class NotificationsManager: NSObject {
+final class PushNotificationsCenterImpl: NSObject {
    
-   static let `default` = NotificationsManager()
+   static let `default` = PushNotificationsCenterImpl()
    
    var sender: PushNotificationsSendable!
    
@@ -33,7 +33,7 @@ final class NotificationsManager: NSObject {
 
 // MARK: - Firebase Manager Protocol
 
-extension NotificationsManager: PushNotificationsListenable {
+extension PushNotificationsCenterImpl: PushNotificationsListenable {
    
    func registerRemoteNotifications(for application: UIApplication, completion: @escaping () -> Void) {
       sender.registerRemoteNotifications(for: application) {
@@ -45,7 +45,7 @@ extension NotificationsManager: PushNotificationsListenable {
 
 // MARK: - Users Notifications Receiver
 
-extension NotificationsManager: UNUserNotificationCenterDelegate {
+extension PushNotificationsCenterImpl: UNUserNotificationCenterDelegate {
    
    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (_ options: UNNotificationPresentationOptions) -> Void) {
       
@@ -100,7 +100,7 @@ extension NotificationsManager: UNUserNotificationCenterDelegate {
 
 // MARK: -
 
-extension NotificationsManager {
+extension PushNotificationsCenterImpl {
    
    fileprivate func handleRequestPushNotification(userInfo: [AnyHashable: Any], completion: @escaping () -> Void) {
       
@@ -110,7 +110,7 @@ extension NotificationsManager {
 
 // MARK: - Push Notifications Sender
 
-extension NotificationsManager {
+extension PushNotificationsCenterImpl {
    
    func send(_ type: PushNotification, completion: (() -> Void)?) {
       sender.send(type, completion: completion)

@@ -42,10 +42,10 @@ class UserItem: NSObject {
       self.tokenAndroid = user.tokenAndroid ?? ""
    }
    
-   convenience init(_ snapshot: DataSnapshot) {
-      self.init()
-      key = snapshot.key
+   convenience init?(_ snapshot: DataSnapshot) {
       if var snapshotValue = snapshot.value as? [String: AnyObject] {
+         self.init()
+         key = snapshot.key
          userId = snapshotValue[UserFields.userId] as? String ?? ""
          username = snapshotValue[UserFields.name] as? String ?? ""
          email = snapshotValue[UserFields.email] as? String ?? ""
@@ -58,6 +58,8 @@ class UserItem: NSObject {
          }
          tokenIOS = snapshotValue[UserFields.tokenIOS] as? String ?? ""
          tokenAndroid = snapshotValue[UserFields.tokenAndroid] as? String ?? ""
+      } else {
+         return nil
       }
    }
    
@@ -90,7 +92,7 @@ extension UserItem {
    // Update exists data to Firebase Database
    private func update(completion: @escaping (Bool) -> Void) {
       let childUpdates = ["/\(UserFields.users)/\(self.userId)": self.toDictionary()]
-      gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, _) in
+      gDataBaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, _) in
          if let error = error {
             print("Error while synchronize user item: \(error.localizedDescription)")
             completion(false)

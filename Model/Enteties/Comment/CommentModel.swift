@@ -53,18 +53,18 @@ final class CommentModel: Object {
    }
    
    func copy(_ rhs: CommentModel) {
-      self.key = rhs.key
-      self.id = rhs.id
-      self.uid = rhs.uid
-      self.author = rhs.author
-      self.text = rhs.text
-      self.postid = rhs.postid
-      self.created = rhs.created
+      key = rhs.key
+      id = rhs.id
+      uid = rhs.uid
+      author = rhs.author
+      text = rhs.text
+      postid = rhs.postid
+      created = rhs.created
    }
    
    @discardableResult
    class func createRealm(model: CommentModel) -> Observable<CommentModel> {
-      let result = DataModelInteractor.withRealm("creating") { realm -> Observable<CommentModel> in
+      let result = DataBaseImpl.withRealm("creating") { realm -> Observable<CommentModel> in
          try realm.write {
             realm.add(model)
          }

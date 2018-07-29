@@ -58,7 +58,7 @@ final class FavoriteModel: Object {
    
    @discardableResult
    class func createRealm(model: FavoriteModel) -> Observable<FavoriteModel> {
-      let result = DataModelInteractor.withRealm("creating") { realm -> Observable<FavoriteModel> in
+      let result = DataBaseImpl.withRealm("creating") { realm -> Observable<FavoriteModel> in
          try realm.write {
             realm.add(model)
          }
@@ -126,12 +126,12 @@ extension FavoriteModel {
    
    func synchronize(_ completion: @escaping (Bool) -> Void) {
       let favoriteItem = FavoriteItem(uid: uid, postid: postid)
-      favoriteItem.key = key ?? "0"
-      favoriteItem.id = id ?? "0"
+      favoriteItem.key = key == nil || key!.isEmpty ? "" : favoriteItem.key
+      favoriteItem.id = id == nil || id!.isEmpty ? "" : favoriteItem.id
       favoriteItem.synchronize(completion: completion)
    }
 }
 
 func == (lhs: FavoriteModel, rhs: FavoriteModel) -> Bool {
-   return lhs.id == rhs.id
+   return lhs.uid == rhs.uid && lhs.postid == rhs.postid
 }

@@ -58,21 +58,20 @@ class CommentItem: NSObject, NSCoding {
       coder.encode(created, forKey: CommentItemFields.created)
    }
    
-   convenience init(_ snapshot: DataSnapshot) {
-      self.init()
-      key = snapshot.key
-      
-//      ref = snapshot.ref
-      
+   convenience init?(_ snapshot: DataSnapshot) {
       if let dict = snapshot.value as? [String: AnyObject] {
+         self.init()
+         key = snapshot.key
+         //      ref = snapshot.ref
          self.id = dict[CommentItemFields.id] as? String ?? ""
          self.uid = dict[CommentItemFields.uid] as? String ?? ""
          self.author = dict[CommentItemFields.author] as? String ?? ""
          self.text = dict[CommentItemFields.text] as? String ?? ""
          self.postid = dict[CommentItemFields.postid] as? String ?? ""
          self.created = dict[CommentItemFields.created] as? TimeInterval ?? 0
+      } else {
+         return nil
       }
-
    }
    
    func toDictionary() -> [String: Any] {
@@ -84,11 +83,6 @@ class CommentItem: NSObject, NSCoding {
          CommentItemFields.postid: postid,
          CommentItemFields.created: created
       ]
-   }
-   
-   class func decodeSnapshot(_ snapshot: DataSnapshot) -> CommentItem? {
-      let item = CommentItem(snapshot)
-      return item
    }
 }
 
@@ -107,14 +101,14 @@ extension CommentItem {
    // Update exists data to Firebase Database
    private func update(completion: @escaping (Bool) -> Void) {
       let childUpdates = ["/\(CommentItemFields.comments)/\(self.id)": self.toDictionary()]
-      gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (_, _) in
+      gDataBaseRef.updateChildValues(childUpdates, withCompletionBlock: { (_, _) in
          completion(true)
       })
    }
    
    // Save new data to Firebase Database
    private func save(completion: @escaping (Bool) -> Void) {
-      let key = gFireBaseManager.firebaseRef.child(CommentItemFields.comments).childByAutoId().key
+      let key = gDataBaseRef.child(CommentItemFields.comments).childByAutoId().key
       self.key = key
       self.id = key
       self.created = Date().timeIntervalSince1970

@@ -87,8 +87,8 @@ struct UserDefaultsKey {
 
 // MARK: - Default database name
 
-struct DataBase {
-   static let name = "main" // "emia-885b7"
+struct DefaultDataBase {
+   static let name = "main"
 }
 
 struct Firebase {

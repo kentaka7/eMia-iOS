@@ -1,5 +1,5 @@
 //
-//  FireBaseStorageInteractor.swift
+//  FireBaseImagesStorage.swift
 //  eMia
 //
 
@@ -8,7 +8,9 @@ import Firebase
 import FirebaseStorage
 import FirebaseRemoteConfig
 
-class FireBaseStorageInteractor: NSObject {
+internal let gImagesStorageRef = Storage.storage().reference(forURL: Firebase.StorageURL)
+
+class FireBaseImagesStorage: NSObject {
    
    class func saveImage(_ image: UIImage, name: String, completion: @escaping (String?) -> Void) {
       guard let imageData = UIImageJPEGRepresentation(image, 0.8) else {
@@ -36,7 +38,7 @@ class FireBaseStorageInteractor: NSObject {
          if let icon = imageView.takeScreensot() {
             self.saveImage(icon, name: name) { path in
                if let path = path {
-                  let imageUrl = FireBaseStorageInteractor.urlFor(path: path)
+                  let imageUrl = FireBaseImagesStorage.urlFor(path: path)
                   completion(imageUrl)
                } else {
                   completion(nil)
@@ -58,7 +60,7 @@ class FireBaseStorageInteractor: NSObject {
    }
    
    class func urlFor(path: String) -> String {
-      return gFireBaseManager.storageRef.child(path).description
+      return gImagesStorageRef.child(path).description
    }
    
    class func urlFor(imageName: String) -> String {
@@ -86,7 +88,7 @@ class FireBaseStorageInteractor: NSObject {
    
    class func removeImage(name: String, completion: @escaping (Bool) -> Void) {
       let imagePath = "\(name).jpg"
-      gFireBaseManager.storageRef.child(imagePath).delete { error in
+      gImagesStorageRef.child(imagePath).delete { error in
          if let error = error {
             print("Failed delete file: \(error.localizedDescription)")
             completion(false)

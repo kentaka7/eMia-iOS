@@ -19,20 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
    var application: UIApplication!
    
-   var fetchingManager = DataModelInteractor()
-   
-   var fireBaseInteractor = FireBaseInteractor()
-   
-   var favoritsManager = FavoritsDataBaseInteractor()
-
-   var usersDataBaseInteractor = UsersManagerImpl()
-   
-   var reachabilityController = ReachabilityController()
-   
-   var avatarManager = PhotosManagerImpl()
-   
-   var deviceTokenController = DeviceTokenControllerImpl()
-   
    var appRouter: RouteCoordinator!
    
    static var shared: AppDelegate {
@@ -55,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
       self.application  = application
       
-      gFireBaseManager.configure()
+      gFireBaseAuth.configure()
       
       gDeviceTokenController.configure()
       

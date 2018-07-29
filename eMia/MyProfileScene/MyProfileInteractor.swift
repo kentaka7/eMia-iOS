@@ -37,7 +37,7 @@ class MyProfileInteractor: NSObject {
          Alert.default.showOk("", message: "Please add photo".localized)
          return
       }
-      DataModelInteractor.saveWithRealm {
+      DataBaseImpl.saveWithRealm {
          user.name = name
          user.address = data.address ?? ""
          user.gender = data.gender
@@ -51,7 +51,7 @@ class MyProfileInteractor: NSObject {
    }
    
    private func registerNewUser(with photo: UIImage, completed: @escaping () -> Void) {
-      DataModelInteractor.saveWithRealm {
+      DataBaseImpl.saveWithRealm {
          user.tokenIOS = gDeviceTokenController.currentDeviceToken
       }
       self.activityIndicator.startAnimating()

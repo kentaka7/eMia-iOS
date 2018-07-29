@@ -8,15 +8,17 @@ import RealmSwift
 import RxSwift
 import RxRealm
 
-internal let gDeviceTokenController = DeviceTokenControllerImpl.sharedInstance
+internal let gDeviceTokenController = DeviceTokenControllerImpl.default
 
 class DeviceTokenControllerImpl: NSObject, AnyObservable {
    
-   var observers = [Any] ()
+   static let `default` = DeviceTokenControllerImpl()
    
-   static let sharedInstance: DeviceTokenControllerImpl = {
-      return AppDelegate.instance.deviceTokenController
-   }()
+   private override init() {
+      super.init()
+   }
+   
+   var observers = [Any] ()
    
    deinit {
       unregisterObserver()
@@ -62,7 +64,7 @@ class DeviceTokenControllerImpl: NSObject, AnyObservable {
    
    private func synchronize(_ tokens: [String], for user: UserModel, completion: @escaping (Bool) -> Void) {
       let tokensIOSValues = tokens.joined(separator: Settings.separator)
-      DataModelInteractor.saveWithRealm {
+      DataBaseImpl.saveWithRealm {
          user.tokenIOS = tokensIOSValues
       }
       user.synchronize { success in
@@ -164,7 +166,7 @@ extension DeviceTokenControllerImpl {
    }
    
    private func userDeviceTokens(for user: UserModel, fieldName: String, completion: @escaping ([String]) -> Void) {
-      gFireBaseManager.firebaseRef.child(UserFields.users).child(user.userId).child(fieldName).observeSingleEvent(of: .value, with: { snapshot in
+      gDataBaseRef.child(UserFields.users).child(user.userId).child(fieldName).observeSingleEvent(of: .value, with: { snapshot in
          if snapshot.exists() {
             if let tokens = snapshot.value as? String {
                var newDeviceTokens = [String]()

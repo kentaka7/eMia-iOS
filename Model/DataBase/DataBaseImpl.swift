@@ -15,12 +15,6 @@ import RxRealm
 typealias UserObserverClosure = (UserModel) -> Void
 typealias DidUpdateObserverClosure = () -> Void
 
-protocol CommentsDataBaseObservable {
-    func addItem(_ item: CommentItem)
-    func deleteItem(_ item: CommentItem)
-    func editItem(_  item: CommentItem)
-}
-
 enum PostServiceError: Error {
     case creationFailed
     case updateFailed(PostModel)
@@ -28,16 +22,18 @@ enum PostServiceError: Error {
     case toggleFailed(PostModel)
 }
 
-internal let gDataModel = DataModelInteractor.sharedInstance
+internal let gDataBase = DataBaseImpl.default
 
-class DataModelInteractor: NSObject {
+class DataBaseImpl: NSObject {
+    
+    static let `default` = DataBaseImpl()
+    
+    private override init() {
+        super.init()
+    }
     
     let kFetchingDataAsync = true
     let disposeBag = DisposeBag()
-    
-    static let sharedInstance: DataModelInteractor = {
-        return AppDelegate.instance.fetchingManager
-    }()
     
     private var usersObserver = UsersObserver()
     private var postsObserver = PostsObserver()
@@ -100,7 +96,7 @@ class DataModelInteractor: NSObject {
     }
 }
 
-extension DataModelInteractor {
+extension DataBaseImpl {
     
     fileprivate func fetchDataSync(completion: @escaping () -> Void) {
         var currentTime = CFAbsoluteTimeGetCurrent()
@@ -125,10 +121,10 @@ extension DataModelInteractor {
         var currentTime = CFAbsoluteTimeGetCurrent()
         
         DispatchQueue.main.async {
-            let usersRef = gFireBaseManager.firebaseRef.child(UserFields.users)
-            let postsRef = gFireBaseManager.firebaseRef.child(PostItemFields.posts)
-            let favoritiesRef = gFireBaseManager.firebaseRef.child(FavoriteItemFields.favorits)
-            let commentsRef = gFireBaseManager.firebaseRef.child(CommentItemFields.comments)
+            let usersRef = gDataBaseRef.child(UserFields.users)
+            let postsRef = gDataBaseRef.child(PostItemFields.posts)
+            let favoritiesRef = gDataBaseRef.child(FavoriteItemFields.favorits)
+            let commentsRef = gDataBaseRef.child(CommentItemFields.comments)
             let fetchingGroup = DispatchGroup()
             
             fetchingGroup.enter()
@@ -172,18 +168,19 @@ extension DataModelInteractor {
 
 // MARK: - Fetching data
 
-extension DataModelInteractor {
+extension DataBaseImpl {
     
     private func fetchAllUsers(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let usersRef = dbRef ?? gFireBaseManager.firebaseRef.child(UserFields.users).queryOrdered(byChild: "\\")
+        let usersRef = dbRef ?? gDataBaseRef.child(UserFields.users).queryOrdered(byChild: "\\")
         usersRef
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
-                        let item = UserItem(childSnap)
-                        UserModel.addUser(item)
+                        if let item = UserItem(childSnap) {
+                            UserModel.addUser(item)
+                        }
                     }
                 }
                 try? UserModel.rxUsers.onNext(UserModel.rxUsers.value() + UserModel.users)
@@ -192,15 +189,16 @@ extension DataModelInteractor {
     }
     
     private func fetchAllPosts(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let postsRef = dbRef ?? gFireBaseManager.firebaseRef.child(PostItemFields.posts).queryOrdered(byChild: "\\")
+        let postsRef = dbRef ?? gDataBaseRef.child(PostItemFields.posts).queryOrdered(byChild: "\\")
         postsRef
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
-                        let item = PostItem(childSnap)
-                        PostModel.addPost(item)
+                        if let item = PostItem(childSnap) {
+                            PostModel.addPost(item)
+                        }
                     }
                 }
                 try? PostModel.rxPosts.onNext(PostModel.rxPosts.value() + PostModel.posts)
@@ -209,7 +207,7 @@ extension DataModelInteractor {
     }
     
     private func fetchAllFavorities(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let favoritiesRef = dbRef ?? gFireBaseManager.firebaseRef.child(FavoriteItemFields.favorits).queryOrdered(byChild: "\\")
+        let favoritiesRef = dbRef ?? gDataBaseRef.child(FavoriteItemFields.favorits).queryOrdered(byChild: "\\")
         favoritiesRef
             .rx
             .observeSingleEvent(.value)
@@ -217,8 +215,9 @@ extension DataModelInteractor {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         if childSnap.value as? [String: String] != nil {
-                            let item = FavoriteItem(childSnap)
-                            FavoriteModel.addFavorite(item)
+                            if let item = FavoriteItem(childSnap) {
+                                FavoriteModel.addFavorite(item)
+                            }
                         }
                     }
                 }
@@ -228,15 +227,16 @@ extension DataModelInteractor {
     }
     
     func fetchAllComments(_ dbRef: DatabaseReference? = nil, completion: @escaping () -> Void) {
-        let commentsRef = dbRef ?? gFireBaseManager.firebaseRef.child(CommentItemFields.comments).queryOrdered(byChild: "\\")
+        let commentsRef = dbRef ?? gDataBaseRef.child(CommentItemFields.comments).queryOrdered(byChild: "\\")
         commentsRef
             .rx
             .observeSingleEvent(.value)
             .subscribe(onNext: { snapshot in
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
-                        let item = CommentItem(childSnap)
-                        CommentModel.addComment(item)
+                        if let item = CommentItem(childSnap) {
+                            CommentModel.addComment(item)
+                        }
                     }
                 }
                 try? CommentModel.rxComments.onNext(CommentModel.rxComments.value() + CommentModel.comments)

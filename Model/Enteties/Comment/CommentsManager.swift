@@ -12,27 +12,19 @@ import RxSwift
 class CommentsManager: NSObject {
 
    private var post: PostModel?
-   
+   private var mNewCommentObservable = BehaviorSubject<Bool>(value: false)
+
    var comments: [CommentModel] {
       guard let post = self.post else {
          return []
       }
-      let comments = CommentModel.comments
-      var postComments = [CommentModel]()
-      comments.forEach { model in
-         if model.postid == post.id {
-            postComments.append(model)
-         }
-      }
-      return postComments
+      return CommentModel.comments.filter { $0.postid == post.id }
    }
-
-   private var mNewCommentObservable = BehaviorSubject<Bool>(value: false)
    
    func startCommentsObserver(for post: PostModel) -> Observable<Bool> {
       self.post = post
-      _ = CommentModel.rxNewCommentObserved.asObservable().subscribe({ [weak self] newComment in
-         if let newComment = newComment.event.element, let post = self?.post, newComment?.postid == post.id {
+      _ = CommentModel.rxNewCommentObserved.subscribe(onNext: { [weak self] newComment in
+         if let post = self?.post, newComment?.postid == post.id {
             self?.mNewCommentObservable.onNext(true)
          }
       })

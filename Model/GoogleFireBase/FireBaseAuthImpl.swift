@@ -1,5 +1,5 @@
 //
-//  FireBaseInteractor.swift
+//  FireBaseAuthImpl.swift
 //  eMia
 //
 
@@ -10,26 +10,21 @@ import FirebaseDatabase
 import FirebaseStorage
 import FirebaseRemoteConfig
 
-internal let gFireBaseManager = FireBaseInteractor.sharedInstance
+internal let gFireBaseAuth = FireBaseAuthImpl.default
+internal let gDataBaseRef = Database.database().reference().child(DefaultDataBase.name)
 
-class FireBaseInteractor: NSObject {
+class FireBaseAuthImpl: NSObject {
 
+   static let `default` = FireBaseAuthImpl()
+   
+   private override init() {
+      super.init()
+   }
+   
    fileprivate var currentFireBaseUser: User?
    fileprivate var remoteConfig: RemoteConfig!
    var displayName: String?
    fileprivate var signInCounter = 0
-   
-   var firebaseRef: DatabaseReference {
-      return Database.database().reference().child(DataBase.name)
-   }
-   
-   var storageRef: StorageReference {
-      return Storage.storage().reference(forURL: Firebase.StorageURL)
-   }
-
-   static let sharedInstance: FireBaseInteractor = {
-      return AppDelegate.instance.fireBaseInteractor
-   }()
    
    var databaseConnected: Bool {
       return currentFireBaseUser != nil
@@ -76,7 +71,7 @@ class FireBaseInteractor: NSObject {
    
 }
 
-extension FireBaseInteractor {
+extension FireBaseAuthImpl {
 
    func configure() {
       FirebaseApp.configure()

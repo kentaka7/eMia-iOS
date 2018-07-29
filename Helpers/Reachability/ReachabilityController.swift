@@ -7,24 +7,22 @@ import UIKit
 import RxSwift
 import SwiftyNotifications
 
-internal let gNetwork = ReachabilityController.sharedInstance
+internal let gNetwork = ReachabilityController.default
 
 class ReachabilityController: NSObject {
 
-   static let sharedInstance: ReachabilityController = {
-      return AppDelegate.instance.reachabilityController
-   }()
+   static let `default` = ReachabilityController()
+   
+   private override init() {
+      super.init()
+      registerObserver()
+   }
    
    private var mReachable: Bool = true
    private let disposeBag = DisposeBag()
    
    fileprivate var reachabilityNotificatin: SwiftyNotifications?
 	internal var observers = [Any]()
-   
-   override init() {
-      super.init()
-      registerObserver()
-   }
    
    deinit {
       unregisterObserver()
@@ -112,12 +110,5 @@ extension ReachabilityController: AnyObservable {
             self.startMonitoringReachability()
          }
       )
-   }
-   
-   func unregisterObserver() {
-      observers.forEach {
-         NotificationCenter.default.removeObserver($0)
-      }
-      observers.removeAll()
    }
 }

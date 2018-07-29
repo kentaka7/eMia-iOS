@@ -31,7 +31,7 @@ class GalleryViewCell: UICollectionViewCell {
                 post.synchronize { _ in}
             }
         }
-        let isItMyFavoritePost = gFavoritsManager.isItMyFavoritePost(post)
+        let isItMyFavoritePost = FavoritsManager.isItMyFavoritePost(post)
         favoriteImageView.image = isItMyFavoritePost ? UIImage(named: "icon-toggle_star") : nil
         titleLabel.text = post.title
         bodyLabel.text = post.body

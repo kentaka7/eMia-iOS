@@ -6,24 +6,22 @@
 import UIKit
 import Firebase
 
-internal let gPhotosManager = PhotosManagerImpl.sharedInstance
+internal let gPhotosManager = PhotosManagerImpl.default
 
 class PhotosManagerImpl: NSObject, AnyObservable {
+   
+   static let `default` = PhotosManagerImpl()
+   
+   private override init() {
+      super.init()
+      registerObserver()
+   }
    
    var observers: [Any] = []
    
    fileprivate var fetchingDataInProgress = true
    
    fileprivate var stopDownloading: Bool!
-   
-   static let sharedInstance: PhotosManagerImpl = {
-      return AppDelegate.instance.avatarManager
-   }()
-   
-   override init() {
-      super.init()
-      registerObserver()
-   }
    
    func registerObserver() {
       let center = NotificationCenter.default

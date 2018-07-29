@@ -46,18 +46,20 @@ class PostItem: NSObject {
       self.starCount = starCount
    }
    
-   convenience init(_ snapshot: DataSnapshot) {
-      self.init()
-      key = snapshot.key
+   convenience init?(_ snapshot: DataSnapshot) {
       if let dict = snapshot.value as? [String: AnyObject] {
-         self.id = dict[PostItemFields.id] as? String ?? ""
-         self.uid = dict[PostItemFields.uid] as? String ?? ""
-         self.author = dict[PostItemFields.author] as? String ?? ""
-         self.title = dict[PostItemFields.title] as? String ?? ""
-         self.body = dict[PostItemFields.body] as? String ?? ""
-         self.created = dict[PostItemFields.created] as? TimeInterval ?? 0
-         self.photosize = dict[PostItemFields.photosize] as? String ?? ""
-         self.starCount = dict[PostItemFields.starCount] as? Int ?? 0
+         self.init()
+         key = snapshot.key
+         id = dict[PostItemFields.id] as? String ?? ""
+         uid = dict[PostItemFields.uid] as? String ?? ""
+         author = dict[PostItemFields.author] as? String ?? ""
+         title = dict[PostItemFields.title] as? String ?? ""
+         body = dict[PostItemFields.body] as? String ?? ""
+         created = dict[PostItemFields.created] as? TimeInterval ?? 0
+         photosize = dict[PostItemFields.photosize] as? String ?? ""
+         starCount = dict[PostItemFields.starCount] as? Int ?? 0
+      } else {
+         return nil
       }
    }
    
@@ -95,14 +97,14 @@ extension PostItem {
    // Update exists data to Firebase Database
    private func update(completion: @escaping (Bool) -> Void) {
       let childUpdates = ["/\(PostItemFields.posts)/\(self.key)": self.toDictionary()]
-      gFireBaseManager.firebaseRef.updateChildValues(childUpdates, withCompletionBlock: { (_, _) in
+      gDataBaseRef.updateChildValues(childUpdates, withCompletionBlock: { (_, _) in
          completion(true)
       })
    }
    
    // Save new data to Firebase Database
    private func save(completion: @escaping (Bool) -> Void) {
-      let key = gFireBaseManager.firebaseRef.child(PostItemFields.posts).childByAutoId().key
+      let key = gDataBaseRef.child(PostItemFields.posts).childByAutoId().key
       self.key = key
       self.id = key
       update(completion: completion)
