@@ -102,7 +102,7 @@ extension PushNotification {
                }
             }
             for token in iOSTokens {
-               if self.acceptedToken(token) {
+               if gDeviceTokenController.acceptedToken(token) {
                   var json = JSON([:])
                   json["to"].stringValue = token
                   json["notification"] = JSON([:])
@@ -134,10 +134,6 @@ extension PushNotification {
             completion(androidTokens, iOSTokens)
          }
       }
-   }
-   
-   private func acceptedToken(_ token: String) -> Bool {
-      return gDeviceTokenController.myDeviceTokens.index(where: {$0 == token}) == nil
    }
    
    private func senderPost(_ post: PostModel) -> UserModel? {

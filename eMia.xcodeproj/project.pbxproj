@@ -56,9 +56,9 @@
 		7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */; };
 		7F4C1D9B20C0FE1B0057453F /* Reachability+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */; };
 		7F4C1D9D20C1096F0057453F /* TableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C1D9C20C1096F0057453F /* TableView+.swift */; };
-		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
+		7F4D8B491FE4DFF700FAFE5E /* UsersManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */; };
 		7F4D8B4B1FE4E30C00FAFE5E /* UserObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */; };
-		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */; };
+		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */; };
 		7F4D8B521FE4E93A00FAFE5E /* PhotosStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */; };
 		7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */; };
 		7F695C8D1FEA3914008AE127 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F695C8C1FEA3914008AE127 /* MyProfileViewController.swift */; };
@@ -229,9 +229,9 @@
 		7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavStatusSegmentedControl.swift; sourceTree = "<group>"; };
 		7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reachability+.swift"; sourceTree = "<group>"; };
 		7F4C1D9C20C1096F0057453F /* TableView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TableView+.swift"; sourceTree = "<group>"; };
-		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
+		7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManagerImpl.swift; sourceTree = "<group>"; };
 		7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserObserver.swift; sourceTree = "<group>"; };
-		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManager.swift; sourceTree = "<group>"; };
+		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManagerImpl.swift; sourceTree = "<group>"; };
 		7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosStorageManager.swift; sourceTree = "<group>"; };
 		7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryLayout.swift; sourceTree = "<group>"; };
 		7F695C8C1FEA3914008AE127 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
@@ -631,7 +631,7 @@
 			children = (
 				7F01B39B1FE5A1550034CAFB /* ImageCache.swift */,
 				7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */,
-				7F4D8B4D1FE4E6E100FAFE5E /* PhotosManager.swift */,
+				7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */,
 			);
 			path = PhotosManager;
 			sourceTree = "<group>";
@@ -807,7 +807,7 @@
 			children = (
 				7FBFF4D31FE4068400788DCB /* UserItem.swift */,
 				7FBFF4D41FE4068400788DCB /* UserModel.swift */,
-				7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */,
+				7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */,
 				7F4D8B4A1FE4E30C00FAFE5E /* UserObserver.swift */,
 			);
 			path = User;
@@ -1214,7 +1214,7 @@
 				7F060C221FF10C0A002D04AD /* Gender.swift in Sources */,
 				7F87244820B7D4300018A855 /* FilterProtocols.swift in Sources */,
 				7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */,
-				7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */,
+				7F4D8B491FE4DFF700FAFE5E /* UsersManagerImpl.swift in Sources */,
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
 				7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */,
 				7FFBB25C1FE462A000A22EB0 /* FavoritsManager.swift in Sources */,
@@ -1272,7 +1272,7 @@
 				7F4C1D9D20C1096F0057453F /* TableView+.swift in Sources */,
 				9A99AA7F1B8A219300428802 /* AppDelegate.swift in Sources */,
 				7F35135C20B34DF30004363C /* NewPostDependencies.swift in Sources */,
-				7F4D8B4E1FE4E6E100FAFE5E /* PhotosManager.swift in Sources */,
+				7F4D8B4E1FE4E6E100FAFE5E /* PhotosManagerImpl.swift in Sources */,
 				7FBDE1211FE8466A00EAAD3E /* EditPost2ViewCell.swift in Sources */,
 				7FC0EFCD1FE674A400833DB8 /* SplashScreenController.swift in Sources */,
 				7F3C59EC1FE5EE8B00A823DC /* StringIdentifier.swift in Sources */,

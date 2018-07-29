@@ -52,7 +52,7 @@ class MyProfileInteractor: NSObject {
    
    private func registerNewUser(with photo: UIImage, completed: @escaping () -> Void) {
       DataModelInteractor.saveWithRealm {
-         user.tokenIOS = gDeviceTokenController.myDeviceTokens.first
+         user.tokenIOS = gDeviceTokenController.currentDeviceToken
       }
       self.activityIndicator.startAnimating()
       loginInteractor.signUp(user: self.user, password: self.password) { [weak self] user in

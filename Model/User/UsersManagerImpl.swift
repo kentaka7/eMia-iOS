@@ -18,11 +18,11 @@ protocol UserDataObservable {
 }
 
 /// Singleton instance for Users tracker
-internal let gUsersManager = UsersDataBaseInteractor.sharedInstance
+internal let gUsersManager = UsersManagerImpl.sharedInstance
 
-class UsersDataBaseInteractor: NSObject {
+class UsersManagerImpl: NSObject {
    
-   static let sharedInstance: UsersDataBaseInteractor = {
+   static let sharedInstance: UsersManagerImpl = {
       return AppDelegate.instance.usersDataBaseInteractor
    }()
 
@@ -49,19 +49,11 @@ class UsersDataBaseInteractor: NSObject {
 
    override init() {
       super.init()
-      subscribeOnNotifications()
    }
    
    deinit {
-      unSubscribeOnNotifications()
    }
    
-   private func subscribeOnNotifications() {
-   }
-   
-   private func unSubscribeOnNotifications() {
-   }
-
    func loadData(completion: ([UserModel]) -> Void) {
       completion(UserModel.users)
    }
@@ -94,7 +86,7 @@ class UsersDataBaseInteractor: NSObject {
 
 // MARK: - Update users data on the Server side
 
-extension UsersDataBaseInteractor {
+extension UsersManagerImpl {
 
    func registerUser(_ user: UserModel, completion: @escaping (UserModel?) -> Void) {
       updateUser(user) { granted in
@@ -136,7 +128,7 @@ extension UsersDataBaseInteractor {
 
 // MARK: - UsersPresenterModel
 
-extension UsersDataBaseInteractor: UsersPresenterModel {
+extension UsersManagerImpl: UsersPresenterModel {
 
    func getAllUsers(completion: @escaping ([UserModel]) -> Void) {
       self.loadData(completion: completion)
@@ -154,7 +146,7 @@ extension UsersDataBaseInteractor: UsersPresenterModel {
 
 // MARK: - UserDataObservable protocol implementation
 
-extension UsersDataBaseInteractor: UserDataObservable {
+extension UsersManagerImpl: UserDataObservable {
    
    func addObserver(users: [UserModel], closure: @escaping UserObserverClosure) {
       userObserver.addObserver(users: users, closure: closure)

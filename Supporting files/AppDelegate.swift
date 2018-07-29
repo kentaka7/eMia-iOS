@@ -25,11 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
    var favoritsManager = FavoritsDataBaseInteractor()
 
-   var usersDataBaseInteractor = UsersDataBaseInteractor()
+   var usersDataBaseInteractor = UsersManagerImpl()
    
    var reachabilityController = ReachabilityController()
    
-   var avatarManager = PhotosTracker()
+   var avatarManager = PhotosManagerImpl()
    
    var deviceTokenController = DeviceTokenControllerImpl()
    

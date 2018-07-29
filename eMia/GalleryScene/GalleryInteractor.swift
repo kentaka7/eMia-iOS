@@ -32,11 +32,13 @@ extension SectionPostModel: AnimatableSectionModelType {
    }
 }
 
-class GalleryInteractor: NSObject {
+class GalleryInteractor: NSObject, AnyObservable {
    
    var presenter: GalleryPresenter!
    var filter: PostsFiltering!
 
+   var observers: [Any] = []
+   
    weak var collectionView: UICollectionView?
 
    private weak var mSearchBar: UISearchBar!
@@ -46,19 +48,15 @@ class GalleryInteractor: NSObject {
    
    var data = Variable([SectionPostModel]())
 
-   private var updateFilterObserver: Any?
-   
    deinit {
-      if let updateFilterObserver = self.updateFilterObserver {
-         NotificationCenter.default.removeObserver(updateFilterObserver)
-      }
+      unregisterObserver()
    }
    
    func configure() {
       configureDataSource()
       subscribeToSelectGalleryItem()
       configureDataModelListener()
-      setUpFilterListener()
+      registerObserver()
    }
    
    func configureSearching(with searchBar: UISearchBar) {
@@ -77,13 +75,16 @@ class GalleryInteractor: NSObject {
          .disposed(by: disposeBag)
    }
    
-   private func setUpFilterListener() {
+   func registerObserver() {
       let queue = OperationQueue.main
-      updateFilterObserver = NotificationCenter.default.addObserver(forName: Notification.Name(Notifications.UpdatedFilter), object: nil, queue: queue) { [weak self] _ in
-         guard let `self` = self else {
-            return
+      let center = NotificationCenter.default
+      observers.append {
+         _ = center.addObserver(forName: Notification.Name(Notifications.UpdatedFilter), object: nil, queue: queue) { [weak self] _ in
+            guard let `self` = self else {
+               return
+            }
+            self.fetchData()
          }
-         self.fetchData()
       }
    }
 
