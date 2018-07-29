@@ -5,6 +5,7 @@
 
 import UIKit
 import Firebase
+import RxSwift
 
 // MARK: - FavoriteItem
 
@@ -15,7 +16,9 @@ class FavoriteItem: NSObject, NSCoding {
    
     var uid: String
     var postid: String
-    
+   
+   let disposeBag = DisposeBag()
+   
     override init() {
       self.key = ""
         self.id = ""
@@ -47,7 +50,6 @@ class FavoriteItem: NSObject, NSCoding {
       if var dict = snapshot.value as? [String: String] {
          self.init()
          key = snapshot.key
-         //        ref = snapshot.ref
          id = dict[FavoriteItemFields.id] ?? ""
          uid = dict[FavoriteItemFields.uid] ?? ""
          postid = dict[FavoriteItemFields.postid] ?? ""
@@ -94,8 +96,25 @@ extension FavoriteItem {
     }
     
     func remove() {
-        //self.ref?.removeValue()
-    }
+      if self.id.isEmpty {
+         return
+      }
+      let recordRef = gDataBaseRef.child(FavoriteItemFields.favorits).child(self.id).queryOrdered(byChild: "\\")
+      recordRef.observeSingleEvent(of: .value) { (snapshot) in
+         let ref = snapshot.ref
+         ref.removeValue()
+      }
+      
+      /// It does not work:
+      //      recordRef
+      //         .rx
+      //         .observeSingleEvent(.value)
+      //         .subscribe(onNext: { snapshot in
+      //            let ref = snapshot.ref
+      //            ref.removeValue()
+      //      }).disposed(by: disposeBag)
+
+   }
 }
 
 // MARK: -

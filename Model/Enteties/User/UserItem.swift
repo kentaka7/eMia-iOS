@@ -103,6 +103,13 @@ extension UserItem {
    }
    
    func remove() {
-      //self.ref?.removeValue()
+      if self.userId.isEmpty {
+         return
+      }
+      let recordRef = gDataBaseRef.child(UserFields.users).child(self.userId).queryOrdered(byChild: "\\")
+      recordRef.observeSingleEvent(of: .value) { (snapshot) in
+         let ref = snapshot.ref
+         ref.removeValue()
+      }
    }
 }

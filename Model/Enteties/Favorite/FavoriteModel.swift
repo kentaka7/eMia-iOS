@@ -52,7 +52,7 @@ final class FavoriteModel: Object {
    }
    
    func remove() {
-      let item = FavoriteItem(uid: uid, postid: postid, key: key, id: id)
+      let item = FavoriteItem(uid: self.uid, postid: self.postid, key: self.key, id: self.id)
       item.remove()
    }
    

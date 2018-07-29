@@ -116,7 +116,14 @@ extension CommentItem {
    }
    
    func remove() {
-//      self.ref?.removeValue()
+      if self.id.isEmpty {
+         return
+      }
+      let recordRef = gDataBaseRef.child(CommentItemFields.comments).child(self.id).queryOrdered(byChild: "\\")
+      recordRef.observeSingleEvent(of: .value) { (snapshot) in
+         let ref = snapshot.ref
+         ref.removeValue()
+      }
    }
 }
 
