@@ -66,6 +66,15 @@ final class FavoriteModel: Object {
       }
       return result ?? .error(PostServiceError.creationFailed)
    }
+
+   class func deleteRealm(model: FavoriteModel) {
+      _ = DataBaseImpl.withRealm("deleting") { realm in
+         try realm.write {
+            realm.delete(model)
+         }
+      }
+   }
+
 }
 
 extension FavoriteModel {
@@ -84,6 +93,8 @@ extension FavoriteModel {
    class func deleteFavorite(_ item: FavoriteItem) {
       let model = FavoriteModel(item: item)
       if let index = favoritiesIndex(of: model) {
+         let model = favorities[index]
+         deleteRealm(model: model)
          do {
             var array = try rxFavorities.value()
             array.remove(at: index)

@@ -106,14 +106,14 @@ final class PostModel: Object {
    }
 
    @discardableResult
-   class func delete(post: PostModel) -> Observable<Void> {
+   class func deleteRealm(model: PostModel) -> Observable<Void> {
       let result = DataBaseImpl.withRealm("deleting") { realm-> Observable<Void> in
          try realm.write {
-            realm.delete(post)
+            realm.delete(model)
          }
          return .empty()
       }
-      return result ?? .error(PostServiceError.deletionFailed(post))
+      return result ?? .error(PostServiceError.deletionFailed(model))
    }
    
    @discardableResult
@@ -156,6 +156,8 @@ extension PostModel {
    class func deletePost(_ item: PostItem) {
       let post = PostModel(item: item)
       if let index = postsIndex(of: post) {
+         let model = posts[index]
+         deleteRealm(model: model)
          do {
             var array = try rxPosts.value()
             array.remove(at: index)

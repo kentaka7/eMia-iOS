@@ -72,6 +72,14 @@ final class CommentModel: Object {
       }
       return result ?? .error(PostServiceError.creationFailed)
    }
+   
+   class func deleteRealm(model: CommentModel) {
+      _ = DataBaseImpl.withRealm("deleting") { realm in
+         try realm.write {
+            realm.delete(model)
+         }
+      }
+   }
 }
 
 extension CommentModel {
@@ -92,6 +100,8 @@ extension CommentModel {
    class func deleteComment(_ item: CommentItem) {
       let model = CommentModel(item: item)
       if let index = commentIndex(of: model) {
+         let model = comments[index]
+         deleteRealm(model: model)
          do {
             var array = try rxComments.value()
             array.remove(at: index)
@@ -105,7 +115,7 @@ extension CommentModel {
    class func editComment(_  item: CommentItem) {
       let model = CommentModel(item: item)
       if let index = commentIndex(of: model) {
-         //_ = FavoriteModel.createRealm(model: model)
+         //_ = CommentModel.createRealm(model: model)
          do {
             var array = try rxComments.value()
             array[index] = model
@@ -133,7 +143,7 @@ extension CommentModel: IdentifiableType {
 extension CommentModel {
    
    func synchronize(_ completion: @escaping (Bool) -> Void) {
-      let commentItem = CommentItem(uid: uid, author: author, text: text, postid: postid, created: created)
+      let commentItem = CommentItem(uid: self.uid, author: self.author, text: self.text, postid: self.postid, created: self.created)
       commentItem.key = key ?? ""
       commentItem.id = id ?? ""
       commentItem.synchronize(completion: completion)

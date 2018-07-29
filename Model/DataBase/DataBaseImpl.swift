@@ -20,6 +20,9 @@ enum PostServiceError: Error {
     case updateFailed(PostModel)
     case deletionFailed(PostModel)
     case toggleFailed(PostModel)
+    case updateUserFailed(UserModel)
+    case deletionUserFailed(UserModel)
+    case toggleUserFailed(UserModel)
 }
 
 internal let gDataBase = DataBaseImpl.default

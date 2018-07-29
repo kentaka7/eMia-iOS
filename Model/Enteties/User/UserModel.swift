@@ -80,6 +80,17 @@ final class UserModel: Object {
       return result ?? .error(PostServiceError.creationFailed)
    }
    
+   @discardableResult
+   class func deleteRealm(model: UserModel) -> Observable<Void> {
+      let result = DataBaseImpl.withRealm("deleting") { realm-> Observable<Void> in
+         try realm.write {
+            realm.delete(model)
+         }
+         return .empty()
+      }
+      return result ?? .error(PostServiceError.deletionUserFailed(model))
+   }
+   
    class var users: [UserModel] {
       do {
          let realm = try Realm()
@@ -107,6 +118,8 @@ extension UserModel {
    class func deleteUser(_ item: UserItem) {
       let model = UserModel(item: item)
       if let index = usersIndex(of: model) {
+         let model = UserModel.users[index]
+         deleteRealm(model: model)
          do {
             var array = try rxUsers.value()
             array.remove(at: index)
