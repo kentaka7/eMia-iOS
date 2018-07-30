@@ -69,28 +69,6 @@ final class UserModel: Object {
       self.tokenAndroid = rhs.tokenAndroid
    }
    
-   @discardableResult
-   class func createRealm(model: UserModel) -> Observable<UserModel> {
-      let result = DataBaseImpl.withRealm("creating") { realm -> Observable<UserModel> in
-         try realm.write {
-            realm.add(model)
-         }
-         return .just(model)
-      }
-      return result ?? .error(PostServiceError.creationFailed)
-   }
-   
-   @discardableResult
-   class func deleteRealm(model: UserModel) -> Observable<Void> {
-      let result = DataBaseImpl.withRealm("deleting") { realm-> Observable<Void> in
-         try realm.write {
-            realm.delete(model)
-         }
-         return .empty()
-      }
-      return result ?? .error(PostServiceError.deletionUserFailed(model))
-   }
-   
    class var users: [UserModel] {
       do {
          let realm = try Realm()
@@ -110,7 +88,7 @@ extension UserModel {
          return
       }
       if model.userId.isEmpty == false {
-         _ = UserModel.createRealm(model: model)
+         _ = Realm.createRealm(model: model)
          try? rxUsers.onNext(rxUsers.value() + [model])
       }
    }
@@ -119,7 +97,7 @@ extension UserModel {
       let model = UserModel(item: item)
       if let index = usersIndex(of: model) {
          let model = UserModel.users[index]
-         deleteRealm(model: model)
+         Realm.deleteRealm(model: model)
          do {
             var array = try rxUsers.value()
             array.remove(at: index)

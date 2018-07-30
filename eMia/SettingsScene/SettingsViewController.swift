@@ -8,6 +8,11 @@
 
 import UIKit
 
+/**
+ * SettingsViewController class is an example of the MVVM pattern
+ * We use presenter as a view model as well
+ */
+
 class SettingsViewController: UIViewController {
 
    @IBOutlet weak var tableView: UITableView!

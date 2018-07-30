@@ -62,7 +62,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    }
 }
 
-// MARK: - Provate methods
+// MARK: - Private methods
 
 extension GalleryViewController {
    
@@ -80,15 +80,16 @@ extension GalleryViewController {
          newPostButton.layer.cornerRadius = newPostButton.frame.width / 2.0
          newPostButton.backgroundColor = GlobalColors.kBrandNavBarColor
       case collectionView!:
-         refreshControl = UIRefreshControl()
-         refreshControl!.addTarget(self, action: #selector(simulateRefresh), for: .valueChanged)
-         collectionView!.refreshControl = refreshControl
-
          collectionView!.backgroundColor = UIColor.clear
          collectionView!.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
          if let layout = collectionView!.collectionViewLayout as? GalleryLayout {
             layout.delegate = layoutDelegate
          }
+         refreshControl = UIRefreshControl()
+         collectionView!.refreshControl = refreshControl
+         refreshControl.rx.controlEvent(.valueChanged).subscribe(onNext: { [unowned self] in
+            self.simulateRefresh()
+         }).disposed(by: disposeBag)
       case searchBackgroundView:
          searchBackgroundView.backgroundColor = GlobalColors.kBrandNavBarColor
       case searchBar:

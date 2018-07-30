@@ -12,7 +12,7 @@ protocol LogInValidating {
    var isValid: Observable<Bool> {get}
 }
 
-protocol LogInExecuted {
+protocol LogInActing {
    func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void)
    func signUp(completion: (LoginPresenter.LoginError?) -> Void)
 }
@@ -21,7 +21,7 @@ protocol LogInRouting {
    func prepare(for segue: UIStoryboardSegue, sender: Any?)
 }
 
-class LoginPresenter: NSObject, LogInValidating, LogInExecuted, LogInRouting {
+class LoginPresenter: NSObject, LogInValidating, LogInActing, LogInRouting {
 
    var interactor: LoginInteractor!
    var view: LogInViewController!

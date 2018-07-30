@@ -9,6 +9,11 @@
 import UIKit
 import Then
 
+/**
+ * SettingsPresenter is an example of the view model for SettingsViewController
+ * It binds Menu enum with UITableView
+ */
+
 class SettingsPresenter: NSObject, TableViewPresentable {
    
    enum Menu: Int {

@@ -61,25 +61,6 @@ final class CommentModel: Object {
       postid = rhs.postid
       created = rhs.created
    }
-   
-   @discardableResult
-   class func createRealm(model: CommentModel) -> Observable<CommentModel> {
-      let result = DataBaseImpl.withRealm("creating") { realm -> Observable<CommentModel> in
-         try realm.write {
-            realm.add(model)
-         }
-         return .just(model)
-      }
-      return result ?? .error(PostServiceError.creationFailed)
-   }
-   
-   class func deleteRealm(model: CommentModel) {
-      _ = DataBaseImpl.withRealm("deleting") { realm in
-         try realm.write {
-            realm.delete(model)
-         }
-      }
-   }
 }
 
 extension CommentModel {
@@ -90,7 +71,7 @@ extension CommentModel {
          return
       }
       if !item.id.isEmpty {
-         _ = CommentModel.createRealm(model: model)
+         _ = Realm.createRealm(model: model)
          try? rxComments.onNext(rxComments.value() + [model])
          // TODO: Remove it
          rxNewCommentObserved.onNext(model)
@@ -101,7 +82,7 @@ extension CommentModel {
       let model = CommentModel(item: item)
       if let index = commentIndex(of: model) {
          let model = comments[index]
-         deleteRealm(model: model)
+         Realm.deleteRealm(model: model)
          do {
             var array = try rxComments.value()
             array.remove(at: index)

@@ -75,28 +75,6 @@ class DataBaseImpl: NSObject {
         self.favoritiesObserver.startListening()
         self.commnetsObserver.startListening()
     }
-    
-    class func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
-        do {
-            let realm = try Realm()
-            return try action(realm)
-        } catch let err {
-            print("Failed \(operation) realm with error: \(err)")
-            return nil
-        }
-    }
-
-    class func saveWithRealm(_ closure: () -> Void) {
-        do {
-            let realm = try Realm()
-            try realm.write {
-                closure()
-            }
-        } catch let err {
-            print("Failed save to user realm with error: \(err)")
-            return
-        }
-    }
 }
 
 extension DataBaseImpl {

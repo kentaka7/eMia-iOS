@@ -64,7 +64,7 @@ class DeviceTokenControllerImpl: NSObject, AnyObservable {
    
    private func synchronize(_ tokens: [String], for user: UserModel, completion: @escaping (Bool) -> Void) {
       let tokensIOSValues = tokens.joined(separator: Settings.separator)
-      DataBaseImpl.saveWithRealm {
+      _ = Realm.updateRealm {
          user.tokenIOS = tokensIOSValues
       }
       user.synchronize { success in

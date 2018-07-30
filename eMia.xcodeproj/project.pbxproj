@@ -47,6 +47,7 @@
 		7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */; };
 		7F475EC020B83F8400778FBF /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBF20B83F8400778FBF /* FilterPresenter.swift */; };
 		7F47D9DD20C37725001210E4 /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F47D9DC20C37725001210E4 /* FavoriteModel.swift */; };
+		7F4948ED210F3C380077CC14 /* Realm+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4948EC210F3C380077CC14 /* Realm+Ext.swift */; };
 		7F4B288C20B17DE8002BFB47 /* MyProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */; };
 		7F4B288D20B17DE8002BFB47 /* MyProfileDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */; };
 		7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */; };
@@ -219,6 +220,7 @@
 		7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostProtocols.swift; sourceTree = "<group>"; };
 		7F475EBF20B83F8400778FBF /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		7F47D9DC20C37725001210E4 /* FavoriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
+		7F4948EC210F3C380077CC14 /* Realm+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Ext.swift"; sourceTree = "<group>"; };
 		7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfilePresenter.swift; sourceTree = "<group>"; };
 		7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileDependencies.swift; sourceTree = "<group>"; };
 		7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileInteractor.swift; sourceTree = "<group>"; };
@@ -481,14 +483,22 @@
 			path = FirebaseListeners;
 			sourceTree = "<group>";
 		};
+		7F4948E9210F39D50077CC14 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				7F4948EC210F3C380077CC14 /* Realm+Ext.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
 		7F4B287220B10092002BFB47 /* MyProfileScene */ = {
 			isa = PBXGroup;
 			children = (
 				7F88D6BF200FEA5500394EA2 /* ProfileEditor.storyboard */,
 				7F695C8C1FEA3914008AE127 /* MyProfileViewController.swift */,
-				7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */,
 				7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */,
 				7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */,
+				7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */,
 				7F87244320B7D3470018A855 /* MyProfileProtocols.swift */,
 				7F4B287320B10117002BFB47 /* TableViewCells */,
 			);
@@ -750,7 +760,7 @@
 			path = Router;
 			sourceTree = SOURCE_ROOT;
 		};
-		7F81B21B20B0FACE00CA384A /* SettingScene */ = {
+		7F81B21B20B0FACE00CA384A /* SettingsScene */ = {
 			isa = PBXGroup;
 			children = (
 				7FD7667C1FE9D45400E32C42 /* Settings.storyboard */,
@@ -760,7 +770,7 @@
 				7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */,
 				7F4B287E20B10372002BFB47 /* TableViewCells */,
 			);
-			path = SettingScene;
+			path = SettingsScene;
 			sourceTree = "<group>";
 		};
 		7F81B21E20B0FF2A00CA384A /* StartScene */ = {
@@ -784,6 +794,7 @@
 			isa = PBXGroup;
 			children = (
 				7FFBB2541FE45E0400A22EB0 /* GoogleFireBase */,
+				7F4948E9210F39D50077CC14 /* Realm */,
 				7FBFF4C51FE3FA5000788DCB /* DataBase */,
 				7F59C2C1210DE00700FB181C /* Enteties */,
 			);
@@ -952,7 +963,7 @@
 				7FE61E922019A38B003D5974 /* Boblberg.entitlements */,
 				7F81B21E20B0FF2A00CA384A /* StartScene */,
 				7F7E370920286EDC00470139 /* LogInScene */,
-				7F81B21B20B0FACE00CA384A /* SettingScene */,
+				7F81B21B20B0FACE00CA384A /* SettingsScene */,
 				7F4B287220B10092002BFB47 /* MyProfileScene */,
 				7F7E36F720281B8A00470139 /* GalleryScene */,
 				7F4B287520B10171002BFB47 /* FilterScene */,
@@ -1167,6 +1178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F4948ED210F3C380077CC14 /* Realm+Ext.swift in Sources */,
 				7F695C971FEA392B008AE127 /* Register1ViewCell.swift in Sources */,
 				7F4B288D20B17DE8002BFB47 /* MyProfileDependencies.swift in Sources */,
 				9ADFC8F81B8B771800AB4CD9 /* GalleryHeaderView.swift in Sources */,

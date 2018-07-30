@@ -8,12 +8,11 @@ import UIKit
 class LoginInteractor: NSObject {
 
    func reLogIn(_ completion: @escaping (Bool) -> Void) {
-      let initUserEmail = UserDefaults.standard.value(forKey: UserDefaultsKey.initUserEmailKey) as? String
-      let initUserPassword = UserDefaults.standard.value(forKey: UserDefaultsKey.initUserPasswordKey) as? String
-      if initUserEmail == nil || initUserPassword == nil {
-         completion(false)
+      let (initUserEmail, initUserPassword) = restoreCredentials()
+      if let email = initUserEmail, let password = initUserPassword {
+         self.signIn(email: email, password: password, completion: completion)
       } else {
-         self.signIn(email: initUserEmail!, password: initUserPassword!, completion: completion)
+         completion(false)
       }
    }
    
@@ -26,8 +25,7 @@ class LoginInteractor: NSObject {
             return
          }
          user.userId = userId
-         UserDefaults.standard.set(email, forKey: UserDefaultsKey.initUserEmailKey)
-         UserDefaults.standard.set(password, forKey: UserDefaultsKey.initUserPasswordKey)
+         self.save(email: email, password: password)
          self.alreadyRegistreredUser(email: email) { registeredUser in
             if let registeredUser = registeredUser {
                gUsersManager.currentUser = registeredUser
@@ -50,8 +48,7 @@ class LoginInteractor: NSObject {
    func signIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
       gFireBaseAuth.signIn(email: email, password: password) { success in
          if success {
-            UserDefaults.standard.set(email, forKey: UserDefaultsKey.initUserEmailKey)
-            UserDefaults.standard.set(password, forKey: UserDefaultsKey.initUserPasswordKey)
+            self.save(email: email, password: password)
             self.alreadyRegistreredUser(email: email) { user in
                if let user = user {
                   gUsersManager.currentUser = user
@@ -69,12 +66,20 @@ class LoginInteractor: NSObject {
    private func alreadyRegistreredUser(email: String, completion: @escaping (UserModel?) -> Void) {
       gDataBase.fetchData {
          gUsersManager.getAllUsers { userItems in
-            if let index = userItems.index(where: {$0.email.lowercased() == email.lowercased()}) {
-               completion(userItems[index])
-            } else {
-               completion(nil)
-            }
+            let user = userItems.filter { $0.email.lowercased() == email.lowercased() }.first
+            completion(user)
          }
       }
+   }
+
+   private func save(email: String, password: String) {
+      UserDefaults.standard.set(email, forKey: UserDefaultsKey.initUserEmailKey)
+      UserDefaults.standard.set(password, forKey: UserDefaultsKey.initUserPasswordKey)
+   }
+   
+   private func restoreCredentials() -> (String?, String?) {
+      let email = UserDefaults.standard.value(forKey: UserDefaultsKey.initUserEmailKey) as? String
+      let password = UserDefaults.standard.value(forKey: UserDefaultsKey.initUserPasswordKey) as? String
+      return (email, password)
    }
 }

@@ -55,26 +55,6 @@ final class FavoriteModel: Object {
       let item = FavoriteItem(uid: self.uid, postid: self.postid, key: self.key, id: self.id)
       item.remove()
    }
-   
-   @discardableResult
-   class func createRealm(model: FavoriteModel) -> Observable<FavoriteModel> {
-      let result = DataBaseImpl.withRealm("creating") { realm -> Observable<FavoriteModel> in
-         try realm.write {
-            realm.add(model)
-         }
-         return .just(model)
-      }
-      return result ?? .error(PostServiceError.creationFailed)
-   }
-
-   class func deleteRealm(model: FavoriteModel) {
-      _ = DataBaseImpl.withRealm("deleting") { realm in
-         try realm.write {
-            realm.delete(model)
-         }
-      }
-   }
-
 }
 
 extension FavoriteModel {
@@ -85,7 +65,7 @@ extension FavoriteModel {
          return
       }
       if item.id.isEmpty == false {
-         _ = FavoriteModel.createRealm(model: model)
+         _ = Realm.createRealm(model: model)
          try? rxFavorities.onNext(rxFavorities.value() + [model])
       }
    }
@@ -94,7 +74,7 @@ extension FavoriteModel {
       let model = FavoriteModel(item: item)
       if let index = favoritiesIndex(of: model) {
          let model = favorities[index]
-         deleteRealm(model: model)
+         Realm.deleteRealm(model: model)
          do {
             var array = try rxFavorities.value()
             array.remove(at: index)

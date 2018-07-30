@@ -8,6 +8,8 @@
 
 import UIKit
 import NVActivityIndicatorView
+import RealmSwift
+import RxRealm
 
 class MyProfileInteractor: NSObject {
    
@@ -37,7 +39,7 @@ class MyProfileInteractor: NSObject {
          Alert.default.showOk("", message: "Please add photo".localized)
          return
       }
-      DataBaseImpl.saveWithRealm {
+      _ = Realm.updateRealm {
          user.name = name
          user.address = data.address ?? ""
          user.gender = data.gender
@@ -51,7 +53,7 @@ class MyProfileInteractor: NSObject {
    }
    
    private func registerNewUser(with photo: UIImage, completed: @escaping () -> Void) {
-      DataBaseImpl.saveWithRealm {
+      _ = Realm.updateRealm {
          user.tokenIOS = gDeviceTokenController.currentDeviceToken
       }
       self.activityIndicator.startAnimating()

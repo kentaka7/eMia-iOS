@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 
 class LogInViewController: UIViewController {
    
-   var executor: LogInExecuted!
+   var executor: LogInActing!
    var validator: LogInValidating!
    var router: LogInRouting!
    

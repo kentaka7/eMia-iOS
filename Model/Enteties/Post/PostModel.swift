@@ -39,7 +39,7 @@ final class PostModel: Object {
    }
 
    class func postsObservable() -> Observable<Results<PostModel>> {
-      let result = DataBaseImpl.withRealm("getting posts") { realm -> Observable<Results<PostModel>> in
+      let result = Realm.withRealm("getting posts") { realm -> Observable<Results<PostModel>> in
          let realm = try Realm()
          let posts = realm.objects(PostModel.self)
          return Observable.collection(from: posts)
@@ -94,39 +94,6 @@ final class PostModel: Object {
       photosize = rhs.photosize
    }
    
-   @discardableResult
-   class func createRealm(model: PostModel) -> Observable<PostModel> {
-      let result = DataBaseImpl.withRealm("creating") { realm -> Observable<PostModel> in
-         try realm.write {
-            realm.add(model)
-         }
-         return .just(model)
-      }
-      return result ?? .error(PostServiceError.creationFailed)
-   }
-
-   @discardableResult
-   class func deleteRealm(model: PostModel) -> Observable<Void> {
-      let result = DataBaseImpl.withRealm("deleting") { realm-> Observable<Void> in
-         try realm.write {
-            realm.delete(model)
-         }
-         return .empty()
-      }
-      return result ?? .error(PostServiceError.deletionFailed(model))
-   }
-   
-   @discardableResult
-   class func update(post: PostModel, title: String) -> Observable<PostModel> {
-      let result = DataBaseImpl.withRealm("updating title") { realm -> Observable<PostModel> in
-         try realm.write {
-            post.title = title
-         }
-         return .just(post)
-      }
-      return result ?? .error(PostServiceError.updateFailed(post))
-   }
-   
    class func isItMyPost(_ post: PostModel) -> Bool {
       guard let currentUser = gUsersManager.currentUser else {
          return false
@@ -149,7 +116,7 @@ extension PostModel {
       if postsIndex(of: model) != nil {
          return
       }
-      _ = PostModel.createRealm(model: model)
+      _ = Realm.createRealm(model: model)
       try? rxPosts.onNext(rxPosts.value() + [model])
    }
    
@@ -157,7 +124,7 @@ extension PostModel {
       let post = PostModel(item: item)
       if let index = postsIndex(of: post) {
          let model = posts[index]
-         deleteRealm(model: model)
+         Realm.deleteRealm(model: model)
          do {
             var array = try rxPosts.value()
             array.remove(at: index)
