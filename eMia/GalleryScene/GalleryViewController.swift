@@ -24,7 +24,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    @IBOutlet weak var searchBackgroundView: UIView!
    @IBOutlet weak var searchBar: UISearchBar!
-   @IBOutlet weak var searchBaxckgroundViewTopConstraint: NSLayoutConstraint!
+   @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
    
    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
    
@@ -80,6 +80,7 @@ extension GalleryViewController {
          newPostButton.layer.cornerRadius = newPostButton.frame.width / 2.0
          newPostButton.backgroundColor = GlobalColors.kBrandNavBarColor
       case collectionView!:
+         collectionView!.delegate = self
          collectionView!.backgroundColor = UIColor.clear
          collectionView!.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
          if let layout = collectionView!.collectionViewLayout as? GalleryLayout {
@@ -96,7 +97,6 @@ extension GalleryViewController {
          searchBar.tintColor = GlobalColors.kBrandNavBarColor
          searchBar.backgroundColor = GlobalColors.kBrandNavBarColor
          searchBar.backgroundImage = UIImage()
-         searchBar.placeholder = "Search template".localized
       default:
          break
       }
@@ -147,12 +147,12 @@ extension GalleryViewController {
    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
       searchBar.resignFirstResponder()
       if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
-         searchBaxckgroundViewTopConstraint.constant = 0.0
+         searchBarTopConstraint.constant = 0.0
          UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.view.layoutIfNeeded()
          }, completion: nil)
       } else {
-         searchBaxckgroundViewTopConstraint.constant = -64.0
+         searchBarTopConstraint.constant = -64.0
          UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.view.layoutIfNeeded()
          }, completion: nil)

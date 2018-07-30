@@ -16,6 +16,7 @@ class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
    }
    
    func configure(searchBar: UISearchBar) {
+      searchBar.placeholder = "Search template".localized
       interactor.configureSearching(with: searchBar)
    }
 
