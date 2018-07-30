@@ -58,15 +58,15 @@ final class UserModel: Object {
    }
    
    func copy(_ rhs: UserModel) {
-      self.key = rhs.key
-      self.userId = rhs.userId
-      self.name = rhs.name
-      self.email = rhs.email
-      self.address = rhs.address
-      self.mGender = rhs.mGender
-      self.yearbirth = rhs.yearbirth
-      self.tokenIOS = rhs.tokenIOS
-      self.tokenAndroid = rhs.tokenAndroid
+      key = rhs.key
+      userId = rhs.userId
+      name = rhs.name
+      email = rhs.email
+      address = rhs.address
+      mGender = rhs.mGender
+      yearbirth = rhs.yearbirth
+      tokenIOS = rhs.tokenIOS
+      tokenAndroid = rhs.tokenAndroid
    }
    
    class var users: [UserModel] {
@@ -111,8 +111,6 @@ extension UserModel {
    class func editUser(_  item: UserItem) {
       let model = UserModel(item: item)
       if let index = usersIndex(of: model) {
-         // If the user alteady exists, it's replacing him
-         //_ = UserModel.createRealm(model: model)
          do {
             var array = try rxUsers.value()
             array[index] = model
