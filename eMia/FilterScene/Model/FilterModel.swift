@@ -10,7 +10,7 @@ import UIKit
 
 struct FilterModel: Equatable {
    
-   private var storage = FilterStorage()
+   private var storage: FilterStorage
    
    var myFavoriteFilter: FilterFavorite
    var genderFilter: Gender
@@ -19,6 +19,7 @@ struct FilterModel: Equatable {
    var municipality: String?
 
    init() {
+      storage = FilterStorage()
       myFavoriteFilter = storage.myFavoriteFilter
       genderFilter = storage.genderFilter
       minAge = storage.minAge

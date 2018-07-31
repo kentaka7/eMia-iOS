@@ -80,14 +80,14 @@ class GalleryInteractor: NSObject, AnyObservable {
    func registerObserver() {
       let queue = OperationQueue.main
       let center = NotificationCenter.default
-      observers.append {
+      observers.append(
          _ = center.addObserver(forName: Notification.Name(Notifications.UpdatedFilter), object: nil, queue: queue) { [weak self] _ in
             guard let `self` = self else {
                return
             }
             self.fetchData()
          }
-      }
+      )
    }
 
    private func configureDataSource() {

@@ -36,37 +36,27 @@ final class FiltersViewController: UIViewController {
         
         FilterDependencies.configure(view: self)
         configureView()
-        presenter.configure()
+        setUpRightBareButtonItem()
+        presenter.showCurrentFilterState()
+    }
+
+    private func setUpRightBareButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done".localized, style: .plain, target: self, action: #selector(doneButtonPressed))
     }
     
-    // MARK: Router
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        switch segueType(for: identifier) {
-        case .exitToGallery:
-            presenter.close()
-            return true
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segueType(for: segue) {
-        case .exitToGallery:
-            break
-        }
+    @objc private func doneButtonPressed() {
+        presenter.saveCurrentFilterState()
+        close()
     }
     
     @IBAction func backBarButtonPressed(_ sender: Any) {
-        performSegue(.exitToGallery, sender: nil)
+        close()
     }
-}
 
-// MARK: - Navigation & SegueRawRepresentable protocol
-
-extension FiltersViewController: SegueRawRepresentable {
+    private func close() {
+        navigationController?.popViewController(animated: true)
+    }
     
-    enum SegueType: String {
-        case exitToGallery
-    }
 }
 
 // MARK: - Configure Components View

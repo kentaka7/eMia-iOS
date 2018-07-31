@@ -15,7 +15,6 @@ class ReachabilityController: NSObject {
    
    private override init() {
       super.init()
-      registerObserver()
    }
    
    private var mReachable: Bool = true
@@ -23,6 +22,10 @@ class ReachabilityController: NSObject {
    
    fileprivate var reachabilityNotificatin: SwiftyNotifications?
 	internal var observers = [Any]()
+   
+   func startMonitoring() {
+      registerObserver()
+   }
    
    deinit {
       unregisterObserver()
@@ -43,7 +46,7 @@ class ReachabilityController: NSObject {
       return mReachable
    }
    
-   func startMonitoringReachability() {
+   private func startMonitoringReachability() {
       
       self.reachabilityNotificatin?.dismiss()
       self.reachabilityNotificatin?.removeFromSuperview()

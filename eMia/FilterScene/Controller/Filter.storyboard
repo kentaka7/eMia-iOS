@@ -116,11 +116,7 @@
                                 <action selector="backBarButtonPressed:" destination="Ot3-Ou-Eje" id="1Fz-cK-rWW"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="0kQ-6E-bi0">
-                            <connections>
-                                <segue destination="Bu9-ma-VrT" kind="unwind" identifier="exitToGallery" unwindAction="exitToGalleryController:" id="HV1-lt-nTZ"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="0kQ-6E-bi0"/>
                     </navigationItem>
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="405"/>
                     <connections>
@@ -134,7 +130,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dXk-vy-aXh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="Bu9-ma-VrT" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-766" y="860"/>
         </scene>

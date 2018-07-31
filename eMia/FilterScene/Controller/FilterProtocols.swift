@@ -14,8 +14,8 @@ protocol FilterStoragable {
 }
 
 protocol FilterPresented {
-   func configure()
-   func close()
+   func showCurrentFilterState()
+   func saveCurrentFilterState()
    func addShowMeComponent(_ bacgroundView: UIView)
    func addFavoriteStatusComponent(_ bacgroundView: UIView)
    func addMunicipalityComponent(_ bacgroundView: UIView)

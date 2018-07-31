@@ -17,11 +17,11 @@ class FilterPresenter: FilterPresented {
    var municipalityComponent: MunicipalityControllerView!
    var agesComponent: AgeSliderView!
 
-   func configure() {
+   func showCurrentFilterState() {
       interactor.fetchFilterPreferences()
    }
    
-   func close() {
+   func saveCurrentFilterState() {
       interactor.saveFilterPreferences()
    }
    

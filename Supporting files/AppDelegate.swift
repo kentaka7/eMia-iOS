@@ -41,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
       self.application  = application
       
+      gNetwork.startMonitoring()
+      
       gFireBaseAuth.configure()
       
       gDeviceTokenController.configure()

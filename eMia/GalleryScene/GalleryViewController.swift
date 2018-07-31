@@ -29,9 +29,6 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
    
-   @IBAction func exitToGalleryController(_ segue: UIStoryboardSegue) {
-   }
-   
    override func viewDidLoad() {
       super.viewDidLoad()
 
