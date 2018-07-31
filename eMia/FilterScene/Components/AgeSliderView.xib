@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -15,32 +15,29 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KQ-oq-BTO">
-                    <rect key="frame" x="0.0" y="3" width="375" height="24"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="23.5" id="a7F-1w-gNJ"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
-                    <color key="textColor" red="0.25490196079999999" green="0.25490196079999999" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9dp-dt-QPL" customClass="MARKRangeSlider">
-                    <rect key="frame" x="0.0" y="30" width="375" height="40"/>
-                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="PV1-kA-TiD"/>
-                    </constraints>
-                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="t4I-t8-sWb">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KQ-oq-BTO">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="23.5"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                            <color key="textColor" red="0.25490196079999999" green="0.25490196079999999" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9dp-dt-QPL" customClass="MARKRangeSlider">
+                            <rect key="frame" x="0.0" y="23.5" width="375" height="50.5"/>
+                            <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                </stackView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="9dp-dt-QPL" firstAttribute="width" secondItem="2q2-29-ROx" secondAttribute="width" id="7Jj-yk-OO7"/>
-                <constraint firstItem="9dp-dt-QPL" firstAttribute="top" secondItem="9KQ-oq-BTO" secondAttribute="bottom" constant="3" id="UOo-YU-iIB"/>
-                <constraint firstItem="9KQ-oq-BTO" firstAttribute="leading" secondItem="2q2-29-ROx" secondAttribute="leading" id="YCX-cF-HFj"/>
-                <constraint firstItem="9KQ-oq-BTO" firstAttribute="top" secondItem="2q2-29-ROx" secondAttribute="top" constant="3" id="Zma-Zu-lZO"/>
-                <constraint firstItem="9dp-dt-QPL" firstAttribute="leading" secondItem="2q2-29-ROx" secondAttribute="leading" id="g5j-4I-eOn"/>
-                <constraint firstItem="9KQ-oq-BTO" firstAttribute="width" secondItem="2q2-29-ROx" secondAttribute="width" id="ot7-Mn-jwQ"/>
+                <constraint firstAttribute="bottom" secondItem="t4I-t8-sWb" secondAttribute="bottom" id="VjB-RL-OX6"/>
+                <constraint firstAttribute="trailing" secondItem="t4I-t8-sWb" secondAttribute="trailing" id="WbY-vf-mai"/>
+                <constraint firstItem="t4I-t8-sWb" firstAttribute="top" secondItem="2q2-29-ROx" secondAttribute="top" id="pdk-sp-QNa"/>
+                <constraint firstItem="t4I-t8-sWb" firstAttribute="leading" secondItem="2q2-29-ROx" secondAttribute="leading" id="zRP-Ys-KMT"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

@@ -63,9 +63,12 @@ class AgeSliderView: UIView {
    }
    
    private func showRange() {
-      let minAge = minAgeFilter.value
-      let maxAge = maxAgeFilter.value
-      rangeLabel.text = "\(minAge) - \(maxAge)"
+      do {
+         let min: Int = try minAgeFilter.value()
+         let max: Int = try maxAgeFilter.value()
+         rangeLabel.text = "\(min) - \(max)"
+      } catch {
+      }
    }
    
    @objc private func rangeSliderValueChanged(_ sender: MARKRangeSlider) {
