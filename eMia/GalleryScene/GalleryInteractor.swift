@@ -16,6 +16,8 @@ struct SectionPostModel {
    var data: [PostModel]
 }
 
+// MARK: UIGalleryView data source
+
 extension SectionPostModel: AnimatableSectionModelType {
    typealias Item = PostModel
    typealias Identity = String

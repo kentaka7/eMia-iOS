@@ -21,13 +21,13 @@ class CommentsManager: NSObject {
       return CommentModel.comments.filter { $0.postid == post.id }
    }
    
-   func startCommentsObserver(for post: PostModel) -> Observable<Bool> {
+   func startCommentsListening(for post: PostModel) -> Observable<Bool> {
       self.post = post
       _ = CommentModel.rxNewCommentObserved.subscribe(onNext: { [weak self] newComment in
          if let post = self?.post, newComment?.postid == post.id {
             self?.mNewCommentObservable.onNext(true)
          }
       })
-      return mNewCommentObservable.asObservable()
+      return mNewCommentObservable
    }
 }

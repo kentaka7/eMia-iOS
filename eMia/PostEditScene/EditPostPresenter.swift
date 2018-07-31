@@ -18,13 +18,12 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       case dependsOnTextViewContent
       case photo
       case staticTextAndSendEmailButton
-      case enterCommentTextAndSendButton
-      static let allValues = [avatarPhotoAndUserName, dependsOnTextViewContent, photo, staticTextAndSendEmailButton, enterCommentTextAndSendButton]
+      static let allValues = [avatarPhotoAndUserName, dependsOnTextViewContent, photo, staticTextAndSendEmailButton]
    }
    
    private var commentCell: EditPost4ViewCell!
    private var postBodyTextViewHeight: CGFloat = 0.0
-   private var currentCelHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
+   private var currentCellHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
    private var commentsManager = CommentsManager()
    private var comments: [CommentModel]!
    private var needUpdateView: Bool = true
@@ -39,14 +38,14 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    }
    
    private func startCommentsListener() {
-      _ = commentsManager.startCommentsObserver(for: post).subscribe({ [weak self] isUpdated in
-         if let updated = isUpdated.event.element, updated == true {
-            self?.didUpdateCommentsData()
+      _ = commentsManager.startCommentsListening(for: post).subscribe(onNext: { [weak self] isUpdated in
+         if isUpdated {
+            self?.downloadComments()
          }
       }).disposed(by: disposeBag)
    }
    
-   func update() {
+   func updateView() {
       downloadComments()
    }
    
@@ -58,8 +57,9 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       guard let tableView = self.tableView else {
          return UITableViewCell()
       }
-      
-      if let selector: Rows = Rows(rawValue: indexPath.row) {
+      let row = indexPath.row
+      let commentIndex = row - Rows.allValues.count
+      if let selector: Rows = Rows(rawValue: row) {
          switch selector {
          case .avatarPhotoAndUserName:
             return tableView.dequeueCell(ofType: EditPost1ViewCell.self)!.then { cell in
@@ -77,33 +77,28 @@ class EditPostPresenter: NSObject, EditPostPresenting {
             return tableView.dequeueCell(ofType: EditPost3ViewCell.self)!.then { cell in
                _ = cell.configureView(for: post)
             }
-         case .enterCommentTextAndSendButton:
-            return tableView.dequeueCell(ofType: EditPost4ViewCell.self)!.then { cell in
-               self.commentCell = cell
-               _ = self.commentCell.configureView(for: post)
-               self.commentCell.post = post
-               self.commentCell.activityIndicator = activityIndicator
-               self.commentCell.didChangeHeight = { newCellHeight in
-                  if newCellHeight != self.currentCelHeight {
-                     self.currentCelHeight = newCellHeight
-                     self.updateView(tableView: self.tableView!)
-                  }
-               }
-               self.commentCell.didEnterNewComment = {
-                  self.needUpdateView = false
-               }
-            }
+         }
+      } else if commentIndex >= 0 && commentIndex < comments.count {
+         return tableView.dequeueCell(ofType: EditPost5ViewCell.self)!.then { cell in
+            _ = cell.configureView(for: post)
+            let comment = comments[commentIndex]
+            cell.configureView(for: comment)
          }
       } else {
-         if comments.count > 0 {
-            return tableView.dequeueCell(ofType: EditPost5ViewCell.self)!.then { cell in
-               _ = cell.configureView(for: post)
-               let comment = comments[indexPath.row - Rows.allValues.count]
-               cell.configureView(for: comment)
+         return tableView.dequeueCell(ofType: EditPost4ViewCell.self)!.then { cell in
+            self.commentCell = cell
+            _ = self.commentCell.configureView(for: post)
+            self.commentCell.post = post
+            self.commentCell.activityIndicator = activityIndicator
+            self.commentCell.didChangeHeight = { newCellHeight in
+               if newCellHeight != self.currentCellHeight {
+                  self.currentCellHeight = newCellHeight
+                  self.updateView(tableView: self.tableView!)
+               }
             }
-         } else {
-            let cell0 = UITableViewCell()
-            return cell0
+            self.commentCell.didEnterNewComment = {
+               self.needUpdateView = false
+            }
          }
       }
    }
@@ -111,7 +106,9 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    // TODO: - TRY TO USE https://mkswap.net/m/ios/2015/07/08/uitableviewcells-with-dynamic-height.html
    
    func heightCell(for indexPath: IndexPath) -> CGFloat {
-      if let selector: Rows = Rows(rawValue: indexPath.row) {
+      let row = indexPath.row
+      let commentIndex = row - Rows.allValues.count
+      if let selector: Rows = Rows(rawValue: row) {
          switch selector {
          case .avatarPhotoAndUserName:
             return 70.0
@@ -121,20 +118,16 @@ class EditPostPresenter: NSObject, EditPostPresenting {
             return 300.0
          case .staticTextAndSendEmailButton:
             return 135.0
-         case .enterCommentTextAndSendButton:
-            return currentCelHeight
          }
+      } else if commentIndex >= 0 && commentIndex < comments.count {
+         return -1.0
       } else {
-         if comments.count > 0 {
-            return -1.0
-         } else {
-            return 0.0
-         }
+         return currentCellHeight
       }
    }
    
    var numberOfRows: Int {
-      return Rows.allValues.count + comments.count
+      return Rows.allValues.count + comments.count + 1
    }
    
    private func updateView(tableView: UITableView) {
@@ -151,17 +144,13 @@ class EditPostPresenter: NSObject, EditPostPresenting {
 
 // MARK: - CommentsUpdatable
 
-extension EditPostPresenter: CommentsUpdatable {
+extension EditPostPresenter {
    
-   fileprivate func downloadComments() {
+   private func downloadComments() {
       guard let tableView = self.tableView else {
          return
       }
       comments = commentsManager.comments
       tableView.reloadData()
-   }
-   
-   func didUpdateCommentsData() {
-      downloadComments()
    }
 }

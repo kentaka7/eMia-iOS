@@ -11,6 +11,7 @@ import RxDataSources
 class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout {
    static let kHeaderHeight: CGFloat = 40.0
    static let kCellHeight: CGFloat = 250.0
+   static let kSearchBarHeight: CGFloat = 64.0
 
    var presenter: GalleryPresentable!
    weak var layoutDelegate: GalleryLayoutDelegate!
@@ -152,7 +153,7 @@ extension GalleryViewController {
             self.view.layoutIfNeeded()
          }, completion: nil)
       } else {
-         searchBarTopConstraint.constant = -64.0
+         searchBarTopConstraint.constant = -1.0 * GalleryViewController.kSearchBarHeight
          UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
             self.view.layoutIfNeeded()
          }, completion: nil)

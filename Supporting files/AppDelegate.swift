@@ -39,8 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
       AppDelegate.instance = self
       
-      setUpAppearance()
-      
       self.application  = application
       
       gFireBaseAuth.configure()
@@ -163,16 +161,4 @@ extension AppDelegate {
    
    func createNewPost() {
    }
-}
-
-// MARK: Appearence
-
-extension AppDelegate {
-   private func setUpAppearance() {
-      UINavigationBar.appearance().barTintColor = GlobalColors.kBrandNavBarColor
-      UINavigationBar.appearance().tintColor = GlobalColors.kBrandNavBarColor
-      UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
-
-   }
-   
 }

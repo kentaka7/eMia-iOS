@@ -8,12 +8,8 @@
 
 import Foundation
 
-protocol CommentsUpdatable {
-   func didUpdateCommentsData()
-}
-
 protocol EditPostPresenting: TableViewPresentable {
    var title: String {get}
    func configure()
-   func update()
+   func updateView()
 }

@@ -31,7 +31,7 @@ class EditPostViewController: UIViewController {
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-      presenter.update()
+      presenter.updateView()
    }
    
    // MARK: Actions

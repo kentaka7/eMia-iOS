@@ -10,10 +10,6 @@
 		7F01B39C1FE5A1560034CAFB /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F01B39B1FE5A1550034CAFB /* ImageCache.swift */; };
 		7F060C081FF0E735002D04AD /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F060C071FF0E734002D04AD /* Filter.storyboard */; };
 		7F060C0A1FF0E762002D04AD /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F060C091FF0E762002D04AD /* FiltersViewController.swift */; };
-		7F060C111FF0E8EB002D04AD /* FilterAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F060C0C1FF0E8EA002D04AD /* FilterAnimatedTransitioning.swift */; };
-		7F060C121FF0E8EB002D04AD /* InteractorTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F060C0D1FF0E8EA002D04AD /* InteractorTransition.swift */; };
-		7F060C131FF0E8EB002D04AD /* FilterPresentationSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F060C0E1FF0E8EB002D04AD /* FilterPresentationSegue.swift */; };
-		7F060C141FF0E8EB002D04AD /* FilterPresntationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F060C0F1FF0E8EB002D04AD /* FilterPresntationController.swift */; };
 		7F060C151FF0E8EB002D04AD /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F060C101FF0E8EB002D04AD /* RangeSlider.swift */; };
 		7F060C191FF104C4002D04AD /* MARKRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F060C171FF104C4002D04AD /* MARKRangeSlider.m */; };
 		7F060C201FF10756002D04AD /* SegueHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F060C1F1FF10756002D04AD /* SegueHandler.swift */; };
@@ -180,10 +176,6 @@
 		7F01B39B1FE5A1550034CAFB /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		7F060C071FF0E734002D04AD /* Filter.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
 		7F060C091FF0E762002D04AD /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
-		7F060C0C1FF0E8EA002D04AD /* FilterAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterAnimatedTransitioning.swift; sourceTree = "<group>"; };
-		7F060C0D1FF0E8EA002D04AD /* InteractorTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorTransition.swift; sourceTree = "<group>"; };
-		7F060C0E1FF0E8EB002D04AD /* FilterPresentationSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPresentationSegue.swift; sourceTree = "<group>"; };
-		7F060C0F1FF0E8EB002D04AD /* FilterPresntationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPresntationController.swift; sourceTree = "<group>"; };
 		7F060C101FF0E8EB002D04AD /* RangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
 		7F060C171FF104C4002D04AD /* MARKRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARKRangeSlider.m; sourceTree = "<group>"; };
 		7F060C181FF104C4002D04AD /* MARKRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARKRangeSlider.h; sourceTree = "<group>"; };
@@ -538,23 +530,8 @@
 				7F1337BA202AFEEF00D955D6 /* FilterInteractor.swift */,
 				7F1337BC202AFF1400D955D6 /* FilterDependencies.swift */,
 				7F87244720B7D4300018A855 /* FilterProtocols.swift */,
-				7F7FAB4120B323740052739B /* Router */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		7F4B287820B10204002BFB47 /* NewPostScene */ = {
-			isa = PBXGroup;
-			children = (
-				7FD1FEA6200F2FB700C178E2 /* NewPost.storyboard */,
-				7FBA774E1FEAB957003B455B /* NewPostViewController.swift */,
-				7F35135920B34D950004363C /* NewPostPresenter.swift */,
-				7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */,
-				7F35135B20B34DF30004363C /* NewPostDependencies.swift */,
-				7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */,
-				7F4B287920B1023F002BFB47 /* TableViewCells */,
-			);
-			path = NewPostScene;
 			sourceTree = "<group>";
 		};
 		7F4B287920B1023F002BFB47 /* TableViewCells */ = {
@@ -570,22 +547,14 @@
 		7F4B287B20B10274002BFB47 /* PostEditScene */ = {
 			isa = PBXGroup;
 			children = (
-				7F4B287C20B1028D002BFB47 /* Controller */,
-			);
-			path = PostEditScene;
-			sourceTree = "<group>";
-		};
-		7F4B287C20B1028D002BFB47 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
 				7FD1FEA3200F2E4C00C178E2 /* EditPost.storyboard */,
 				7FBDE1111FE7F8FA00EAAD3E /* EditPostViewController.swift */,
-				7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */,
 				7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */,
+				7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */,
 				7F87244920B7D4AD0018A855 /* EditPostProtocols.swift */,
 				7F4B287D20B102B1002BFB47 /* TableViewCells */,
 			);
-			path = Controller;
+			path = PostEditScene;
 			sourceTree = "<group>";
 		};
 		7F4B287D20B102B1002BFB47 /* TableViewCells */ = {
@@ -666,7 +635,13 @@
 		7F695C8A1FEA385E008AE127 /* NewPostScene */ = {
 			isa = PBXGroup;
 			children = (
-				7F4B287820B10204002BFB47 /* NewPostScene */,
+				7FD1FEA6200F2FB700C178E2 /* NewPost.storyboard */,
+				7FBA774E1FEAB957003B455B /* NewPostViewController.swift */,
+				7F35135920B34D950004363C /* NewPostPresenter.swift */,
+				7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */,
+				7F35135B20B34DF30004363C /* NewPostDependencies.swift */,
+				7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */,
+				7F4B287920B1023F002BFB47 /* TableViewCells */,
 			);
 			name = NewPostScene;
 			sourceTree = "<group>";
@@ -735,17 +710,6 @@
 				7F060C211FF10C09002D04AD /* Gender.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		7F7FAB4120B323740052739B /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				7F060C0E1FF0E8EB002D04AD /* FilterPresentationSegue.swift */,
-				7F060C0F1FF0E8EB002D04AD /* FilterPresntationController.swift */,
-				7F060C0D1FF0E8EA002D04AD /* InteractorTransition.swift */,
-				7F060C0C1FF0E8EA002D04AD /* FilterAnimatedTransitioning.swift */,
-			);
-			path = Router;
 			sourceTree = "<group>";
 		};
 		7F817B9720C4E84D00B7C7F6 /* Router */ = {
@@ -1257,9 +1221,7 @@
 				7FD766801FE9D49E00E32C42 /* SettingsViewController.swift in Sources */,
 				7FBA77531FEAB957003B455B /* NewPost2ViewCell.swift in Sources */,
 				7FFBB2571FE45E0400A22EB0 /* FireBaseAuthImpl.swift in Sources */,
-				7F060C111FF0E8EB002D04AD /* FilterAnimatedTransitioning.swift in Sources */,
 				7FBFF4DA1FE4068400788DCB /* UserItem.swift in Sources */,
-				7F060C131FF0E8EB002D04AD /* FilterPresentationSegue.swift in Sources */,
 				7FD0519C20127A12006D5C6B /* LocalizedString.swift in Sources */,
 				7F47D9DD20C37725001210E4 /* FavoriteModel.swift in Sources */,
 				7FBDE11E1FE8466A00EAAD3E /* EditPost5ViewCell.swift in Sources */,
@@ -1302,9 +1264,7 @@
 				7FD4E2F71FF296A500D3BDD2 /* FilterStorage.swift in Sources */,
 				7F2F18A7202E111800EF4644 /* Constants.swift in Sources */,
 				7F15FA7A1FF4B81B0092BAD1 /* FilterModel.swift in Sources */,
-				7F060C121FF0E8EB002D04AD /* InteractorTransition.swift in Sources */,
 				7FBDE1121FE7F8FA00EAAD3E /* EditPostViewController.swift in Sources */,
-				7F060C141FF0E8EB002D04AD /* FilterPresntationController.swift in Sources */,
 				7F88D6BE200FE5A000394EA2 /* LocationManager.swift in Sources */,
 				7FCD79F22014817D00677AC6 /* ShortcutItems.swift in Sources */,
 				7FBDE1201FE8466A00EAAD3E /* EditPost3ViewCell.swift in Sources */,
