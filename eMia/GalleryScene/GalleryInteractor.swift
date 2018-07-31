@@ -86,6 +86,7 @@ class GalleryInteractor: NSObject, AnyObservable {
                return
             }
             self.fetchData()
+            self.scrollOnTop()
          }
       )
    }
@@ -123,6 +124,16 @@ class GalleryInteractor: NSObject, AnyObservable {
          return self.data.value[0].items[indexPath.row]
       } else {
          return nil
+      }
+   }
+   
+   private func scrollOnTop() {
+      DispatchQueue.main.async {
+         guard self.data.value[0].items.count > 0 else {
+            return
+         }
+         let indexPath = IndexPath(row: 0, section: 0)
+         self.collectionView?.scrollToItem(at: indexPath, at: .top, animated: false)
       }
    }
 }
