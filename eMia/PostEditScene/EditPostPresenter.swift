@@ -41,6 +41,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       _ = commentsManager.startCommentsListening(for: post).subscribe(onNext: { [weak self] isUpdated in
          if isUpdated {
             self?.downloadComments()
+            self?.scrollDown()
          }
       }).disposed(by: disposeBag)
    }
@@ -142,7 +143,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    }
 }
 
-// MARK: - CommentsUpdatable
+// MARK: -
 
 extension EditPostPresenter {
    
@@ -150,7 +151,12 @@ extension EditPostPresenter {
       guard let tableView = self.tableView else {
          return
       }
-      comments = commentsManager.comments
-      tableView.reloadData()
+         self.comments = self.commentsManager.comments
+         tableView.reloadData()
+   }
+   
+   private func scrollDown() {
+      let indexPath = IndexPath(row: self.numberOfRows - 1, section: 0)
+      tableView?.scrollToRow(at: indexPath, at: .bottom, animated: true)
    }
 }

@@ -13,6 +13,7 @@ class EditPost5ViewCell: UITableViewCell, ForPostConfigurable {
    @IBOutlet weak var avatarImageView: UIImageView!
    @IBOutlet weak var titleLabel: UILabel!
    @IBOutlet weak var bodyLabel: UILabel!
+   @IBOutlet weak var createdLabel: UILabel!
    
    override func awakeFromNib() {
       avatarBackgroundView.layer.cornerRadius = avatarBackgroundView.frame.height / 2.0
@@ -36,5 +37,6 @@ class EditPost5ViewCell: UITableViewCell, ForPostConfigurable {
          self.titleLabel.text = nil
       }
       self.bodyLabel.text = comment.text
+      self.createdLabel.text = "Created".localized + " " + comment.relativeTimeToCreated()
    }
 }

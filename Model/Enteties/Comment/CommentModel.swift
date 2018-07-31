@@ -131,6 +131,13 @@ extension CommentModel {
    }
 }
 
+extension CommentModel {
+   func relativeTimeToCreated() -> String {
+      let date = Date(timeIntervalSince1970: self.created)
+      return date.relativeTime
+   }
+}
+
 func == (lhs: CommentModel, rhs: CommentModel) -> Bool {
    return lhs.id == rhs.id
 }
