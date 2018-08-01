@@ -14,12 +14,13 @@ class EditPostViewController: UIViewController {
    
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
+   @IBOutlet weak var fakeTextField: UITextField!
    
    // MARK: View lifecycle
    override func viewDidLoad() {
       super.viewDidLoad()
 
-      EditPostDependencies.configure(view: self, post: post, tableView: tableView, activityIndicator: activityIndicator)
+      EditPostDependencies.configure(view: self, post: post, tableView: tableView, activityIndicator: activityIndicator, fakeTextField: fakeTextField)
       
       navigationItem.title = presenter.title
 

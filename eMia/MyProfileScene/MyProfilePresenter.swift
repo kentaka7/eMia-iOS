@@ -8,6 +8,8 @@
 
 import UIKit
 import NVActivityIndicatorView
+import RealmSwift
+import RxRealm
 
 class MyProfilePresenter: NSObject, MyProfilePresenting {
 
@@ -74,22 +76,43 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
    }
    
    func updateMyProfile(_ completed: @escaping () -> Void) {
-      let nameCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.name.rawValue, section: 0)) as? Register7ViewCell
-      let genderCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.gender.rawValue, section: 0)) as? Register4ViewCell
-      let yearBirthCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.yearBirth.rawValue, section: 0)) as? Register5ViewCell
-      let photoCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.photo.rawValue, section: 0)) as? Register6ViewCell
-      let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.address.rawValue, section: 0)) as? Register3ViewCell
-      if let name = nameCell?.name,
-         let address = addressCell?.address,
-         let gender = genderCell?.gender,
-         let yearBirth = yearBirthCell?.yearBirth,
-         let photo = photoCell?.photo {
-         let data = MyProfileInteractor.MyProfileData(name: name,
-                                                      address: address,
-                                                      gender: gender,
-                                                      yearBirth: yearBirth,
-                                                      photo: photo)
-         interactor.updateMyProfile(data, completed: completed)
+      var photo: UIImage?
+      if let nameCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.name.rawValue, section: 0)) as? Register7ViewCell {
+         guard let name = nameCell.name, name.isEmpty == false else {
+            Alert.default.showOk("", message: "Please enter your name".localized)
+            return
+         }
+         Realm.updateRealm {
+            user.name = name
+         }
+      }
+      if let photoCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.photo.rawValue, section: 0)) as? Register6ViewCell {
+         guard let image = photoCell.photo else {
+            Alert.default.showOk("", message: "Please add photo".localized)
+            return
+         }
+         photo = image
+      }
+      if let genderCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.gender.rawValue, section: 0)) as? Register4ViewCell {
+         let gender = genderCell.gender
+         Realm.updateRealm {
+            user.gender = gender
+         }
+      }
+      if let yearBirthCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.yearBirth.rawValue, section: 0)) as? Register5ViewCell {
+         let yearBirth = yearBirthCell.yearBirth
+         Realm.updateRealm {
+            user.yearbirth = yearBirth ?? -1
+         }
+      }
+      if let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.address.rawValue, section: 0)) as? Register3ViewCell {
+         let address = addressCell.address
+         Realm.updateRealm {
+            user.address = address ?? ""
+         }
+      }
+      if let photo = photo {
+         interactor.updateMyProfile(photo, completed: completed)
       } else {
          completed()
       }

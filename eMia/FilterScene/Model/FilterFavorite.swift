@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum FilterFavorite: Int16 {
+enum FilterFavorite: Int {
 	case none = -1
 	case all
 	case myFavorite

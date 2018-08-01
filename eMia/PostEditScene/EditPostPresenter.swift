@@ -32,6 +32,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    weak var activityIndicator: NVActivityIndicatorView!
    var post: PostModel!
    weak var tableView: UITableView?
+   weak var fakeTextField: UITextField?
    
    func configure() {
       startCommentsListener()
@@ -132,10 +133,10 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    }
    
    private func updateView(tableView: UITableView) {
+      fakeTextField?.becomeFirstResponder()
       tableView.reloadData()
       if self.needUpdateView == false {
          self.needUpdateView = true
-         return
       }
       runAfterDelay(0.3) {
          _ = self.commentCell.commentTextView.becomeFirstResponder()

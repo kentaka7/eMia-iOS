@@ -40,6 +40,17 @@ extension Realm {
       }
       return result ?? .error(RealmOperationsError.updatingFailed)
    }
+
+   @discardableResult
+   class func update(model: Object) -> Observable<Void> {
+      let result = Realm.withRealm("updating") { realm-> Observable<Void> in
+         try realm.write {
+            realm.add(model, update: true)
+         }
+         return .empty()
+      }
+      return result ?? .error(RealmOperationsError.updatingFailed)
+   }
    
    @discardableResult
    class func deleteRealm(model: Object) -> Observable<Void> {

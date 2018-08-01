@@ -49,6 +49,16 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Suy-Fj-GSX">
+                                <rect key="frame" x="0.0" y="622" width="1" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1dg-hP-zzj"/>
+                                    <constraint firstAttribute="width" constant="1" id="kgH-8S-puo"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fxp-Pv-Ivk">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -384,9 +394,11 @@
                             <constraint firstItem="Lle-DE-j1z" firstAttribute="leading" secondItem="rmS-Gw-ZLb" secondAttribute="leading" id="Bsb-5Q-ww7"/>
                             <constraint firstItem="5fy-36-xqD" firstAttribute="centerY" secondItem="rmS-Gw-ZLb" secondAttribute="centerY" id="Cho-fC-otf"/>
                             <constraint firstItem="fxp-Pv-Ivk" firstAttribute="leading" secondItem="rmS-Gw-ZLb" secondAttribute="leading" id="HBJ-7D-nI3"/>
+                            <constraint firstItem="Suy-Fj-GSX" firstAttribute="leading" secondItem="rmS-Gw-ZLb" secondAttribute="leading" id="LD5-lw-a7g"/>
                             <constraint firstItem="xxj-iY-fl1" firstAttribute="top" secondItem="fxp-Pv-Ivk" secondAttribute="bottom" id="htz-rA-O4t"/>
                             <constraint firstItem="xxj-iY-fl1" firstAttribute="top" secondItem="Lle-DE-j1z" secondAttribute="bottom" constant="1" id="mqg-GH-b07"/>
                             <constraint firstItem="5fy-36-xqD" firstAttribute="centerX" secondItem="rmS-Gw-ZLb" secondAttribute="centerX" id="pU9-9x-RTF"/>
+                            <constraint firstAttribute="bottom" secondItem="Suy-Fj-GSX" secondAttribute="bottom" constant="15" id="qL9-F7-gDT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="eMia" id="NOD-Fx-qa5">
@@ -399,6 +411,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="activityIndicator" destination="5fy-36-xqD" id="38o-dI-A2q"/>
+                        <outlet property="fakeTextField" destination="Suy-Fj-GSX" id="WeY-cB-4VG"/>
                         <outlet property="tableView" destination="fxp-Pv-Ivk" id="Had-5k-HZO"/>
                     </connections>
                 </viewController>

@@ -29,22 +29,7 @@ class MyProfileInteractor: NSObject {
    var password: String!
    var registerUser: Bool = false
    
-   func updateMyProfile(_ data: MyProfileData, completed: @escaping () -> Void) {
-
-      guard let name = data.name, name.isEmpty == false else {
-         Alert.default.showOk("", message: "Please enter your name".localized)
-         return
-      }
-      guard let image = data.photo else {
-         Alert.default.showOk("", message: "Please add photo".localized)
-         return
-      }
-      _ = Realm.updateRealm {
-         user.name = name
-         user.address = data.address ?? ""
-         user.gender = data.gender
-         user.yearbirth = data.yearBirth ?? -1
-      }
+   func updateMyProfile(_ image: UIImage, completed: @escaping () -> Void) {
       if self.registerUser {
          registerNewUser(with: image, completed: completed)
       } else {

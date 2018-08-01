@@ -21,7 +21,3 @@ protocol FilterPresented {
    func addMunicipalityComponent(_ bacgroundView: UIView)
    func addAggesComponent(_ bacgroundView: UIView)
 }
-
-protocol PostsFiltering {
-   func check(post: PostModel, searchTemplate: String) -> Bool
-}

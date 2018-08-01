@@ -12,6 +12,7 @@ class NewPostPresenter: NSObject, NewPostPresenting {
 
    var interactor: NewPostStoring!
    var tableView: UITableView!
+   weak var fakeTextField: UITextField!
    var viewController: UIViewController!
    
    enum Rows: Int {
@@ -28,7 +29,7 @@ class NewPostPresenter: NSObject, NewPostPresenting {
    private var photoCell: NewPost3ViewCell!
    
    var title: String {
-      return "\(AppConstants.ApplicationName) - My New Post".localized
+      return "\(AppConstants.ApplicationName) - My new post".localized
    }
    
    func cell(for indexPath: IndexPath) -> UITableViewCell {
@@ -44,8 +45,11 @@ class NewPostPresenter: NSObject, NewPostPresenting {
                bodyCell.didChangeHeight = { height in
                   if height > self.textBodyHeight {
                      self.textBodyHeight = height
+                     // It's a hack for preventing to hide the keyboard
+                     self.fakeTextField.becomeFirstResponder()
                      self.tableView.reloadData()
                      runAfterDelay(0.2) {
+                        // return back focus on the text view
                         _ = self.bodyCell.postBodyTextView.becomeFirstResponder()
                      }
                   }

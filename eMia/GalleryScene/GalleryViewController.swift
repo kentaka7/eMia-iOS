@@ -54,7 +54,8 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    }
    
    @objc func simulateRefresh() {
-      DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+      presenter.reloadData()
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
          self.refreshControl?.endRefreshing()
       }
    }

@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 class NewPostViewController: UIViewController {
    
@@ -11,11 +12,12 @@ class NewPostViewController: UIViewController {
    
    @IBOutlet weak var saveButton: UIButton!
    @IBOutlet weak var tableView: UITableView!
+   @IBOutlet weak var fakeTextField: UITextField!
    
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      NewPostDependencies.configure(view: self, tableView: tableView)
+      NewPostDependencies.configure(view: self, tableView: tableView, fakeTextField: fakeTextField)
       
       navigationItem.title = presenter.title
       configureView()

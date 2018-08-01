@@ -13,21 +13,16 @@ class FilterInteractor: FilterStoragable {
    
    weak var presenter: FilterPresenter!
    private var filterModel: FilterModel!
-   private var filterModelCopy: FilterModel!
    
    func fetchFilterPreferences() {
-      if filterModel == nil {
-         filterModel = FilterModel()
-         filterModelCopy = FilterModel()
-      }
+      filterModel = FilterModel.data
       configurePresenters()
    }
    
    func saveFilterPreferences() {
-      if filterModel == filterModelCopy {
-         return
+      if filterModel.isChanged {
+         filterModel.syncronize()
       }
-      filterModel.syncronize()
    }
 
    // MARK: Properties

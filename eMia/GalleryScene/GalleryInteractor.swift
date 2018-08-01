@@ -37,7 +37,7 @@ extension SectionPostModel: AnimatableSectionModelType {
 class GalleryInteractor: NSObject, AnyObservable {
    
    var presenter: GalleryPresenter!
-   var filter: PostsFiltering!
+   var filter: FilterModel!
 
    var observers: [Any] = []
    
