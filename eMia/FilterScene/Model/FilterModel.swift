@@ -152,11 +152,13 @@ final class FilterModel: Object {
 
 extension FilterModel {
 
-   func check(post: PostModel, searchTemplate: String) -> Bool {
+   class func check(post: PostModel, searchTemplate: String) -> Bool {
+      let model = FilterModel.currentModel
+      
       var itsok = true
       
       // Favorities
-      switch self.myFavoriteFilter {
+      switch model.myFavoriteFilter {
       case .myFavorite:
          itsok = itsok && FavoritsManager.isItMyFavoritePost(post)
       default:
@@ -164,7 +166,7 @@ extension FilterModel {
       }
       if let user = gUsersManager.getUserWith(id: post.uid) {
          // Gender
-         switch self.genderFilter {
+         switch model.genderFilter {
          case .boy:
             itsok = itsok && user.gender == .boy
          case .girl:
@@ -173,7 +175,7 @@ extension FilterModel {
             break
          }
          // Municipality
-         if let municipality = self.municipality, municipality.isEmpty == false {
+         if let municipality = model.municipality, municipality.isEmpty == false {
             if let address = user.address, address.isEmpty == false {
                itsok = itsok && address == municipality
             } else {
@@ -181,8 +183,8 @@ extension FilterModel {
             }
          }
          // Age
-         let minAge = Int(self.minAge)
-         let maxAge = Int(self.maxAge)
+         let minAge = Int(model.minAge)
+         let maxAge = Int(model.maxAge)
          if (minAge != 0 || maxAge != 100) {
             if user.yearbirth > 0 {
                let userAge = Date().years - user.yearbirth

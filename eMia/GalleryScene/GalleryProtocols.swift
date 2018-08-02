@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol GalleryViewProtocol {
    var galleryCollectionView: UICollectionView? { get }
@@ -16,6 +17,7 @@ protocol GalleryViewProtocol {
 
 protocol GalleryPresentable {
    var title: String {get}
+   var galleryItemsCount: PublishSubject<Int> {get}
    func configure()
    func reloadData()
    func prepare(for segue: UIStoryboardSegue, sender: Any?)

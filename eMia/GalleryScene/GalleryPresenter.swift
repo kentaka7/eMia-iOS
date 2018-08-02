@@ -4,12 +4,15 @@
 //
 
 import UIKit
+import RxSwift
 
 class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
 
    var router: GalleryRouter!
    var interactor: GalleryInteractor!
    var view: GalleryViewProtocol!
+   
+   var galleryItemsCount = PublishSubject<Int>()
    
    var title: String {
       return "\(AppConstants.ApplicationName)"
@@ -60,7 +63,7 @@ class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
 
    func prepareGalleryHeader(_ collectionView: UICollectionView, indexPath: IndexPath, kind: String, text: String) -> UICollectionReusableView {
       if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as? GalleryHeaderView {
-         headerView.title.text = text
+         headerView.title.text = "HEADER"
          return headerView
       } else {
          return UICollectionReusableView()

@@ -21,6 +21,10 @@ class GalleryViewCell: UICollectionViewCell {
    @IBOutlet weak var bodyLabel: UILabel!
    @IBOutlet weak var favoriteImageView: UIImageView!
    @IBOutlet weak var photoHeightConstraint: NSLayoutConstraint!
+
+   @IBOutlet weak var avatarBackgroundView: UIView!
+   @IBOutlet weak var avatarUserImageView: UIImageView!
+   @IBOutlet weak var createdLabel: UILabel!
    
    @IBOutlet weak var border1: UIView!
    @IBOutlet weak var border2: UIView!
@@ -33,6 +37,10 @@ class GalleryViewCell: UICollectionViewCell {
    }
    
    private func configureView() {
+      avatarBackgroundView.layer.cornerRadius = avatarBackgroundView.frame.height / 2.0
+      avatarBackgroundView.layer.borderColor = UIColor(rgbValue: 0xffffff).cgColor
+      avatarBackgroundView.layer.borderWidth = 1.0
+      
       titleLabel.textColor = GlobalColors.kBrandNavBarColor
       bodyLabel.textColor = GlobalColors.kBrandNavBarColor
       
@@ -63,10 +71,20 @@ class GalleryViewCell: UICollectionViewCell {
          }
       }
 
+      if let userId = self.post?.uid {
+         gPhotosManager.downloadAvatar(for: userId) { image in
+            DispatchQueue.main.async {
+               self.avatarUserImageView.image = image
+            }
+         }
+      }
+      
       setUpFavorite(post)
 
       titleLabel.text = post.title
       bodyLabel.text = post.body
+      
+      createdLabel.text = "Created".localized + " " + post.relativeTimeToCreated()
       
       var defaultWidth = post.photoSize.0
       var defaultHeight = post.photoSize.1

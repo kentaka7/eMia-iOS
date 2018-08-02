@@ -6,10 +6,11 @@
 import UIKit
 import NVActivityIndicatorView
 import RxSwift
+import RxCocoa
 import RxDataSources
 
 class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout {
-   static let kHeaderHeight: CGFloat = 40.0
+   static let kHeaderHeight: CGFloat = 0.0
    static let kCellHeight: CGFloat = 250.0
    static let kSearchBarHeight: CGFloat = 64.0
 
@@ -25,6 +26,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    @IBOutlet weak var searchBackgroundView: UIView!
    @IBOutlet weak var searchBar: UISearchBar!
+   @IBOutlet weak var countItemsLabel: UILabel!
    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
    
    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
@@ -70,6 +72,8 @@ extension GalleryViewController {
       configure(newPostButton)
       configure(collectionView!)
       configure(searchBackgroundView)
+      configure(countItemsLabel)
+      setUpHeaderSize()
       setUp3DPreviewPhoto()
    }
    
@@ -96,6 +100,10 @@ extension GalleryViewController {
          searchBar.tintColor = GlobalColors.kBrandNavBarColor
          searchBar.backgroundColor = GlobalColors.kBrandNavBarColor
          searchBar.backgroundImage = UIImage()
+      case countItemsLabel:
+         presenter.galleryItemsCount.subscribe(onNext: { value in
+            self.countItemsLabel.text = "Total".localized + " \(value)"
+         }).disposed(by: disposeBag)
       default:
          break
       }

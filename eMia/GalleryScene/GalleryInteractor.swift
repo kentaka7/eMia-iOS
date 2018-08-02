@@ -37,7 +37,6 @@ extension SectionPostModel: AnimatableSectionModelType {
 class GalleryInteractor: NSObject, AnyObservable {
    
    var presenter: GalleryPresenter!
-   var filter: FilterModel!
 
    var observers: [Any] = []
    
@@ -145,8 +144,9 @@ extension GalleryInteractor {
    func fetchData() {
       let posts = PostModel.posts.filter({ post -> Bool in
          let searchText = self.mSearchText ?? ""
-         return self.filter.check(post: post, searchTemplate: searchText)
+         return FilterModel.check(post: post, searchTemplate: searchText)
       }).sorted(by: {$0.created > $1.created})
+      presenter.galleryItemsCount.onNext(posts.count)
       let section: [SectionPostModel] = [SectionPostModel(title: "\(posts.count)", data: posts)]
       self.data.value = section
    }
