@@ -16,7 +16,7 @@ class EditPost5ViewCell: UITableViewCell, ForPostConfigurable {
    @IBOutlet weak var createdLabel: UILabel!
    
    override func awakeFromNib() {
-      avatarBackgroundView.layer.cornerRadius = avatarBackgroundView.frame.height / 2.0
+      avatarBackgroundView.setAsCircle()
    }
 
    func configureView(for post: PostModel) -> CGFloat {

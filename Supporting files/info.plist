@@ -32,8 +32,10 @@
 	<string>You try to use camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We are going to use your current location.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We will save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>You try to use photo library.</string>
+	<string>We are going to use your phooo gallery.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>LucidaGrandeRegular.ttf</string>

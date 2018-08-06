@@ -6,10 +6,11 @@
 import UIKit
 import NextGrowingTextView
 import NVActivityIndicatorView
+import IQKeyboardManagerSwift
 
 // Comment text enter field
 
-class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
+class EditPost4ViewCell: UITableViewCell, ForPostConfigurable, UITextViewDelegate {
 
    @IBOutlet weak var commentTextView: NextGrowingTextView!
    @IBOutlet weak var sendCommentButton: UIButton!
@@ -40,6 +41,13 @@ class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
             let currentCellHeigt = height + self.plusSpace
             self.didChangeHeight(currentCellHeigt)
          }
+         commentTextView.textView.delegate = self
+         
+         let invocation = IQInvocation(self, #selector(fff))
+         commentTextView.keyboardToolbar.doneBarButton.invocation = invocation
+         commentTextView.keyboardToolbar.nextBarButton.invocation = invocation
+         commentTextView.keyboardToolbar.previousBarButton.invocation = invocation
+         
       default:
          break
       }
@@ -52,6 +60,16 @@ class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
    @IBAction func sendCommentButtonPressed(_ sender: Any) {
       sendComment()
    }
+   
+   public func textViewDidEndEditing(_ textView: UITextView) {
+      print("12222")
+   }
+
+   @objc func fff() {
+      print("o909090909")
+   }
+   
+   
 }
 
 // MARK: - Save comment

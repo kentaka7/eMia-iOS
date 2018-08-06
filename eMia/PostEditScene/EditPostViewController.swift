@@ -6,11 +6,15 @@
 import UIKit
 import IQKeyboardManagerSwift
 import NVActivityIndicatorView
+import RxSwift
+import RxCocoa
 
 class EditPostViewController: UIViewController {
 
    var presenter: EditPostPresenting!
    var post: PostModel!
+   var keyboardController: KeyboardController!
+   private let disposeBag = DisposeBag()
    
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
@@ -32,6 +36,7 @@ class EditPostViewController: UIViewController {
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
+      keyboardController.configure(with: self.view)
       presenter.updateView()
    }
    
@@ -42,9 +47,12 @@ class EditPostViewController: UIViewController {
    
    // MARK: Private nethods
    private func configureView() {
+      
+      IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Send Comment".localized
+      
       configure(tableView)
    }
-
+   
    private func configure(_ view: UIView) {
       switch view {
       case tableView:

@@ -19,7 +19,6 @@ class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
    }
    
    func configure(searchBar: UISearchBar) {
-      searchBar.placeholder = "Search template".localized
       interactor.configureSearching(with: searchBar)
    }
 
@@ -60,7 +59,7 @@ class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
          return UICollectionViewCell()
       }
    }
-
+   
    func prepareGalleryHeader(_ collectionView: UICollectionView, indexPath: IndexPath, kind: String, text: String) -> UICollectionReusableView {
       if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as? GalleryHeaderView {
          headerView.title.text = "HEADER"

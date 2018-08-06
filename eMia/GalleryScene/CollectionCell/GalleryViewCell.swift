@@ -13,6 +13,7 @@ class GalleryViewCell: UICollectionViewCell {
    
    private weak var post: PostModel?
    private let disposeBag = DisposeBag()
+   var representedAssetIdentifier: String!
    
    @IBOutlet weak var borderView: UIView!
    
@@ -36,8 +37,23 @@ class GalleryViewCell: UICollectionViewCell {
       bindToFavoritesModel()
    }
    
+   override func prepareForReuse() {
+      super.prepareForReuse()
+      photoImageView.image = nil
+   }
+   
+   func flash(_ completion: @escaping () -> Void) {
+      photoImageView.alpha = 0
+      setNeedsDisplay()
+      UIView.animate(withDuration: 0.2, delay: 0, options: UIViewAnimationOptions(), animations: { [weak self] in
+         self?.photoImageView.alpha = 1
+      }, completion: { _ in
+         completion()
+      })
+   }
+   
    private func configureView() {
-      avatarBackgroundView.layer.cornerRadius = avatarBackgroundView.frame.height / 2.0
+      avatarBackgroundView.setAsCircle()
       avatarBackgroundView.layer.borderColor = UIColor(rgbValue: 0xffffff).cgColor
       avatarBackgroundView.layer.borderWidth = 1.0
       
@@ -58,15 +74,18 @@ class GalleryViewCell: UICollectionViewCell {
    func update(with post: PostModel) {
       self.post = post
       
+      self.representedAssetIdentifier = post.id!
       self.post?.getPhoto { [weak self] image in
          guard let `self` = self else {
             return
          }
          if let post = self.post {
-            self.photoImageView.image = image
-            if post.photoSize == (0.0, 0.0), let size = image?.size {
-               post.photoSize = (size.width, size.height)
-               post.synchronize { _ in}
+            if self.representedAssetIdentifier == post.id! {
+               self.photoImageView.image = image
+               if post.photoSize == (0.0, 0.0), let size = image?.size {
+                  post.photoSize = (size.width, size.height)
+                  post.synchronize { _ in}
+               }
             }
          }
       }

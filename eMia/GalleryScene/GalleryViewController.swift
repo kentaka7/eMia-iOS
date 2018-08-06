@@ -80,7 +80,7 @@ extension GalleryViewController {
    private func configure(_ view: UIView) {
       switch view {
       case newPostButton:
-         newPostButton.layer.cornerRadius = newPostButton.frame.width / 2.0
+         newPostButton.setAsCircle()
          newPostButton.backgroundColor = GlobalColors.kBrandNavBarColor
       case collectionView!:
          collectionView!.delegate = self
@@ -99,6 +99,7 @@ extension GalleryViewController {
       case searchBar:
          searchBar.tintColor = GlobalColors.kBrandNavBarColor
          searchBar.backgroundColor = GlobalColors.kBrandNavBarColor
+         searchBar.placeholder = "Enter search template".localized
          searchBar.backgroundImage = UIImage()
       case countItemsLabel:
          presenter.galleryItemsCount.subscribe(onNext: { value in

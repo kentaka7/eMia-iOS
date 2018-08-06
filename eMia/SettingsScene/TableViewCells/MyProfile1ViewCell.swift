@@ -32,7 +32,7 @@ class MyProfile1ViewCell: UITableViewCell {
             titleLabel.text = currentUser.name
          }
       case avatarBackgroundView:
-         avatarBackgroundView.layer.cornerRadius = avatarBackgroundView.frame.height / 2.0
+         avatarBackgroundView.setAsCircle()
       case avatarImageView:
          if let currentUser = gUsersManager.currentUser {
             gPhotosManager.downloadAvatar(for: currentUser.userId) { image in

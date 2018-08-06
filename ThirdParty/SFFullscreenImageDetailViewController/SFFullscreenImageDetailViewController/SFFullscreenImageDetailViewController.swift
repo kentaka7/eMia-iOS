@@ -9,11 +9,13 @@
 import UIKit
 import Foundation
 import QuartzCore
+import RxSwift
 
 public final class SFFullscreenImageDetailViewController: UIViewController, UIScrollViewDelegate {
    let image: UIImage
    let originFrame: CGRect
    var originalView: UIImageView!
+   private let disposeBag = DisposeBag()
    
    let scrollView: UIScrollView = {
       let view = UIScrollView()
@@ -29,6 +31,13 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
    let closeButton: UIButton = {
       let button = UIButton(type: .custom)
       button.setImage(UIImage(named: "close_button"), for: UIControlState())
+      
+      return button
+   }()
+
+   let saveButton: UIButton = {
+      let button = UIButton(type: .custom)
+      button.setImage(UIImage(named: "icon-save"), for: UIControlState())
       
       return button
    }()
@@ -70,6 +79,11 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
       super.init(nibName: nil, bundle: nil)
       
       self.closeButton.addTarget(self, action: #selector(self.closeTapped(_:)), for: .touchUpInside)
+      
+      self.saveButton.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.saveImage()
+      }).disposed(by: disposeBag)
    }
    
    required public init?(coder aDecoder: NSCoder) {
@@ -99,6 +113,9 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
       let xCoord = self.view.frame.width / 2.0 - 15.0
       self.closeButton.frame = CGRect(x: xCoord, y: 25, width: 35, height: 35)
       self.view.addSubview(self.closeButton)
+
+      self.saveButton.frame = CGRect(x: self.view.frame.width - 50, y: 25, width: 35, height: 35)
+      self.view.addSubview(self.saveButton)
       
       let recognizer = UIPanGestureRecognizer(target: self, action: #selector(self.panGestureCallback(_:)))
       self.imageView.addGestureRecognizer(recognizer)
@@ -187,6 +204,7 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
       self.originalView.isHidden = false
       self.imageView.removeFromSuperview()
       self.closeButton.removeFromSuperview()
+      self.saveButton.removeFromSuperview()
       self.view.removeFromSuperview()
       self.retainHolder = nil
    }
@@ -209,6 +227,25 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
       })
    }
    
+   fileprivate func saveImage() {
+      guard let image = originalView.image else {
+         return
+      }
+      PhotoWriter.save(image)
+         .subscribe(onError: { [weak self] error in
+            self?.showMessage("Error", description: error.localizedDescription)
+            }, onCompleted: { [weak self] in
+               self?.showMessage("Saved")
+         })
+         .disposed(by: disposeBag)
+   }
+
+   func showMessage(_ title: String, description: String? = nil) {
+      let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "Close", style: .default, handler: { [weak self] _ in self?.dismiss(animated: true, completion: nil)}))
+      present(alert, animated: true, completion: nil)
+   }
+
    // MARK: UIScrollViewDelegate
    
    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {

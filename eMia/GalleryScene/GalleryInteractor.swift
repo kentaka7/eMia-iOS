@@ -111,8 +111,12 @@ class GalleryInteractor: NSObject, AnyObservable {
    private func subscribeToSelectGalleryItem() {
       collectionView!.rx.itemSelected.subscribe({ [unowned self] event in
          if let indexPath = event.element {
-            if let post = self.getPost(for: indexPath) {
-               self.presenter.edit(post: post)
+            if let cell = self.collectionView?.cellForItem(at: indexPath) as? GalleryViewCell {
+               cell.flash() {
+                  if let post = self.getPost(for: indexPath) {
+                     self.presenter.edit(post: post)
+                  }
+               }
             }
          }
       }).disposed(by: disposeBag)

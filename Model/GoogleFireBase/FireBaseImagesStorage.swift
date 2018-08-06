@@ -35,7 +35,7 @@ class FireBaseImagesStorage: NSObject {
          let imageView = UIImageView(frame: frame)
          imageView.contentMode = .scaleAspectFit
          imageView.image = image
-         if let icon = imageView.takeScreensot() {
+         if let icon = imageView.screenshot {
             self.saveImage(icon, name: name) { path in
                if let path = path {
                   let imageUrl = FireBaseImagesStorage.urlFor(path: path)

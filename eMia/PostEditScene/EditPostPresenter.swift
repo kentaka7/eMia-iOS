@@ -30,7 +30,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    private let disposeBag = DisposeBag()
    
    weak var activityIndicator: NVActivityIndicatorView!
-   var post: PostModel!
+   weak var post: PostModel!
    weak var tableView: UITableView?
    weak var fakeTextField: UITextField?
    

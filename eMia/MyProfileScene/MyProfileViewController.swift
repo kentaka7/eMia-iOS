@@ -46,7 +46,7 @@ class MyProfileViewController: UIViewController {
             self.closeWindow()
          }).disposed(by: disposeBug)
       case saveDataButton:
-         saveDataButton.layer.cornerRadius = saveDataButton.frame.height / 2.0
+         saveDataButton.setAsCircle()
          saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
          saveDataButton.rx.tap.bind(onNext: { [weak self] in
             guard let `self` = self else { return }

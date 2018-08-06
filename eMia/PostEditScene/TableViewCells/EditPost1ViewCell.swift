@@ -34,7 +34,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    private func configure(_ view: UIView) {
       switch view {
       case avatarBackgroundView:
-         avatarBackgroundView.layer.cornerRadius = avatarBackgroundView.frame.height / 2.0
+         avatarBackgroundView.setAsCircle()
 
       case avatarUserImageView:
          if let userId = post?.uid {

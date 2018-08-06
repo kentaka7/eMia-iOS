@@ -40,6 +40,7 @@
 		7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */; };
 		7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */; };
 		7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */; };
+		7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3F24B921175C7500722AB4 /* KeyboardController.swift */; };
 		7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */; };
 		7F475EC020B83F8400778FBF /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBF20B83F8400778FBF /* FilterPresenter.swift */; };
 		7F47D9DD20C37725001210E4 /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F47D9DC20C37725001210E4 /* FavoriteModel.swift */; };
@@ -87,6 +88,7 @@
 		7F86186A20B3CFEF002F8D57 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */; };
 		7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */; };
 		7F86186E20B3D3B9002F8D57 /* EditPostDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */; };
+		7F86767D2114C9D10083F438 /* PhotoWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86767C2114C9D00083F438 /* PhotoWriter.swift */; };
 		7F87244420B7D3470018A855 /* MyProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F87244320B7D3470018A855 /* MyProfileProtocols.swift */; };
 		7F87244620B7D3990018A855 /* GalleryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F87244520B7D3990018A855 /* GalleryProtocols.swift */; };
 		7F87244820B7D4300018A855 /* FilterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F87244720B7D4300018A855 /* FilterProtocols.swift */; };
@@ -208,6 +210,7 @@
 		7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityController.swift; sourceTree = "<group>"; };
 		7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyObservableProtocol.swift; sourceTree = "<group>"; };
 		7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsManager.swift; sourceTree = "<group>"; };
+		7F3F24B921175C7500722AB4 /* KeyboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
 		7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostProtocols.swift; sourceTree = "<group>"; };
 		7F475EBF20B83F8400778FBF /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		7F47D9DC20C37725001210E4 /* FavoriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
@@ -221,6 +224,7 @@
 		7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavStatusSegmentedControl.swift; sourceTree = "<group>"; };
 		7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reachability+.swift"; sourceTree = "<group>"; };
 		7F4C1D9C20C1096F0057453F /* TableView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TableView+.swift"; sourceTree = "<group>"; };
+		7F4D62032113062B004BC8B5 /* Examples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examples.swift; sourceTree = "<group>"; };
 		7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManagerImpl.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManagerImpl.swift; sourceTree = "<group>"; };
 		7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosStorageManager.swift; sourceTree = "<group>"; };
@@ -255,6 +259,7 @@
 		7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = EditPostPresenter.swift; sourceTree = "<group>"; tabWidth = 3; };
 		7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostDependencies.swift; sourceTree = "<group>"; };
+		7F86767C2114C9D00083F438 /* PhotoWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoWriter.swift; sourceTree = "<group>"; };
 		7F87244320B7D3470018A855 /* MyProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileProtocols.swift; sourceTree = "<group>"; };
 		7F87244520B7D3990018A855 /* GalleryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryProtocols.swift; sourceTree = "<group>"; };
 		7F87244720B7D4300018A855 /* FilterProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterProtocols.swift; sourceTree = "<group>"; };
@@ -395,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				7F2F1893202E10C400EF4644 /* SFFullscreenImageDetailViewController.swift */,
+				7F86767C2114C9D00083F438 /* PhotoWriter.swift */,
 				7F2F1894202E10C400EF4644 /* Assets */,
 			);
 			path = SFFullscreenImageDetailViewController;
@@ -412,6 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				7F2F189C202E111800EF4644 /* Constants.swift */,
+				7F4D62032113062B004BC8B5 /* Examples.swift */,
 				7F2F189E202E111800EF4644 /* Localizable.strings */,
 				7F2F18A1202E111800EF4644 /* Color */,
 				7F2F18A3202E111800EF4644 /* Assets.xcassets */,
@@ -460,6 +467,14 @@
 				7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */,
 			);
 			path = RemoteConfig;
+			sourceTree = "<group>";
+		};
+		7F3F24B821175B8900722AB4 /* KeyboardController */ = {
+			isa = PBXGroup;
+			children = (
+				7F3F24B921175C7500722AB4 /* KeyboardController.swift */,
+			);
+			path = KeyboardController;
 			sourceTree = "<group>";
 		};
 		7F475EC120B87FB600778FBF /* FirebaseListeners */ = {
@@ -815,6 +830,7 @@
 				7F4C1D9920C0FDF70057453F /* Reachability */,
 				7F060C251FF1BBC8002D04AD /* MunicipalityPicker */,
 				7F6FAAA72018B335009F94E0 /* GradientView */,
+				7F3F24B821175B8900722AB4 /* KeyboardController */,
 				7F060C161FF104C4002D04AD /* Range slider */,
 				7FC20D281FE366C1000C23A6 /* Appearance.swift */,
 				7FFBB2591FE4620A00A22EB0 /* Helpers.swift */,
@@ -1211,9 +1227,11 @@
 				7F7E37112028705800470139 /* LoginPresenter.swift in Sources */,
 				7F87244A20B7D4AD0018A855 /* EditPostProtocols.swift in Sources */,
 				7F060C241FF1229C002D04AD /* FilterFavorite.swift in Sources */,
+				7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */,
 				7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */,
 				7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */,
 				7FC0EFD21FE6CD5800833DB8 /* LogInViewController.swift in Sources */,
+				7F86767D2114C9D10083F438 /* PhotoWriter.swift in Sources */,
 				7FC20D271FE366B7000C23A6 /* Color.swift in Sources */,
 				7FD766801FE9D49E00E32C42 /* SettingsViewController.swift in Sources */,
 				7FBA77531FEAB957003B455B /* NewPost2ViewCell.swift in Sources */,

@@ -36,7 +36,7 @@ class NewPostViewController: UIViewController {
          tableView.delegate = self
          tableView.dataSource = self
       case saveButton:
-         saveButton.layer.cornerRadius = saveButton.frame.width / 2.0
+         saveButton.setAsCircle()
          saveButton.backgroundColor = GlobalColors.kBrandNavBarColor
       default:
          break
