@@ -69,6 +69,7 @@ extension UIFont {
 }
 
 //    MARK - Font scheme
+
 extension UIFont {
    enum Title {
       static var navigationBar = UIFont.Avenir.book.font(size: 17)

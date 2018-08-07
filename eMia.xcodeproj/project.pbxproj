@@ -41,6 +41,7 @@
 		7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */; };
 		7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */; };
 		7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3F24B921175C7500722AB4 /* KeyboardController.swift */; };
+		7F41C3312118551D00D6FC6F /* FakeFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F41C3302118551D00D6FC6F /* FakeFieldController.swift */; };
 		7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */; };
 		7F475EC020B83F8400778FBF /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBF20B83F8400778FBF /* FilterPresenter.swift */; };
 		7F47D9DD20C37725001210E4 /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F47D9DC20C37725001210E4 /* FavoriteModel.swift */; };
@@ -211,6 +212,7 @@
 		7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyObservableProtocol.swift; sourceTree = "<group>"; };
 		7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsManager.swift; sourceTree = "<group>"; };
 		7F3F24B921175C7500722AB4 /* KeyboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
+		7F41C3302118551D00D6FC6F /* FakeFieldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFieldController.swift; sourceTree = "<group>"; };
 		7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostProtocols.swift; sourceTree = "<group>"; };
 		7F475EBF20B83F8400778FBF /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		7F47D9DC20C37725001210E4 /* FavoriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				7F3F24B921175C7500722AB4 /* KeyboardController.swift */,
+				7F41C3302118551D00D6FC6F /* FakeFieldController.swift */,
 			);
 			path = KeyboardController;
 			sourceTree = "<group>";
@@ -1223,6 +1226,7 @@
 				7F695C951FEA392B008AE127 /* Register3ViewCell.swift in Sources */,
 				7FFBB2581FE45E0400A22EB0 /* FireBaseImagesStorage.swift in Sources */,
 				7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */,
+				7F41C3312118551D00D6FC6F /* FakeFieldController.swift in Sources */,
 				7F060C151FF0E8EB002D04AD /* RangeSlider.swift in Sources */,
 				7F7E37112028705800470139 /* LoginPresenter.swift in Sources */,
 				7F87244A20B7D4AD0018A855 /* EditPostProtocols.swift in Sources */,

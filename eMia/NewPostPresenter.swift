@@ -45,7 +45,7 @@ class NewPostPresenter: NSObject, NewPostPresenting {
                bodyCell.didChangeHeight = { height in
                   if height > self.textBodyHeight {
                      self.textBodyHeight = height
-                     // It's a hack for preventing to hide the keyboard
+                     // It prevents hiding keyboard
                      self.fakeTextField.becomeFirstResponder()
                      self.tableView.reloadData()
                      runAfterDelay(0.2) {

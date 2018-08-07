@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -49,16 +48,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Suy-Fj-GSX">
-                                <rect key="frame" x="0.0" y="622" width="1" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="1dg-hP-zzj"/>
-                                    <constraint firstAttribute="width" constant="1" id="kgH-8S-puo"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fxp-Pv-Ivk">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -266,34 +255,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="300" placeholderIntrinsicHeight="36" translatesAutoresizingMaskIntoConstraints="NO" id="mgT-jR-HNs" customClass="NextGrowingTextView" customModule="NextGrowingTextView">
-                                                    <rect key="frame" x="10" y="-1" width="240" height="32"/>
+                                                    <rect key="frame" x="10" y="5" width="355" height="48"/>
                                                     <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0J-qn-h3H">
-                                                    <rect key="frame" x="258" y="1" width="102" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="JGt-3Z-CaM"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="102" id="ZGy-96-aNc"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                                    <state key="normal" title="Send Comment"/>
-                                                    <connections>
-                                                        <action selector="sendCommentButtonPressed:" destination="AUy-aA-XE2" eventType="touchUpInside" id="Xdo-GO-hqg"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="E0J-qn-h3H" firstAttribute="top" secondItem="8RS-ub-baC" secondAttribute="top" constant="1" id="7JB-uX-dwU"/>
-                                                <constraint firstAttribute="bottom" secondItem="mgT-jR-HNs" secondAttribute="bottom" constant="27" id="BYS-8w-PGy"/>
+                                                <constraint firstAttribute="bottom" secondItem="mgT-jR-HNs" secondAttribute="bottom" constant="5" id="BYS-8w-PGy"/>
                                                 <constraint firstItem="mgT-jR-HNs" firstAttribute="leading" secondItem="8RS-ub-baC" secondAttribute="leading" constant="10" id="QAX-nK-JE9"/>
-                                                <constraint firstItem="E0J-qn-h3H" firstAttribute="trailing" secondItem="8RS-ub-baC" secondAttribute="trailingMargin" id="X9K-7Z-zH5"/>
-                                                <constraint firstItem="E0J-qn-h3H" firstAttribute="leading" secondItem="mgT-jR-HNs" secondAttribute="trailing" constant="8" id="YIC-Qb-v6H"/>
-                                                <constraint firstItem="mgT-jR-HNs" firstAttribute="top" secondItem="8RS-ub-baC" secondAttribute="top" constant="-1" id="pn3-5q-hih"/>
+                                                <constraint firstAttribute="trailing" secondItem="mgT-jR-HNs" secondAttribute="trailing" constant="10" id="j9h-O3-wvg"/>
+                                                <constraint firstItem="mgT-jR-HNs" firstAttribute="top" secondItem="8RS-ub-baC" secondAttribute="top" constant="5" id="pn3-5q-hih"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="commentTextView" destination="mgT-jR-HNs" id="yZg-Pj-hJ4"/>
-                                            <outlet property="sendCommentButton" destination="E0J-qn-h3H" id="esv-ID-p46"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EditPost5ViewCell" rowHeight="56" id="w8x-VE-fNC" customClass="EditPost5ViewCell" customModule="eMia" customModuleProvider="target">
@@ -394,11 +368,9 @@
                             <constraint firstItem="Lle-DE-j1z" firstAttribute="leading" secondItem="rmS-Gw-ZLb" secondAttribute="leading" id="Bsb-5Q-ww7"/>
                             <constraint firstItem="5fy-36-xqD" firstAttribute="centerY" secondItem="rmS-Gw-ZLb" secondAttribute="centerY" id="Cho-fC-otf"/>
                             <constraint firstItem="fxp-Pv-Ivk" firstAttribute="leading" secondItem="rmS-Gw-ZLb" secondAttribute="leading" id="HBJ-7D-nI3"/>
-                            <constraint firstItem="Suy-Fj-GSX" firstAttribute="leading" secondItem="rmS-Gw-ZLb" secondAttribute="leading" id="LD5-lw-a7g"/>
                             <constraint firstItem="xxj-iY-fl1" firstAttribute="top" secondItem="fxp-Pv-Ivk" secondAttribute="bottom" id="htz-rA-O4t"/>
                             <constraint firstItem="xxj-iY-fl1" firstAttribute="top" secondItem="Lle-DE-j1z" secondAttribute="bottom" constant="1" id="mqg-GH-b07"/>
                             <constraint firstItem="5fy-36-xqD" firstAttribute="centerX" secondItem="rmS-Gw-ZLb" secondAttribute="centerX" id="pU9-9x-RTF"/>
-                            <constraint firstAttribute="bottom" secondItem="Suy-Fj-GSX" secondAttribute="bottom" constant="15" id="qL9-F7-gDT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="eMia" id="NOD-Fx-qa5">
@@ -411,7 +383,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="activityIndicator" destination="5fy-36-xqD" id="38o-dI-A2q"/>
-                        <outlet property="fakeTextField" destination="Suy-Fj-GSX" id="WeY-cB-4VG"/>
+                        <outlet property="bottomTableViewConstraint" destination="htz-rA-O4t" id="Ke9-vb-G4t"/>
                         <outlet property="tableView" destination="fxp-Pv-Ivk" id="Had-5k-HZO"/>
                     </connections>
                 </viewController>

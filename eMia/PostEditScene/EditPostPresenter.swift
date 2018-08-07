@@ -11,7 +11,7 @@ import RxSwift
 import NVActivityIndicatorView
 
 class EditPostPresenter: NSObject, EditPostPresenting {
-   static private let kMinCommentCellHeight: CGFloat = 58.0
+   static private let kMinCommentCellHeight: CGFloat = 45.5
    
    enum Rows: Int {
       case avatarPhotoAndUserName
@@ -21,24 +21,49 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       static let allValues = [avatarPhotoAndUserName, dependsOnTextViewContent, photo, staticTextAndSendEmailButton]
    }
    
-   private var commentCell: EditPost4ViewCell!
+   private var commentCell: EditPost4ViewCell?
    private var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCellHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
    private var commentsManager = CommentsManager()
    private var comments: [CommentModel]!
-   private var needUpdateView: Bool = true
    private let disposeBag = DisposeBag()
    
    weak var activityIndicator: NVActivityIndicatorView!
    weak var post: PostModel!
    weak var tableView: UITableView?
-   weak var fakeTextField: UITextField?
-   
-   func configure() {
-      startCommentsListener()
+   var tvHeightConstraint: NSLayoutConstraint!
+   var view: UIView! {
+      didSet {
+         guard let keyboardController = self.keyboardController else {
+            return
+         }
+         keyboardController.configure(with: self.view)
+      }
    }
    
-   private func startCommentsListener() {
+   var fakeField: FakeFieldController?
+   var keyboardController: KeyboardController?
+   private var editingFinished = false
+   
+   var observers: [Any] = []
+   
+   deinit {
+      unregisterObserver()
+   }
+   
+   func configure() {
+      registerObserver()
+      startExternalCommentsListener()
+      startEditingFinishedListener()
+   }
+   
+   private func startEditingFinishedListener() {
+      keyboardController!.screenPresented.subscribe(onNext: { screenPresented in
+         self.editingFinished = screenPresented == false
+      }).disposed(by: disposeBag)
+   }
+   
+   private func startExternalCommentsListener() {
       _ = commentsManager.startCommentsListening(for: post).subscribe(onNext: { [weak self] isUpdated in
          if isUpdated {
             self?.downloadComments()
@@ -87,22 +112,34 @@ class EditPostPresenter: NSObject, EditPostPresenting {
             cell.configureView(for: comment)
          }
       } else {
-         return tableView.dequeueCell(ofType: EditPost4ViewCell.self)!.then { cell in
-            self.commentCell = cell
-            _ = self.commentCell.configureView(for: post)
-            self.commentCell.post = post
-            self.commentCell.activityIndicator = activityIndicator
-            self.commentCell.didChangeHeight = { newCellHeight in
-               if newCellHeight != self.currentCellHeight {
-                  self.currentCellHeight = newCellHeight
-                  self.updateView(tableView: self.tableView!)
-               }
+         if self.commentCell == nil {
+            return tableView.dequeueCell(ofType: EditPost4ViewCell.self)!.then { cell in
+               self.configureCommentCell(cell)
             }
-            self.commentCell.didEnterNewComment = {
-               self.needUpdateView = false
-            }
+         } else {
+            return self.commentCell!
          }
       }
+   }
+   
+   private func configureCommentCell(_ cell: EditPost4ViewCell) {
+      self.commentCell = cell
+      _ = cell.configureView(for: post)
+      self.fakeField?.configure(with: self.view, anchorView: cell.textView)
+      cell.post = post
+      cell.activityIndicator = activityIndicator
+      cell.currentCellHeigt.subscribe(onNext: { (newCellHeight) in
+         if newCellHeight != self.currentCellHeight {
+            self.currentCellHeight = newCellHeight
+            self.didUpdateTableViewSize()
+         }
+      }).disposed(by: disposeBag)
+      cell.commentText.subscribe({ [weak self] (text) in
+         guard let comment = text.element else { return }
+         guard let `self` = self else { return }
+         self.editingFinished = true
+         self.sendComment(comment)
+      }).disposed(by: disposeBag)
    }
    
    // TODO: - TRY TO USE https://mkswap.net/m/ios/2015/07/08/uitableviewcells-with-dynamic-height.html
@@ -131,20 +168,9 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    var numberOfRows: Int {
       return Rows.allValues.count + comments.count + 1
    }
-   
-   private func updateView(tableView: UITableView) {
-      fakeTextField?.becomeFirstResponder()
-      tableView.reloadData()
-      if self.needUpdateView == false {
-         self.needUpdateView = true
-      }
-      runAfterDelay(0.3) {
-         _ = self.commentCell.commentTextView.becomeFirstResponder()
-      }
-   }
 }
 
-// MARK: -
+// MARK: - Load/Save comments
 
 extension EditPostPresenter {
    
@@ -152,12 +178,95 @@ extension EditPostPresenter {
       guard let tableView = self.tableView else {
          return
       }
-         self.comments = self.commentsManager.comments
+      self.comments = self.commentsManager.comments
+      tableView.reloadData()
+   }
+   
+   private func sendComment(_ text: String) {
+      guard let currentUser = gUsersManager.currentUser else {
+         return
+      }
+      activityIndicator.startAnimating()
+      let newComment = CommentModel(uid: currentUser.userId, author: currentUser.name, text: text, postid: post.id!)
+      newComment.synchronize { success in
+         self.activityIndicator.stopAnimating()
+      }
+   }
+}
+
+// MARK: - AnyObservable protocol implementation
+// MARK: Keyboard show/hide observer
+
+extension EditPostPresenter: AnyObservable {
+   
+   func registerObserver() {
+      let center = NotificationCenter.default
+      let queue = OperationQueue.main
+      observers.append(
+         _ = center.addObserver(forName: .UIKeyboardDidShow, object: nil, queue: queue) { [weak self] notification in
+            guard let `self` = self else { return }
+            self.tableViewFitSize(kbNotification: notification)
+         }
+      )
+      observers.append(
+         _ = center.addObserver(forName: .UIKeyboardDidHide, object: nil, queue: queue) { [weak self] notification in
+            guard let `self` = self else { return }
+            self.tableViewFitSize(kbNotification: notification)
+         }
+      )
+   }
+}
+
+// MARK: - Enter a new comment
+
+extension EditPostPresenter {
+   
+   private func didUpdateTableViewSize() {
+      guard let commentCell = self.commentCell, let tableView = self.tableView, let fakeField = self.fakeField else {
+         return
+      }
+      DispatchQueue.main.async {
+         fakeField.focus = true
          tableView.reloadData()
+      }
+      runAfterDelay(0.3) {
+         _ = commentCell.textView.becomeFirstResponder()
+      }
+   }
+   
+   private func tableViewFitSize(kbNotification: Notification) {
+      switch kbNotification.name {
+      case .UIKeyboardDidShow:
+         guard let info = kbNotification.userInfo  else {
+            return
+         }
+         
+         #if swift(>=4.2)
+         let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
+         #else
+         let frameEndUserInfoKey = UIKeyboardFrameEndUserInfoKey
+         #endif
+         
+         //  Getting UIKeyboardSize.
+         if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
+            let height = kbFrame.height
+            tvHeightConstraint.constant = height
+            self.view.setNeedsLayout()
+            self.editingFinished = false
+         }
+      case .UIKeyboardDidHide:
+         if editingFinished {
+            tvHeightConstraint.constant = 0.0
+            view.setNeedsLayout()
+         }
+      default:
+         break
+      }
    }
    
    private func scrollDown() {
       let indexPath = IndexPath(row: self.numberOfRows - 1, section: 0)
       tableView?.scrollToRow(at: indexPath, at: .bottom, animated: true)
    }
+   
 }

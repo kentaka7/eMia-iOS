@@ -13,18 +13,17 @@ class EditPostViewController: UIViewController {
 
    var presenter: EditPostPresenting!
    var post: PostModel!
-   var keyboardController: KeyboardController!
    private let disposeBag = DisposeBag()
    
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
-   @IBOutlet weak var fakeTextField: UITextField!
+   @IBOutlet weak var bottomTableViewConstraint: NSLayoutConstraint!
    
    // MARK: View lifecycle
    override func viewDidLoad() {
       super.viewDidLoad()
 
-      EditPostDependencies.configure(view: self, post: post, tableView: tableView, activityIndicator: activityIndicator, fakeTextField: fakeTextField)
+      EditPostDependencies.configure(view: self, post: post, tableView: tableView, activityIndicator: activityIndicator, tableViewHeight: bottomTableViewConstraint)
       
       navigationItem.title = presenter.title
 
@@ -36,7 +35,6 @@ class EditPostViewController: UIViewController {
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-      keyboardController.configure(with: self.view)
       presenter.updateView()
    }
    
@@ -47,9 +45,6 @@ class EditPostViewController: UIViewController {
    
    // MARK: Private nethods
    private func configureView() {
-      
-      IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Send Comment".localized
-      
       configure(tableView)
    }
    

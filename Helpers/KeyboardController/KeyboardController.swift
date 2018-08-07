@@ -17,6 +17,8 @@ class KeyboardController: AnyObservable {
    private var screenView: UIView!
    private var disposeBag = DisposeBag()
    
+   var screenPresented = PublishSubject<Bool>()
+   
    func configure(with parentView: UIView) {
       self.parentView = parentView
       configureScreenView()
@@ -60,9 +62,11 @@ class KeyboardController: AnyObservable {
    
    private func keyboardWillShow() {
       parentView?.addSubview(screenView)
+      screenPresented.onNext(true)
    }
    
    private func keyboardWillHide() {
       screenView?.removeFromSuperview()
+      screenPresented.onNext(false)
    }
 }
