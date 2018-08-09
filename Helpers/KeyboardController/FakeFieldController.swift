@@ -38,10 +38,13 @@ class FakeFieldController: AnyObservable {
          return self.textField!.isFirstResponder
       }
       set {
+         guard let textField = self.textField else {
+            return
+         }
          if newValue {
-            self.textField!.becomeFirstResponder()
+            textField.becomeFirstResponder()
          } else {
-            self.textField!.resignFirstResponder()
+            textField.resignFirstResponder()
          }
       }
    }

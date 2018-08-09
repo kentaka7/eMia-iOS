@@ -46,7 +46,7 @@ final class CommentModel: Object {
       do {
          let realm = try Realm()
          let comms = realm.objects(CommentModel.self)
-         return comms.toArray().sorted(by: {$0.created > $1.created})
+         return comms.toArray()
       } catch _ {
          return []
       }

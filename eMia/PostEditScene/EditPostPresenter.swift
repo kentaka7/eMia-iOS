@@ -25,7 +25,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    private var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCellHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
    private var commentsManager = CommentsManager()
-   private var comments: [CommentModel]!
+   private var comments = [CommentModel]()
    private let disposeBag = DisposeBag()
    
    weak var activityIndicator: NVActivityIndicatorView!
@@ -63,23 +63,43 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       }).disposed(by: disposeBag)
    }
    
-   private func startExternalCommentsListener() {
-      _ = commentsManager.startCommentsListening(for: post).subscribe(onNext: { [weak self] isUpdated in
-         if isUpdated {
-            self?.downloadComments()
-            self?.scrollDown()
-         }
-      }).disposed(by: disposeBag)
-   }
-   
    func updateView() {
-      downloadComments()
+      tableView?.reloadData()
    }
    
    var title: String {
       return post.title
    }
    
+}
+
+// MARK: - Comments data source
+
+extension EditPostPresenter {
+
+   private func startExternalCommentsListener() {
+      self.comments = CommentModel.comments
+         .filter { $0.postid == post.id }
+         .sorted(by: {$0.created < $1.created})
+      
+      CommentModel.rxNewCommentObserved.subscribe(onNext: { [weak self] newComment in
+         guard let `self` = self, let newComment = newComment, let tableView = self.tableView else { return }
+         if let post = self.post, newComment.postid == post.id {
+            self.comments.append(newComment)
+            let indexPath = IndexPath(row: Rows.allValues.count + self.comments.count - 1, section: 0)
+            DispatchQueue.main.async {
+               tableView.insertRows(at: [indexPath], with: .automatic)
+            }
+            self.scrollDownIfNeeded()
+         }
+      }).disposed(by: disposeBag)
+   }
+}
+
+// MARK: - TableView delegate model
+
+extension EditPostPresenter {
+
    func cell(for indexPath: IndexPath) -> UITableViewCell {
       guard let tableView = self.tableView else {
          return UITableViewCell()
@@ -170,17 +190,9 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    }
 }
 
-// MARK: - Load/Save comments
+// MARK: - Save new comments
 
 extension EditPostPresenter {
-   
-   private func downloadComments() {
-      guard let tableView = self.tableView else {
-         return
-      }
-      self.comments = self.commentsManager.comments
-      tableView.reloadData()
-   }
    
    private func sendComment(_ text: String) {
       guard let currentUser = gUsersManager.currentUser else {
@@ -217,20 +229,24 @@ extension EditPostPresenter: AnyObservable {
    }
 }
 
-// MARK: - Enter a new comment
+// MARK: - Enter a new comment handler
 
 extension EditPostPresenter {
    
    private func didUpdateTableViewSize() {
-      guard let commentCell = self.commentCell, let tableView = self.tableView, let fakeField = self.fakeField else {
+      guard let tableView = self.tableView else {
          return
       }
-      DispatchQueue.main.async {
-         fakeField.focus = true
+      if let commentCell = self.commentCell, commentCell.editViewInActiveState {
+         DispatchQueue.main.async {
+            self.fakeField?.focus = true
+            tableView.reloadData()
+         }
+         runAfterDelay(0.3) {
+            _ = commentCell.textView.becomeFirstResponder()
+         }
+      } else {
          tableView.reloadData()
-      }
-      runAfterDelay(0.3) {
-         _ = commentCell.textView.becomeFirstResponder()
       }
    }
    
@@ -264,9 +280,14 @@ extension EditPostPresenter {
       }
    }
    
-   private func scrollDown() {
-      let indexPath = IndexPath(row: self.numberOfRows - 1, section: 0)
-      tableView?.scrollToRow(at: indexPath, at: .bottom, animated: true)
+   private func scrollDownIfNeeded() {
+      if let tableView = self.tableView,
+         let commentCell = self.commentCell,
+         commentCell.editViewInActiveState {
+         DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.numberOfRows - 1, section: 0)
+            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+         }
+      }
    }
-   
 }

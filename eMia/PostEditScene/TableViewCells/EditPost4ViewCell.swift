@@ -33,6 +33,10 @@ class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
       return commentTextView.textView
    }
    
+   var editViewInActiveState: Bool {
+      return self.commentTextView.isFirstResponder
+   }
+   
    override func awakeFromNib() {
       IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Send comment".localized
       plusSpace = self.frame.height - commentTextView.frame.height

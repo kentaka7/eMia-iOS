@@ -391,10 +391,10 @@
             </objects>
             <point key="canvasLocation" x="-704" y="-6"/>
         </scene>
-        <!--EditPostViewController-->
+        <!--EditPostPageViewController-->
         <scene sceneID="XUf-kA-YQ5">
             <objects>
-                <viewControllerPlaceholder storyboardName="EditPost" referencedIdentifier="EditPostViewController" id="TN0-o2-x2u" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="EditPost" referencedIdentifier="EditPostPageViewController" id="TN0-o2-x2u" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mvm-1r-qFb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-55" y="-757"/>

@@ -19,6 +19,7 @@ class GalleryRouter: NSObject {
       static let photoPostViewController = "PhotoPostViewController"
    }
 
+   var interactor: GalleryInteractor!
    var rootViewController: GalleryViewController?
    
    private var selectedPost: PostModel?
@@ -38,8 +39,9 @@ extension GalleryRouter {
    
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       if segue.identifier == GalleryRouter.Segue.editPostViewController {
-         if let selectedPost = selectedPost, let editPostViewController = segue.destination as? EditPostViewController {
-            editPostViewController.post = selectedPost
+         if let selectedPost = selectedPost, let pageViewController = segue.destination as? PostsPageViewController {
+            pageViewController.post = selectedPost
+            pageViewController.interactor = interactor
          }
       }
    }

@@ -13,6 +13,7 @@ class GalleryDependencies {
       let interactor = GalleryInteractor()
       
       router.rootViewController = view
+      router.interactor = interactor
       
       view.presenter = presenter
       view.layoutDelegate = presenter
