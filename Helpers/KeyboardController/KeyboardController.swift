@@ -20,19 +20,17 @@ class KeyboardController: AnyObservable {
    var screenPresented = PublishSubject<Bool>()
    
    func configure(with parentView: UIView) {
-      self.parentView = parentView
-      configureScreenView()
+      configureScreen(wiyh: parentView)
       registerObserver()
    }
    
    deinit {
       unregisterObserver()
+      Log()
    }
    
-   private func configureScreenView() {
-      guard let parentView = self.parentView else {
-         return
-      }
+   private func configureScreen(wiyh parentView: UIView) {
+      self.parentView = parentView
       self.screenView = UIView(frame: parentView.bounds)
       screenView.backgroundColor = UIColor.clear
       let tapGest = UITapGestureRecognizer()
@@ -61,12 +59,15 @@ class KeyboardController: AnyObservable {
    }
    
    private func keyboardWillShow() {
-      parentView?.addSubview(screenView)
+      guard let parentView = self.parentView else {
+         return
+      }
+      parentView.addSubview(screenView)
       screenPresented.onNext(true)
    }
    
    private func keyboardWillHide() {
-      screenView?.removeFromSuperview()
+      screenView.removeFromSuperview()
       screenPresented.onNext(false)
    }
 }

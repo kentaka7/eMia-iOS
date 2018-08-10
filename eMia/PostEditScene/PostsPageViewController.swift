@@ -24,8 +24,8 @@ class PostsPageViewController: UIPageViewController {
       case after
    }
    
-   var interactor: GalleryInteractor!
-   var post: PostModel!
+   weak var interactor: GalleryInteractor!
+   weak var post: PostModel!
    
    override func viewDidLoad() {
       self.dataSource = self
@@ -36,7 +36,9 @@ class PostsPageViewController: UIPageViewController {
    func createViewController(direction: Direction) -> UIViewController {
       let storyboard = UIStoryboard(name: Storyboards.editPost, bundle: nil)
       if let controller = storyboard.instantiateViewController(withIdentifier: Segue.editPostViewController) as? EditPostViewController {
-          controller.post = getPost(direction)
+         let post = getPost(direction)
+         self.title = post.title
+         controller.post = post
          return controller
       } else {
          return UIViewController()
@@ -48,7 +50,7 @@ class PostsPageViewController: UIPageViewController {
       if array.count == 1 {
          return post
       }
-
+      
       switch direction {
       case .current:
          break
@@ -82,7 +84,7 @@ class PostsPageViewController: UIPageViewController {
 }
 
 extension PostsPageViewController: UIPageViewControllerDataSource {
-
+   
    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
       let controller = createViewController(direction: .before)
       return controller
@@ -92,5 +94,5 @@ extension PostsPageViewController: UIPageViewControllerDataSource {
       let controller = createViewController(direction: .after)
       return controller
    }
-
+   
 }

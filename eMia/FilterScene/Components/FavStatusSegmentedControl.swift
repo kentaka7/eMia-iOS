@@ -39,6 +39,7 @@ class FavStatusSegmentedControl: UIView {
          return view
       } else {
          assert(false, "FavStatusSegmentedControl is not defined!")
+         return FavStatusSegmentedControl()
       }
    }
    

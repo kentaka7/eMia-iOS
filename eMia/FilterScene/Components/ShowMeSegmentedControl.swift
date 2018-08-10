@@ -42,6 +42,7 @@ class ShowMeSegmentedControl: UIView {
          return view
       } else {
          assert(false, "ShowMeSegmentedControl is not defined!")
+         return ShowMeSegmentedControl()
       }
    }
    

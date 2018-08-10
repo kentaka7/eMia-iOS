@@ -103,7 +103,7 @@ class GalleryInteractor: NSObject, AnyObservable {
    }
    
    private func configureDataModelListener() {
-      _ = PostModel.rxPosts.asObservable().subscribe({ _ in
+      PostModel.rxPosts.subscribe({ _ in
          self.fetchData()
       }).disposed(by: self.disposeBag)
    }

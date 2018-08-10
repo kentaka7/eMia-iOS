@@ -58,6 +58,7 @@
 		7F4D8B491FE4DFF700FAFE5E /* UsersManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */; };
 		7F4D8B521FE4E93A00FAFE5E /* PhotosStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */; };
+		7F5C00CD211E3F8C00696F7C /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5C00CC211E3F8B00696F7C /* Log.swift */; };
 		7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */; };
 		7F695C8D1FEA3914008AE127 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F695C8C1FEA3914008AE127 /* MyProfileViewController.swift */; };
 		7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F695C8E1FEA392A008AE127 /* Register5ViewCell.swift */; };
@@ -231,6 +232,7 @@
 		7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManagerImpl.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManagerImpl.swift; sourceTree = "<group>"; };
 		7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosStorageManager.swift; sourceTree = "<group>"; };
+		7F5C00CC211E3F8B00696F7C /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryLayout.swift; sourceTree = "<group>"; };
 		7F695C8C1FEA3914008AE127 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		7F695C8E1FEA392A008AE127 /* Register5ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Register5ViewCell.swift; sourceTree = "<group>"; };
@@ -856,6 +858,7 @@
 				7FC20D381FE36E9A000C23A6 /* EnumIteration.swift */,
 				7FC20D361FE36B9B000C23A6 /* Image.swift */,
 				7FE89A981FEEDBA30044633D /* String.swift */,
+				7F5C00CC211E3F8B00696F7C /* Log.swift */,
 				7FC0EFD51FE6F32700833DB8 /* View.swift */,
 				7FC862231FE94AFA0077C4E2 /* Date.swift */,
 				7F4C1D9C20C1096F0057453F /* TableView+.swift */,
@@ -1272,6 +1275,7 @@
 				7FBDE1191FE845C700EAAD3E /* EditPost1ViewCell.swift in Sources */,
 				7F4C1D9D20C1096F0057453F /* TableView+.swift in Sources */,
 				9A99AA7F1B8A219300428802 /* AppDelegate.swift in Sources */,
+				7F5C00CD211E3F8C00696F7C /* Log.swift in Sources */,
 				7F35135C20B34DF30004363C /* NewPostDependencies.swift in Sources */,
 				7F4D8B4E1FE4E6E100FAFE5E /* PhotosManagerImpl.swift in Sources */,
 				7FBDE1211FE8466A00EAAD3E /* EditPost2ViewCell.swift in Sources */,

@@ -15,36 +15,32 @@ class FakeFieldController: AnyObservable {
    var observers: [Any] = []
    weak private var parentView: UIView?
    weak private var anchorView: UIView?
-   private var textField: UITextField?
+   private var fakeField: UITextField?
    private var disposeBag = DisposeBag()
    
    func configure(with parentView: UIView, anchorView: UIView) {
       self.parentView = parentView
       self.anchorView = anchorView
-      if self.textField == nil {
-         textField = UITextField(frame: CGRect(x: 0, y: 0, width: 5, height: 17))
-         textField?.text = ""
-         parentView.addSubview(textField!)
-      }
+      fakeField = UITextField(frame: CGRect(x: 0, y: 0, width: 5, height: 17))
+      fakeField!.text = ""
+      parentView.addSubview(fakeField!)
       registerObserver()
    }
    
    deinit {
       unregisterObserver()
+      Log()
    }
    
    var focus: Bool {
       get {
-         return self.textField!.isFirstResponder
+         return self.fakeField?.isFirstResponder ?? false
       }
       set {
-         guard let textField = self.textField else {
-            return
-         }
          if newValue {
-            textField.becomeFirstResponder()
+            fakeField?.becomeFirstResponder()
          } else {
-            textField.resignFirstResponder()
+            fakeField?.resignFirstResponder()
          }
       }
    }
@@ -67,16 +63,17 @@ class FakeFieldController: AnyObservable {
    }
    
    private func keyboardDidShow() {
-      guard let anchorView = self.anchorView, let parentView = self.parentView, let textField = self.textField else {
+      guard let anchorView = self.anchorView,
+         let parentView = self.parentView,
+         let fakeField = self.fakeField else {
          return
       }
       let rect = anchorView.convert(anchorView.frame, to: parentView)
-      var frame = textField.frame
+      var frame = fakeField.frame
       frame.origin.y = rect.minY + 8.0
-      textField.frame = frame
+      fakeField.frame = frame
    }
    
    private func keyboardDidHide() {
-
    }
 }

@@ -52,7 +52,7 @@ class ReachabilityController: NSObject {
       self.reachabilityNotificatin?.removeFromSuperview()
       self.reachabilityNotificatin = nil
       
-      _ = Reactive.reachable.subscribe({ reacheble in
+      Reactive.reachable.subscribe({ reacheble in
          guard let isReacheble = reacheble.event.element else {
             return
          }

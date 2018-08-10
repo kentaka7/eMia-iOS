@@ -18,14 +18,12 @@ class EditPostViewController: UIViewController {
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
    @IBOutlet weak var bottomTableViewConstraint: NSLayoutConstraint!
-   
+
    // MARK: View lifecycle
    override func viewDidLoad() {
       super.viewDidLoad()
 
       EditPostDependencies.configure(view: self, post: post, tableView: tableView, activityIndicator: activityIndicator, tableViewHeight: bottomTableViewConstraint)
-      
-      navigationItem.title = presenter.title
 
       Appearance.customize(viewController: self)
       

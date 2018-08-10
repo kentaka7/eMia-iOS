@@ -21,16 +21,22 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    @IBOutlet weak var favoriteButtonBackgroundView: UIView!
    @IBOutlet weak var favoriteButtonImageView: UIImageView!
    
+   private let disposeBag = DisposeBag()
+   
    fileprivate var post: PostModel?
    
    override func awakeFromNib() {
-      _ = FavoriteModel.rxFavorities.asObservable().subscribe({ _ in
-         self.configure(self.favoriteButtonImageView)
-      })
+      startDataBaseListening()
       configure(avatarBackgroundView)
       configure(favoriteButtonBackgroundView)
    }
 
+   private func startDataBaseListening() {
+      FavoriteModel.rxFavorities.subscribe({ _ in
+         self.configure(self.favoriteButtonImageView)
+      }).disposed(by: disposeBag)
+   }
+   
    private func configure(_ view: UIView) {
       switch view {
       case avatarBackgroundView:

@@ -11,16 +11,12 @@ import RxSwift
 
 // Comment text enter field
 
-class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
+class EditPost4ViewCell: UITableViewCell {
    
    private let kMaxNumberOfLines = 5
    private let kMaxNumberOfSymbols = 256
    
    @IBOutlet weak var commentTextView: NextGrowingTextView!
-   
-   weak var activityIndicator: NVActivityIndicatorView!
-   
-   var post: PostModel!
    
    var commentText = PublishSubject<String>()
    var currentCellHeigt = PublishSubject<CGFloat>()
@@ -37,6 +33,10 @@ class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
       return self.commentTextView.isFirstResponder
    }
    
+   deinit {
+      Log()
+   }
+   
    override func awakeFromNib() {
       IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Send comment".localized
       plusSpace = self.frame.height - commentTextView.frame.height
@@ -48,7 +48,8 @@ class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
       switch view {
       case commentTextView:
          commentTextView.maxNumberOfLines = kMaxNumberOfLines
-         commentTextView.delegates.didChangeHeight = { height in
+         commentTextView.delegates.didChangeHeight = {[weak self] height in
+            guard let `self` = self else { return }
             self.currentCellHeigt.onNext(height + self.plusSpace)
          }
       case textView:
@@ -57,10 +58,6 @@ class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
       default:
          break
       }
-   }
-   
-   func configureView(for post: PostModel) -> CGFloat {
-      return -1.0
    }
    
    @objc func didPressOnDoneButton() {
@@ -74,6 +71,15 @@ class EditPost4ViewCell: UITableViewCell, ForPostConfigurable {
       newComment = nil
       cleanTextView()
       commentText.onNext(text)
+   }
+}
+
+// MARK: - ForPostConfigurable protocol implementstion
+
+extension EditPost4ViewCell: ForPostConfigurable {
+
+   func configureView(for post: PostModel) -> CGFloat {
+      return -1.0
    }
 }
 

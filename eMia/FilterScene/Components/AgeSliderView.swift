@@ -41,6 +41,7 @@ class AgeSliderView: UIView {
          return view
       } else {
          assert(false, "AgeSliderView is not defined!")
+         return AgeSliderView()
       }
    }
    

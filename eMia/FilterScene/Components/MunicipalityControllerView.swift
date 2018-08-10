@@ -49,6 +49,7 @@ class MunicipalityControllerView: UIView {
          return view
       } else {
          assert(false, "MunicipalityControllerView is not defined!")
+         return MunicipalityControllerView()
       }
    }
    

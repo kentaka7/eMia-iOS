@@ -21,18 +21,17 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       static let allValues = [avatarPhotoAndUserName, dependsOnTextViewContent, photo, staticTextAndSendEmailButton]
    }
    
-   private var commentCell: EditPost4ViewCell?
+   weak private var commentCell: EditPost4ViewCell?
    private var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCellHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
-   private var commentsManager = CommentsManager()
    private var comments = [CommentModel]()
    private let disposeBag = DisposeBag()
    
    weak var activityIndicator: NVActivityIndicatorView!
    weak var post: PostModel!
    weak var tableView: UITableView?
-   var tvHeightConstraint: NSLayoutConstraint!
-   var view: UIView! {
+   weak var tvHeightConstraint: NSLayoutConstraint!
+   weak var view: UIView! {
       didSet {
          guard let keyboardController = self.keyboardController else {
             return
@@ -49,6 +48,7 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    
    deinit {
       unregisterObserver()
+      Log()
    }
    
    func configure() {
@@ -58,8 +58,8 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    }
    
    private func startEditingFinishedListener() {
-      keyboardController!.screenPresented.subscribe(onNext: { screenPresented in
-         self.editingFinished = screenPresented == false
+      keyboardController!.screenPresented.subscribe(onNext: {[weak self] screenPresented in
+         self?.editingFinished = screenPresented == false
       }).disposed(by: disposeBag)
    }
    
@@ -81,13 +81,16 @@ extension EditPostPresenter {
       self.comments = CommentModel.comments
          .filter { $0.postid == post.id }
          .sorted(by: {$0.created < $1.created})
-      
       CommentModel.rxNewCommentObserved.subscribe(onNext: { [weak self] newComment in
-         guard let `self` = self, let newComment = newComment, let tableView = self.tableView else { return }
+         guard let `self` = self,
+            let newComment = newComment,
+            let tableView = self.tableView else {
+               return
+         }
          if let post = self.post, newComment.postid == post.id {
-            self.comments.append(newComment)
-            let indexPath = IndexPath(row: Rows.allValues.count + self.comments.count - 1, section: 0)
             DispatchQueue.main.async {
+               self.comments.append(newComment)
+               let indexPath = IndexPath(row: Rows.allValues.count + self.comments.count - 1, section: 0)
                tableView.insertRows(at: [indexPath], with: .automatic)
             }
             self.scrollDownIfNeeded()
@@ -134,6 +137,7 @@ extension EditPostPresenter {
       } else {
          if self.commentCell == nil {
             return tableView.dequeueCell(ofType: EditPost4ViewCell.self)!.then { cell in
+               self.commentCell = cell
                self.configureCommentCell(cell)
             }
          } else {
@@ -143,12 +147,9 @@ extension EditPostPresenter {
    }
    
    private func configureCommentCell(_ cell: EditPost4ViewCell) {
-      self.commentCell = cell
-      _ = cell.configureView(for: post)
       self.fakeField?.configure(with: self.view, anchorView: cell.textView)
-      cell.post = post
-      cell.activityIndicator = activityIndicator
-      cell.currentCellHeigt.subscribe(onNext: { (newCellHeight) in
+      cell.currentCellHeigt.subscribe(onNext: {[weak self] (newCellHeight) in
+         guard let `self` = self else { return }
          if newCellHeight != self.currentCellHeight {
             self.currentCellHeight = newCellHeight
             self.didUpdateTableViewSize()
@@ -238,8 +239,8 @@ extension EditPostPresenter {
          return
       }
       if let commentCell = self.commentCell, commentCell.editViewInActiveState {
-         DispatchQueue.main.async {
-            self.fakeField?.focus = true
+         DispatchQueue.main.async { [weak self] in
+            self?.fakeField?.focus = true
             tableView.reloadData()
          }
          runAfterDelay(0.3) {
@@ -253,22 +254,10 @@ extension EditPostPresenter {
    private func tableViewFitSize(kbNotification: Notification) {
       switch kbNotification.name {
       case .UIKeyboardDidShow:
-         guard let info = kbNotification.userInfo  else {
-            return
-         }
-         
-         #if swift(>=4.2)
-         let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
-         #else
-         let frameEndUserInfoKey = UIKeyboardFrameEndUserInfoKey
-         #endif
-         
-         //  Getting UIKeyboardSize.
-         if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
-            let height = kbFrame.height
+         if let height = self.keyboardHeight(kbNotification: kbNotification) {
             tvHeightConstraint.constant = height
-            self.view.setNeedsLayout()
-            self.editingFinished = false
+            view.setNeedsLayout()
+            editingFinished = false
          }
       case .UIKeyboardDidHide:
          if editingFinished {
@@ -280,11 +269,30 @@ extension EditPostPresenter {
       }
    }
    
+   private func keyboardHeight(kbNotification: Notification) -> CGFloat? {
+      guard let info = kbNotification.userInfo  else {
+         return nil
+      }
+      
+      #if swift(>=4.2)
+      let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
+      #else
+      let frameEndUserInfoKey = UIKeyboardFrameEndUserInfoKey
+      #endif
+      
+      if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
+         return kbFrame.height
+      } else {
+         return nil
+      }
+   }
+   
    private func scrollDownIfNeeded() {
       if let tableView = self.tableView,
          let commentCell = self.commentCell,
          commentCell.editViewInActiveState {
-         DispatchQueue.main.async {
+         DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
             let indexPath = IndexPath(row: self.numberOfRows - 1, section: 0)
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
          }
