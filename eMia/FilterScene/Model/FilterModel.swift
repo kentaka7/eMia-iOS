@@ -40,7 +40,7 @@ final class FilterModel: Object {
          
       }
       set {
-         Realm.updateRealm {
+         Realm.update {
             myFavorite = newValue.rawValue
          }
       }
@@ -56,7 +56,7 @@ final class FilterModel: Object {
          
       }
       set {
-         Realm.updateRealm {
+         Realm.update {
             gender = newValue.rawValue
          }
       }
@@ -67,7 +67,7 @@ final class FilterModel: Object {
          return _minAge
       }
       set {
-         Realm.updateRealm {
+         Realm.update {
             _minAge = newValue
          }
       }
@@ -78,7 +78,7 @@ final class FilterModel: Object {
          return _maxAge
       }
       set {
-         Realm.updateRealm {
+         Realm.update {
             _maxAge = newValue
          }
       }
@@ -89,7 +89,7 @@ final class FilterModel: Object {
          return _municipality
       }
       set {
-         Realm.updateRealm {
+         Realm.update {
             _municipality = newValue
          }
       }
@@ -133,18 +133,24 @@ final class FilterModel: Object {
    
    private class var defaulModel: FilterModel {
       let model = FilterModel(id: "1", favorite: .all, gender: .both, minAge: 0.0, maxAge: 100.0, municipality: "")
-      _ = Realm.createRealm(model: model)
+      _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
+      }, onError: { error in
+         Alert.default.showError(message: error.localizedDescription)
+      })
       return model
    }
 
    private class func makeCopy(_ model: FilterModel) {
       let copyModel = FilterModel(id: "2", favorite: model.myFavoriteFilter, gender: model.genderFilter, minAge: model.minAge, maxAge: model.maxAge, municipality: model.municipality ?? "")
-      Realm.update(model: copyModel)
+      Realm.create(model: copyModel)
    }
    
    func syncronize() {
-      Realm.update(model: self)
-      NotificationCenter.default.post(name: Notification.Name(Notifications.UpdatedFilter), object: nil)
+      _ = Realm.create(model: self).asObservable().subscribe(onNext: { _ in
+         NotificationCenter.default.post(name: Notification.Name(Notifications.UpdatedFilter), object: nil)
+      }, onError: { error in
+         Alert.default.showError(message: error.localizedDescription)
+      })
    }
 }
 
@@ -160,7 +166,7 @@ extension FilterModel {
       // Favorities
       switch model.myFavoriteFilter {
       case .myFavorite:
-         itsok = itsok && FavoritsManager.isItMyFavoritePost(post)
+         itsok = itsok && FavoriteModel.isItMyFavoritePost(post)
       default:
          break
       }

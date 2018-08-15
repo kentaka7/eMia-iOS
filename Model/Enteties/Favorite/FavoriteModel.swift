@@ -16,8 +16,6 @@ final class FavoriteModel: Object {
    @objc dynamic var uid: String = ""
    @objc dynamic var postid: String = ""
 
-   static var rxFavorities = BehaviorSubject<[FavoriteModel]>(value: [])
-   
    class var favorities: [FavoriteModel] {
       do {
          let realm = try Realm()
@@ -59,14 +57,64 @@ final class FavoriteModel: Object {
 
 extension FavoriteModel {
    
+   class func isFavorite(for userId: String, postid: String) -> Bool {
+      return self.requestData(for: userId, postid: postid).count > 0
+   }
+
+   class func requestData(for userId: String, postid: String) -> [FavoriteModel] {
+      do {
+         let realm = try Realm()
+         let data = realm.objects(FavoriteModel.self).filter("postid = '\(postid)' AND uid = '\(userId)'")
+         return data.toArray()
+      } catch _ {
+         return []
+      }
+   }
+   
+   class func addToFavorite(post: PostModel) {
+      guard let currentUser = gUsersManager.currentUser else {
+         return
+      }
+      guard let postId = post.id else {
+         return
+      }
+      let data = self.requestData(for: currentUser.userId, postid: postId)
+      if data.count > 0 {
+         for model in data {
+            model.remove()
+         }
+      } else {
+         let newRecord = FavoriteModel(uid: currentUser.userId, postid: postId)
+         newRecord.synchronize { _ in
+            gPushNotificationsCenter.send(.like(post: post)) {}
+         }
+      }
+   }
+   
+   class func isItMyFavoritePost(_ post: PostModel) -> Bool {
+      guard let currentUser = gUsersManager.currentUser else {
+         return false
+      }
+      guard let postId = post.id else {
+         return false
+      }
+      return self.isFavorite(for: currentUser.userId, postid: postId)
+   }
+
+}
+
+extension FavoriteModel {
+   
    class func addFavorite(_ item: FavoriteItem) {
       let model = FavoriteModel(item: item)
       if favoritiesIndex(of: model) != nil {
          return
       }
       if item.id.isEmpty == false {
-         _ = Realm.createRealm(model: model)
-         try? rxFavorities.onNext(rxFavorities.value() + [model])
+         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
+         }, onError: { error in
+            Alert.default.showError(message: error.localizedDescription)
+         })
       }
    }
    
@@ -74,28 +122,17 @@ extension FavoriteModel {
       let model = FavoriteModel(item: item)
       if let index = favoritiesIndex(of: model) {
          let model = favorities[index]
-         Realm.deleteRealm(model: model)
-         do {
-            var array = try rxFavorities.value()
-            array.remove(at: index)
-            rxFavorities.onNext(array)
-         } catch {
-            print(error)
-         }
+         Realm.delete(model: model)
       }
    }
    
    class func editFavorite(_  item: FavoriteItem) {
       let model = FavoriteModel(item: item)
-      if let index = favoritiesIndex(of: model) {
-         //_ = FavoriteModel.createRealm(model: model)
-         do {
-            var array = try rxFavorities.value()
-            array[index] = model
-            rxFavorities.onNext(array)
-         } catch {
-            print(error)
-         }
+      if let _ = favoritiesIndex(of: model) {
+         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
+         }, onError: { error in
+            Alert.default.showError(message: error.localizedDescription)
+         })
       }
    }
    

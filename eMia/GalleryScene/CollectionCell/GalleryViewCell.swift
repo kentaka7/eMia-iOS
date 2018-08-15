@@ -5,6 +5,7 @@
 
 import UIKit
 import RxSwift
+import RealmSwift
 
 class GalleryViewCell: UICollectionViewCell {
    
@@ -14,6 +15,7 @@ class GalleryViewCell: UICollectionViewCell {
    private weak var post: PostModel?
    private let disposeBag = DisposeBag()
    var representedAssetIdentifier: String!
+   private var token: NotificationToken?
    
    @IBOutlet weak var borderView: UIView!
    
@@ -34,12 +36,16 @@ class GalleryViewCell: UICollectionViewCell {
    
    override func awakeFromNib() {
       configureView()
-      bindToFavoritesModel()
    }
-   
+
+   deinit {
+      token?.invalidate()
+   }
+
    override func prepareForReuse() {
       super.prepareForReuse()
       photoImageView.image = nil
+      favoriteImageView.image = nil
    }
    
    func flash(_ completion: @escaping () -> Void) {
@@ -98,7 +104,7 @@ class GalleryViewCell: UICollectionViewCell {
          }
       }
       
-      setUpFavorite(post)
+      bindToFavoritesModel()
 
       titleLabel.text = post.title
       bodyLabel.text = post.body
@@ -115,18 +121,25 @@ class GalleryViewCell: UICollectionViewCell {
    }
    
    private func setUpFavorite(_ post: PostModel) {
-      let isItMyFavoritePost = FavoritsManager.isItMyFavoritePost(post)
+      let isItMyFavoritePost = FavoriteModel.isItMyFavoritePost(post)
       favoriteImageView.image = isItMyFavoritePost ? UIImage(named: "icon-toggle_star") : nil
    }
    
    private func bindToFavoritesModel() {
-      FavoriteModel.rxFavorities.subscribe(onNext: { [weak self] (favorities) in
-         guard let `self` = self else {
-            return
-         }
-         if let post = self.post {
+      guard let post = self.post else {
+         return
+      }
+      let realm = try? Realm()
+      let results = realm?.objects(FavoriteModel.self).filter("postid = '\(post.id!)'") // Auto-Updating Results
+      token = results?.observe({ change in
+         switch change {
+         case .initial:
+            self.setUpFavorite(post)
+         case .error(let error):
+            fatalError("\(error)")
+         case .update( _,  _,  _, _):
             self.setUpFavorite(post)
          }
-      }).disposed(by: disposeBag)
+      })
    }
 }

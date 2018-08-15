@@ -21,8 +21,6 @@ final class UserModel: Object {
    @objc dynamic var tokenIOS: String?
    @objc dynamic var tokenAndroid: String?
 
-   static var rxUsers = BehaviorSubject<[UserModel]>(value: [])
-   
    override class func primaryKey() -> String? {
       return "userId"
    }
@@ -84,12 +82,11 @@ extension UserModel {
 
    class func addUser(_ item: UserItem) {
       let model = UserModel(item: item)
-      if usersIndex(of: model) != nil {
-         return
-      }
       if model.userId.isEmpty == false {
-         _ = Realm.createRealm(model: model)
-         try? rxUsers.onNext(rxUsers.value() + [model])
+         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
+         }, onError: { error in
+            Alert.default.showError(message: error.localizedDescription)
+         })
       }
    }
    
@@ -97,28 +94,12 @@ extension UserModel {
       let model = UserModel(item: item)
       if let index = usersIndex(of: model) {
          let model = UserModel.users[index]
-         Realm.deleteRealm(model: model)
-         do {
-            var array = try rxUsers.value()
-            array.remove(at: index)
-            rxUsers.onNext(array)
-         } catch {
-            print(error)
-         }
+         Realm.delete(model: model)
       }
    }
    
    class func editUser(_  item: UserItem) {
-      let model = UserModel(item: item)
-      if let index = usersIndex(of: model) {
-         do {
-            var array = try rxUsers.value()
-            array[index] = model
-            rxUsers.onNext(array)
-         } catch {
-            print(error)
-         }
-      }
+      self.addUser(item)
    }
    
    class func usersIndex(of item: UserModel) -> Int? {

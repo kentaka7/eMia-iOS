@@ -15,4 +15,10 @@ extension String {
          return false
       }
    }
+   
+   static func getDocumentsPath() -> String {
+      let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+      return documentsPath
+   }
+   
 }

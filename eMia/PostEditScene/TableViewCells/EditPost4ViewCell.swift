@@ -23,7 +23,7 @@ class EditPost4ViewCell: UITableViewCell {
    
    private var plusSpace: CGFloat!
    
-   private let placeholder = "Please enter your comment here (max 256)".localized
+   private let placeholder = "Please enter your comment here (up to 256)".localized
    private var newComment: String?
    var textView: UITextView {
       return commentTextView.textView

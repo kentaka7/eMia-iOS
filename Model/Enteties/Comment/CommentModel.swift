@@ -71,10 +71,13 @@ extension CommentModel {
          return
       }
       if !item.id.isEmpty {
-         _ = Realm.createRealm(model: model)
-         try? rxComments.onNext(rxComments.value() + [model])
-         // TODO: Remove it
-         rxNewCommentObserved.onNext(model)
+         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
+            try? rxComments.onNext(rxComments.value() + [model])
+            // TODO: Remove it
+            rxNewCommentObserved.onNext(model)
+         }, onError: { error in
+            Alert.default.showError(message: error.localizedDescription)
+         })
       }
    }
    
@@ -82,7 +85,7 @@ extension CommentModel {
       let model = CommentModel(item: item)
       if let index = commentIndex(of: model) {
          let model = comments[index]
-         Realm.deleteRealm(model: model)
+         Realm.delete(model: model)
          do {
             var array = try rxComments.value()
             array.remove(at: index)
@@ -96,14 +99,17 @@ extension CommentModel {
    class func editComment(_  item: CommentItem) {
       let model = CommentModel(item: item)
       if let index = commentIndex(of: model) {
-         //_ = CommentModel.createRealm(model: model)
-         do {
-            var array = try rxComments.value()
-            array[index] = model
-            rxComments.onNext(array)
-         } catch {
-            print(error)
-         }
+         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
+            do {
+               var array = try rxComments.value()
+               array[index] = model
+               rxComments.onNext(array)
+            } catch {
+               print(error)
+            }
+         }, onError: { error in
+            Alert.default.showError(message: error.localizedDescription)
+         })
       }
    }
    

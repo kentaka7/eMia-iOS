@@ -116,15 +116,18 @@ extension PostModel {
       if postsIndex(of: model) != nil {
          return
       }
-      _ = Realm.createRealm(model: model)
-      try? rxPosts.onNext(rxPosts.value() + [model])
+      _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
+         try? rxPosts.onNext(rxPosts.value() + [model])
+      }, onError: { error in
+         Alert.default.showError(message: error.localizedDescription)
+      })
    }
    
    class func deletePost(_ item: PostItem) {
       let post = PostModel(item: item)
       if let index = postsIndex(of: post) {
          let model = posts[index]
-         Realm.deleteRealm(model: model)
+         Realm.delete(model: model)
          do {
             var array = try rxPosts.value()
             array.remove(at: index)

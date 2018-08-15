@@ -61,7 +61,7 @@ class DataBaseImpl: NSObject {
         }
         fetchDataFunc {
             self.semaphore.signal()
-            try? print("users=\(UserModel.rxUsers.value().count);posts=\(PostModel.rxPosts.value().count);favorities=\(FavoriteModel.rxFavorities.value().count)")
+            try? print("users=\(UserModel.users.count);posts=\(PostModel.rxPosts.value().count);favorities=\(FavoriteModel.favorities.count)")
             self.startListeners()
             DispatchQueue.main.async {
                 completion()
@@ -164,7 +164,6 @@ extension DataBaseImpl {
                         }
                     }
                 }
-                try? UserModel.rxUsers.onNext(UserModel.rxUsers.value() + UserModel.users)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -202,7 +201,6 @@ extension DataBaseImpl {
                         }
                     }
                 }
-                try? FavoriteModel.rxFavorities.onNext(FavoriteModel.rxFavorities.value() + FavoriteModel.favorities)
                 completion()
             }).disposed(by: disposeBag)
     }

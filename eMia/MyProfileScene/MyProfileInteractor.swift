@@ -38,7 +38,7 @@ class MyProfileInteractor: NSObject {
    }
    
    private func registerNewUser(with photo: UIImage, completed: @escaping () -> Void) {
-      _ = Realm.updateRealm {
+      _ = Realm.update {
          user.tokenIOS = gDeviceTokenController.currentDeviceToken
       }
       self.activityIndicator.startAnimating()

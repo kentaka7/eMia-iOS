@@ -5,6 +5,7 @@
 
 import UIKit
 import RxSwift
+import RealmSwift
 
 protocol ForPostConfigurable {
    func configureView(for post: PostModel) -> CGFloat
@@ -23,18 +24,35 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    
    private let disposeBag = DisposeBag()
    
+   private var token: NotificationToken?
+   
    fileprivate var post: PostModel?
    
    override func awakeFromNib() {
-      startDataBaseListening()
       configure(avatarBackgroundView)
       configure(favoriteButtonBackgroundView)
    }
 
+   deinit {
+      token?.invalidate()
+   }
+   
    private func startDataBaseListening() {
-      FavoriteModel.rxFavorities.subscribe({ _ in
-         self.configure(self.favoriteButtonImageView)
-      }).disposed(by: disposeBag)
+      guard let postid = post?.id else {
+         return
+      }
+      let realm = try? Realm()
+      let results = realm?.objects(FavoriteModel.self).filter("postid = '\(postid)'") // Auto-Updating Results
+      token = results?.observe({ change in
+         switch change {
+         case .initial:
+            self.configure(self.favoriteButtonImageView)
+         case .error(let error):
+            fatalError("\(error)")
+         case .update( _,  _,  _, _):
+            self.configure(self.favoriteButtonImageView)
+         }
+      })
    }
    
    private func configure(_ view: UIView) {
@@ -63,7 +81,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
 
       case favoriteButtonImageView:
          if let post = self.post {
-            let isItMyFavoritePost = FavoritsManager.isItMyFavoritePost(post)
+            let isItMyFavoritePost = FavoriteModel.isItMyFavoritePost(post)
             DispatchQueue.main.async {
                self.favoriteButtonImageView.image = UIImage(named: isItMyFavoritePost ? "icon-toggle_star" : "icon-toggle_star_outline")
             }
@@ -86,8 +104,8 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    
    func configureView(for post: PostModel) -> CGFloat {
       self.post = post
+      startDataBaseListening()
       configure(nameUserLabel)
-      configure(favoriteButtonImageView)
       configure(favoriteButtonBackgroundView)
       configure(avatarUserImageView)
       return -1.0
@@ -97,6 +115,6 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
       guard let post = self.post else {
          return
       }
-      FavoritsManager.addToFavorite(post: post)
+      FavoriteModel.addToFavorite(post: post)
    }
 }

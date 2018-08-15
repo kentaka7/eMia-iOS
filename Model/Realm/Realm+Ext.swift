@@ -20,10 +20,10 @@ enum RealmOperationsError: Error {
 extension Realm {
    
    @discardableResult
-   class func createRealm(model: Object) -> Observable<Object> {
+   class func create(model: Object) -> Observable<Object> {
       let result = Realm.withRealm("creating") { realm -> Observable<Object> in
          try realm.write {
-            realm.add(model)
+            realm.add(model, update: true)
          }
          return .just(model)
       }
@@ -31,7 +31,7 @@ extension Realm {
    }
 
    @discardableResult
-   class func updateRealm(_ closure: () -> Void) -> Observable<Void> {
+   class func update(_ closure: () -> Void) -> Observable<Void> {
       let result = Realm.withRealm("updating") { realm-> Observable<Void> in
          try realm.write {
             closure()
@@ -40,25 +40,14 @@ extension Realm {
       }
       return result ?? .error(RealmOperationsError.updatingFailed)
    }
-
-   @discardableResult
-   class func update(model: Object) -> Observable<Void> {
-      let result = Realm.withRealm("updating") { realm-> Observable<Void> in
-         try realm.write {
-            realm.add(model, update: true)
-         }
-         return .empty()
-      }
-      return result ?? .error(RealmOperationsError.updatingFailed)
-   }
    
    @discardableResult
-   class func deleteRealm(model: Object) -> Observable<Void> {
-      let result = Realm.withRealm("deleting") { realm-> Observable<Void> in
+   class func delete(model: Object) -> Observable<Object> {
+      let result = Realm.withRealm("deleting") { realm-> Observable<Object> in
          try realm.write {
             realm.delete(model)
          }
-         return .empty()
+         return .just(model)
       }
       return result ?? .error(RealmOperationsError.deletionFailed)
    }

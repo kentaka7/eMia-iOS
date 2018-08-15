@@ -151,7 +151,6 @@
 		7FFBB2571FE45E0400A22EB0 /* FireBaseAuthImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBB2551FE45E0400A22EB0 /* FireBaseAuthImpl.swift */; };
 		7FFBB2581FE45E0400A22EB0 /* FireBaseImagesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBB2561FE45E0400A22EB0 /* FireBaseImagesStorage.swift */; };
 		7FFBB25A1FE4620A00A22EB0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBB2591FE4620A00A22EB0 /* Helpers.swift */; };
-		7FFBB25C1FE462A000A22EB0 /* FavoritsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFBB25B1FE4629F00A22EB0 /* FavoritsManager.swift */; };
 		9A2109E71B9C5A020036D151 /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2109E61B9C5A020036D151 /* GalleryViewCell.swift */; };
 		9A99AA7F1B8A219300428802 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A99AA7E1B8A219300428802 /* AppDelegate.swift */; };
 		9A99AA861B8A219300428802 /* Gallery.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A99AA841B8A219300428802 /* Gallery.storyboard */; };
@@ -327,7 +326,6 @@
 		7FFBB2551FE45E0400A22EB0 /* FireBaseAuthImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseAuthImpl.swift; sourceTree = "<group>"; };
 		7FFBB2561FE45E0400A22EB0 /* FireBaseImagesStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseImagesStorage.swift; sourceTree = "<group>"; };
 		7FFBB2591FE4620A00A22EB0 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
-		7FFBB25B1FE4629F00A22EB0 /* FavoritsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritsManager.swift; sourceTree = "<group>"; };
 		8F8FCE3E6CD51A239E6E9842 /* Pods-Boblberg.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Boblberg.release.xcconfig"; path = "Pods/Target Support Files/Pods-Boblberg/Pods-Boblberg.release.xcconfig"; sourceTree = "<group>"; };
 		9A1B88351CE1E2E5005B6F07 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 		9A2109E61B9C5A020036D151 /* GalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
@@ -798,7 +796,6 @@
 			children = (
 				7FBFF4D11FE4068400788DCB /* FavoriteItem.swift */,
 				7F47D9DC20C37725001210E4 /* FavoriteModel.swift */,
-				7FFBB25B1FE4629F00A22EB0 /* FavoritsManager.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -1093,7 +1090,7 @@
 				"${BUILT_PRODUCTS_DIR}/AwesomeCache/AwesomeCache.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/NextGrowingTextView/NextGrowingTextView.framework",
@@ -1116,7 +1113,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AwesomeCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NextGrowingTextView.framework",
@@ -1221,7 +1218,6 @@
 				7F4D8B491FE4DFF700FAFE5E /* UsersManagerImpl.swift in Sources */,
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
 				7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */,
-				7FFBB25C1FE462A000A22EB0 /* FavoritsManager.swift in Sources */,
 				7FBFF4CF1FE3FA5000788DCB /* DataBaseImpl.swift in Sources */,
 				7F4B289120B1C3D8002BFB47 /* ShowMeSegmentedControl.swift in Sources */,
 				7F87244420B7D3470018A855 /* MyProfileProtocols.swift in Sources */,

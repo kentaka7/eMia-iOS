@@ -82,7 +82,7 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
             Alert.default.showOk("", message: "Please enter your name".localized)
             return
          }
-         Realm.updateRealm {
+         Realm.update {
             user.name = name
          }
       }
@@ -95,19 +95,19 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
       }
       if let genderCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.gender.rawValue, section: 0)) as? Register4ViewCell {
          let gender = genderCell.gender
-         Realm.updateRealm {
+         Realm.update {
             user.gender = gender
          }
       }
       if let yearBirthCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.yearBirth.rawValue, section: 0)) as? Register5ViewCell {
          let yearBirth = yearBirthCell.yearBirth
-         Realm.updateRealm {
+         Realm.update {
             user.yearbirth = yearBirth ?? -1
          }
       }
       if let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.address.rawValue, section: 0)) as? Register3ViewCell {
          let address = addressCell.address
-         Realm.updateRealm {
+         Realm.update {
             user.address = address ?? ""
          }
       }

@@ -37,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+      Log(message: String.getDocumentsPath())
+      
       AppDelegate.instance = self
       
       self.application  = application
