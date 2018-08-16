@@ -20,31 +20,9 @@ final class PostModel: Object {
    @objc dynamic var created: Double = 0
    @objc dynamic var photosize: String = ""
    @objc dynamic var starCount: Int = 0
-
-   static var rxPosts = BehaviorSubject<[PostModel]>(value: [])
    
    override class func primaryKey() -> String? {
       return "id"
-   }
-   
-   class var posts: [PostModel] {
-      do {
-         let realm = try Realm()
-         let posts = realm.objects(PostModel.self)
-         return posts.toArray()
-      } catch let err {
-         print("Failed read realm user data with error: \(err)")
-         return []
-      }
-   }
-
-   class func postsObservable() -> Observable<Results<PostModel>> {
-      let result = Realm.withRealm("getting posts") { realm -> Observable<Results<PostModel>> in
-         let realm = try Realm()
-         let posts = realm.objects(PostModel.self)
-         return Observable.collection(from: posts)
-      }
-      return result ?? .empty()
    }
    
    var photoSize: (CGFloat, CGFloat) {
@@ -92,68 +70,6 @@ final class PostModel: Object {
       created = rhs.created
       starCount = rhs.starCount
       photosize = rhs.photosize
-   }
-   
-   class func isItMyPost(_ post: PostModel) -> Bool {
-      guard let currentUser = gUsersManager.currentUser else {
-         return false
-      }
-      return post.uid == currentUser.userId
-   }
-   
-   class func getPost(with postId: String) -> PostModel? {
-      return PostModel.posts.first(where: { $0.id == postId })
-   }
-}
-
-extension PostModel {
-   
-   class func addPost(_ item: PostItem) {
-      let model = PostModel(item: item)
-      guard let modelId = model.id, !modelId.isEmpty else {
-         return
-      }
-      if postsIndex(of: model) != nil {
-         return
-      }
-      _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
-         try? rxPosts.onNext(rxPosts.value() + [model])
-      }, onError: { error in
-         Alert.default.showError(message: error.localizedDescription)
-      })
-   }
-   
-   class func deletePost(_ item: PostItem) {
-      let post = PostModel(item: item)
-      if let index = postsIndex(of: post) {
-         let model = posts[index]
-         Realm.delete(model: model)
-         do {
-            var array = try rxPosts.value()
-            array.remove(at: index)
-            rxPosts.onNext(array)
-         } catch {
-            print(error)
-         }
-      }
-   }
-   
-   class func editPost(_  item: PostItem) {
-      let post = PostModel(item: item)
-      if let index = postsIndex(of: post) {
-         do {
-            var array = try rxPosts.value()
-            array[index] = post
-            rxPosts.onNext(array)
-         } catch {
-            print(error)
-         }
-      }
-   }
-   
-   class func postsIndex(of post: PostModel) -> Int? {
-      let index = posts.index(where: {$0 == post})
-      return index
    }
 }
 

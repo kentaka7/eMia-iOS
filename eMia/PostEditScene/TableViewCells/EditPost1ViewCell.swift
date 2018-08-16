@@ -25,8 +25,9 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    private let disposeBag = DisposeBag()
    
    private var token: NotificationToken?
-   
-   fileprivate var post: PostModel?
+   private let favoritsManager = FavoritsManager()
+   private let postsManager = PostsManager()
+   private var post: PostModel?
    
    override func awakeFromNib() {
       configure(avatarBackgroundView)
@@ -71,7 +72,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
       
       case favoriteButtonBackgroundView:
          if let post = self.post {
-            let isItMyPost = PostModel.isItMyPost(post)
+            let isItMyPost = postsManager.isItMyPost(post)
             self.favoriteButtonBackgroundView.isHidden = isItMyPost
             if isItMyPost == false {
                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(favoriteButtonPressed(_:)))
@@ -81,7 +82,7 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
 
       case favoriteButtonImageView:
          if let post = self.post {
-            let isItMyFavoritePost = FavoriteModel.isItMyFavoritePost(post)
+            let isItMyFavoritePost = favoritsManager.isItMyFavoritePost(post)
             DispatchQueue.main.async {
                self.favoriteButtonImageView.image = UIImage(named: isItMyFavoritePost ? "icon-toggle_star" : "icon-toggle_star_outline")
             }
@@ -115,6 +116,6 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
       guard let post = self.post else {
          return
       }
-      FavoriteModel.addToFavorite(post: post)
+      favoritsManager.addToFavorite(post: post)
    }
 }

@@ -10,27 +10,28 @@ import Firebase
 class PostsObserver: FireBaseListener {
    lazy var dbRef = gDataBaseRef.child(PostItemFields.posts)
    private let disposeBag = DisposeBag()
+   private let postsManager = PostsManager()
 
    func startListening() {
       dbRef.rx
          .observeEvent(.childAdded)
          .subscribe(onNext: { snapshot in
             if let item = PostItem(snapshot) {
-               PostModel.addPost(item)
+               self.postsManager.addPost(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childRemoved)
          .subscribe(onNext: { snapshot in
             if let item = PostItem(snapshot) {
-               PostModel.deletePost(item)
+               self.postsManager.deletePost(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childChanged)
          .subscribe(onNext: { snapshot in
             if let item = PostItem(snapshot) {
-               PostModel.editPost(item)
+               self.postsManager.editPost(item)
             }
          }).disposed(by: disposeBag)
    }

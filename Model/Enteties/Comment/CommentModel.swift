@@ -20,9 +20,6 @@ final class CommentModel: Object {
    @objc dynamic var postid: String = ""
    @objc dynamic var created: Double = 0
 
-   static var rxComments = BehaviorSubject<[CommentModel]>(value: [])
-   static var rxNewCommentObserved = BehaviorSubject<CommentModel?>(value: nil)
-
    override class func primaryKey() -> String? {
       return "id"
    }
@@ -41,16 +38,6 @@ final class CommentModel: Object {
    convenience init(item: CommentItem) {
       self.init(uid: item.uid, author: item.author, text: item.text, postid: item.postid, created: item.created, key: item.key, id: item.id)
    }
-
-   class var comments: [CommentModel] {
-      do {
-         let realm = try Realm()
-         let comms = realm.objects(CommentModel.self)
-         return comms.toArray()
-      } catch _ {
-         return []
-      }
-   }
    
    func copy(_ rhs: CommentModel) {
       key = rhs.key
@@ -60,62 +47,6 @@ final class CommentModel: Object {
       text = rhs.text
       postid = rhs.postid
       created = rhs.created
-   }
-}
-
-extension CommentModel {
-   
-   class func addComment(_ item: CommentItem) {
-      let model = CommentModel(item: item)
-      if commentIndex(of: model) != nil {
-         return
-      }
-      if !item.id.isEmpty {
-         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
-            try? rxComments.onNext(rxComments.value() + [model])
-            // TODO: Remove it
-            rxNewCommentObserved.onNext(model)
-         }, onError: { error in
-            Alert.default.showError(message: error.localizedDescription)
-         })
-      }
-   }
-   
-   class func deleteComment(_ item: CommentItem) {
-      let model = CommentModel(item: item)
-      if let index = commentIndex(of: model) {
-         let model = comments[index]
-         Realm.delete(model: model)
-         do {
-            var array = try rxComments.value()
-            array.remove(at: index)
-            rxComments.onNext(array)
-         } catch {
-            print(error)
-         }
-      }
-   }
-   
-   class func editComment(_  item: CommentItem) {
-      let model = CommentModel(item: item)
-      if let index = commentIndex(of: model) {
-         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
-            do {
-               var array = try rxComments.value()
-               array[index] = model
-               rxComments.onNext(array)
-            } catch {
-               print(error)
-            }
-         }, onError: { error in
-            Alert.default.showError(message: error.localizedDescription)
-         })
-      }
-   }
-   
-   class func commentIndex(of model: CommentModel) -> Int? {
-      let index = comments.index(where: {$0 == model})
-      return index
    }
 }
 

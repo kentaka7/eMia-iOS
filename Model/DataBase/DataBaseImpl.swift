@@ -38,15 +38,19 @@ class DataBaseImpl: NSObject {
     let kFetchingDataAsync = true
     let disposeBag = DisposeBag()
     
-    private var usersObserver = UsersObserver()
-    private var postsObserver = PostsObserver()
-    private var favoritiesObserver = FavoritiesObserver()
-    private var commnetsObserver = CommentsObserver()
+    private let usersObserver = UsersObserver()
+    private let postsObserver = PostsObserver()
+    private let postsManager = PostsManager()
+    private let favoritiesObserver = FavoritiesObserver()
+    private let favoritsManager = FavoritsManager()
+    private let commnetsObserver = CommentsObserver()
+    private let commentsManager = CommentsManager()
     
     let semaphore = DispatchSemaphore(value: 1)
     
     func fetchData(completion: @escaping () -> Void) {
-        if try! PostModel.rxPosts.value().count > 0 {
+        if postsManager.posts.count > 0 {
+            startListeners()
             completion()
             return
         }
@@ -61,7 +65,7 @@ class DataBaseImpl: NSObject {
         }
         fetchDataFunc {
             self.semaphore.signal()
-            try? print("users=\(UserModel.users.count);posts=\(PostModel.rxPosts.value().count);favorities=\(FavoriteModel.favorities.count)")
+            print("users=\(gUsersManager.users.count);posts=\(self.postsManager.posts.count);favorities=\(self.favoritsManager.favorities.count)")
             self.startListeners()
             DispatchQueue.main.async {
                 completion()
@@ -160,7 +164,7 @@ extension DataBaseImpl {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         if let item = UserItem(childSnap) {
-                            UserModel.addUser(item)
+                            gUsersManager.addUser(item)
                         }
                     }
                 }
@@ -177,11 +181,10 @@ extension DataBaseImpl {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         if let item = PostItem(childSnap) {
-                            PostModel.addPost(item)
+                            self.postsManager.addPost(item)
                         }
                     }
                 }
-                try? PostModel.rxPosts.onNext(PostModel.rxPosts.value() + PostModel.posts)
                 completion()
             }).disposed(by: disposeBag)
     }
@@ -196,7 +199,7 @@ extension DataBaseImpl {
                     if let childSnap = child as? DataSnapshot {
                         if childSnap.value as? [String: String] != nil {
                             if let item = FavoriteItem(childSnap) {
-                                FavoriteModel.addFavorite(item)
+                                self.favoritsManager.addFavorite(item)
                             }
                         }
                     }
@@ -214,11 +217,10 @@ extension DataBaseImpl {
                 _ = snapshot.children.map { child in
                     if let childSnap = child as? DataSnapshot {
                         if let item = CommentItem(childSnap) {
-                            CommentModel.addComment(item)
+                            self.commentsManager.addComment(item)
                         }
                     }
                 }
-                try? CommentModel.rxComments.onNext(CommentModel.rxComments.value() + CommentModel.comments)
                 completion()
             }).disposed(by: disposeBag)
     }

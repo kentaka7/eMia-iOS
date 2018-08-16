@@ -11,6 +11,7 @@ enum PushNotificationRecieve {
    case like(post: PostModel, from: UserModel)
    
    init?(with json: JSON) {
+      let postsManager = PostsManager()
       switch json["messageType"].string {
       case PushNotification.Identifier.like?:
          
@@ -19,7 +20,7 @@ enum PushNotificationRecieve {
             return nil
          }
          
-         guard let post = PostModel.getPost(with: postid) else {
+         guard let post = postsManager.getPost(with: postid) else {
             assertionFailure("User `uid` is not presented!")
             return nil
          }

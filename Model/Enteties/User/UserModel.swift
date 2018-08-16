@@ -66,46 +66,6 @@ final class UserModel: Object {
       tokenIOS = rhs.tokenIOS
       tokenAndroid = rhs.tokenAndroid
    }
-   
-   class var users: [UserModel] {
-      do {
-         let realm = try Realm()
-         let users = realm.objects(UserModel.self)
-         return users.toArray()
-      } catch _ {
-         return []
-      }
-   }
-}
-
-extension UserModel {
-
-   class func addUser(_ item: UserItem) {
-      let model = UserModel(item: item)
-      if model.userId.isEmpty == false {
-         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
-         }, onError: { error in
-            Alert.default.showError(message: error.localizedDescription)
-         })
-      }
-   }
-   
-   class func deleteUser(_ item: UserItem) {
-      let model = UserModel(item: item)
-      if let index = usersIndex(of: model) {
-         let model = UserModel.users[index]
-         Realm.delete(model: model)
-      }
-   }
-   
-   class func editUser(_  item: UserItem) {
-      self.addUser(item)
-   }
-   
-   class func usersIndex(of item: UserModel) -> Int? {
-      return UserModel.users.index(where: {$0 == item})
-   }
-   
 }
 
 extension UserModel: IdentifiableType {

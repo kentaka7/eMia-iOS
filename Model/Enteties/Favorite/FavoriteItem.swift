@@ -17,7 +17,7 @@ class FavoriteItem: NSObject, NSCoding {
     var uid: String
     var postid: String
    
-   let disposeBag = DisposeBag()
+   // let disposeBag = DisposeBag()
    
     override init() {
       self.key = ""
@@ -79,7 +79,7 @@ extension FavoriteItem {
         }
     }
     
-    // Update exists data to Firebase Database
+    // Update an exists data to the Firebase database
     private func update(completion: @escaping (Bool) -> Void) {
         let childUpdates = ["/\(FavoriteItemFields.favorits)/\(self.key)": self.toDictionary()]
         gDataBaseRef.updateChildValues(childUpdates, withCompletionBlock: { (_, _) in
@@ -87,7 +87,7 @@ extension FavoriteItem {
         })
     }
     
-    // Save new data to Firebase Database
+    // Save a new data to the Firebase database
     private func save(completion: @escaping (Bool) -> Void) {
         let key = gDataBaseRef.child(FavoriteItemFields.favorits).childByAutoId().key
         self.key = key

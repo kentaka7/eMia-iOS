@@ -19,7 +19,7 @@ final class FilterModel: Object {
    @objc dynamic var _minAge: CGFloat = 0.0
    @objc dynamic var _maxAge: CGFloat = 100.0
    @objc dynamic var _municipality: String?
-
+   
    convenience init(id: String, favorite: FilterFavorite, gender: Gender, minAge: CGFloat, maxAge: CGFloat, municipality: String) {
       self.init()
       self.id = id
@@ -162,11 +162,12 @@ extension FilterModel {
       let model = FilterModel.currentModel
       
       var itsok = true
+      let favoritsManager = FavoritsManager()
       
       // Favorities
       switch model.myFavoriteFilter {
       case .myFavorite:
-         itsok = itsok && FavoriteModel.isItMyFavoritePost(post)
+         itsok = itsok && favoritsManager.isItMyFavoritePost(post)
       default:
          break
       }

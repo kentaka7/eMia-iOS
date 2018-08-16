@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import RealmSwift
 
 struct SectionPostModel {
    var title: String
@@ -46,11 +47,14 @@ class GalleryInteractor: NSObject, AnyObservable {
    private var mSearchText: String?
    
    private let disposeBag = DisposeBag()
-   
+   private let postsManager = PostsManager()
+   private var token: NotificationToken?
+
    var data = Variable([SectionPostModel]())
 
    deinit {
       unregisterObserver()
+      token?.invalidate()
    }
    
    func configure() {
@@ -103,9 +107,19 @@ class GalleryInteractor: NSObject, AnyObservable {
    }
    
    private func configureDataModelListener() {
-      PostModel.rxPosts.subscribe({ _ in
-         self.fetchData()
-      }).disposed(by: self.disposeBag)
+      let realm = try? Realm()
+      let results = realm?.objects(PostModel.self) // Auto-Updating Results
+      token = results?.observe({ change in
+         switch change {
+         case .initial:
+            self.fetchData()
+         case .error(let error):
+            fatalError("\(error)")
+         case .update( _,  _,  _, _):
+            // TODO: Update (add, delete) gallery item separately
+            self.fetchData()
+         }
+      })
    }
    
    private func subscribeToSelectGalleryItem() {
@@ -146,7 +160,7 @@ class GalleryInteractor: NSObject, AnyObservable {
 extension GalleryInteractor {
 
    func fetchData() {
-      let posts = PostModel.posts.filter({ post -> Bool in
+      let posts = postsManager.posts.filter({ post -> Bool in
          let searchText = self.mSearchText ?? ""
          return FilterModel.check(post: post, searchTemplate: searchText)
       }).sorted(by: {$0.created > $1.created})

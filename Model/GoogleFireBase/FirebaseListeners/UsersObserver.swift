@@ -20,21 +20,21 @@ class UsersObserver: FireBaseListener {
          .observeEvent(.childAdded)
          .subscribe(onNext: { snapshot in
             if let item = UserItem(snapshot) {
-               UserModel.addUser(item)
+               gUsersManager.addUser(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childRemoved)
          .subscribe(onNext: { snapshot in
             if let item = UserItem(snapshot) {
-               UserModel.deleteUser(item)
+               gUsersManager.deleteUser(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childChanged)
          .subscribe(onNext: { snapshot in
             if let item = UserItem(snapshot) {
-               UserModel.editUser(item)
+               gUsersManager.editUser(item)
             }
          }).disposed(by: disposeBag)
    }

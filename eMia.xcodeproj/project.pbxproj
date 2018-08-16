@@ -53,9 +53,11 @@
 		7F4B289320B1C484002BFB47 /* ShowMeSegmentedControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289220B1C483002BFB47 /* ShowMeSegmentedControl.xib */; };
 		7F4B289620B1E41F002BFB47 /* FavStatusSegmentedControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */; };
 		7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */; };
+		7F4B2AC2212540DE0028F993 /* FavoritsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B2AC1212540DE0028F993 /* FavoritsManager.swift */; };
+		7F4B2AC42125481F0028F993 /* PostsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B2AC32125481F0028F993 /* PostsManager.swift */; };
 		7F4C1D9B20C0FE1B0057453F /* Reachability+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */; };
 		7F4C1D9D20C1096F0057453F /* TableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C1D9C20C1096F0057453F /* TableView+.swift */; };
-		7F4D8B491FE4DFF700FAFE5E /* UsersManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */; };
+		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */; };
 		7F4D8B521FE4E93A00FAFE5E /* PhotosStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */; };
 		7F5C00CD211E3F8C00696F7C /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5C00CC211E3F8B00696F7C /* Log.swift */; };
@@ -225,10 +227,12 @@
 		7F4B289220B1C483002BFB47 /* ShowMeSegmentedControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowMeSegmentedControl.xib; sourceTree = "<group>"; };
 		7F4B289420B1E41E002BFB47 /* FavStatusSegmentedControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavStatusSegmentedControl.xib; sourceTree = "<group>"; };
 		7F4B289520B1E41E002BFB47 /* FavStatusSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavStatusSegmentedControl.swift; sourceTree = "<group>"; };
+		7F4B2AC1212540DE0028F993 /* FavoritsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritsManager.swift; sourceTree = "<group>"; };
+		7F4B2AC32125481F0028F993 /* PostsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsManager.swift; sourceTree = "<group>"; };
 		7F4C1D9A20C0FE1B0057453F /* Reachability+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reachability+.swift"; sourceTree = "<group>"; };
 		7F4C1D9C20C1096F0057453F /* TableView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TableView+.swift"; sourceTree = "<group>"; };
 		7F4D62032113062B004BC8B5 /* Examples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examples.swift; sourceTree = "<group>"; };
-		7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManagerImpl.swift; sourceTree = "<group>"; };
+		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManagerImpl.swift; sourceTree = "<group>"; };
 		7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosStorageManager.swift; sourceTree = "<group>"; };
 		7F5C00CC211E3F8B00696F7C /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
@@ -796,6 +800,7 @@
 			children = (
 				7FBFF4D11FE4068400788DCB /* FavoriteItem.swift */,
 				7F47D9DC20C37725001210E4 /* FavoriteModel.swift */,
+				7F4B2AC1212540DE0028F993 /* FavoritsManager.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -805,7 +810,7 @@
 			children = (
 				7FBFF4D31FE4068400788DCB /* UserItem.swift */,
 				7FBFF4D41FE4068400788DCB /* UserModel.swift */,
-				7F4D8B481FE4DFF600FAFE5E /* UsersManagerImpl.swift */,
+				7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -825,6 +830,7 @@
 			children = (
 				7FBFF4D81FE4068400788DCB /* PostItem.swift */,
 				7F3B53601FE742240089CB34 /* PostModel.swift */,
+				7F4B2AC32125481F0028F993 /* PostsManager.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -1176,6 +1182,7 @@
 				7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */,
 				7FC20D371FE36B9B000C23A6 /* Image.swift in Sources */,
 				7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */,
+				7F4B2AC2212540DE0028F993 /* FavoritsManager.swift in Sources */,
 				7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */,
 				7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */,
 				7FC9DE0F2018481000F50D07 /* DeviceTokenController.swift in Sources */,
@@ -1215,7 +1222,7 @@
 				7F060C221FF10C0A002D04AD /* Gender.swift in Sources */,
 				7F87244820B7D4300018A855 /* FilterProtocols.swift in Sources */,
 				7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */,
-				7F4D8B491FE4DFF700FAFE5E /* UsersManagerImpl.swift in Sources */,
+				7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */,
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
 				7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */,
 				7FBFF4CF1FE3FA5000788DCB /* DataBaseImpl.swift in Sources */,
@@ -1253,6 +1260,7 @@
 				7F3B108A20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift in Sources */,
 				7F7E36FE20281BD200470139 /* GalleryInteractor.swift in Sources */,
 				7FBA77511FEAB957003B455B /* NewPost1ViewCell.swift in Sources */,
+				7F4B2AC42125481F0028F993 /* PostsManager.swift in Sources */,
 				7FBFEA3F1FE3B39C00C7ADEC /* RefreshController.swift in Sources */,
 				7F817BA020C4E84D00B7C7F6 /* RouteCoordinatorType.swift in Sources */,
 				7FFBB25A1FE4620A00A22EB0 /* Helpers.swift in Sources */,

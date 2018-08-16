@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RealmSwift
 import NVActivityIndicatorView
 
 class EditPostPresenter: NSObject, EditPostPresenting {
@@ -26,6 +27,8 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    private var currentCellHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
    private var comments = [CommentModel]()
    private let disposeBag = DisposeBag()
+   private let commentsManager = CommentsManager()
+   private var commentResults: Results<CommentModel>?
    
    weak var activityIndicator: NVActivityIndicatorView!
    weak var post: PostModel!
@@ -43,10 +46,12 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    var fakeField: FakeFieldController?
    var keyboardController: KeyboardController?
    private var editingFinished = false
+   private var token: NotificationToken?
    
    var observers: [Any] = []
    
    deinit {
+      token?.invalidate()
       unregisterObserver()
       Log()
    }
@@ -78,24 +83,47 @@ class EditPostPresenter: NSObject, EditPostPresenting {
 extension EditPostPresenter {
 
    private func startExternalCommentsListener() {
-      self.comments = CommentModel.comments
-         .filter { $0.postid == post.id }
-         .sorted(by: {$0.created < $1.created})
-      CommentModel.rxNewCommentObserved.subscribe(onNext: { [weak self] newComment in
-         guard let `self` = self,
-            let newComment = newComment,
-            let tableView = self.tableView else {
-               return
+      guard let postid = self.post?.id else {
+         return
+      }
+      let realm = try? Realm()
+      commentResults = realm?.objects(CommentModel.self).filter("postid = '\(postid)'") // Auto-Updating Results
+      token = commentResults?.observe({[weak self] change in
+         guard let `self` = self, let tableView = self.tableView else {
+            return
          }
-         if let post = self.post, newComment.postid == post.id {
-            DispatchQueue.main.async {
-               self.comments.append(newComment)
-               let indexPath = IndexPath(row: Rows.allValues.count + self.comments.count - 1, section: 0)
-               tableView.insertRows(at: [indexPath], with: .automatic)
+         switch change {
+         case .initial:
+            if let result = self.commentResults?.sorted(by: { (comment1, comment2) -> Bool in
+               return comment1.created < comment2.created
+            }) {
+               self.comments = result
+            } else {
+               self.comments = [CommentModel]()
             }
-            self.scrollDownIfNeeded()
+            self.tableView?.reloadData()
+         case .error(let error):
+            fatalError("\(error)")
+         case .update(_, _, let insertions, _):
+            if insertions.count == 0 {
+               return
+            }
+            if let result = self.commentResults?.sorted(by: { (comment1, comment2) -> Bool in
+               return comment1.created < comment2.created
+            }) {
+               if let newComment = result.last {
+                  DispatchQueue.main.async {
+                     self.comments.append(newComment)
+                     tableView.beginUpdates()
+                     let indexPath = IndexPath(row: Rows.allValues.count + self.comments.count - 1, section: 0)
+                     tableView.insertRows(at: [indexPath], with: .automatic)
+                     tableView.endUpdates()
+                     self.scrollDownIfNeeded()
+                  }
+               }
+            }
          }
-      }).disposed(by: disposeBag)
+      })
    }
 }
 

@@ -15,6 +15,7 @@ class GalleryViewCell: UICollectionViewCell {
    private weak var post: PostModel?
    private let disposeBag = DisposeBag()
    var representedAssetIdentifier: String!
+   private let favoritsManager = FavoritsManager()
    private var token: NotificationToken?
    
    @IBOutlet weak var borderView: UIView!
@@ -121,7 +122,7 @@ class GalleryViewCell: UICollectionViewCell {
    }
    
    private func setUpFavorite(_ post: PostModel) {
-      let isItMyFavoritePost = FavoriteModel.isItMyFavoritePost(post)
+      let isItMyFavoritePost = favoritsManager.isItMyFavoritePost(post)
       favoriteImageView.image = isItMyFavoritePost ? UIImage(named: "icon-toggle_star") : nil
    }
    
