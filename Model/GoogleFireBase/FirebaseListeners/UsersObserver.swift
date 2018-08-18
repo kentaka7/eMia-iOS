@@ -14,27 +14,28 @@ protocol FireBaseListener {
 class UsersObserver: FireBaseListener {
    lazy var dbRef = gDataBaseRef.child(UserFields.users)
    private let disposeBag = DisposeBag()
+   private let localDB = LocalBaseController()
    
    func startListening() {
       dbRef.rx
          .observeEvent(.childAdded)
          .subscribe(onNext: { snapshot in
             if let item = UserItem(snapshot) {
-               gUsersManager.addUser(item)
+               self.localDB.addUser(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childRemoved)
          .subscribe(onNext: { snapshot in
             if let item = UserItem(snapshot) {
-               gUsersManager.deleteUser(item)
+               self.localDB.deleteUser(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childChanged)
          .subscribe(onNext: { snapshot in
             if let item = UserItem(snapshot) {
-               gUsersManager.editUser(item)
+               self.localDB.editUser(item)
             }
          }).disposed(by: disposeBag)
    }

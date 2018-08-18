@@ -64,7 +64,7 @@ class LoginInteractor: NSObject {
    }
    
    private func alreadyRegistreredUser(email: String, completion: @escaping (UserModel?) -> Void) {
-      gDataBase.fetchData {
+      gFireBaseController.fetchData {
          gUsersManager.getAllUsers { userItems in
             let user = userItems.filter { $0.email.lowercased() == email.lowercased() }.first
             completion(user)

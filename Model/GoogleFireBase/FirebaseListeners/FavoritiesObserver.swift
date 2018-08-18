@@ -12,7 +12,7 @@ import Firebase
 
 class FavoritiesObserver: FireBaseListener {
    lazy var dbRef = gDataBaseRef.child(FavoriteItemFields.favorits)
-   private let favoritsManager = FavoritsManager()
+   private let localDB = LocalBaseController()
    private let disposeBag = DisposeBag()
    
    func startListening() {
@@ -20,21 +20,21 @@ class FavoritiesObserver: FireBaseListener {
          .observeEvent(.childAdded)
          .subscribe(onNext: { snapshot in
             if let item = FavoriteItem(snapshot) {
-               self.favoritsManager.addFavorite(item)
+               self.localDB.addFavorite(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childRemoved)
          .subscribe(onNext: { snapshot in
             if let item = FavoriteItem(snapshot) {
-               self.favoritsManager.deleteFavorite(item)
+               self.localDB.deleteFavorite(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childChanged)
          .subscribe(onNext: { snapshot in
             if let item = FavoriteItem(snapshot) {
-               self.favoritsManager.editFavorite(item)
+               self.localDB.editFavorite(item)
             }
          }).disposed(by: disposeBag)
    }

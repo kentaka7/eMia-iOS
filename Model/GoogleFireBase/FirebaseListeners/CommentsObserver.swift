@@ -13,28 +13,28 @@ import Firebase
 class CommentsObserver: FireBaseListener {
    lazy var dbRef = gDataBaseRef.child(CommentItemFields.comments)
    private let disposeBag = DisposeBag()
-   private let commentsManager = CommentsManager()
+   private let localDB = LocalBaseController()
    
    func startListening() {
       dbRef.rx
          .observeEvent(.childAdded)
          .subscribe(onNext: { snapshot in
             if let item = CommentItem(snapshot) {
-               self.commentsManager.addComment(item)
+               self.localDB.addComment(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childRemoved)
          .subscribe(onNext: { snapshot in
             if let item = CommentItem(snapshot) {
-               self.commentsManager.deleteComment(item)
+               self.localDB.deleteComment(item)
             }
          }).disposed(by: disposeBag)
       dbRef.rx
          .observeEvent(.childChanged)
          .subscribe(onNext: { snapshot in
             if let item = CommentItem(snapshot) {
-               self.commentsManager.editComment(item)
+               self.localDB.editComment(item)
             }
          }).disposed(by: disposeBag)
    }

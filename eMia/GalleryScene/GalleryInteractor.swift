@@ -160,7 +160,8 @@ class GalleryInteractor: NSObject, AnyObservable {
 extension GalleryInteractor {
 
    func fetchData() {
-      let posts = postsManager.posts.filter({ post -> Bool in
+      let localDB = LocalBaseController()
+      let posts = localDB.posts.filter({ post -> Bool in
          let searchText = self.mSearchText ?? ""
          return FilterModel.check(post: post, searchTemplate: searchText)
       }).sorted(by: {$0.created > $1.created})

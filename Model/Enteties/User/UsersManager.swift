@@ -1,5 +1,5 @@
 //
-//  gUsersManager.swift
+//  UsersManagerImpl.swift
 //  eMia
 //
 
@@ -20,16 +20,6 @@ class UsersManagerImpl: NSObject {
 
    private var lastUser: UserModel?
    var admin: UserModel?
-
-   var users: [UserModel] {
-      do {
-         let realm = try Realm()
-         let users = realm.objects(UserModel.self)
-         return users.toArray()
-      } catch _ {
-         return []
-      }
-   }
    
    var currentUser: UserModel? {
       willSet(newValue) {
@@ -48,11 +38,14 @@ class UsersManagerImpl: NSObject {
    }
 
    func getAllUsers(completion: @escaping ([UserModel]) -> Void) {
-      completion(users)
+      let localDB = LocalBaseController()
+      completion(localDB.users)
    }
 
    func getUserWith(id userId: String) -> UserModel? {
-      return users.filter {$0.userId == userId}.first
+      let realm = try? Realm()
+      let results = realm?.objects(UserModel.self).filter("userId = '\(userId)'")
+      return results?.first
    }
    
    func userExists(_ userId: String) -> Bool {
@@ -100,34 +93,4 @@ extension UsersManagerImpl {
          completion()
       }
    }
-}
-
-extension UsersManagerImpl {
-   
-   func addUser(_ item: UserItem) {
-      let model = UserModel(item: item)
-      if model.userId.isEmpty == false {
-         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
-         }, onError: { error in
-            Alert.default.showError(message: error.localizedDescription)
-         })
-      }
-   }
-   
-   func deleteUser(_ item: UserItem) {
-      let model = UserModel(item: item)
-      if let index = usersIndex(of: model) {
-         let model = self.users[index]
-         Realm.delete(model: model)
-      }
-   }
-   
-   func editUser(_  item: UserItem) {
-      self.addUser(item)
-   }
-   
-   func usersIndex(of item: UserModel) -> Int? {
-      return users.index(where: {$0 == item})
-   }
-   
 }

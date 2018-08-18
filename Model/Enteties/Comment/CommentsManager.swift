@@ -25,33 +25,3 @@ class CommentsManager: NSObject {
    }
    
 }
-
-extension CommentsManager {
-   
-   func addComment(_ item: CommentItem) {
-      let model = CommentModel(item: item)
-      if !item.id.isEmpty {
-         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
-         }, onError: { error in
-            Alert.default.showError(message: error.localizedDescription)
-         })
-      }
-   }
-   
-   func deleteComment(_ item: CommentItem) {
-      let model = CommentModel(item: item)
-      if let index = commentIndex(of: model) {
-         let model = comments[index]
-         Realm.delete(model: model)
-      }
-   }
-   
-   func editComment(_  item: CommentItem) {
-      addComment(item)
-   }
-   
-   private func commentIndex(of model: CommentModel) -> Int? {
-      let index = comments.index(where: {$0 == model})
-      return index
-   }
-}

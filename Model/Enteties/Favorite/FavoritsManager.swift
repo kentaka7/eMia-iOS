@@ -13,21 +13,11 @@ import RxRealm
 
 struct FavoritsManager {
 
-   var favorities: [FavoriteModel] {
-      do {
-         let realm = try Realm()
-         let favs = realm.objects(FavoriteModel.self)
-         return favs.toArray()
-      } catch _ {
-         return []
-      }
-   }
-
    func isFavorite(for userId: String, postid: String) -> Bool {
       return self.requestData(for: userId, postid: postid).count > 0
    }
    
-   func requestData(for userId: String, postid: String) -> [FavoriteModel] {
+   private func requestData(for userId: String, postid: String) -> [FavoriteModel] {
       do {
          let realm = try Realm()
          let data = realm.objects(FavoriteModel.self).filter("postid = '\(postid)' AND uid = '\(userId)'")
@@ -66,41 +56,4 @@ struct FavoritsManager {
       }
       return self.isFavorite(for: currentUser.userId, postid: postId)
    }
-
-   func addFavorite(_ item: FavoriteItem) {
-      let model = FavoriteModel(item: item)
-      if favoritiesIndex(of: model) != nil {
-         return
-      }
-      if item.id.isEmpty == false {
-         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
-         }, onError: { error in
-            Alert.default.showError(message: error.localizedDescription)
-         })
-      }
-   }
-   
-   func deleteFavorite(_ item: FavoriteItem) {
-      let model = FavoriteModel(item: item)
-      if let index = favoritiesIndex(of: model) {
-         let model = favorities[index]
-         Realm.delete(model: model)
-      }
-   }
-   
-   func editFavorite(_  item: FavoriteItem) {
-      let model = FavoriteModel(item: item)
-      if let _ = favoritiesIndex(of: model) {
-         _ = Realm.create(model: model).asObservable().subscribe(onNext: { _ in
-         }, onError: { error in
-            Alert.default.showError(message: error.localizedDescription)
-         })
-      }
-   }
-   
-   func favoritiesIndex(of model: FavoriteModel) -> Int? {
-      let index = favorities.index(where: {$0 == model})
-      return index
-   }
-   
 }
