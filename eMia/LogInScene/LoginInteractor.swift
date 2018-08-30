@@ -26,7 +26,7 @@ class LoginInteractor: NSObject {
          }
          user.userId = userId
          self.save(email: email, password: password)
-         self.alreadyRegistreredUser(email: email) { registeredUser in
+         self.getUserBy(email: email) { registeredUser in
             if let registeredUser = registeredUser {
                gUsersManager.currentUser = registeredUser
                completion(registeredUser)
@@ -49,7 +49,7 @@ class LoginInteractor: NSObject {
       gFireBaseAuth.signIn(email: email, password: password) { success in
          if success {
             self.save(email: email, password: password)
-            self.alreadyRegistreredUser(email: email) { user in
+            self.getUserBy(email: email) { user in
                if let user = user {
                   gUsersManager.currentUser = user
                   completion(true)
@@ -63,12 +63,10 @@ class LoginInteractor: NSObject {
       }
    }
    
-   private func alreadyRegistreredUser(email: String, completion: @escaping (UserModel?) -> Void) {
-      gFireBaseController.fetchData {
-         gUsersManager.getAllUsers { userItems in
-            let user = userItems.filter { $0.email.lowercased() == email.lowercased() }.first
-            completion(user)
-         }
+   private func getUserBy(email: String, completion: @escaping (UserModel?) -> Void) {
+      gFirebaseFetcher.downloadAllData {
+         let user = gUsersManager.searchUserBy(email: email)
+         completion(user)
       }
    }
 

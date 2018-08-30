@@ -37,19 +37,22 @@ class UsersManagerImpl: NSObject {
       _ = AppDelegate.instance.appRouter.transition(to: Route.login, type: .root)
    }
 
-   func getAllUsers(completion: @escaping ([UserModel]) -> Void) {
-      let localDB = LocalBaseController()
-      completion(localDB.users)
+   func getAllUsers() -> [UserModel] {
+      return LocalBaseController().users
    }
 
    func getUserWith(id userId: String) -> UserModel? {
-      let realm = try? Realm()
-      let results = realm?.objects(UserModel.self).filter("userId = '\(userId)'")
-      return results?.first
+      return getAllUsers().first(where: { (userModel) -> Bool in
+         return userModel.userId == userId
+      })
    }
    
    func userExists(_ userId: String) -> Bool {
       return getUserWith(id: userId) != nil
+   }
+   
+   func searchUserBy(email: String) -> UserModel? {
+      return getAllUsers().filter { $0.email.lowercased() == email.lowercased() }.first
    }
 }
 
@@ -67,11 +70,6 @@ extension UsersManagerImpl {
       }
    }
    
-   private func updateUser(_ user: UserModel, completion: @escaping (Bool) -> Void) {
-      let userItem = UserItem(user: user)
-      userItem.synchronize(completion: completion)
-   }
-   
    func removeCurrentUser(completion: @escaping () -> Void) {
       guard let currentUser = self.currentUser else {
          completion()
@@ -84,6 +82,11 @@ extension UsersManagerImpl {
       } else {
          completion()
       }
+   }
+
+   private func updateUser(_ user: UserModel, completion: @escaping (Bool) -> Void) {
+      let userItem = UserItem(user: user)
+      userItem.synchronize(completion: completion)
    }
    
    private func deleteUser(_ user: UserModel, completion: @escaping () -> Void) {

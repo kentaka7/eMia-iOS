@@ -7,7 +7,7 @@ There are profile editor, push-notification if another user likes your post.
 
 eMia is developing with using following things: 
 - Firebase database, storage (for photos), authentication and cloud messages (push-notifications).
-- Firebase used for the chat implementation
+- Firebase used for chat implementation
 - RxSwift, RxCocoa, RxDatasource 
 - RxRealm, RealmSwift
 - Custom Layout for UICollectionView

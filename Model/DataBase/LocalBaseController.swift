@@ -65,6 +65,15 @@ class LocalBaseController {
       addPost(item)
    }
    
+   private func postsObservable() -> Observable<Results<PostModel>> {
+      let result = Realm.withRealm("getting posts") { realm -> Observable<Results<PostModel>> in
+         let realm = try Realm()
+         let posts = realm.objects(PostModel.self)
+         return Observable.collection(from: posts)
+      }
+      return result ?? .empty()
+   }
+   
    // MARK: Comments
    
    func addComment(_ item: CommentItem) {

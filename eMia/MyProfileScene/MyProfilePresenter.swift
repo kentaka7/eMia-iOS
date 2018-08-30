@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 import RealmSwift
 import RxRealm
 
-class MyProfilePresenter: NSObject, MyProfilePresenting {
+class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
 
    enum MyProfileRows: Int {
       case name
@@ -23,56 +23,20 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
    }
 
    weak var viewController: UIViewController!
-   weak var tableView: UITableView!
+   private var tableView: UITableView {
+      return view.tableView
+   }
    weak var user: UserModel!
    weak var activityIndicator: NVActivityIndicatorView!
+
+   var view: MyProfileViewProtocol!
    var locationManager: LocationManager!
    
    var interactor: MyProfileInteractor!
    
-   func cell(for indexPath: IndexPath) -> UITableViewCell {
-      switch MyProfileRows(rawValue: indexPath.row)! {
-      case .name:
-         return tableView.dequeueCell(ofType: Register7ViewCell.self)!.then { cell in
-            cell.configure(for: user)
-         }
-      case .address:
-         return tableView.dequeueCell(ofType: Register3ViewCell.self)!.then { cell in
-            cell.configure(for: user, delegate: self)
-         }
-      case .gender:
-         return tableView.dequeueCell(ofType: Register4ViewCell.self)!.then { cell in
-            cell.configure(for: user)
-         }
-      case .yearBirth:
-         return tableView.dequeueCell(ofType: Register5ViewCell.self)!.then { cell in
-            cell.configure(for: user)
-         }
-      case .photo:
-         return tableView.dequeueCell(ofType: Register6ViewCell.self)!.then { cell in
-            cell.viewController = viewController
-            cell.configure(for: user)
-         }
-      }
-   }
-   
-   func heightCell(for indexPath: IndexPath) -> CGFloat {
-      switch MyProfileRows(rawValue: indexPath.row)! {
-      case .name:
-         return 68.0
-      case .address:
-         return 146.0
-      case .gender:
-         return 94.0
-      case .yearBirth:
-         return 146.0
-      case .photo:
-         return 291.0
-      }
-   }
-
-   var numberOfRows: Int {
-      return MyProfileRows.allValues.count
+   func configureView() {
+      tableView.delegate = self
+      tableView.dataSource = self
    }
    
    func updateMyProfile(_ completed: @escaping () -> Void) {
@@ -116,6 +80,68 @@ class MyProfilePresenter: NSObject, MyProfilePresenting {
       } else {
          completed()
       }
+   }
+}
+
+// MARK: - UITableView protocols
+
+extension MyProfilePresenter: UITableViewDelegate, UITableViewDataSource {
+   
+   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      return self.numberOfRows
+   }
+   
+   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+      return self.heightCell(for: indexPath)
+   }
+   
+   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+      return self.cell(for: indexPath)
+   }
+   
+   private func cell(for indexPath: IndexPath) -> UITableViewCell {
+      switch MyProfileRows(rawValue: indexPath.row)! {
+      case .name:
+         return tableView.dequeueCell(ofType: Register7ViewCell.self)!.then { cell in
+            cell.configure(for: user)
+         }
+      case .address:
+         return tableView.dequeueCell(ofType: Register3ViewCell.self)!.then { cell in
+            cell.configure(for: user, delegate: self)
+         }
+      case .gender:
+         return tableView.dequeueCell(ofType: Register4ViewCell.self)!.then { cell in
+            cell.configure(for: user)
+         }
+      case .yearBirth:
+         return tableView.dequeueCell(ofType: Register5ViewCell.self)!.then { cell in
+            cell.configure(for: user)
+         }
+      case .photo:
+         return tableView.dequeueCell(ofType: Register6ViewCell.self)!.then { cell in
+            cell.viewController = viewController
+            cell.configure(for: user)
+         }
+      }
+   }
+   
+   private func heightCell(for indexPath: IndexPath) -> CGFloat {
+      switch MyProfileRows(rawValue: indexPath.row)! {
+      case .name:
+         return 68.0
+      case .address:
+         return 146.0
+      case .gender:
+         return 94.0
+      case .yearBirth:
+         return 146.0
+      case .photo:
+         return 291.0
+      }
+   }
+   
+   private var numberOfRows: Int {
+      return MyProfileRows.allValues.count
    }
 }
 

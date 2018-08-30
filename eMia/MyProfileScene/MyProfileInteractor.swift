@@ -27,10 +27,10 @@ class MyProfileInteractor: NSObject {
 
    var user: UserModel!
    var password: String!
-   var registerUser: Bool = false
+   var registrationNewUser: Bool = false
    
    func updateMyProfile(_ image: UIImage, completed: @escaping () -> Void) {
-      if self.registerUser {
+      if self.registrationNewUser {
          registerNewUser(with: image, completed: completed)
       } else {
          updateUserData(with: image, completed: completed)
@@ -57,7 +57,7 @@ class MyProfileInteractor: NSObject {
                }
             }
          } else {
-            Alert.default.showOk("We can't register your profile".localized, message: "Please check your email address".localized)
+            Alert.default.showOk("We can't register your profile".localized, message: "Please check your email address and try it again".localized)
          }
       }
    }

@@ -7,24 +7,21 @@
 //
 
 import Foundation
-import RealmSwift
-import RxSwift
-import RxRealm
 
 struct FavoritsManager {
 
-   func isFavorite(for userId: String, postid: String) -> Bool {
-      return self.requestData(for: userId, postid: postid).count > 0
+   func getAllFavorities() -> [FavoriteModel] {
+      return LocalBaseController().favorities
+   }
+
+   private func getModel(for userId: String, postid: String) -> FavoriteModel? {
+      return getAllFavorities().filter({ (model) -> Bool in
+         return model.postid == postid && model.uid == userId
+      }).first
    }
    
-   private func requestData(for userId: String, postid: String) -> [FavoriteModel] {
-      do {
-         let realm = try Realm()
-         let data = realm.objects(FavoriteModel.self).filter("postid = '\(postid)' AND uid = '\(userId)'")
-         return data.toArray()
-      } catch _ {
-         return []
-      }
+   func isFavorite(for userId: String, postid: String) -> Bool {
+      return getModel(for: userId, postid: postid) != nil
    }
    
    func addToFavorite(post: PostModel) {
@@ -34,11 +31,8 @@ struct FavoritsManager {
       guard let postId = post.id else {
          return
       }
-      let data = self.requestData(for: currentUser.userId, postid: postId)
-      if data.count > 0 {
-         for model in data {
-            model.remove()
-         }
+      if let model = getModel(for: currentUser.userId, postid: postId) {
+         model.remove()
       } else {
          let newRecord = FavoriteModel(uid: currentUser.userId, postid: postId)
          newRecord.synchronize { _ in

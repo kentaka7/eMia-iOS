@@ -11,7 +11,6 @@ import RxRealm
 
 final class PostModel: Object {
    
-   @objc dynamic var key: String?
    @objc dynamic var id: String?
    @objc dynamic var uid: String = ""
    @objc dynamic var author: String = ""
@@ -43,9 +42,8 @@ final class PostModel: Object {
       }
    }
    
-   convenience init(uid: String, author: String, title: String, body: String, photosize: String, starCount: Int = 0, created: Double? = nil, key: String? = nil, id: String? = nil) {
+   convenience init(uid: String, author: String, title: String, body: String, photosize: String, starCount: Int = 0, created: Double? = nil, id: String? = nil) {
       self.init()
-      self.key = key
       self.id = id
       self.uid = uid
       self.author = author
@@ -57,11 +55,10 @@ final class PostModel: Object {
    }
    
    convenience init(item: PostItem) {
-      self.init(uid: item.uid, author: item.author, title: item.title, body: item.body, photosize: item.photosize, starCount: item.starCount, created: item.created, key: item.key, id: item.id)
+      self.init(uid: item.uid, author: item.author, title: item.title, body: item.body, photosize: item.photosize, starCount: item.starCount, created: item.created, id: item.id)
    }
    
    func copy(_ rhs: PostModel) {
-      key = rhs.key
       id = rhs.id
       uid = rhs.uid
       author = rhs.author
@@ -86,7 +83,6 @@ extension PostModel {
    func synchronize(completion: @escaping (String) -> Void) {
       let postItem = PostItem(uid: uid, author: author, title: title, body: body, photosize: photosize, starCount: starCount, created: created)
       postItem.id = id ?? ""
-      postItem.key = key ?? ""
       postItem.synchronize { _ in
          completion(postItem.id)
       }

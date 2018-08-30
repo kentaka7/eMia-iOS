@@ -18,6 +18,15 @@ protocol TableViewPresentable {
    func cell(for indexPath: IndexPath) -> UITableViewCell
 }
 
-protocol MyProfilePresenting: TableViewPresentable {
+protocol MyProfilePresenterProtocol {
    func updateMyProfile(_ completed: @escaping () -> Void)
+   func configureView()
+}
+
+protocol MyProfileDependenciesProtocol {
+   func configure(view: MyProfileViewController, user: UserModel?)
+}
+
+protocol MyProfileViewProtocol {
+   var tableView: UITableView! {get set}
 }

@@ -27,7 +27,6 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    private var currentCellHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
    private var comments = [CommentModel]()
    private let disposeBag = DisposeBag()
-   private let commentsManager = CommentsManager()
    private var commentResults: Results<CommentModel>?
    
    weak var activityIndicator: NVActivityIndicatorView!

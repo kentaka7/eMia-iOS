@@ -8,9 +8,9 @@
 
 import UIKit
 
-class MyProfileDependencies: NSObject {
+class MyProfileDependencies: MyProfileDependenciesProtocol {
 
-   static func configure(view: MyProfileViewController, tableView: UITableView, user: UserModel?) {
+   func configure(view: MyProfileViewController, user: UserModel?) {
       
       // Configure Interactor
       let loginInteractor = LoginInteractor()
@@ -18,7 +18,7 @@ class MyProfileDependencies: NSObject {
       interactor.tableView = view.tableView
       interactor.user = user
       interactor.password = view.password
-      interactor.registerUser = view.registerUser
+      interactor.registrationNewUser = view.registrationNewUser
       interactor.loginInteractor = loginInteractor
       interactor.activityIndicator = view.activityIndicator
 
@@ -28,7 +28,7 @@ class MyProfileDependencies: NSObject {
       let presenter = MyProfilePresenter()
       presenter.locationManager = locationManager
       presenter.viewController = view
-      presenter.tableView = view.tableView
+      presenter.view = view
       presenter.user = user
       presenter.activityIndicator = view.activityIndicator
       presenter.interactor = interactor

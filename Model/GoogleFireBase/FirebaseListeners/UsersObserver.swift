@@ -12,7 +12,7 @@ protocol FireBaseListener {
 }
 
 class UsersObserver: FireBaseListener {
-   lazy var dbRef = gDataBaseRef.child(UserFields.users)
+   lazy var dbRef = gDataBaseRef.child(UserItem.TableName)
    private let disposeBag = DisposeBag()
    private let localDB = LocalBaseController()
    

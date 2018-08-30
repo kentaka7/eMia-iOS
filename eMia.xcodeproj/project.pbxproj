@@ -39,7 +39,6 @@
 		7F3C59EC1FE5EE8B00A823DC /* StringIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */; };
 		7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */; };
 		7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */; };
-		7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */; };
 		7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3F24B921175C7500722AB4 /* KeyboardController.swift */; };
 		7F41C3312118551D00D6FC6F /* FakeFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F41C3302118551D00D6FC6F /* FakeFieldController.swift */; };
 		7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */; };
@@ -90,6 +89,7 @@
 		7F81B21720B0F0F300CA384A /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */; };
 		7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */; };
 		7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */; };
+		7F8604042137024B00D33DC3 /* FirebaseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8604032137024B00D33DC3 /* FirebaseItem.swift */; };
 		7F86186A20B3CFEF002F8D57 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */; };
 		7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */; };
 		7F86186E20B3D3B9002F8D57 /* EditPostDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */; };
@@ -119,7 +119,7 @@
 		7FBFF4CC1FE3FA5000788DCB /* PostsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBFF4C71FE3FA5000788DCB /* PostsObserver.swift */; };
 		7FBFF4CD1FE3FA5000788DCB /* UsersObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBFF4C81FE3FA5000788DCB /* UsersObserver.swift */; };
 		7FBFF4CE1FE3FA5000788DCB /* CommentsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBFF4C91FE3FA5000788DCB /* CommentsObserver.swift */; };
-		7FBFF4CF1FE3FA5000788DCB /* FireBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBFF4CA1FE3FA5000788DCB /* FireBaseController.swift */; };
+		7FBFF4CF1FE3FA5000788DCB /* FirebaseFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBFF4CA1FE3FA5000788DCB /* FirebaseFetcher.swift */; };
 		7FBFF4D91FE4068400788DCB /* FavoriteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBFF4D11FE4068400788DCB /* FavoriteItem.swift */; };
 		7FBFF4DA1FE4068400788DCB /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBFF4D31FE4068400788DCB /* UserItem.swift */; };
 		7FBFF4DB1FE4068400788DCB /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBFF4D41FE4068400788DCB /* UserModel.swift */; };
@@ -214,7 +214,6 @@
 		7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringIdentifier.swift; sourceTree = "<group>"; };
 		7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityController.swift; sourceTree = "<group>"; };
 		7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyObservableProtocol.swift; sourceTree = "<group>"; };
-		7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsManager.swift; sourceTree = "<group>"; };
 		7F3F24B921175C7500722AB4 /* KeyboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
 		7F41C3302118551D00D6FC6F /* FakeFieldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFieldController.swift; sourceTree = "<group>"; };
 		7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostProtocols.swift; sourceTree = "<group>"; };
@@ -266,6 +265,7 @@
 		7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDependencies.swift; sourceTree = "<group>"; };
+		7F8604032137024B00D33DC3 /* FirebaseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseItem.swift; sourceTree = "<group>"; };
 		7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = EditPostPresenter.swift; sourceTree = "<group>"; tabWidth = 3; };
 		7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostDependencies.swift; sourceTree = "<group>"; };
@@ -295,7 +295,7 @@
 		7FBFF4C71FE3FA5000788DCB /* PostsObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsObserver.swift; sourceTree = "<group>"; };
 		7FBFF4C81FE3FA5000788DCB /* UsersObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersObserver.swift; sourceTree = "<group>"; };
 		7FBFF4C91FE3FA5000788DCB /* CommentsObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsObserver.swift; sourceTree = "<group>"; };
-		7FBFF4CA1FE3FA5000788DCB /* FireBaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = FireBaseController.swift; sourceTree = "<group>"; tabWidth = 4; };
+		7FBFF4CA1FE3FA5000788DCB /* FirebaseFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFetcher.swift; sourceTree = "<group>"; tabWidth = 4; };
 		7FBFF4D11FE4068400788DCB /* FavoriteItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteItem.swift; sourceTree = "<group>"; };
 		7FBFF4D31FE4068400788DCB /* UserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
 		7FBFF4D41FE4068400788DCB /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -641,6 +641,7 @@
 		7F59C2C1210DE00700FB181C /* Enteties */ = {
 			isa = PBXGroup;
 			children = (
+				7F8604032137024B00D33DC3 /* FirebaseItem.swift */,
 				7FBFF4D21FE4068400788DCB /* User */,
 				7FBFF4D71FE4068400788DCB /* Post */,
 				7FBFF4D51FE4068400788DCB /* Comment */,
@@ -792,7 +793,7 @@
 		7FBFF4C51FE3FA5000788DCB /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
-				7FBFF4CA1FE3FA5000788DCB /* FireBaseController.swift */,
+				7FBFF4CA1FE3FA5000788DCB /* FirebaseFetcher.swift */,
 				7F5E6A502126953400D5285D /* LocalBaseController.swift */,
 			);
 			path = DataBase;
@@ -823,7 +824,6 @@
 			children = (
 				7FBFF4D61FE4068400788DCB /* CommentItem.swift */,
 				7FC862251FE94E3B0077C4E2 /* CommentModel.swift */,
-				7F3C59F31FE5FCB100A823DC /* CommentsManager.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -1185,6 +1185,7 @@
 				7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */,
 				7FC20D371FE36B9B000C23A6 /* Image.swift in Sources */,
 				7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */,
+				7F8604042137024B00D33DC3 /* FirebaseItem.swift in Sources */,
 				7F4B2AC2212540DE0028F993 /* FavoritsManager.swift in Sources */,
 				7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */,
 				7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */,
@@ -1228,7 +1229,7 @@
 				7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */,
 				7F695C941FEA392B008AE127 /* Register5ViewCell.swift in Sources */,
 				7F4B289720B1E41F002BFB47 /* FavStatusSegmentedControl.swift in Sources */,
-				7FBFF4CF1FE3FA5000788DCB /* FireBaseController.swift in Sources */,
+				7FBFF4CF1FE3FA5000788DCB /* FirebaseFetcher.swift in Sources */,
 				7F4B289120B1C3D8002BFB47 /* ShowMeSegmentedControl.swift in Sources */,
 				7F87244420B7D3470018A855 /* MyProfileProtocols.swift in Sources */,
 				7FBFF4DD1FE4068400788DCB /* PostItem.swift in Sources */,
@@ -1259,7 +1260,6 @@
 				7F47D9DD20C37725001210E4 /* FavoriteModel.swift in Sources */,
 				7FBDE11E1FE8466A00EAAD3E /* EditPost5ViewCell.swift in Sources */,
 				7F7FAB3D20B2BCEB0052739B /* AgeSliderView.swift in Sources */,
-				7F3C59F41FE5FCB100A823DC /* CommentsManager.swift in Sources */,
 				7F695C961FEA392B008AE127 /* Register6ViewCell.swift in Sources */,
 				7F3B108A20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift in Sources */,
 				7F7E36FE20281BD200470139 /* GalleryInteractor.swift in Sources */,

@@ -6,8 +6,25 @@
 import UIKit
 import Firebase
 
-class UserItem: NSObject {
-   var key: String
+class UserItem: FirebaseItem {
+
+   static let TableName = "users"
+   
+   override var tableName: String {
+      return UserItem.TableName
+   }
+   
+   struct Fields {
+      static let userId = "id"
+      static let name = "username"
+      static let email = "email"
+      static let address = "address"
+      static let gender = "gender"
+      static let yearbirth = "yearbirth"
+      static let tokenIOS = "tokenIOS"
+      static let tokenAndroid = "tokenAndroid"
+   }
+
    var userId: String
    var username: String
    var email: String
@@ -18,7 +35,6 @@ class UserItem: NSObject {
    var tokenAndroid: String
 
    override init() {
-      self.key = ""
       self.userId = ""
       self.username = ""
       self.email = ""
@@ -27,11 +43,9 @@ class UserItem: NSObject {
       self.yearbirth = 0
       self.tokenIOS = ""
       self.tokenAndroid = ""
-      super.init()
    }
    
    init(user: UserModel) {
-      self.key = user.key
       self.userId = user.userId
       self.username = user.name
       self.email = user.email
@@ -43,73 +57,48 @@ class UserItem: NSObject {
    }
    
    convenience init?(_ snapshot: DataSnapshot) {
-      if var snapshotValue = snapshot.value as? [String: AnyObject] {
-         self.init()
-         key = snapshot.key
-         userId = snapshotValue[UserFields.userId] as? String ?? ""
-         username = snapshotValue[UserFields.name] as? String ?? ""
-         email = snapshotValue[UserFields.email] as? String ?? ""
-         address = snapshotValue[UserFields.address] as? String ?? ""
-         gender = snapshotValue[UserFields.gender] as? Int ?? 0
-         if let stringYear = snapshotValue[UserFields.yearbirth] as? String {
-            yearbirth = Int(stringYear)!
-         } else {
-            yearbirth = snapshotValue[UserFields.yearbirth] as? Int ?? 0
-         }
-         tokenIOS = snapshotValue[UserFields.tokenIOS] as? String ?? ""
-         tokenAndroid = snapshotValue[UserFields.tokenAndroid] as? String ?? ""
-      } else {
-         return nil
+      guard
+         let snapshotValue = snapshot.value as? [String: AnyObject],
+         let id = snapshotValue[UserItem.Fields.userId] as? String,
+         let username = snapshotValue[UserItem.Fields.name] as? String,
+         let email = snapshotValue[UserItem.Fields.email] as? String
+         else {
+            return nil
       }
+      self.init()
+      self.userId = id
+      self.username = username
+      self.email = email
+      self.address = snapshotValue[UserItem.Fields.address] as? String ?? ""
+      self.gender = snapshotValue[UserItem.Fields.gender] as? Int ?? 0
+      if let stringYear = snapshotValue[UserItem.Fields.yearbirth] as? String {
+         self.yearbirth = Int(stringYear)!
+      } else {
+         self.yearbirth = snapshotValue[UserItem.Fields.yearbirth] as? Int ?? 0
+      }
+      self.tokenIOS = snapshotValue[UserItem.Fields.tokenIOS] as? String ?? ""
+      self.tokenAndroid = snapshotValue[UserItem.Fields.tokenAndroid] as? String ?? ""
    }
    
-   func toDictionary() -> [String: Any] {
+   override func toDictionary() -> [String: Any] {
       return [
-         UserFields.userId: userId,
-         UserFields.name: username,
-         UserFields.email: email,
-         UserFields.address: address,
-         UserFields.gender: gender,
-         UserFields.yearbirth: yearbirth,
-         UserFields.tokenIOS: tokenIOS,
-         UserFields.tokenAndroid: tokenAndroid
+         UserItem.Fields.userId: userId,
+         UserItem.Fields.name: username,
+         UserItem.Fields.email: email,
+         UserItem.Fields.address: address,
+         UserItem.Fields.gender: gender,
+         UserItem.Fields.yearbirth: yearbirth,
+         UserItem.Fields.tokenIOS: tokenIOS,
+         UserItem.Fields.tokenAndroid: tokenAndroid
       ]
    }
-}
-
-func == (lhs: UserItem, rhs: UserItem) -> Bool {
-   return lhs.userId == rhs.userId && lhs.email.lowercased() == rhs.email.lowercased()
-}
-
-// MARK: - Update data on server
-
-extension UserItem {
-
-   func synchronize(completion: @escaping (Bool) -> Void) {
-      update(completion: completion)
+   
+   override func primaryKey() -> String {
+      return self.userId
    }
    
-   // Update exists data to Firebase Database
-   private func update(completion: @escaping (Bool) -> Void) {
-      let childUpdates = ["/\(UserFields.users)/\(self.userId)": self.toDictionary()]
-      gDataBaseRef.updateChildValues(childUpdates, withCompletionBlock: { (error, _) in
-         if let error = error {
-            print("Error while synchronize user item: \(error.localizedDescription)")
-            completion(false)
-         } else {
-            completion(true)
-         }
-      })
+   override func setPrimaryKey(_ key: String) {
+      self.userId = key
    }
    
-   func remove() {
-      if self.userId.isEmpty {
-         return
-      }
-      let recordRef = gDataBaseRef.child(UserFields.users).child(self.userId).queryOrdered(byChild: "\\")
-      recordRef.observeSingleEvent(of: .value) { (snapshot) in
-         let ref = snapshot.ref
-         ref.removeValue()
-      }
-   }
 }

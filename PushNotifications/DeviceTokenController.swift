@@ -157,16 +157,16 @@ extension DeviceTokenControllerImpl {
 extension DeviceTokenControllerImpl {
    
    func iOSTokens(for user: UserModel, _ completion: @escaping ([String]) -> Void) {
-      userDeviceTokens(for: user, fieldName: UserFields.tokenIOS, completion: completion)
+      userDeviceTokens(for: user, fieldName: UserItem.Fields.tokenIOS, completion: completion)
    }
    
    /// List of user device tokens
    func androidTokens(for user: UserModel, _ completion: @escaping ([String]) -> Void) {
-      userDeviceTokens(for: user, fieldName: UserFields.tokenAndroid, completion: completion)
+      userDeviceTokens(for: user, fieldName: UserItem.Fields.tokenAndroid, completion: completion)
    }
    
    private func userDeviceTokens(for user: UserModel, fieldName: String, completion: @escaping ([String]) -> Void) {
-      gDataBaseRef.child(UserFields.users).child(user.userId).child(fieldName).observeSingleEvent(of: .value, with: { snapshot in
+      gDataBaseRef.child(UserItem.TableName).child(user.userId).child(fieldName).observeSingleEvent(of: .value, with: { snapshot in
          if snapshot.exists() {
             if let tokens = snapshot.value as? String {
                var newDeviceTokens = [String]()

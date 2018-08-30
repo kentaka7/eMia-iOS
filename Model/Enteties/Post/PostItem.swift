@@ -6,11 +6,26 @@
 import UIKit
 import Firebase
 
-// MARK: - PostItem
+class PostItem: FirebaseItem {
 
-class PostItem: NSObject {
+   static let TableName = "posts"
    
-   var key: String
+   override var tableName: String {
+      return PostItem.TableName
+   }
+   
+   struct Fields {
+      static let id = "id"
+      static let uid = "uid"
+      static let author = "author"
+      static let title = "title"
+      static let body = "body"
+      static let created = "created"
+      static let portrait = "portrait"
+      static let photosize = "photosize"
+      static let starCount = "starCount"
+   }
+
    var id: String
    
    var uid: String
@@ -22,7 +37,6 @@ class PostItem: NSObject {
    var starCount: Int
    
    override init() {
-      self.key = ""
       self.id = ""
       
       self.uid = ""
@@ -32,7 +46,6 @@ class PostItem: NSObject {
       self.created = 0
       self.photosize = ""
       self.starCount = 0
-      super.init()
    }
    
    convenience init(uid: String, author: String, title: String, body: String, photosize: String, starCount: Int, created: Double) {
@@ -47,84 +60,49 @@ class PostItem: NSObject {
    }
    
    convenience init?(_ snapshot: DataSnapshot) {
-      if let dict = snapshot.value as? [String: AnyObject] {
-         self.init()
-         key = snapshot.key
-         id = dict[PostItemFields.id] as? String ?? ""
-         uid = dict[PostItemFields.uid] as? String ?? ""
-         author = dict[PostItemFields.author] as? String ?? ""
-         title = dict[PostItemFields.title] as? String ?? ""
-         body = dict[PostItemFields.body] as? String ?? ""
-         created = dict[PostItemFields.created] as? TimeInterval ?? 0
-         photosize = dict[PostItemFields.photosize] as? String ?? ""
-         starCount = dict[PostItemFields.starCount] as? Int ?? 0
-      } else {
-         return nil
+      guard
+         let snapshotValue = snapshot.value as? [String: AnyObject],
+         let id = snapshotValue[PostItem.Fields.id] as? String,
+         let uid = snapshotValue[PostItem.Fields.uid] as? String,
+         let author = snapshotValue[PostItem.Fields.author] as? String
+         else {
+            return nil
       }
+      self.init()
+      self.id = id
+      self.uid = uid
+      self.author = author
+      title = snapshotValue[PostItem.Fields.title] as? String ?? ""
+      body = snapshotValue[PostItem.Fields.body] as? String ?? ""
+      created = snapshotValue[PostItem.Fields.created] as? TimeInterval ?? 0
+      photosize = snapshotValue[PostItem.Fields.photosize] as? String ?? ""
+      starCount = snapshotValue[PostItem.Fields.starCount] as? Int ?? 0
    }
    
-   func toDictionary() -> [String: Any] {
-      return [
-         PostItemFields.id: id,
-         PostItemFields.uid: uid,
-         PostItemFields.author: author,
-         PostItemFields.title: title,
-         PostItemFields.body: body,
-         PostItemFields.created: created,
-         PostItemFields.photosize: photosize,
-         PostItemFields.starCount: starCount
-      ]
-   }
-   
-   class func decodeSnapshot(_ snapshot: DataSnapshot) -> PostItem? {
+   static func decodeSnapshot(_ snapshot: DataSnapshot) -> PostItem? {
       let item = PostItem(snapshot)
       return item
    }
-}
 
-// MARK: - Save record
-
-extension PostItem {
-   
-   func synchronize(completion: @escaping (Bool) -> Void) {
-      if self.key.isEmpty {
-         save(completion: completion)
-      } else {
-         update(completion: completion)
-      }
+   override func toDictionary() -> [String: Any] {
+      return [
+         PostItem.Fields.id: id,
+         PostItem.Fields.uid: uid,
+         PostItem.Fields.author: author,
+         PostItem.Fields.title: title,
+         PostItem.Fields.body: body,
+         PostItem.Fields.created: created,
+         PostItem.Fields.photosize: photosize,
+         PostItem.Fields.starCount: starCount
+      ]
    }
    
-   // Update exists data to Firebase Database
-   private func update(completion: @escaping (Bool) -> Void) {
-      let childUpdates = ["/\(PostItemFields.posts)/\(self.key)": self.toDictionary()]
-      gDataBaseRef.updateChildValues(childUpdates, withCompletionBlock: { (_, _) in
-         completion(true)
-      })
+   override func primaryKey() -> String {
+      return self.id
    }
    
-   // Save new data to Firebase Database
-   private func save(completion: @escaping (Bool) -> Void) {
-      let key = gDataBaseRef.child(PostItemFields.posts).childByAutoId().key
-      self.key = key
+   override func setPrimaryKey(_ key: String) {
       self.id = key
-      update(completion: completion)
    }
    
-   func remove() {
-      if self.id.isEmpty {
-         return
-      }
-      let recordRef = gDataBaseRef.child(PostItemFields.posts).child(self.id).queryOrdered(byChild: "\\")
-      recordRef.observeSingleEvent(of: .value) { (snapshot) in
-         let ref = snapshot.ref
-         ref.removeValue()
-      }
-   }
-}
-
-// MARK: -
-
-func == (lhs: PostItem, rhs: PostItem) -> Bool {
-   let result = lhs.id == rhs.id
-   return result
 }

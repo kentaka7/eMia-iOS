@@ -8,7 +8,7 @@ import RxSwift
 import Firebase
 
 class PostsObserver: FireBaseListener {
-   lazy var dbRef = gDataBaseRef.child(PostItemFields.posts)
+   lazy var dbRef = gDataBaseRef.child(PostItem.TableName)
    private let disposeBag = DisposeBag()
    private let localDB = LocalBaseController()
 

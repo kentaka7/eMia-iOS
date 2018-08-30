@@ -5,57 +5,6 @@
 
 import UIKit
 
-// MARK: - Fields
-
-struct UserFields {
-   static let users = "users"
-   static let key = "key"
-   
-   static let userId = "id"
-   static let name = "username"
-   static let email = "email"
-   static let address = "address"
-   static let gender = "gender"
-   static let yearbirth = "yearbirth"
-   static let tokenIOS = "tokenIOS"
-   static let tokenAndroid = "tokenAndroid"
-}
-
-struct PostItemFields {
-   static let posts = "posts"
-   static let key = "key"
-   
-   static let id = "id"
-   static let uid = "uid"
-   static let author = "author"
-   static let title = "title"
-   static let body = "body"
-   static let created = "created"
-   static let portrait = "portrait"
-   static let photosize = "photosize"
-   static let starCount = "starCount"
-}
-
-struct FavoriteItemFields {
-   static let favorits = "favorites"
-   
-   static let id = "id"
-   static let uid = "uid"
-   static let postid = "postid"
-}
-
-struct CommentItemFields {
-   static let comments = "comments"
-   static let key = "key"
-   
-   static let id = "id"
-   static let uid = "uid"
-   static let author = "author"
-   static let text = "text"
-   static let postid = "postid"
-   static let created = "created"
-}
-
 // MARK: -
 
 struct Notifications {

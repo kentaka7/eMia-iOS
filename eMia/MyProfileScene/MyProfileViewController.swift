@@ -10,60 +10,58 @@ import UIKit
 import RxSwift
 import NVActivityIndicatorView
 
-class MyProfileViewController: UIViewController {
-   var presenter: MyProfilePresenting!
-
+class MyProfileViewController: UIViewController, MyProfileViewProtocol {
+   
+   var presenter: MyProfilePresenterProtocol!
+   
    var user: UserModel!
    var password: String!
-   var registerUser: Bool!
+   var registrationNewUser: Bool {
+      return user.userId.isEmpty
+   }
    private let disposeBug = DisposeBag()
    
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
-
+   
    @IBOutlet weak var saveDataButton: UIButton!
    @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
+   
+   private let configurator: MyProfileDependenciesProtocol = MyProfileDependencies()
    
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      registerUser = user.userId.isEmpty
-      
-      navigationItem.title = registerUser ? "Sign Up".localized : "My Profile".localized
+      navigationItem.title = registrationNewUser ? "Sign Up".localized : "My Profile".localized
 
-      configure(tableView)
-      configure(saveDataButton)
-      configure(view)
-      
-      MyProfileDependencies.configure(view: self, tableView: tableView, user: user)
+      configurator.configure(view: self, user: user)
+      presenter.configureView()
+      setUpBackButton()
+      setUpDoneButton()
    }
    
-   private func configure(_ view: UIView) {
-      switch view {
-      case self.view:
-         backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
-            guard let `self` = self else { return }
-            self.closeWindow()
-         }).disposed(by: disposeBug)
-      case saveDataButton:
-         saveDataButton.setAsCircle()
-         saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
-         saveDataButton.rx.tap.bind(onNext: { [weak self] in
-            guard let `self` = self else { return }
-            self.saveData()
-         }).disposed(by: disposeBug)
-      case tableView:
-         tableView.delegate = self
-         tableView.dataSource = self
-      default:
-         break
-      }
+   private func setUpBackButton() {
+      backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.closeWindow()
+      }).disposed(by: disposeBug)
    }
+
+   private func setUpDoneButton() {
+      saveDataButton.setAsCircle()
+      saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
+      saveDataButton.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.saveData()
+      }).disposed(by: disposeBug)
+   }
+
+   // TODO: Move to router
    
    private func saveData() {
       presenter.updateMyProfile { [weak self] in
          guard let `self` = self else { return }
-         if self.registerUser {
+         if self.registrationNewUser {
             presentMainScreen()
          } else {
             self.closeWindow()
@@ -76,17 +74,3 @@ class MyProfileViewController: UIViewController {
    }
 }
 
-extension MyProfileViewController: UITableViewDelegate, UITableViewDataSource {
-   
-   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      return presenter.numberOfRows
-   }
-
-   public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      return presenter.heightCell(for: indexPath)
-   }
-   
-   public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      return presenter.cell(for: indexPath)
-   }
-}
