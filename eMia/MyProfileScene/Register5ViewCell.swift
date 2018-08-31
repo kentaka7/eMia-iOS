@@ -8,7 +8,10 @@ import UIKit
 // Comment table item
 
 class Register5ViewCell: UITableViewCell, ForUserConfigurable {
-
+   
+   private let kMinBirthYear = 1900
+   private let kMaxBirthYear = 2006
+   
    @IBOutlet weak var yearBirthTitleLabel: UILabel!
    @IBOutlet weak var yearPickerView: UIPickerView!
 
@@ -45,7 +48,7 @@ class Register5ViewCell: UITableViewCell, ForUserConfigurable {
          
          yearPickerView.tintColor = GlobalColors.kBrandNavBarColor
          
-         for year in (1900...2006).reversed() {
+         for year in (kMinBirthYear...kMaxBirthYear).reversed() {
             pickerData.append(year)
          }
       case yearBirthTitleLabel:

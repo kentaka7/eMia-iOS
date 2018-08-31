@@ -13,8 +13,9 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
    
    var presenter: MyProfilePresenterProtocol!
    
-   var user: UserModel!
+   weak var user: UserModel!
    var password: String!
+   
    var registrationNewUser: Bool {
       return user.userId.isEmpty
    }
@@ -26,6 +27,10 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
    @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
    
    private let configurator: MyProfileDependenciesProtocol = MyProfileDependencies()
+
+   deinit {
+      Log()
+   }
    
    override func viewDidLoad() {
       super.viewDidLoad()

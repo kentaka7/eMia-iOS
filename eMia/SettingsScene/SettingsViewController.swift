@@ -8,54 +8,35 @@
 
 import UIKit
 
-/**
- * SettingsViewController class is an example of the MVVM pattern
- * We use presenter as a view model as well
- */
-
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController, SettingsViewProtocol {
 
    @IBOutlet weak var tableView: UITableView!
+   @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
    
-   var presenter: TableViewPresentable!
-   var router: SettingsRouter!
+   var presenter: SettingsPresenterProtocol!
    
+   private let configurator = SettingsDependencies()
+
+   deinit {
+      Log()
+   }
+
    override func viewDidLoad() {
       super.viewDidLoad()
-      SettingsDependencies.configure(view: self, tableView: tableView)
-   }
-   
-   private func configureTableView() {
-      tableView.delegate = self
-      tableView.dataSource = self
+      configurator.configure(view: self)
+      presenter.configureView()
    }
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-      tableView.reloadData()
+      presenter.viewWillAppear()
    }
    
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      router.prepare(for: segue, sender: sender)
+      presenter.prepare(for: segue, sender: sender)
    }
    
-   @IBAction func backButtonPressed(_ sender: Any) {
+   func close() {
       navigationController?.popViewController(animated: true)
-   }
-}
-
-// MARK: - Table View delegate protocol
-
-extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
-   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      return presenter.numberOfRows
-   }
-   
-   public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      return presenter.heightCell(for: indexPath)
-   }
-   
-   public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      return presenter.cell(for: indexPath)
    }
 }

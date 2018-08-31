@@ -10,8 +10,12 @@ import Foundation
 
 class MyProfileRouter: MyProfilePouterProtocol {
 
-   var view: MyProfileViewProtocol!
-   
+   weak var view: MyProfileViewProtocol!
+
+   deinit {
+      Log()
+   }
+
    func closeScene() {
       self.view.close()
    }

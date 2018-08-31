@@ -11,7 +11,7 @@ eMia is developing with using following things:
 - RxSwift, RxCocoa, RxDatasource 
 - RxRealm, RealmSwift
 - Custom Layout for UICollectionView
-- VIPER (there is MyProfile scene is more aligned to the VIPER requirements in this version )
+- VIPER (MyProfile and Settings scenes are more aligned to the VIPER requirements in this version )
 
 ## Requirements
 

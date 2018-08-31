@@ -10,7 +10,7 @@ class Register6ViewCell: UITableViewCell, ForUserConfigurable {
    @IBOutlet weak var addPhotoButton: UIButton!
    @IBOutlet weak var photoImageView: UIImageView!
 
-   var viewController: UIViewController!
+   weak var viewController: UIViewController!
    
    fileprivate var _imageViewController: SFFullscreenImageDetailViewController?
    fileprivate let imagePicker = UIImagePickerController()
@@ -24,7 +24,7 @@ class Register6ViewCell: UITableViewCell, ForUserConfigurable {
       configure(photoImageView)
    }
    
-   fileprivate func setUpPhoto(_ image: UIImage?) {
+   private func setUpPhoto(_ image: UIImage?) {
       self.photoImageView.image = image
       if image == nil {
          self.addPhotoButton.setTitle("Add photo".localized, for: .normal)
@@ -37,8 +37,8 @@ class Register6ViewCell: UITableViewCell, ForUserConfigurable {
       guard !user.userId.isEmpty else {
          return
       }
-      gPhotosManager.downloadAvatar(for: user.userId) { image in
-         self.setUpPhoto(image)
+      gPhotosManager.downloadAvatar(for: user.userId) { [weak self] image in
+         self?.setUpPhoto(image)
       }
    }
 
@@ -95,7 +95,7 @@ extension Register6ViewCell: UIImagePickerControllerDelegate, UINavigationContro
          imagePicker.sourceType = .camera
          self.viewController.present(imagePicker, animated: true, completion: nil)
       } else {
-         Alert.default.showOk("Warning".localized, message: "You don't have a camera".localized)
+         Alert.default.showOk("Warning".localized, message: "Camera isn't presented on your device!".localized)
       }
    }
    

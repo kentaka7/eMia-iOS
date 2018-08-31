@@ -21,21 +21,27 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
       static let allValues = [name, address, gender, yearBirth, photo]
    }
 
-   weak var viewController: UIViewController!
    private var tableView: UITableView {
       return view.tableView
    }
+
+   // Strong Dependencies
+   weak var view: MyProfileViewProtocol!
+   var interactor: MyProfileInteractorProtocol!
+   var router: MyProfilePouterProtocol!
+   var locationWorker: MyProfileLocationWorker!
+
+   // Weak Dependencies
+   weak var viewController: UIViewController!
    weak var user: UserModel!
    weak var activityIndicator: NVActivityIndicatorView!
 
-   // Dependencies
-   var view: MyProfileViewProtocol!
-   var locationWorker: MyProfileLocationWorker!
-   var interactor: MyProfileInteractorProtocol!
-   var router: MyProfilePouterProtocol!
-
    private let disposeBug = DisposeBag()
-   
+
+   deinit {
+      Log()
+   }
+
    func configureView() {
       setUpTableView()
       configureDoneButton()

@@ -8,15 +8,17 @@
 
 import UIKit
 
-class SettingsDependencies: NSObject {
+class SettingsDependencies: SettingsDependenciesProtocol {
 
-   static func configure(view: SettingsViewController, tableView: UITableView) {
+   func configure(view: SettingsViewController) {
       let presenter = SettingsPresenter()
-      presenter.tableView = tableView
-      view.presenter = presenter
       let router = SettingsRouter()
-      view.router = router
-      router.prepare(for: tableView, viewController: view)
+      
+      view.presenter = presenter
+
+      presenter.view = view
+      presenter.router = router
+
+      router.view = view
    }
-   
 }

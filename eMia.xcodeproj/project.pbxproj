@@ -32,6 +32,7 @@
 		7F2F18AD202E111800EF4644 /* LucidaGrandeRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F2F18A6202E111800EF4644 /* LucidaGrandeRegular.ttf */; };
 		7F35135A20B34D960004363C /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F35135920B34D950004363C /* NewPostPresenter.swift */; };
 		7F35135C20B34DF30004363C /* NewPostDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F35135B20B34DF30004363C /* NewPostDependencies.swift */; };
+		7F389F21213955CC007AC4C4 /* SettingsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F389F20213955CB007AC4C4 /* SettingsProtocols.swift */; };
 		7F3B108A20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B107F20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift */; };
 		7F3B108B20BB371C0073BA32 /* FIRDatabaseReference+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */; };
 		7F3B109120BB371C0073BA32 /* RemoteConfig+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */; };
@@ -208,6 +209,7 @@
 		7F2F18A6202E111800EF4644 /* LucidaGrandeRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LucidaGrandeRegular.ttf; sourceTree = "<group>"; };
 		7F35135920B34D950004363C /* NewPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
 		7F35135B20B34DF30004363C /* NewPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostDependencies.swift; sourceTree = "<group>"; };
+		7F389F20213955CB007AC4C4 /* SettingsProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsProtocols.swift; sourceTree = "<group>"; };
 		7F3B107F20BB371C0073BA32 /* FIRDatabaseQuery+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FIRDatabaseQuery+Rx.swift"; sourceTree = "<group>"; };
 		7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FIRDatabaseReference+Rx.swift"; sourceTree = "<group>"; };
 		7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RemoteConfig+Rx.swift"; sourceTree = "<group>"; };
@@ -760,6 +762,7 @@
 				7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */,
 				7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */,
 				7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */,
+				7F389F20213955CB007AC4C4 /* SettingsProtocols.swift */,
 				7F4B287E20B10372002BFB47 /* TableViewCells */,
 			);
 			path = SettingsScene;
@@ -1222,6 +1225,7 @@
 				7FC20D341FE36A84000C23A6 /* Font.swift in Sources */,
 				7F1337B9202AAF7100D955D6 /* RouteCoordinator.swift in Sources */,
 				7F7E36FF20281BD200470139 /* GalleryViewController.swift in Sources */,
+				7F389F21213955CC007AC4C4 /* SettingsProtocols.swift in Sources */,
 				7FBFF4DC1FE4068400788DCB /* CommentItem.swift in Sources */,
 				7FBDE1231FE847D200EAAD3E /* EditPost6ViewCell.swift in Sources */,
 				7F7E36FC20281BD200470139 /* GalleryRouter.swift in Sources */,

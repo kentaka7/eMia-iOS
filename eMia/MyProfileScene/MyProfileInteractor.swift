@@ -21,16 +21,24 @@ class MyProfileInteractor: MyProfileInteractorProtocol {
       var photo: UIImage
    }
    
+   // Strong Dependencies
    var loginWorker: MyProfileLoginWorkerProotocol!
+   
+   // Weak Dependencies
    weak var tableView: UITableView!
    weak var activityIndicator: NVActivityIndicatorView!
 
-   var user: UserModel!
+   weak var user: UserModel!
+   
    var password: String!
    var registrationNewUser: Bool {
       return user.userId.isEmpty
    }
-   
+
+   deinit {
+      Log()
+   }
+
    func updateProfile(for data: MyProfileData, completed: @escaping () -> Void) {
       Realm.update {
          user.name = data.name

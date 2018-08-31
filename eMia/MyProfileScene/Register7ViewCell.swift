@@ -41,12 +41,12 @@ import UIKit
       configure()
    }
    
+   override func awakeFromNib() {
+      configure()
+   }
+   
    private  func configure() {
       nameTitleLabel.text = "Your Name".localized
       nameTitleLabel.textColor = GlobalColors.kBrandNavBarColor
-   }
-   
-   override func awakeFromNib() {
-      configure()
    }
 }

@@ -8,8 +8,9 @@
 
 import Foundation
 import CoreLocation
+import NVActivityIndicatorView
 
-protocol LocationComputing {
+protocol LocationComputing: class {
    func calculateWhereAmI()
 }
 
@@ -19,7 +20,13 @@ protocol TableViewPresentable {
    func cell(for indexPath: IndexPath) -> UITableViewCell
 }
 
-protocol MyProfilePresenterProtocol {
+protocol MyProfilePresenterProtocol: class {
+   var view: MyProfileViewProtocol! {get set}
+   var interactor: MyProfileInteractorProtocol! {get set}
+   var router: MyProfilePouterProtocol! {get set}
+   var locationWorker: MyProfileLocationWorker! {get set}
+   var user: UserModel! {get set}
+   var activityIndicator: NVActivityIndicatorView! {get set}
    func configureView()
 }
 
@@ -27,7 +34,7 @@ protocol MyProfileDependenciesProtocol {
    func configure(view: MyProfileViewController, user: UserModel?)
 }
 
-protocol MyProfileViewProtocol {
+protocol MyProfileViewProtocol: class {
    var tableView: UITableView! {get set}
    var saveDataButton: UIButton! {get set}
    var backBarButtonItem: UIBarButtonItem! {get set}
@@ -36,6 +43,9 @@ protocol MyProfileViewProtocol {
 }
 
 protocol MyProfileInteractorProtocol {
+   var loginWorker: MyProfileLoginWorkerProotocol! {get set}
+   var tableView: UITableView! {get set}
+   var activityIndicator: NVActivityIndicatorView! {get set}
    func updateProfile(for data: MyProfileInteractor.MyProfileData, completed: @escaping () -> Void)
 }
 
@@ -48,6 +58,10 @@ protocol MyProfileLocationWorker {
 }
 
 protocol MyProfilePouterProtocol {
+   var view: MyProfileViewProtocol! {get set}
+   
+   // There are recommendations about documenting code here https://www.appcoda.com/documenting-source-code-in-xcode/
+   
    /**
     Close MyProfile scene. It used for cancel edit profile.
     

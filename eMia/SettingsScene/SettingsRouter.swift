@@ -9,9 +9,19 @@
 import UIKit
 import RxSwift
 
-class SettingsRouter: NSObject {
+class SettingsRouter: SettingsPouterProtocol {
 
    private let disposeBag = DisposeBag()
+
+   weak var view: SettingsViewProtocol!
+   
+   deinit {
+      Log()
+   }
+   
+   func closeScene() {
+      self.view.close()
+   }
    
    struct Segue {
       static let MyProfileViewController = "registerSegue"
@@ -25,20 +35,17 @@ class SettingsRouter: NSObject {
       }
    }
 
-   func prepare(for tableView: UITableView, viewController: UIViewController) {
-      tableView.rx.itemSelected
-         .subscribe(onNext: { indexPath in
-            switch SettingsPresenter.Menu(rawValue: indexPath.row)! {
-            case .myProfile:
-               if gUsersManager.currentUser != nil {
-                  viewController.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
-               }
-            case .visitToAppSite:
-               AppDelegate.instance.gotoCustomerSite()
-            case .logOut:
-               gUsersManager.logOut()
-            }
-         })
-         .disposed(by: disposeBag)
+   func selelectMenuItem(for menuIndex: Int) {
+      switch SettingsPresenter.Menu(rawValue: menuIndex)! {
+      case .myProfile:
+         if gUsersManager.currentUser != nil {
+            let viewController = self.view as! UIViewController
+            viewController.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
+         }
+      case .visitToAppSite:
+         AppDelegate.instance.gotoCustomerSite()
+      case .logOut:
+         gUsersManager.logOut()
+      }
    }
 }
