@@ -15,23 +15,28 @@ class MyProfileDependencies: MyProfileDependenciesProtocol {
       // Configure Interactor
       let loginInteractor = LoginInteractor()
       let interactor = MyProfileInteractor()
+      let router = MyProfileRouter()
+      
       interactor.tableView = view.tableView
       interactor.user = user
       interactor.password = view.password
-      interactor.registrationNewUser = view.registrationNewUser
-      interactor.loginInteractor = loginInteractor
+      interactor.loginWorker = loginInteractor
       interactor.activityIndicator = view.activityIndicator
 
       // Configure Presenter
-      let locationManager = LocationManager()
+      let locationWorker = LocationManager()
 
       let presenter = MyProfilePresenter()
-      presenter.locationManager = locationManager
+      presenter.locationWorker = locationWorker
       presenter.viewController = view
       presenter.view = view
       presenter.user = user
       presenter.activityIndicator = view.activityIndicator
       presenter.interactor = interactor
+      presenter.router = router
+      
+      // Configure Router
+      router.view = view
       
       // Configure View
       view.presenter = presenter

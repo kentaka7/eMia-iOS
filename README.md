@@ -11,7 +11,7 @@ eMia is developing with using following things:
 - RxSwift, RxCocoa, RxDatasource 
 - RxRealm, RealmSwift
 - Custom Layout for UICollectionView
-- VIPER
+- VIPER (there is MyProfile scene is more aligned to the VIPER requirements in this version )
 
 ## Requirements
 
@@ -29,7 +29,7 @@ Firebase.ServerKey. Take it at the console from the Project settings tab filed "
 
 - clone or unzip the repository. 
 - go to the root folder. 
-- make
+- launch
 
    pod install
 
@@ -37,6 +37,6 @@ Open eMia.xcworkspace
 
 ## eMia on Android
 
-Here (https://github.com/SKrotkih/eMia-Android) you can find the eMia Android version.
+Please pay attention here (https://github.com/SKrotkih/eMia-Android) you can find the eMia Android version.
 
 05-22-2018

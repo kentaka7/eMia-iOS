@@ -11,38 +11,46 @@ import NVActivityIndicatorView
 import RealmSwift
 import RxRealm
 
-class MyProfileInteractor: NSObject {
+class MyProfileInteractor: MyProfileInteractorProtocol {
    
    struct MyProfileData {
-      var name: String?
-      var address: String?
-      var gender: Gender?
-      var yearBirth: Int?
-      var photo: UIImage?
+      var name: String
+      var address: String
+      var gender: Gender
+      var yearBirth: Int
+      var photo: UIImage
    }
    
-   var loginInteractor: LoginInteractor!
+   var loginWorker: MyProfileLoginWorkerProotocol!
    weak var tableView: UITableView!
    weak var activityIndicator: NVActivityIndicatorView!
 
    var user: UserModel!
    var password: String!
-   var registrationNewUser: Bool = false
+   var registrationNewUser: Bool {
+      return user.userId.isEmpty
+   }
    
-   func updateMyProfile(_ image: UIImage, completed: @escaping () -> Void) {
+   func updateProfile(for data: MyProfileData, completed: @escaping () -> Void) {
+      Realm.update {
+         user.name = data.name
+         user.gender = data.gender
+         user.yearbirth = data.yearBirth
+         user.address = data.address
+      }
       if self.registrationNewUser {
-         registerNewUser(with: image, completed: completed)
+         registerNewUser(with: data.photo, completed: completed)
       } else {
-         updateUserData(with: image, completed: completed)
+         updateUserData(with: data.photo, completed: completed)
       }
    }
    
    private func registerNewUser(with photo: UIImage, completed: @escaping () -> Void) {
-      _ = Realm.update {
+      Realm.update {
          user.tokenIOS = gDeviceTokenController.currentDeviceToken
       }
       self.activityIndicator.startAnimating()
-      loginInteractor.signUp(user: self.user, password: self.password) { [weak self] user in
+      loginWorker.signUp(user: self.user, password: self.password) { [weak self] user in
          guard let `self` = self else { return }
          self.activityIndicator.stopAnimating()
          if let user = user {

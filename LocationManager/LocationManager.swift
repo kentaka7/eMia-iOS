@@ -44,10 +44,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
          // TODO: we have not gone access: handle this
       }
    }
-   
+}
+
+extension LocationManager: MyProfileLocationWorker {
    func requestLocation(completion: @escaping (CLLocation?) -> Void) {
       _completionClosure = completion
       locationManager.requestWhenInUseAuthorization()
    }
-   
 }

@@ -8,8 +8,7 @@
 
 import UIKit
 import NVActivityIndicatorView
-import RealmSwift
-import RxRealm
+import RxSwift
 
 class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
 
@@ -29,57 +28,84 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
    weak var user: UserModel!
    weak var activityIndicator: NVActivityIndicatorView!
 
+   // Dependencies
    var view: MyProfileViewProtocol!
-   var locationManager: LocationManager!
-   
-   var interactor: MyProfileInteractor!
+   var locationWorker: MyProfileLocationWorker!
+   var interactor: MyProfileInteractorProtocol!
+   var router: MyProfilePouterProtocol!
+
+   private let disposeBug = DisposeBag()
    
    func configureView() {
+      setUpTableView()
+      configureDoneButton()
+      bindBackButton()
+      bindDoneButton()
+   }
+   
+   private func setUpTableView() {
       tableView.delegate = self
       tableView.dataSource = self
    }
    
-   func updateMyProfile(_ completed: @escaping () -> Void) {
-      var photo: UIImage?
+   private func configureDoneButton() {
+      view.saveDataButton.setAsCircle()
+      view.saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
+   }
+   
+   private func bindBackButton() {
+      view.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.router.closeScene()
+      }).disposed(by: disposeBug)
+   }
+   
+   private func bindDoneButton() {
+      view.saveDataButton.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.saveData()
+      }).disposed(by: disposeBug)
+   }
+
+   private func saveData() {
+      self.updateMyProfile { [weak self] in
+         guard let `self` = self else { return }
+         self.router.goToNextScene()   // documented: press alt+click to see the description 
+      }
+   }
+   
+   private func updateMyProfile(_ completed: @escaping () -> Void) {
+      var userPhoto: UIImage!
+      var userName = ""
+      var userGender: Gender = .none
+      var userYearBirth = 0
+      var userAddress = ""
+      
       if let nameCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.name.rawValue, section: 0)) as? Register7ViewCell {
          guard let name = nameCell.name, name.isEmpty == false else {
             Alert.default.showOk("", message: "Please enter your name".localized)
             return
          }
-         Realm.update {
-            user.name = name
-         }
+         userName = name
       }
       if let photoCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.photo.rawValue, section: 0)) as? Register6ViewCell {
          guard let image = photoCell.photo else {
             Alert.default.showOk("", message: "Please add photo".localized)
             return
          }
-         photo = image
+         userPhoto = image
       }
       if let genderCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.gender.rawValue, section: 0)) as? Register4ViewCell {
-         let gender = genderCell.gender
-         Realm.update {
-            user.gender = gender
-         }
+         userGender = genderCell.gender
       }
       if let yearBirthCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.yearBirth.rawValue, section: 0)) as? Register5ViewCell {
-         let yearBirth = yearBirthCell.yearBirth
-         Realm.update {
-            user.yearbirth = yearBirth ?? -1
-         }
+         userYearBirth = yearBirthCell.yearBirth ?? -1
       }
       if let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.address.rawValue, section: 0)) as? Register3ViewCell {
-         let address = addressCell.address
-         Realm.update {
-            user.address = address ?? ""
-         }
+         userAddress = addressCell.address ?? ""
       }
-      if let photo = photo {
-         interactor.updateMyProfile(photo, completed: completed)
-      } else {
-         completed()
-      }
+      let data = MyProfileInteractor.MyProfileData(name: userName, address: userAddress, gender: userGender, yearBirth: userYearBirth, photo: userPhoto)
+      interactor.updateProfile(for: data, completed: completed)
    }
 }
 
@@ -153,12 +179,12 @@ extension MyProfilePresenter: LocationComputing {
       setUpMunicipalityAccordingMyLocation()
    }
    
-   fileprivate func setUpMunicipalityAccordingMyLocation() {
+   private func setUpMunicipalityAccordingMyLocation() {
       activityIndicator.startAnimating()
-      locationManager.requestLocation { location in
+      locationWorker.requestLocation { location in
          self.activityIndicator.stopAnimating()
          if let myLocation = location {
-            // TODO: Use the location for computing user's municipality
+            // TODO: Use this location to compute user's municipality
             print(myLocation)
          }
       }

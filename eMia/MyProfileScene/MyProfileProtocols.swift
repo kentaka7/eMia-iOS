@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 protocol LocationComputing {
    func calculateWhereAmI()
@@ -19,7 +20,6 @@ protocol TableViewPresentable {
 }
 
 protocol MyProfilePresenterProtocol {
-   func updateMyProfile(_ completed: @escaping () -> Void)
    func configureView()
 }
 
@@ -29,4 +29,44 @@ protocol MyProfileDependenciesProtocol {
 
 protocol MyProfileViewProtocol {
    var tableView: UITableView! {get set}
+   var saveDataButton: UIButton! {get set}
+   var backBarButtonItem: UIBarButtonItem! {get set}
+   var registrationNewUser: Bool {get}
+   func close()
+}
+
+protocol MyProfileInteractorProtocol {
+   func updateProfile(for data: MyProfileInteractor.MyProfileData, completed: @escaping () -> Void)
+}
+
+protocol MyProfileLoginWorkerProotocol {
+   func signUp(user: UserModel, password: String, completion: @escaping (UserModel?) -> Void)
+}
+
+protocol MyProfileLocationWorker {
+   func requestLocation(completion: @escaping (CLLocation?) -> Void)
+}
+
+protocol MyProfilePouterProtocol {
+   /**
+    Close MyProfile scene. It used for cancel edit profile.
+    
+    To use it, simply call closeScene()
+    
+    :param:
+    
+    :returns:
+    */
+   func closeScene()
+   
+   /**
+    Skeep to the next scene. It used after finishing edit profile.
+    
+    To use it, simply call goToNextScene()
+    
+    :param:
+    
+    :returns:
+    */
+   func goToNextScene()
 }

@@ -89,6 +89,7 @@
 		7F81B21720B0F0F300CA384A /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */; };
 		7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */; };
 		7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */; };
+		7F8236832138C72E00C7F63C /* MyProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8236822138C72E00C7F63C /* MyProfileRouter.swift */; };
 		7F8604042137024B00D33DC3 /* FirebaseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8604032137024B00D33DC3 /* FirebaseItem.swift */; };
 		7F86186A20B3CFEF002F8D57 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */; };
 		7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */; };
@@ -265,6 +266,7 @@
 		7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDependencies.swift; sourceTree = "<group>"; };
+		7F8236822138C72E00C7F63C /* MyProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileRouter.swift; sourceTree = "<group>"; };
 		7F8604032137024B00D33DC3 /* FirebaseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseItem.swift; sourceTree = "<group>"; };
 		7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = EditPostPresenter.swift; sourceTree = "<group>"; tabWidth = 3; };
@@ -512,8 +514,9 @@
 			children = (
 				7F88D6BF200FEA5500394EA2 /* ProfileEditor.storyboard */,
 				7F695C8C1FEA3914008AE127 /* MyProfileViewController.swift */,
-				7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */,
 				7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */,
+				7F8236822138C72E00C7F63C /* MyProfileRouter.swift */,
+				7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */,
 				7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */,
 				7F87244320B7D3470018A855 /* MyProfileProtocols.swift */,
 				7F4B287320B10117002BFB47 /* TableViewCells */,
@@ -1206,6 +1209,7 @@
 				7FCD79F0201451C200677AC6 /* PhotoPostViewController.swift in Sources */,
 				7F0FD0EC1FEFF0450032689A /* MyProfile2ViewCell.swift in Sources */,
 				7FBA77521FEAB957003B455B /* NewPostViewController.swift in Sources */,
+				7F8236832138C72E00C7F63C /* MyProfileRouter.swift in Sources */,
 				7FE89A9B1FEEDCBB0044633D /* Register7ViewCell.swift in Sources */,
 				7F4B288C20B17DE8002BFB47 /* MyProfilePresenter.swift in Sources */,
 				7FBFF4CE1FE3FA5000788DCB /* CommentsObserver.swift in Sources */,
