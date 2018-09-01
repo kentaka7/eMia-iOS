@@ -27,7 +27,7 @@ class ShowMeSegmentedControl: UIView {
    private var labelsColor: UIColor!
    
    var genderFilter = BehaviorSubject<Gender>(value: .both)
-   private let disposeBug = DisposeBag()
+   private let disposeBag = DisposeBag()
    
    fileprivate struct Constants {
       static let cornerRadius: CGFloat = 3.0
@@ -69,17 +69,17 @@ class ShowMeSegmentedControl: UIView {
       tapGuysRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
          self.genderFilter.onNext(.boy)
-      }).disposed(by: disposeBug)
+      }).disposed(by: disposeBag)
 
       tapGirlsRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
          self.genderFilter.onNext(.girl)
-      }).disposed(by: disposeBug)
+      }).disposed(by: disposeBag)
 
       tapBothRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
          self.genderFilter.onNext(.both)
-      }).disposed(by: disposeBug)
+      }).disposed(by: disposeBag)
    }
    
    private func setUpLocalObserver() {

@@ -8,8 +8,12 @@
 
 import UIKit
 
-class NewPostInteractor: NewPostStoring {
-
+class NewPostInteractor: NewPostInteractorProtocol {
+   
+   deinit {
+      Log()
+   }
+   
    func saveNewPost(title: String, image: UIImage, body bodyText: String, _ completed: @escaping () -> Void) {
       guard let currentUser = gUsersManager.currentUser else {
          Alert.default.showOk("", message: "Only for registered users!".localized)

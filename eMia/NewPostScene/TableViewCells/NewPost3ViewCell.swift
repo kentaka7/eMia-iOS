@@ -10,7 +10,7 @@ class NewPost3ViewCell: UITableViewCell {
    @IBOutlet weak var addPhotoButton: UIButton!
    @IBOutlet weak var photoImageView: UIImageView!
    
-   var viewController: UIViewController!
+   weak var viewController: UIViewController?
    
    fileprivate var _imageViewController: SFFullscreenImageDetailViewController?
    fileprivate let imagePicker = UIImagePickerController()
@@ -29,7 +29,6 @@ class NewPost3ViewCell: UITableViewCell {
          photoImageView.isUserInteractionEnabled = true
          let tap = UITapGestureRecognizer(target: self, action: #selector(self.didPressImageView(_:)))
          photoImageView.addGestureRecognizer(tap)
-
       default:
          break
       }
@@ -55,7 +54,6 @@ class NewPost3ViewCell: UITableViewCell {
 extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
    
    fileprivate func addPhoto() {
-      
       let title = self.viewController?.navigationItem.title
       let alertVC = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
       alertVC.addAction(UIAlertAction(title: "Camera".localized, style: .default, handler: { _ in
@@ -76,7 +74,7 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
          imagePicker.delegate = self
          imagePicker.allowsEditing = true
          imagePicker.sourceType = .camera
-         self.viewController.present(imagePicker, animated: true, completion: nil)
+         self.viewController?.present(imagePicker, animated: true, completion: nil)
       } else {
          Alert.default.showOk("Warning".localized, message: "You don't have a camera".localized)
       }
@@ -86,7 +84,7 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
       imagePicker.delegate = self
       imagePicker.allowsEditing = true
       imagePicker.sourceType = .photoLibrary
-      self.viewController.present(imagePicker, animated: true, completion: nil)
+      self.viewController?.present(imagePicker, animated: true, completion: nil)
    }
    
    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
@@ -99,10 +97,10 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
          }
          photoImageView.image = image
       }
-      self.viewController.dismiss(animated: true, completion: nil)
+      self.viewController?.dismiss(animated: true, completion: nil)
    }
    
    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-      self.viewController.dismiss(animated: true, completion: nil)
+      self.viewController?.dismiss(animated: true, completion: nil)
    }
 }

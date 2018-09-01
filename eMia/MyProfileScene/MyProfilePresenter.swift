@@ -36,7 +36,7 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
    weak var user: UserModel!
    weak var activityIndicator: NVActivityIndicatorView!
 
-   private let disposeBug = DisposeBag()
+   private let disposeBag = DisposeBag()
 
    deinit {
       Log()
@@ -63,14 +63,14 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
       view.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
          self.router.closeScene()
-      }).disposed(by: disposeBug)
+      }).disposed(by: disposeBag)
    }
    
    private func bindDoneButton() {
       view.saveDataButton.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
          self.saveData()
-      }).disposed(by: disposeBug)
+      }).disposed(by: disposeBag)
    }
 
    private func saveData() {

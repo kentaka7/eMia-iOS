@@ -34,7 +34,7 @@ class MunicipalityControllerView: UIView {
     private var selectedMunicipality: (String, String)?
    
    var municipalityFilter = BehaviorSubject<String>(value: "")
-   private let disposeBug = DisposeBag()
+   private let disposeBag = DisposeBag()
    
    fileprivate struct Constants {
       static let cornerRadius: CGFloat = 3.0
@@ -83,7 +83,7 @@ class MunicipalityControllerView: UIView {
       tapAllRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
          self.municipalityFilter.onNext("")
-      }).disposed(by: disposeBug)
+      }).disposed(by: disposeBag)
 
       tapMunicipalityRecognizer.rx.event.subscribe({[weak self] _ in
          guard let `self` = self else { return }
@@ -93,7 +93,7 @@ class MunicipalityControllerView: UIView {
          } else {
             self.municipalityFilter.onNext("")
          }
-      }).disposed(by: disposeBug)
+      }).disposed(by: disposeBag)
    }
 
    private func setUpMunicipalityValue() {

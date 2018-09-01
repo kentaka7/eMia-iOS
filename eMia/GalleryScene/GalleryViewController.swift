@@ -14,7 +14,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    static let kCellHeight: CGFloat = 250.0
    static let kSearchBarHeight: CGFloat = 64.0
 
-   var presenter: GalleryPresentable!
+   var presenter: GalleryPresenterProtocol!
    weak var layoutDelegate: GalleryLayoutDelegate!
    var searcher: GallerySearching!
    

@@ -10,13 +10,17 @@ import UIKit
 
 class NewPostDependencies: NSObject {
 
-   static func configure(view: NewPostViewController, tableView: UITableView, fakeTextField: UITextField) {
+   func configure(view: NewPostViewController) {
       let presenter = NewPostPresenter()
       let interactor = NewPostInteractor()
-      presenter.interactor = interactor
-      presenter.tableView = tableView
-      presenter.fakeTextField = fakeTextField
-      presenter.viewController = view
+      let router = NewPostRouter()
+      
       view.presenter = presenter
+
+      presenter.view = view
+      presenter.router = router
+      presenter.interactor = interactor
+      
+      router.view = view
    }
 }

@@ -8,12 +8,19 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import RealmSwift
 import NVActivityIndicatorView
 
-class EditPostPresenter: NSObject, EditPostPresenting {
+class EditPostPresenter: NSObject, EditPostPresenterProtocol {
    static private let kMinCommentCellHeight: CGFloat = 45.5
    
+   weak var view: EditPostViewProtocol!
+   var interactor: EditPostInteractor!
+   var router: EditPostRouterProtocol!
+   var fakeField: FakeFieldController!
+   var keyboardController: KeyboardController!
+
    enum Rows: Int {
       case avatarPhotoAndUserName
       case dependsOnTextViewContent
@@ -21,29 +28,36 @@ class EditPostPresenter: NSObject, EditPostPresenting {
       case staticTextAndSendEmailButton
       static let allValues = [avatarPhotoAndUserName, dependsOnTextViewContent, photo, staticTextAndSendEmailButton]
    }
+
+   private var post: PostModel {
+      return view.post
+   }
+   
+   private var tableView: UITableView {
+      return view.tableView
+   }
+
+   private var activityIndicator: NVActivityIndicatorView {
+      return view.activityIndicator
+   }
+
+   private var tvHeightConstraint: NSLayoutConstraint {
+      return view.bottomTableViewConstraint
+   }
+   
+   private var backBarButtonItem: UIBarButtonItem {
+      return view.backBarButtonItem
+   }
+   
+   private let disposeBag = DisposeBag()
    
    weak private var commentCell: EditPost4ViewCell?
+   
    private var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCellHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
    private var comments = [CommentModel]()
-   private let disposeBag = DisposeBag()
    private var commentResults: Results<CommentModel>?
    
-   weak var activityIndicator: NVActivityIndicatorView!
-   weak var post: PostModel!
-   weak var tableView: UITableView?
-   weak var tvHeightConstraint: NSLayoutConstraint!
-   weak var view: UIView! {
-      didSet {
-         guard let keyboardController = self.keyboardController else {
-            return
-         }
-         keyboardController.configure(with: self.view)
-      }
-   }
-   
-   var fakeField: FakeFieldController?
-   var keyboardController: KeyboardController?
    private var editingFinished = false
    private var token: NotificationToken?
    
@@ -56,9 +70,19 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    }
    
    func configure() {
+      configureKeyboard()
+      configureTableView()
+      configureBackButton()
       registerObserver()
       startExternalCommentsListener()
       startEditingFinishedListener()
+   }
+   
+   private func configureKeyboard() {
+      guard let keyboardController = self.keyboardController else {
+         return
+      }
+      keyboardController.configure(with: self.view.view)
    }
    
    private func startEditingFinishedListener() {
@@ -68,13 +92,19 @@ class EditPostPresenter: NSObject, EditPostPresenting {
    }
    
    func updateView() {
-      tableView?.reloadData()
+      tableView.reloadData()
    }
    
    var title: String {
       return post.title
    }
    
+   private func configureBackButton() {
+      backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.router.closeScene()
+      }).disposed(by: disposeBag)
+   }
 }
 
 // MARK: - Comments data source
@@ -82,13 +112,13 @@ class EditPostPresenter: NSObject, EditPostPresenting {
 extension EditPostPresenter {
 
    private func startExternalCommentsListener() {
-      guard let postid = self.post?.id else {
+      guard let postid = self.post.id else {
          return
       }
       let realm = try? Realm()
       commentResults = realm?.objects(CommentModel.self).filter("postid = '\(postid)'") // Auto-Updating Results
       token = commentResults?.observe({[weak self] change in
-         guard let `self` = self, let tableView = self.tableView else {
+         guard let `self` = self else {
             return
          }
          switch change {
@@ -100,7 +130,7 @@ extension EditPostPresenter {
             } else {
                self.comments = [CommentModel]()
             }
-            self.tableView?.reloadData()
+            self.tableView.reloadData()
          case .error(let error):
             fatalError("\(error)")
          case .update(_, _, let insertions, _):
@@ -113,10 +143,10 @@ extension EditPostPresenter {
                if let newComment = result.last {
                   DispatchQueue.main.async {
                      self.comments.append(newComment)
-                     tableView.beginUpdates()
+                     self.tableView.beginUpdates()
                      let indexPath = IndexPath(row: Rows.allValues.count + self.comments.count - 1, section: 0)
-                     tableView.insertRows(at: [indexPath], with: .automatic)
-                     tableView.endUpdates()
+                     self.tableView.insertRows(at: [indexPath], with: .automatic)
+                     self.tableView.endUpdates()
                      self.scrollDownIfNeeded()
                   }
                }
@@ -126,14 +156,30 @@ extension EditPostPresenter {
    }
 }
 
-// MARK: - TableView delegate model
+// MARK: - TableView
 
-extension EditPostPresenter {
+extension EditPostPresenter: UITableViewDataSource, UITableViewDelegate {
+
+   private func configureTableView() {
+      tableView.rowHeight = UITableViewAutomaticDimension
+      tableView.estimatedRowHeight = 140
+      tableView.delegate = self
+      tableView.dataSource = self
+   }
+   
+   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+      return self.numberOfRows
+   }
+   
+   public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+      return self.heightCell(for: indexPath)
+   }
+   
+   public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+      return self.cell(for: indexPath)
+   }
 
    func cell(for indexPath: IndexPath) -> UITableViewCell {
-      guard let tableView = self.tableView else {
-         return UITableViewCell()
-      }
       let row = indexPath.row
       let commentIndex = row - Rows.allValues.count
       if let selector: Rows = Rows(rawValue: row) {
@@ -174,7 +220,7 @@ extension EditPostPresenter {
    }
    
    private func configureCommentCell(_ cell: EditPost4ViewCell) {
-      self.fakeField?.configure(with: self.view, anchorView: cell.textView)
+      self.fakeField?.configure(with: self.view.view, anchorView: cell.textView)
       cell.currentCellHeigt.subscribe(onNext: {[weak self] (newCellHeight) in
          guard let `self` = self else { return }
          if newCellHeight != self.currentCellHeight {
@@ -262,13 +308,10 @@ extension EditPostPresenter: AnyObservable {
 extension EditPostPresenter {
    
    private func didUpdateTableViewSize() {
-      guard let tableView = self.tableView else {
-         return
-      }
       if let commentCell = self.commentCell, commentCell.editViewInActiveState {
          DispatchQueue.main.async { [weak self] in
             self?.fakeField?.focus = true
-            tableView.reloadData()
+            self?.tableView.reloadData()
          }
          runAfterDelay(0.3) {
             _ = commentCell.textView.becomeFirstResponder()
@@ -283,13 +326,13 @@ extension EditPostPresenter {
       case .UIKeyboardDidShow:
          if let height = self.keyboardHeight(kbNotification: kbNotification) {
             tvHeightConstraint.constant = height
-            view.setNeedsLayout()
+            self.view.view.setNeedsLayout()
             editingFinished = false
          }
       case .UIKeyboardDidHide:
          if editingFinished {
             tvHeightConstraint.constant = 0.0
-            view.setNeedsLayout()
+            self.view.view.setNeedsLayout()
          }
       default:
          break
@@ -315,13 +358,12 @@ extension EditPostPresenter {
    }
    
    private func scrollDownIfNeeded() {
-      if let tableView = self.tableView,
-         let commentCell = self.commentCell,
-         commentCell.editViewInActiveState {
+      if let commentCell = self.commentCell,
+      commentCell.editViewInActiveState {
          DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             let indexPath = IndexPath(row: self.numberOfRows - 1, section: 0)
-            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
          }
       }
    }

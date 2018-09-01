@@ -382,15 +382,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="eMia" id="NOD-Fx-qa5">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="icon-Backbutton" id="JPF-mc-h0s">
-                            <connections>
-                                <action selector="backButtonPressed:" destination="KrM-ac-DFu" id="fPb-Rv-lye"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="icon-Backbutton" id="JPF-mc-h0s"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="activityIndicator" destination="5fy-36-xqD" id="38o-dI-A2q"/>
+                        <outlet property="backBarButtonItem" destination="JPF-mc-h0s" id="0Dw-rk-d23"/>
                         <outlet property="bottomTableViewConstraint" destination="htz-rA-O4t" id="Ke9-vb-G4t"/>
                         <outlet property="tableView" destination="fxp-Pv-Ivk" id="Had-5k-HZO"/>
                     </connections>

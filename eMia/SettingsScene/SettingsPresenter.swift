@@ -28,7 +28,7 @@ class SettingsPresenter: NSObject, SettingsPresenterProtocol {
    weak var view: SettingsViewProtocol!
    var router: SettingsPouterProtocol!
    
-   private let disposeBug = DisposeBag()
+   private let disposeBag = DisposeBag()
    
    private var tableView: UITableView! {
       return view.tableView
@@ -57,7 +57,7 @@ class SettingsPresenter: NSObject, SettingsPresenterProtocol {
       view.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
          self.router.closeScene()
-      }).disposed(by: disposeBug)
+      }).disposed(by: disposeBag)
    }
    
    private func configureRouter() {
@@ -65,7 +65,7 @@ class SettingsPresenter: NSObject, SettingsPresenterProtocol {
          .subscribe(onNext: { indexPath in
             self.router.selelectMenuItem(for: indexPath.row)
          })
-         .disposed(by: disposeBug)
+         .disposed(by: disposeBag)
    }
    
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {

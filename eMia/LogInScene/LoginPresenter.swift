@@ -6,21 +6,6 @@
 import UIKit
 import RxSwift
 
-protocol LogInValidating {
-   var email: BehaviorSubject<String> {get}
-   var password: BehaviorSubject<String> {get}
-   var isValid: Observable<Bool> {get}
-}
-
-protocol LogInActing {
-   func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void)
-   func signUp(completion: (LoginPresenter.LoginError?) -> Void)
-}
-
-protocol LogInRouting {
-   func prepare(for segue: UIStoryboardSegue, sender: Any?)
-}
-
 class LoginPresenter: NSObject, LogInValidating, LogInActing, LogInRouting {
 
    var interactor: LoginInteractor!
@@ -77,7 +62,7 @@ class LoginPresenter: NSObject, LogInValidating, LogInActing, LogInRouting {
    }
 }
 
-// MARK: - Error
+// MARK: - Errors presenter
 
 extension LoginPresenter {
    

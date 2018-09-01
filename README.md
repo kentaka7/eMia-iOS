@@ -11,7 +11,7 @@ eMia is developing with using following things:
 - RxSwift, RxCocoa, RxDatasource 
 - RxRealm, RealmSwift
 - Custom Layout for UICollectionView
-- VIPER (MyProfile and Settings scenes are more aligned to the VIPER requirements in this version )
+- VIPER (the MyProfile, Settings, NewPost, EditPost scenes are more aligned to the VIPER requirements at the current version )
 
 ## Requirements
 
@@ -20,10 +20,12 @@ eMia is developing with using following things:
 
 ## Introduction
 
-If you want to try eMia, sign in your Google account, then open Firebase console https://console.firebase.google.com
-Create a new project. Please follow documentation https://firebase.google.com/docs/ios/setup#add_firebase_to_your_app.
-As a result, you have to download GoogleService-Info.plist and replace mine in root folder. Also, you should replace 
-Firebase.ServerKey. Take it at the console from the Project settings tab filed "Web API Key" (it is needed for the push-notifications). 
+To try the eMia, you should beforte 
+- sign in your Google account
+- open Firebase console https://console.firebase.google.com
+- create a new project. Please follow documentation https://firebase.google.com/docs/ios/setup#add_firebase_to_your_app.
+- as a result, you have to download GoogleService-Info.plist and replace mine in the root xCode project folder
+- also, you should replace Firebase.ServerKey (Constants.swift file ). Take it at the console from the Project settings tab filed "Web API Key" (it is needed for the push-notifications). 
 
 ## Installation
 

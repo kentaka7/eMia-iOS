@@ -11,18 +11,18 @@ import NVActivityIndicatorView
 
 class EditPostDependencies: NSObject {
 
-   static func configure(view: EditPostViewController, post: PostModel, tableView: UITableView, activityIndicator: NVActivityIndicatorView, tableViewHeight: NSLayoutConstraint) {
+   func configure(view: EditPostViewController) {
+      let presenter = EditPostPresenter()
+      let interactor = EditPostInteractor()
+      let router = EditPostRouter()
       let keyboardController = KeyboardController()
       let fakeField = FakeFieldController()
 
-      let presenter = EditPostPresenter()
+      presenter.view = view
+      presenter.interactor = interactor
       presenter.keyboardController = keyboardController
-      presenter.post = post
-      presenter.activityIndicator = activityIndicator
-      presenter.tableView = tableView
       presenter.fakeField = fakeField
-      presenter.view = view.view
-      presenter.tvHeightConstraint = tableViewHeight
+      presenter.router = router
       
       view.presenter = presenter
    }

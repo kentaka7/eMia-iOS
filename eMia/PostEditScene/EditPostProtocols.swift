@@ -7,9 +7,29 @@
 //
 
 import Foundation
+import NVActivityIndicatorView
 
-protocol EditPostPresenting: TableViewPresentable {
+protocol EditPostViewProtocol: class {
+   var presenter: EditPostPresenterProtocol! {get set}
+   var view: UIView! { get }
+   var post: PostModel! {get}
+   var tableView: UITableView! {get}
+   var activityIndicator: NVActivityIndicatorView! {get}
+   var bottomTableViewConstraint: NSLayoutConstraint! {get}
+   var backBarButtonItem: UIBarButtonItem! {get}
+   func close()
+}
+
+protocol EditPostPresenterProtocol: class, TableViewPresentable {
    var title: String {get}
    func configure()
    func updateView()
+}
+
+protocol EditPostInteractorProtocol: class {
+
+}
+
+protocol EditPostRouterProtocol: class {
+   func closeScene()
 }

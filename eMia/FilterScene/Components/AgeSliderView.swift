@@ -17,7 +17,7 @@ class AgeSliderView: UIView {
    
    var minAgeFilter = BehaviorSubject<Int>(value: 0)
    var maxAgeFilter = BehaviorSubject<Int>(value: 0)
-   private let disposeBug = DisposeBag()
+   private let disposeBag = DisposeBag()
    
    var minAge: CGFloat = 0.0 {
       didSet {
@@ -56,11 +56,11 @@ class AgeSliderView: UIView {
       _ = minAgeFilter.asObservable().subscribe { [weak self] _ in
          guard let `self` = self else { return }
          self.showRange()
-         }.disposed(by: disposeBug)
+         }.disposed(by: disposeBag)
       _ = maxAgeFilter.asObservable().subscribe { [weak self] _ in
          guard let `self` = self else { return }
          self.showRange()
-         }.disposed(by: disposeBug)
+         }.disposed(by: disposeBag)
    }
    
    private func showRange() {

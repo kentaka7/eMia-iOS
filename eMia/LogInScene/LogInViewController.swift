@@ -15,7 +15,7 @@ class LogInViewController: UIViewController {
    var validator: LogInValidating!
    var router: LogInRouting!
    
-   let disposeBug = DisposeBag()
+   let disposeBag = DisposeBag()
    
    @IBOutlet weak var emailTextField: UITextField!
    @IBOutlet weak var passwordTextField: UITextField!
@@ -55,7 +55,7 @@ class LogInViewController: UIViewController {
          tapRecognizer.rx.event.subscribe({[weak self] _ in
             guard let `self` = self else { return }
             self.hideKeyboard()
-         }).disposed(by: disposeBug)
+         }).disposed(by: disposeBag)
       case emailTextField:
          _ = emailTextField.rx.text.map { $0 ?? "" }
             .bind(to: validator.email)
@@ -69,7 +69,7 @@ class LogInViewController: UIViewController {
          signInButton.rx.tap.bind(onNext: { [weak self] in
             guard let `self` = self else { return }
             self.signInButtonPressed()
-         }).disposed(by: disposeBug)
+         }).disposed(by: disposeBag)
       case signUpButton:
          signUpButton.isEnabled = false
          signUpButton.setTitle("Sign Up".localized, for: .normal)
@@ -77,7 +77,7 @@ class LogInViewController: UIViewController {
          signUpButton.rx.tap.bind(onNext: { [weak self] in
             guard let `self` = self else { return }
             self.signUpButtonPressed()
-         }).disposed(by: disposeBug)
+         }).disposed(by: disposeBag)
       default:
          break
       }

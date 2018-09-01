@@ -6,7 +6,7 @@
 import UIKit
 import RxSwift
 
-class GalleryPresenter: NSObject, GalleryPresentable, GallerySearching {
+class GalleryPresenter: NSObject, GalleryPresenterProtocol, GallerySearching {
 
    var router: GalleryRouter!
    var interactor: GalleryInteractor!

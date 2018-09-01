@@ -15,7 +15,7 @@ protocol GalleryViewProtocol {
    func stopProgress()
 }
 
-protocol GalleryPresentable {
+protocol GalleryPresenterProtocol {
    var title: String {get}
    var galleryItemsCount: PublishSubject<Int> {get}
    func configure()
