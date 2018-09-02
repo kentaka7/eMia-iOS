@@ -22,6 +22,8 @@ final class FiltersViewController: UIViewController {
     @IBOutlet weak var separatorLineView: UIView!
     @IBOutlet weak var municipalityLabel: UILabel!
     
+    private let configurator = FilterDependencies()
+    
     // MARK: Private
     private struct Constants {
         static let cornerRadius: CGFloat = 3.0
@@ -34,7 +36,7 @@ final class FiltersViewController: UIViewController {
         
         Appearance.customize(viewController: self)
         
-        FilterDependencies.configure(view: self)
+        configurator.configure(self)
         configureView()
         setUpRightBareButtonItem()
         presenter.showCurrentFilterState()
@@ -46,14 +48,14 @@ final class FiltersViewController: UIViewController {
     
     @objc private func doneButtonPressed() {
         presenter.saveCurrentFilterState()
-        close()
+        closeCurrentViewController()
     }
     
     @IBAction func backBarButtonPressed(_ sender: Any) {
-        close()
+        closeCurrentViewController()
     }
 
-    private func close() {
+    private func closeCurrentViewController() {
         navigationController?.popViewController(animated: true)
     }
     

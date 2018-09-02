@@ -7,7 +7,7 @@ import UIKit
 
 class GalleryDependencies {
    
-   static func configure(view: GalleryViewController) {
+   func configure(_ view: GalleryViewController) {
       let router = GalleryRouter()
       let presenter = GalleryPresenter()
       let interactor = GalleryInteractor()

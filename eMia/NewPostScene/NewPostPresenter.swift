@@ -70,7 +70,7 @@ class NewPostPresenter: NSObject, NewPostPresenterProtocol {
       saveButton.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
          self.save {
-            self.router.closeScene()
+            self.router.closeCurrentViewController()
          }
       }).disposed(by: disposeBag)
    }
@@ -78,7 +78,7 @@ class NewPostPresenter: NSObject, NewPostPresenterProtocol {
    private func setUpBackButton() {
       backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
-         self.router.closeScene()
+         self.router.closeCurrentViewController()
       }).disposed(by: disposeBag)
    }
 }

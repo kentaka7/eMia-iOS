@@ -62,7 +62,7 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
    private func bindBackButton() {
       view.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
-         self.router.closeScene()
+         self.router.closeCurrentViewController()
       }).disposed(by: disposeBag)
    }
    

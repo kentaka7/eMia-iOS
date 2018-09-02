@@ -8,9 +8,9 @@
 
 import UIKit
 
-class FilterDependencies: NSObject {
+class FilterDependencies: FilterDependenciesProtocol {
    
-   static func configure(view: FiltersViewController) {
+   func configure(_ view: FiltersViewController) {
       let interactor = FilterInteractor()
       let presenter = FilterPresenter()
       presenter.interactor = interactor

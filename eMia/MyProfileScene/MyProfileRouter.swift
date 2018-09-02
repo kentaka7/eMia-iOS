@@ -10,21 +10,21 @@ import Foundation
 
 class MyProfileRouter: MyProfilePouterProtocol {
 
-   weak var view: MyProfileViewProtocol!
+   weak var view: MyProfileViewController!
 
    deinit {
       Log()
    }
 
-   func closeScene() {
-      self.view.close()
+   func closeCurrentViewController() {
+      self.view.navigationController?.popViewController(animated: true)
    }
    
    func goToNextScene() {
       if self.view.registrationNewUser {
          presentMainScreen()
       } else {
-         self.closeScene()
+         self.closeCurrentViewController()
       }
    }
    

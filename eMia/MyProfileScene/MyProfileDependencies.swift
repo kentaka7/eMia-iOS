@@ -14,7 +14,7 @@ class MyProfileDependencies: MyProfileDependenciesProtocol {
       Log()
    }
    
-   func configure(view: MyProfileViewController, user: UserModel?) {
+   func configure(_ view: MyProfileViewController, user: UserModel?) {
       
       // Configure Interactor
       let presenter = MyProfilePresenter()

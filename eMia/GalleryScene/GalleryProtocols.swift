@@ -9,6 +9,10 @@
 import Foundation
 import RxSwift
 
+protocol GalleryDependenciesProtocol {
+   func configure(_ view: GalleryViewController)
+}
+
 protocol GalleryViewProtocol {
    var galleryCollectionView: UICollectionView? { get }
    func startProgress()

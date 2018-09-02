@@ -27,7 +27,7 @@ class NewPostViewController: UIViewController, NewPostViewProtocol {
    override func viewDidLoad() {
       super.viewDidLoad()
 
-      configurator.configure(view: self)
+      configurator.configure(self)
       presenter.configureView()
       configureView()
    }
@@ -50,9 +50,5 @@ class NewPostViewController: UIViewController, NewPostViewProtocol {
       default:
          break
       }
-   }
-   
-   func close() {
-      self.navigationController?.popViewController(animated: true)
    }
 }

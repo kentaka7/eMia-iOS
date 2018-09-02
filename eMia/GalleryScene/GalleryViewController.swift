@@ -31,10 +31,12 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    
    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
    
+   private let configurator = GalleryDependencies()
+   
    override func viewDidLoad() {
       super.viewDidLoad()
 
-      GalleryDependencies.configure(view: self)
+      configurator.configure(self)
 
       navigationItem.title = presenter.title
       configureSubviews()

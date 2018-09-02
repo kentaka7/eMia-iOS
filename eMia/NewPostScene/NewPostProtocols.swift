@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol NewPostDependenciesProtocol {
+   func configure(_ view: NewPostViewController)
+}
+
 protocol NewPostViewProtocol: class {
    var presenter: NewPostPresenterProtocol! {get}
    var tableView: UITableView! {get}
@@ -15,7 +19,6 @@ protocol NewPostViewProtocol: class {
    var fakeTextField: UITextField! {get}
    var saveButton: UIButton! {get}
    var backBarButtonItem: UIBarButtonItem! {get}
-   func close()
 }
 
 protocol NewPostPresenterProtocol: TableViewPresentable {
@@ -30,5 +33,5 @@ protocol NewPostInteractorProtocol: class {
 }
 
 protocol NewPostRouterProtocol: class {
-   func closeScene()
+   func closeCurrentViewController()
 }

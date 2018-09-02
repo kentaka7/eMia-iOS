@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 
 class EditPostDependencies: NSObject {
 
-   func configure(view: EditPostViewController) {
+   func configure(_ view: EditPostViewController) {
       let presenter = EditPostPresenter()
       let interactor = EditPostInteractor()
       let router = EditPostRouter()
@@ -25,5 +25,7 @@ class EditPostDependencies: NSObject {
       presenter.router = router
       
       view.presenter = presenter
+      
+      interactor.presenter = presenter
    }
 }

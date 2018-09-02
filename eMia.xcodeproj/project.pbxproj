@@ -44,6 +44,7 @@
 		7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3F24B921175C7500722AB4 /* KeyboardController.swift */; };
 		7F41C3312118551D00D6FC6F /* FakeFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F41C3302118551D00D6FC6F /* FakeFieldController.swift */; };
 		7F44DF46213AE67100F642A5 /* EditPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44DF45213AE67000F642A5 /* EditPostInteractor.swift */; };
+		7F45CBF9213BADC7003E4691 /* SettingsMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F45CBF8213BADC6003E4691 /* SettingsMenuController.swift */; };
 		7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */; };
 		7F475EC020B83F8400778FBF /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBF20B83F8400778FBF /* FilterPresenter.swift */; };
 		7F47D9DD20C37725001210E4 /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F47D9DC20C37725001210E4 /* FavoriteModel.swift */; };
@@ -225,6 +226,7 @@
 		7F3F24B921175C7500722AB4 /* KeyboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
 		7F41C3302118551D00D6FC6F /* FakeFieldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFieldController.swift; sourceTree = "<group>"; };
 		7F44DF45213AE67000F642A5 /* EditPostInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostInteractor.swift; sourceTree = "<group>"; };
+		7F45CBF8213BADC6003E4691 /* SettingsMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMenuController.swift; sourceTree = "<group>"; };
 		7F475EBD20B83B7B00778FBF /* NewPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostProtocols.swift; sourceTree = "<group>"; };
 		7F475EBF20B83F8400778FBF /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		7F47D9DC20C37725001210E4 /* FavoriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
@@ -757,6 +759,7 @@
 				7FD7667C1FE9D45400E32C42 /* Settings.storyboard */,
 				7FD7667F1FE9D49E00E32C42 /* SettingsViewController.swift */,
 				7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */,
+				7F45CBF8213BADC6003E4691 /* SettingsMenuController.swift */,
 				7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */,
 				7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */,
 				7F389F20213955CB007AC4C4 /* SettingsProtocols.swift */,
@@ -1265,6 +1268,7 @@
 				7F41C3312118551D00D6FC6F /* FakeFieldController.swift in Sources */,
 				7F060C151FF0E8EB002D04AD /* RangeSlider.swift in Sources */,
 				7F7E37112028705800470139 /* LoginPresenter.swift in Sources */,
+				7F45CBF9213BADC7003E4691 /* SettingsMenuController.swift in Sources */,
 				7F87244A20B7D4AD0018A855 /* EditPostProtocols.swift in Sources */,
 				7F060C241FF1229C002D04AD /* FilterFavorite.swift in Sources */,
 				7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */,

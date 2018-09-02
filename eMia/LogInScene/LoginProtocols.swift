@@ -9,13 +9,17 @@
 import Foundation
 import RxSwift
 
+protocol LogInDependenciesProtocol {
+   func configure(_ view: LogInViewController)
+}
+
 protocol LogInValidating {
    var email: BehaviorSubject<String> {get}
    var password: BehaviorSubject<String> {get}
    var isValid: Observable<Bool> {get}
 }
 
-protocol LogInActing {
+protocol LogInPresenterProtocol {
    func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void)
    func signUp(completion: (LoginPresenter.LoginError?) -> Void)
 }

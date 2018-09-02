@@ -6,7 +6,7 @@
 import UIKit
 import RxSwift
 
-class LoginPresenter: NSObject, LogInValidating, LogInActing, LogInRouting {
+class LoginPresenter: NSObject, LogInValidating, LogInPresenterProtocol, LogInRouting {
 
    var interactor: LoginInteractor!
    var view: LogInViewController!

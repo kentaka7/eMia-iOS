@@ -37,11 +37,7 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
       
       navigationItem.title = registrationNewUser ? "Sign Up".localized : "My Profile".localized
       
-      configurator.configure(view: self, user: user)
+      configurator.configure(self, user: user)
       presenter.configureView()
-   }
-   
-   func close() {
-      navigationController?.popViewController(animated: true)
    }
 }

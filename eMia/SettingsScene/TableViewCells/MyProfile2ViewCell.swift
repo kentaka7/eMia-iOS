@@ -8,6 +8,10 @@
 
 import UIKit
 
+/**
+ Settings menu item for text label
+ */
+
 class MyProfile2ViewCell: UITableViewCell {
    
    @IBOutlet weak var titleLabel: UILabel!
@@ -36,5 +40,4 @@ class MyProfile2ViewCell: UITableViewCell {
       
       // Configure the view for the selected state
    }
-   
 }

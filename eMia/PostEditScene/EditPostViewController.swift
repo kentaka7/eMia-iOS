@@ -24,16 +24,12 @@ class EditPostViewController: UIViewController, EditPostViewProtocol {
 
       Appearance.customize(viewController: self)
 
-      configurator.configure(view: self)
+      configurator.configure(self)
       presenter.configure()
    }
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
       presenter.updateView()
-   }
-   
-   func close() {
-      navigationController?.popViewController(animated: true)
    }
 }

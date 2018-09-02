@@ -31,7 +31,7 @@ protocol MyProfilePresenterProtocol: class {
 }
 
 protocol MyProfileDependenciesProtocol {
-   func configure(view: MyProfileViewController, user: UserModel?)
+   func configure(_ view: MyProfileViewController, user: UserModel?)
 }
 
 protocol MyProfileViewProtocol: class {
@@ -39,7 +39,6 @@ protocol MyProfileViewProtocol: class {
    var saveDataButton: UIButton! {get set}
    var backBarButtonItem: UIBarButtonItem! {get set}
    var registrationNewUser: Bool {get}
-   func close()
 }
 
 protocol MyProfileInteractorProtocol {
@@ -58,20 +57,20 @@ protocol MyProfileLocationWorker {
 }
 
 protocol MyProfilePouterProtocol {
-   var view: MyProfileViewProtocol! {get set}
+   var view: MyProfileViewController! {get set}
    
    // There are recommendations about documenting code here https://www.appcoda.com/documenting-source-code-in-xcode/
    
    /**
     Close MyProfile scene. It used for cancel edit profile.
     
-    To use it, simply call closeScene()
+    To use it, simply call closeCurrentViewController()
     
     :param:
     
     :returns:
     */
-   func closeScene()
+   func closeCurrentViewController()
    
    /**
     Skeep to the next scene. It used after finishing edit profile.

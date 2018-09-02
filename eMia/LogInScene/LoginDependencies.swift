@@ -5,13 +5,13 @@
 
 import UIKit
 
-class LoginDependencies {
+class LoginDependencies: LogInDependenciesProtocol {
    
-   static func configure(view: LogInViewController) {
+   func configure(_ view: LogInViewController) {
       let presenter = LoginPresenter()
       let interactor = LoginInteractor()
       
-      view.executor = presenter
+      view.presenter = presenter
       view.validator = presenter
       view.router = presenter
       

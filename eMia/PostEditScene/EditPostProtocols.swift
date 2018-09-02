@@ -9,6 +9,10 @@
 import Foundation
 import NVActivityIndicatorView
 
+protocol EditPostDependenciesProtocol {
+   func configure(_ view: EditPostViewController)
+}
+
 protocol EditPostViewProtocol: class {
    var presenter: EditPostPresenterProtocol! {get set}
    var view: UIView! { get }
@@ -17,19 +21,22 @@ protocol EditPostViewProtocol: class {
    var activityIndicator: NVActivityIndicatorView! {get}
    var bottomTableViewConstraint: NSLayoutConstraint! {get}
    var backBarButtonItem: UIBarButtonItem! {get}
-   func close()
 }
 
 protocol EditPostPresenterProtocol: class, TableViewPresentable {
    var title: String {get}
    func configure()
    func updateView()
+   func didUpdateComments()
+   func didAddComment()
 }
 
 protocol EditPostInteractorProtocol: class {
-
+   var presenter: EditPostPresenterProtocol! {get}
+   func configure(post: PostModel)
+   func sendComment(_ text: String, completion: @escaping () -> Void)
 }
 
 protocol EditPostRouterProtocol: class {
-   func closeScene()
+   func closeCurrentViewController()
 }

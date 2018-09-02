@@ -8,6 +8,10 @@
 
 import UIKit
 
+/**
+   Settings menu item for "My Profile"
+ */
+
 class MyProfile1ViewCell: UITableViewCell {
    
    @IBOutlet weak var avatarBackgroundView: UIView!

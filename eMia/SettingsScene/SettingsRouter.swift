@@ -7,20 +7,17 @@
 //
 
 import UIKit
-import RxSwift
 
 class SettingsRouter: SettingsPouterProtocol {
 
-   private let disposeBag = DisposeBag()
-
-   weak var view: SettingsViewProtocol!
+   weak var view: SettingsViewController!
    
    deinit {
       Log()
    }
    
-   func closeScene() {
-      self.view.close()
+   func closeCurrentViewController() {
+      self.view.navigationController?.popViewController(animated: true)
    }
    
    struct Segue {
@@ -35,12 +32,11 @@ class SettingsRouter: SettingsPouterProtocol {
       }
    }
 
-   func selelectMenuItem(for menuIndex: Int) {
-      switch SettingsPresenter.Menu(rawValue: menuIndex)! {
+   func didSelelectMenuItem(for menuIndex: Int) {
+      switch SettingsMenu(rawValue: menuIndex)! {
       case .myProfile:
          if gUsersManager.currentUser != nil {
-            let viewController = self.view as! UIViewController
-            viewController.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
+            self.view.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
          }
       case .visitToAppSite:
          AppDelegate.instance.gotoCustomerSite()

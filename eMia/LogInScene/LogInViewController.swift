@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 
 class LogInViewController: UIViewController {
    
-   var executor: LogInActing!
+   var presenter: LogInPresenterProtocol!
    var validator: LogInValidating!
    var router: LogInRouting!
    
@@ -25,12 +25,14 @@ class LogInViewController: UIViewController {
 
    @IBOutlet var activityIndicatorView: NVActivityIndicatorView!
    @IBOutlet var tapRecognizer: UITapGestureRecognizer!
+   
+   private let configurator = LoginDependencies()
 
    override func viewDidLoad() {
       super.viewDidLoad()
       
       navigationItem.title = "Log In to ".localized + "\(AppConstants.ApplicationName)"
-      LoginDependencies.configure(view: self)
+      configurator.configure(self)
       
       subscribeOnValid()
       configureView()
@@ -96,7 +98,7 @@ class LogInViewController: UIViewController {
    
    private func signInButtonPressed() {
       self.hideKeyboard()
-      executor.signIn { error in
+      presenter.signIn { error in
          guard let error = error else {
             return
          }
@@ -115,7 +117,7 @@ class LogInViewController: UIViewController {
    
    private func signUpButtonPressed() {
       self.hideKeyboard()
-      executor.signUp { error in
+      presenter.signUp { error in
          guard let error = error else {
             return
          }

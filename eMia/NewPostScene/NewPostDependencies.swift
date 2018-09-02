@@ -10,7 +10,7 @@ import UIKit
 
 class NewPostDependencies: NSObject {
 
-   func configure(view: NewPostViewController) {
+   func configure(_ view: NewPostViewController) {
       let presenter = NewPostPresenter()
       let interactor = NewPostInteractor()
       let router = NewPostRouter()

@@ -249,7 +249,7 @@ extension GalleryInteractor: UISearchBarDelegate {
       }
    }
    
-   fileprivate func hideKeyboard() {
+   private func hideKeyboard() {
       mSearchBar.resignFirstResponder()
    }
 }

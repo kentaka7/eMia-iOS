@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol FilterDependenciesProtocol {
+   func configure(_ view: FiltersViewController)
+}
+
 protocol FilterStoragable {
    func fetchFilterPreferences()
    func saveFilterPreferences()

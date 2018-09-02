@@ -10,13 +10,13 @@ import Foundation
 
 class NewPostRouter: NewPostRouterProtocol {
 
-   weak var view: NewPostViewProtocol!
+   weak var view: NewPostViewController!
 
    deinit {
       Log()
    }
 
-   func closeScene() {
-      self.view.close()
+   func closeCurrentViewController() {
+      self.view.navigationController?.popViewController(animated: true)
    }
 }

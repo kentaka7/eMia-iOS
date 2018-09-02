@@ -10,11 +10,13 @@ import UIKit
 
 class SettingsDependencies: SettingsDependenciesProtocol {
 
-   func configure(view: SettingsViewController) {
+   func configure(_ view: SettingsViewController) {
       let presenter = SettingsPresenter()
       let router = SettingsRouter()
+      let menuController = SettingsMenuController()
       
       view.presenter = presenter
+      view.menuController = menuController
 
       presenter.view = view
       presenter.router = router

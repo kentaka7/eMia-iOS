@@ -18,6 +18,7 @@ class EditPostPresenter: NSObject, EditPostPresenterProtocol {
    weak var view: EditPostViewProtocol!
    var interactor: EditPostInteractor!
    var router: EditPostRouterProtocol!
+   
    var fakeField: FakeFieldController!
    var keyboardController: KeyboardController!
 
@@ -55,16 +56,16 @@ class EditPostPresenter: NSObject, EditPostPresenterProtocol {
    
    private var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCellHeight: CGFloat = EditPostPresenter.kMinCommentCellHeight
-   private var comments = [CommentModel]()
-   private var commentResults: Results<CommentModel>?
+
+   private var comments: [CommentModel] {
+      return self.interactor.comments
+   }
    
    private var editingFinished = false
-   private var token: NotificationToken?
    
    var observers: [Any] = []
    
    deinit {
-      token?.invalidate()
       unregisterObserver()
       Log()
    }
@@ -74,8 +75,8 @@ class EditPostPresenter: NSObject, EditPostPresenterProtocol {
       configureTableView()
       configureBackButton()
       registerObserver()
-      startExternalCommentsListener()
       startEditingFinishedListener()
+      interactor.configure(post: self.post)
    }
    
    private func configureKeyboard() {
@@ -102,57 +103,27 @@ class EditPostPresenter: NSObject, EditPostPresenterProtocol {
    private func configureBackButton() {
       backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
-         self.router.closeScene()
+         self.router.closeCurrentViewController()
       }).disposed(by: disposeBag)
    }
 }
 
-// MARK: - Comments data source
+// MARK: - Interactor output
 
 extension EditPostPresenter {
 
-   private func startExternalCommentsListener() {
-      guard let postid = self.post.id else {
-         return
+   func didUpdateComments() {
+      self.tableView.reloadData()
+   }
+   
+   func didAddComment() {
+      DispatchQueue.main.async {
+         self.tableView.beginUpdates()
+         let indexPath = IndexPath(row: Rows.allValues.count + self.comments.count - 1, section: 0)
+         self.tableView.insertRows(at: [indexPath], with: .automatic)
+         self.tableView.endUpdates()
+         self.scrollDownIfNeeded()
       }
-      let realm = try? Realm()
-      commentResults = realm?.objects(CommentModel.self).filter("postid = '\(postid)'") // Auto-Updating Results
-      token = commentResults?.observe({[weak self] change in
-         guard let `self` = self else {
-            return
-         }
-         switch change {
-         case .initial:
-            if let result = self.commentResults?.sorted(by: { (comment1, comment2) -> Bool in
-               return comment1.created < comment2.created
-            }) {
-               self.comments = result
-            } else {
-               self.comments = [CommentModel]()
-            }
-            self.tableView.reloadData()
-         case .error(let error):
-            fatalError("\(error)")
-         case .update(_, _, let insertions, _):
-            if insertions.count == 0 {
-               return
-            }
-            if let result = self.commentResults?.sorted(by: { (comment1, comment2) -> Bool in
-               return comment1.created < comment2.created
-            }) {
-               if let newComment = result.last {
-                  DispatchQueue.main.async {
-                     self.comments.append(newComment)
-                     self.tableView.beginUpdates()
-                     let indexPath = IndexPath(row: Rows.allValues.count + self.comments.count - 1, section: 0)
-                     self.tableView.insertRows(at: [indexPath], with: .automatic)
-                     self.tableView.endUpdates()
-                     self.scrollDownIfNeeded()
-                  }
-               }
-            }
-         }
-      })
    }
 }
 
@@ -269,12 +240,8 @@ extension EditPostPresenter: UITableViewDataSource, UITableViewDelegate {
 extension EditPostPresenter {
    
    private func sendComment(_ text: String) {
-      guard let currentUser = gUsersManager.currentUser else {
-         return
-      }
       activityIndicator.startAnimating()
-      let newComment = CommentModel(uid: currentUser.userId, author: currentUser.name, text: text, postid: post.id!)
-      newComment.synchronize { success in
+      interactor.sendComment(text) {
          self.activityIndicator.stopAnimating()
       }
    }

@@ -10,13 +10,13 @@ import Foundation
 
 class EditPostRouter: EditPostRouterProtocol {
 
-   weak var view: EditPostViewProtocol!
+   weak var view: EditPostViewController!
 
    deinit {
       Log()
    }
 
-   func closeScene() {
-      self.view.close()
+   func closeCurrentViewController() {
+      self.view.navigationController?.popViewController(animated: true)
    }
 }
