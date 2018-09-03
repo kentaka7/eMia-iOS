@@ -33,9 +33,9 @@ class KeyboardController: AnyObservable {
       self.parentView = parentView
       self.screenView = UIView(frame: parentView.bounds)
       screenView.backgroundColor = UIColor.clear
-      let tapGest = UITapGestureRecognizer()
-      self.screenView.addGestureRecognizer(tapGest)
-      tapGest.rx.event.bind { [weak self] _ in
+      let tapGesture = UITapGestureRecognizer()
+      self.screenView.addGestureRecognizer(tapGesture)
+      tapGesture.rx.event.bind { [weak self] _ in
          guard let `self` = self else { return }
          self.parentView?.endEditing(true)
          }.disposed(by: disposeBag)

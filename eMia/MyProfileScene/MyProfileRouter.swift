@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MyProfileRouter: MyProfilePouterProtocol {
+class MyProfileRouter: MyProfileRouterProtocol {
 
    weak var view: MyProfileViewController!
 

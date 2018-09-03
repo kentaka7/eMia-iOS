@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class Register6ViewCell: UITableViewCell, ForUserConfigurable {
    
@@ -14,7 +15,9 @@ class Register6ViewCell: UITableViewCell, ForUserConfigurable {
    
    fileprivate var _imageViewController: SFFullscreenImageDetailViewController?
    fileprivate let imagePicker = UIImagePickerController()
-
+   
+   private let disposeBag = DisposeBag()
+   
    var photo: UIImage? {
       return photoImageView.image
    }
@@ -46,7 +49,7 @@ class Register6ViewCell: UITableViewCell, ForUserConfigurable {
       addPhoto()
    }
 
-   @objc func didPressImageView(_ recognizer: UITapGestureRecognizer) {
+   private func didPressOnPhoto() {
       _imageViewController = SFFullscreenImageDetailViewController(imageView: photoImageView)
       _imageViewController?.presentInCurrentKeyWindow()
    }
@@ -59,8 +62,13 @@ class Register6ViewCell: UITableViewCell, ForUserConfigurable {
 
       case photoImageView:
          photoImageView.isUserInteractionEnabled = true
-         let tap = UITapGestureRecognizer(target: self, action: #selector(self.didPressImageView(_:)))
-         photoImageView.addGestureRecognizer(tap)
+
+         let tapGesture = UITapGestureRecognizer()
+         tapGesture.rx.event.bind(onNext: { [weak self] recognizer in
+            self?.didPressOnPhoto()
+         }).disposed(by: disposeBag)
+         photoImageView.addGestureRecognizer(tapGesture)
+
       default:
          break
       }

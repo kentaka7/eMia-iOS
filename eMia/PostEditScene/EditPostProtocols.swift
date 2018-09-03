@@ -23,12 +23,13 @@ protocol EditPostViewProtocol: class {
    var backBarButtonItem: UIBarButtonItem! {get}
 }
 
-protocol EditPostPresenterProtocol: class, TableViewPresentable {
+protocol EditPostPresenterProtocol: class {
    var title: String {get}
    func configure()
    func updateView()
    func didUpdateComments()
    func didAddComment()
+   func didPressOnBackButton()
 }
 
 protocol EditPostInteractorProtocol: class {

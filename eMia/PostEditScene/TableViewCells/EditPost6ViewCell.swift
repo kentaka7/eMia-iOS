@@ -4,17 +4,18 @@
 //
 
 import UIKit
+import RxSwift
 
 class EditPost6ViewCell: UITableViewCell, ForPostConfigurable {
 
-   fileprivate var _imageViewController: SFFullscreenImageDetailViewController?
+   private var _imageViewController: SFFullscreenImageDetailViewController?
+   private let disposeBag = DisposeBag()
    
    @IBOutlet weak var photoImageView: UIImageView!
    
    override func awakeFromNib() {
-      photoImageView.isUserInteractionEnabled = true
-      let tap = UITapGestureRecognizer(target: self, action: #selector(self.didPressImageView(_:)))
-      photoImageView.addGestureRecognizer(tap)
+      configurePhotoImageView()
+      bindPhotoImageView()
    }
 
    func configureView(for post: PostModel) -> CGFloat {
@@ -23,8 +24,20 @@ class EditPost6ViewCell: UITableViewCell, ForPostConfigurable {
       }
       return -1.0
    }
+
+   private func configurePhotoImageView() {
+      photoImageView.isUserInteractionEnabled = true
+   }
    
-   @objc func didPressImageView(_ recognizer: UITapGestureRecognizer) {
+   private func bindPhotoImageView() {
+      let tapGesture = UITapGestureRecognizer()
+      tapGesture.rx.event.bind(onNext: { [weak self] recognizer in
+         self?.didPressOnPhoto()
+      }).disposed(by: disposeBag)
+      photoImageView.addGestureRecognizer(tapGesture)
+   }
+   
+   private func didPressOnPhoto() {
       _imageViewController = SFFullscreenImageDetailViewController(imageView: photoImageView)
       _imageViewController?.presentInCurrentKeyWindow()
    }

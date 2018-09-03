@@ -21,15 +21,16 @@ protocol NewPostViewProtocol: class {
    var backBarButtonItem: UIBarButtonItem! {get}
 }
 
-protocol NewPostPresenterProtocol: TableViewPresentable {
+protocol NewPostPresenterProtocol: class {
    var interactor: NewPostInteractorProtocol! {get set}
    var title: String {get}
    func configureView()
-   func save(_ completed: @escaping () -> Void)
+   func doneButtonPressed()
+   func backButtonPressed()
 }
 
 protocol NewPostInteractorProtocol: class {
-   func saveNewPost(title: String, image: UIImage, body bodyText: String, _ completed: @escaping () -> Void)
+   func saveNewPost(data: NewPostData, _ completed: @escaping () -> Void)
 }
 
 protocol NewPostRouterProtocol: class {

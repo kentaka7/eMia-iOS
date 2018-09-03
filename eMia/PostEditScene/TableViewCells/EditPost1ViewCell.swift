@@ -14,11 +14,11 @@ protocol ForPostConfigurable {
 // User's avatar photo and name
 
 class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
-
+   
    @IBOutlet weak var avatarBackgroundView: UIView!
    @IBOutlet weak var avatarUserImageView: UIImageView!
    @IBOutlet weak var nameUserLabel: UILabel!
-
+   
    @IBOutlet weak var favoriteButtonBackgroundView: UIView!
    @IBOutlet weak var favoriteButtonImageView: UIImageView!
    
@@ -30,14 +30,22 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    private var post: PostModel?
    
    override func awakeFromNib() {
-      configure(avatarBackgroundView)
-      configure(favoriteButtonBackgroundView)
    }
-
+   
    deinit {
       token?.invalidate()
    }
    
+   func configureView(for post: PostModel) -> CGFloat {
+      self.post = post
+      startDataBaseListening()
+      configure(avatarBackgroundView)
+      configure(nameUserLabel)
+      configure(favoriteButtonBackgroundView)
+      configure(avatarUserImageView)
+      return -1.0
+   }
+
    private func startDataBaseListening() {
       guard let postid = post?.id else {
          return
@@ -57,62 +65,70 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
    }
    
    private func configure(_ view: UIView) {
+      guard let post = self.post else {
+         return
+      }
       switch view {
       case avatarBackgroundView:
          avatarBackgroundView.setAsCircle()
-
+         
       case avatarUserImageView:
-         if let userId = post?.uid {
-            gPhotosManager.downloadAvatar(for: userId) { image in
-               DispatchQueue.main.async {
-                  self.avatarUserImageView.image = image
-               }
-            }
-         }
-      
+         setUpAvatarImage(post)
+         
       case favoriteButtonBackgroundView:
-         if let post = self.post {
-            let isItMyPost = postsManager.isItMyPost(post)
-            self.favoriteButtonBackgroundView.isHidden = isItMyPost
-            if isItMyPost == false {
-               let tapGesture = UITapGestureRecognizer(target: self, action: #selector(favoriteButtonPressed(_:)))
-               favoriteButtonBackgroundView.addGestureRecognizer(tapGesture)
-            }
-         }
-
+         configureAddToFavoriteButton(post)
+         
       case favoriteButtonImageView:
-         if let post = self.post {
-            let isItMyFavoritePost = favoritsManager.isItMyFavoritePost(post)
-            DispatchQueue.main.async {
-               self.favoriteButtonImageView.image = UIImage(named: isItMyFavoritePost ? "icon-toggle_star" : "icon-toggle_star_outline")
-            }
-         }
-      
+         setUpImageOnTheAddToFavoriteButton(post)
+         
       case nameUserLabel:
-         if let userId = post?.uid {
-            if let user = gUsersManager.getUserWith(id: userId) {
-               self.nameUserLabel.text = user.name
-            } else {
-               self.nameUserLabel.text = nil
-            }
-         }
+         setUpUserName(post)
          
       default:
          break
       }
-      
+   }
+
+   private func setUpUserName(_ post: PostModel) {
+      if let user = gUsersManager.getUserWith(id: post.uid) {
+         self.nameUserLabel.text = user.name
+      } else {
+         self.nameUserLabel.text = nil
+      }
    }
    
-   func configureView(for post: PostModel) -> CGFloat {
-      self.post = post
-      startDataBaseListening()
-      configure(nameUserLabel)
-      configure(favoriteButtonBackgroundView)
-      configure(avatarUserImageView)
-      return -1.0
+   private func setUpAvatarImage(_ post: PostModel) {
+      gPhotosManager.downloadAvatar(for: post.uid) { image in
+         DispatchQueue.main.async {
+            self.avatarUserImageView.image = image
+         }
+      }
    }
    
-   @objc func favoriteButtonPressed(_ gesture: UITapGestureRecognizer) {
+   private func setUpImageOnTheAddToFavoriteButton(_ post: PostModel) {
+      let isItMyFavoritePost = favoritsManager.isItMyFavoritePost(post)
+      DispatchQueue.main.async {
+         self.favoriteButtonImageView.image = UIImage(named: isItMyFavoritePost ? "icon-toggle_star" : "icon-toggle_star_outline")
+      }
+   }
+   
+   private func configureAddToFavoriteButton(_ post: PostModel) {
+      let isItMyPost = postsManager.isItMyPost(post)
+      self.favoriteButtonBackgroundView.isHidden = isItMyPost
+      if isItMyPost == false {
+         bindAddToFavoriteButton()
+      }
+   }
+   
+   private func bindAddToFavoriteButton() {
+      let tapGesture = UITapGestureRecognizer()
+      tapGesture.rx.event.bind(onNext: { [weak self] recognizer in
+         self?.addToFavoriteButtonPressed()
+      }).disposed(by: disposeBag)
+      favoriteButtonBackgroundView.addGestureRecognizer(tapGesture)
+   }
+   
+   private func addToFavoriteButtonPressed() {
       guard let post = self.post else {
          return
       }

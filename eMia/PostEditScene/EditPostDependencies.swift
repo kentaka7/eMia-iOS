@@ -15,13 +15,9 @@ class EditPostDependencies: NSObject {
       let presenter = EditPostPresenter()
       let interactor = EditPostInteractor()
       let router = EditPostRouter()
-      let keyboardController = KeyboardController()
-      let fakeField = FakeFieldController()
 
       presenter.view = view
       presenter.interactor = interactor
-      presenter.keyboardController = keyboardController
-      presenter.fakeField = fakeField
       presenter.router = router
       
       view.presenter = presenter

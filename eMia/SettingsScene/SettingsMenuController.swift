@@ -17,6 +17,10 @@ enum SettingsMenu: Int {
 
 class SettingsMenuController: NSObject, UITableViewDelegate, UITableViewDataSource {
 
+   deinit {
+      Log()
+   }
+   
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       return self.numberOfRows
    }

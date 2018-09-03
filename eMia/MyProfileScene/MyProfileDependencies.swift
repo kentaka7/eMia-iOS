@@ -33,7 +33,6 @@ class MyProfileDependencies: MyProfileDependenciesProtocol {
       presenter.locationWorker = locationWorker
       presenter.viewController = view
       presenter.user = user
-      presenter.activityIndicator = view.activityIndicator
 
       // Configure Interactor
       interactor.loginWorker = loginInteractor

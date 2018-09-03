@@ -14,11 +14,14 @@ class NewPostInteractor: NewPostInteractorProtocol {
       Log()
    }
    
-   func saveNewPost(title: String, image: UIImage, body bodyText: String, _ completed: @escaping () -> Void) {
+   func saveNewPost(data: NewPostData, _ completed: @escaping () -> Void) {
       guard let currentUser = gUsersManager.currentUser else {
          Alert.default.showOk("", message: "Only for registered users!".localized)
          return
       }
+      let title = data.title
+      let image = data.image
+      let bodyText = data.body
       let photosize = "\(image.size.width);\(image.size.height)"
       let newPost = PostModel(uid: currentUser.userId, author: currentUser.name, title: title, body: bodyText, photosize: photosize)
       newPost.synchronize { postid in

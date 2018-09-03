@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class NewPost3ViewCell: UITableViewCell {
 
@@ -12,8 +13,10 @@ class NewPost3ViewCell: UITableViewCell {
    
    weak var viewController: UIViewController?
    
-   fileprivate var _imageViewController: SFFullscreenImageDetailViewController?
-   fileprivate let imagePicker = UIImagePickerController()
+   private var _imageViewController: SFFullscreenImageDetailViewController?
+   private let imagePicker = UIImagePickerController()
+   
+   private let disposeBag = DisposeBag()
    
    override func awakeFromNib() {
       configure(addPhotoButton)
@@ -27,8 +30,13 @@ class NewPost3ViewCell: UITableViewCell {
          addPhotoButton.setTitle("Add Photo".localized, for: .normal)
       case photoImageView:
          photoImageView.isUserInteractionEnabled = true
-         let tap = UITapGestureRecognizer(target: self, action: #selector(self.didPressImageView(_:)))
-         photoImageView.addGestureRecognizer(tap)
+
+         let tapGesture = UITapGestureRecognizer()
+         tapGesture.rx.event.bind(onNext: { [weak self] recognizer in
+            self?.didPressOnPhoto()
+         }).disposed(by: disposeBag)
+         photoImageView.addGestureRecognizer(tapGesture)
+         
       default:
          break
       }
@@ -38,7 +46,7 @@ class NewPost3ViewCell: UITableViewCell {
       addPhoto()
    }
 
-   @objc func didPressImageView(_ recognizer: UITapGestureRecognizer) {
+   private func didPressOnPhoto() {
       if photoImage == nil {
          return
       }

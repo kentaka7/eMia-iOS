@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import RxSwift
 
 // My profile editor: Gender
 
@@ -22,6 +23,7 @@ class Register4ViewCell: UITableViewCell, ForUserConfigurable {
    fileprivate var labelsColor: UIColor!
 
    private var mGender: Gender?
+   private let disposeBag = DisposeBag()
    
    var gender: Gender {
       get {
@@ -54,13 +56,21 @@ class Register4ViewCell: UITableViewCell, ForUserConfigurable {
          genderBackgroundView.layer.borderWidth = 1.0
          genderBackgroundView.layer.borderColor = UIColor.lightGray.cgColor
          
-         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(selectedGuy(_:)))
+         let tapGesture1 = UITapGestureRecognizer()
+         tapGesture1.rx.event.bind(onNext: { [weak self] recognizer in
+            self?.selectedGuy()
+         }).disposed(by: disposeBag)
          selectedGuyView.addGestureRecognizer(tapGesture1)
+
          selectedGuyView.layer.cornerRadius = 3.0
          selectedGuyView.layer.borderWidth = 2.0
          
-         let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(selectedGirl(_:)))
+         let tapGesture2 = UITapGestureRecognizer()
+         tapGesture2.rx.event.bind(onNext: { [weak self] recognizer in
+            self?.selectedGirl()
+         }).disposed(by: disposeBag)
          selectedGirlView.addGestureRecognizer(tapGesture2)
+
          selectedGirlView.layer.cornerRadius = 3.0
          selectedGirlView.layer.borderWidth = 2.0
          
@@ -72,12 +82,12 @@ class Register4ViewCell: UITableViewCell, ForUserConfigurable {
    
    // MARK: Gender Selected Control
    
-   @objc func selectedGuy(_ gesture: UITapGestureRecognizer) {
+   private func selectedGuy() {
       didSelect(gender: .boy)
       presentSelect(gender: .boy)
    }
    
-   @objc func selectedGirl(_ gesture: UITapGestureRecognizer) {
+   private func selectedGirl() {
       didSelect(gender: .girl)
       presentSelect(gender: .girl)
    }

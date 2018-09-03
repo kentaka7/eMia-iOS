@@ -8,6 +8,7 @@
 
 import UIKit
 import NVActivityIndicatorView
+import RxSwift
 
 class MyProfileViewController: UIViewController, MyProfileViewProtocol {
    
@@ -28,6 +29,8 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
    
    private let configurator: MyProfileDependenciesProtocol = MyProfileDependencies()
 
+   private let disposeBag = DisposeBag()
+
    deinit {
       Log()
    }
@@ -39,5 +42,31 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
       
       configurator.configure(self, user: user)
       presenter.configureView()
+      self.comfigureView()
+   }
+   
+   private func comfigureView() {
+      configureDoneButton()
+      bindBackButton()
+      bindDoneButton()
+   }
+   
+   private func configureDoneButton() {
+      saveDataButton.setAsCircle()
+      saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
+   }
+
+   private func bindBackButton() {
+      backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.presenter.backButtonPressed()
+      }).disposed(by: disposeBag)
+   }
+   
+   private func bindDoneButton() {
+      saveDataButton.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.presenter.doneButtonPressed()
+      }).disposed(by: disposeBag)
    }
 }

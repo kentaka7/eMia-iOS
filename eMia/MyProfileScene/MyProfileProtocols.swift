@@ -23,11 +23,11 @@ protocol TableViewPresentable {
 protocol MyProfilePresenterProtocol: class {
    var view: MyProfileViewProtocol! {get set}
    var interactor: MyProfileInteractorProtocol! {get set}
-   var router: MyProfilePouterProtocol! {get set}
-   var locationWorker: MyProfileLocationWorker! {get set}
+   var router: MyProfileRouterProtocol! {get set}
    var user: UserModel! {get set}
-   var activityIndicator: NVActivityIndicatorView! {get set}
    func configureView()
+   func backButtonPressed()
+   func doneButtonPressed()
 }
 
 protocol MyProfileDependenciesProtocol {
@@ -52,14 +52,14 @@ protocol MyProfileLoginWorkerProotocol {
    func signUp(user: UserModel, password: String, completion: @escaping (UserModel?) -> Void)
 }
 
-protocol MyProfileLocationWorker {
+protocol MyProfileLocationWorker: class {
    func requestLocation(completion: @escaping (CLLocation?) -> Void)
 }
 
-protocol MyProfilePouterProtocol {
+protocol MyProfileRouterProtocol {
    var view: MyProfileViewController! {get set}
    
-   // There are recommendations about documenting code here https://www.appcoda.com/documenting-source-code-in-xcode/
+   // There are recommendations about documenting code by link https://www.appcoda.com/documenting-source-code-in-xcode/
    
    /**
     Close MyProfile scene. It used for cancel edit profile.

@@ -16,7 +16,7 @@ class SettingsViewController: UIViewController, SettingsViewProtocol {
    @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
    
    var presenter: SettingsPresenterProtocol!
-   weak var menuController: SettingsMenuController!
+   var menuController: SettingsMenuController!
 
    private let configurator = SettingsDependencies()
    private let disposeBag = DisposeBag()
