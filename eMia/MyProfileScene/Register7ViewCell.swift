@@ -5,7 +5,10 @@
 
 import UIKit
 
-// User's Name
+/**
+ MyProfile scene.
+ User's Name definition
+ */
 
 @IBDesignable class Register7ViewCell: UITableViewCell, ForUserConfigurable {
 

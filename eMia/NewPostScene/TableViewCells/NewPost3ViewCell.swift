@@ -26,17 +26,10 @@ class NewPost3ViewCell: UITableViewCell {
    private func configure(_ view: UIView) {
       switch view {
       case addPhotoButton:
-         addPhotoButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
-         addPhotoButton.setTitle("Add Photo".localized, for: .normal)
+         configureAddPhotoButton()
       case photoImageView:
-         photoImageView.isUserInteractionEnabled = true
-
-         let tapGesture = UITapGestureRecognizer()
-         tapGesture.rx.event.bind(onNext: { [weak self] recognizer in
-            self?.didPressOnPhoto()
-         }).disposed(by: disposeBag)
-         photoImageView.addGestureRecognizer(tapGesture)
-         
+         configurePhotoImage()
+         bindPhotoImage()
       default:
          break
       }
@@ -46,6 +39,23 @@ class NewPost3ViewCell: UITableViewCell {
       addPhoto()
    }
 
+   private func configureAddPhotoButton() {
+      addPhotoButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
+      addPhotoButton.setTitle("Add Photo".localized, for: .normal)
+   }
+   
+   private func configurePhotoImage() {
+      photoImageView.isUserInteractionEnabled = true
+   }
+   
+   private func bindPhotoImage() {
+      let tapGesture = UITapGestureRecognizer()
+      tapGesture.rx.event.bind(onNext: { [weak self] recognizer in
+         self?.didPressOnPhoto()
+      }).disposed(by: disposeBag)
+      photoImageView.addGestureRecognizer(tapGesture)
+   }
+   
    private func didPressOnPhoto() {
       if photoImage == nil {
          return
@@ -77,7 +87,7 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
       self.viewController?.present(alertVC, animated: true, completion: nil)
    }
    
-   fileprivate func openCamera() {
+   private func openCamera() {
       if UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
          imagePicker.delegate = self
          imagePicker.allowsEditing = true
@@ -88,7 +98,7 @@ extension NewPost3ViewCell: UIImagePickerControllerDelegate, UINavigationControl
       }
    }
    
-   fileprivate func openGallary() {
+   private func openGallary() {
       imagePicker.delegate = self
       imagePicker.allowsEditing = true
       imagePicker.sourceType = .photoLibrary

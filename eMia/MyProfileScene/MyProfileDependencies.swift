@@ -16,7 +16,6 @@ class MyProfileDependencies: MyProfileDependenciesProtocol {
    
    func configure(_ view: MyProfileViewController, user: UserModel?) {
       
-      // Configure Interactor
       let presenter = MyProfilePresenter()
       let interactor = MyProfileInteractor()
       let router = MyProfileRouter()
@@ -43,6 +42,5 @@ class MyProfileDependencies: MyProfileDependenciesProtocol {
       
       // Configure Router
       router.view = view
-      
    }
 }

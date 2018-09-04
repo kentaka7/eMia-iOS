@@ -21,10 +21,9 @@ class EditPost4ViewCell: UITableViewCell {
    var commentText = PublishSubject<String>()
    var currentCellHeigt = PublishSubject<CGFloat>()
    
-   private var plusSpace: CGFloat!
-   
    private let placeholder = "Please enter your comment here (up to 256)".localized
    private var newComment: String?
+
    var textView: UITextView {
       return commentTextView.textView
    }
@@ -32,29 +31,31 @@ class EditPost4ViewCell: UITableViewCell {
    var editViewInActiveState: Bool {
       return self.commentTextView.isFirstResponder
    }
+
+   private var plusSpace: CGFloat {
+      return self.frame.height - commentTextView.frame.height
+   }
    
    deinit {
       Log()
    }
    
    override func awakeFromNib() {
-      IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Send comment".localized
-      plusSpace = self.frame.height - commentTextView.frame.height
+      configureKeyboard()
       configure(commentTextView)
       configure(textView)
+   }
+   
+   private func configureKeyboard() {
+      IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Send comment".localized
    }
    
    private func configure(_ view: UIView) {
       switch view {
       case commentTextView:
-         commentTextView.maxNumberOfLines = kMaxNumberOfLines
-         commentTextView.delegates.didChangeHeight = {[weak self] height in
-            guard let `self` = self else { return }
-            self.currentCellHeigt.onNext(height + self.plusSpace)
-         }
+         configureCommentTextView()
       case textView:
-        textView.delegate = self
-         cleanTextView()
+         configureTextView()
       default:
          break
       }
@@ -72,12 +73,25 @@ class EditPost4ViewCell: UITableViewCell {
       cleanTextView()
       commentText.onNext(text)
    }
+   
+   private func configureCommentTextView() {
+      commentTextView.maxNumberOfLines = kMaxNumberOfLines
+      commentTextView.delegates.didChangeHeight = {[weak self] height in
+         guard let `self` = self else { return }
+         self.currentCellHeigt.onNext(height + self.plusSpace)
+      }
+   }
+   
+   private func configureTextView() {
+      textView.delegate = self
+      cleanTextView()
+   }
 }
 
 // MARK: - ForPostConfigurable protocol implementstion
 
 extension EditPost4ViewCell: ForPostConfigurable {
-
+   
    func configureView(for post: PostModel) -> CGFloat {
       return -1.0
    }
@@ -102,15 +116,16 @@ extension EditPost4ViewCell: UITextViewDelegate {
    func textViewDidEndEditing(_ textView: UITextView) {
       newComment = self.textView.text
    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        let numberOfChars = newText.count
-        return numberOfChars < kMaxNumberOfSymbols
-    }
-    
+   
+   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+      let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+      let numberOfChars = newText.count
+      return numberOfChars < kMaxNumberOfSymbols
+   }
+   
    private func cleanTextView() {
       self.textView.text = placeholder
       self.textView.textColor = UIColor.lightGray
    }
 }
+

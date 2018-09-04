@@ -38,14 +38,14 @@ protocol MyProfileViewProtocol: class {
    var tableView: UITableView! {get set}
    var saveDataButton: UIButton! {get set}
    var backBarButtonItem: UIBarButtonItem! {get set}
-   var registrationNewUser: Bool {get}
+   func setUpTitle(text: String)
 }
 
 protocol MyProfileInteractorProtocol {
    var loginWorker: MyProfileLoginWorkerProotocol! {get set}
    var tableView: UITableView! {get set}
    var activityIndicator: NVActivityIndicatorView! {get set}
-   func updateProfile(for data: MyProfileInteractor.MyProfileData, completed: @escaping () -> Void)
+   func updateProfile(for data: MyProfileData, completed: @escaping () -> Void)
 }
 
 protocol MyProfileLoginWorkerProotocol {
@@ -77,9 +77,9 @@ protocol MyProfileRouterProtocol {
     
     To use it, simply call goToNextScene()
     
-    :param:
+    :param: registrationNewUser = true if it is registration an new user
     
     :returns:
     */
-   func goToNextScene()
+   func goToNextScene(registrationNewUser: Bool)
 }

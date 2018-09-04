@@ -12,8 +12,7 @@ class EditPost2ViewCell: UITableViewCell, ForPostConfigurable {
    @IBOutlet weak var bodyTextView: UITextView!
 
    override func awakeFromNib() {
-      bodyTextView.translatesAutoresizingMaskIntoConstraints = false
-      bodyTextView.isScrollEnabled = false
+      configureTextBody()
    }
 
    func configureView(for post: PostModel) -> CGFloat {
@@ -21,4 +20,10 @@ class EditPost2ViewCell: UITableViewCell, ForPostConfigurable {
       bodyTextView.sizeToFit()
       return bodyTextView.frame.height
    }
+   
+   private func configureTextBody() {
+      bodyTextView.translatesAutoresizingMaskIntoConstraints = false
+      bodyTextView.isScrollEnabled = false
+   }
+   
 }

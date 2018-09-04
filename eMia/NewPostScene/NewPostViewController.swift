@@ -36,8 +36,11 @@ class NewPostViewController: UIViewController, NewPostViewProtocol {
       bindButtons()
    }
    
+   func setUpTitle(text: String) {
+      navigationItem.title = text
+   }
+
    private func configureView() {
-      configure(self.view)
       configure(saveButton)
    }
 
@@ -48,14 +51,16 @@ class NewPostViewController: UIViewController, NewPostViewProtocol {
    
    private func configure(_ view: UIView) {
       switch view {
-      case self.view:
-         navigationItem.title = presenter.title
       case saveButton:
-         saveButton.setAsCircle()
-         saveButton.backgroundColor = GlobalColors.kBrandNavBarColor
+         configureSaveButton()
       default:
          break
       }
+   }
+   
+   private func configureSaveButton() {
+      saveButton.setAsCircle()
+      saveButton.backgroundColor = GlobalColors.kBrandNavBarColor
    }
    
    private func bindSaveButton() {

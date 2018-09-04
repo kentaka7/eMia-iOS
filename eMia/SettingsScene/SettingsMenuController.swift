@@ -15,6 +15,11 @@ enum SettingsMenu: Int {
    static let allValues = [myProfile, visitToAppSite, logOut]
 }
 
+/**
+ * SettingsMenuController
+ * binds Menu enum with UITableView
+ */
+
 class SettingsMenuController: NSObject, UITableViewDelegate, UITableViewDataSource {
 
    deinit {

@@ -20,11 +20,11 @@ class MyProfileRouter: MyProfileRouterProtocol {
       self.view.navigationController?.popViewController(animated: true)
    }
    
-   func goToNextScene() {
-      if self.view.registrationNewUser {
+   func goToNextScene(registrationNewUser: Bool) {
+      if registrationNewUser {
          presentMainScreen()
       } else {
-         self.closeCurrentViewController()
+         closeCurrentViewController()
       }
    }
    

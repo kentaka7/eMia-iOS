@@ -14,11 +14,14 @@ protocol SettingsDependenciesProtocol {
 
 protocol SettingsViewProtocol: class {
    var presenter: SettingsPresenterProtocol! {get set}
+   func setUpTitle(text: String)
+   func reConfigureView()
 }
 
 protocol SettingsPresenterProtocol: class {
    var router: SettingsPouterProtocol! {get set}
    func configureView()
+   func reConfigureView()
    func backButtonPressed()
    func didSelelectMenuItem(for menuIndex: Int)
    func prepare(for segue: UIStoryboardSegue, sender: Any?)

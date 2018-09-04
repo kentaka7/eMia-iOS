@@ -19,12 +19,23 @@ class EditPost6ViewCell: UITableViewCell, ForPostConfigurable {
    }
 
    func configureView(for post: PostModel) -> CGFloat {
-      post.getPhoto { image in
+      setUpPhoto(for: post) { image in
          self.photoImageView.image = image
       }
       return -1.0
    }
+}
 
+// MARK: - Private methods
+
+extension EditPost6ViewCell {
+   
+   private func setUpPhoto(for post: PostModel, completion: @escaping (UIImage?) -> Void) {
+      post.getPhoto { image in
+         completion(image)
+      }
+   }
+   
    private func configurePhotoImageView() {
       photoImageView.isUserInteractionEnabled = true
    }
@@ -41,5 +52,4 @@ class EditPost6ViewCell: UITableViewCell, ForPostConfigurable {
       _imageViewController = SFFullscreenImageDetailViewController(imageView: photoImageView)
       _imageViewController?.presentInCurrentKeyWindow()
    }
-
 }

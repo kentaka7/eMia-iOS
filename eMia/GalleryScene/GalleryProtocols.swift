@@ -14,15 +14,15 @@ protocol GalleryDependenciesProtocol {
 }
 
 protocol GalleryViewProtocol {
+   func setUpTitle(text: String)
    var galleryCollectionView: UICollectionView? { get }
    func startProgress()
    func stopProgress()
 }
 
 protocol GalleryPresenterProtocol {
-   var title: String {get}
    var galleryItemsCount: PublishSubject<Int> {get}
-   func configure()
+   func configureView()
    func reloadData()
    func prepare(for segue: UIStoryboardSegue, sender: Any?)
    func previewPhoto(for location: CGPoint) -> UIViewController?

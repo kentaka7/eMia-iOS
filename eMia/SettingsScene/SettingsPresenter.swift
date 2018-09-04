@@ -10,8 +10,7 @@ import UIKit
 import Then
 
 /**
- * SettingsPresenter is an example of the view model for SettingsViewController
- * It binds Menu enum with UITableView
+ * SettingsPresenter is an example of the presenter for the SettingsViewController
  */
 
 class SettingsPresenter: NSObject, SettingsPresenterProtocol {
@@ -24,6 +23,7 @@ class SettingsPresenter: NSObject, SettingsPresenterProtocol {
    }
 
    func configureView() {
+      view.setUpTitle(text: "Settings".localized)
    }
    
    func backButtonPressed() {
@@ -37,4 +37,9 @@ class SettingsPresenter: NSObject, SettingsPresenterProtocol {
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       router.prepare(for: segue, sender: sender)
    }
+   
+   func reConfigureView() {
+      view.reConfigureView()
+   }
+
 }

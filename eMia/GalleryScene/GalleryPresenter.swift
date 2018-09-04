@@ -14,16 +14,18 @@ class GalleryPresenter: NSObject, GalleryPresenterProtocol, GallerySearching {
    
    var galleryItemsCount = PublishSubject<Int>()
    
-   var title: String {
-      return "\(AppConstants.ApplicationName)"
-   }
-   
    func configure(searchBar: UISearchBar) {
       interactor.configureSearching(with: searchBar)
    }
 
-   func configure() {
+   func configureView() {
       interactor.configure()
+      setUpTitle()
+   }
+   
+   private func setUpTitle() {
+      let title = "\(AppConstants.ApplicationName)"
+      view.setUpTitle(text: title)
    }
    
    func startProgress() {

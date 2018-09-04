@@ -6,6 +6,11 @@
 import UIKit
 import RxSwift
 
+/**
+ MyProfile scene.
+ User's photo (as an avatar using) definition
+ */
+
 class Register6ViewCell: UITableViewCell, ForUserConfigurable {
    
    @IBOutlet weak var addPhotoButton: UIButton!

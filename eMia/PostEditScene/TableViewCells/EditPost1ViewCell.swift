@@ -45,7 +45,12 @@ class EditPost1ViewCell: UITableViewCell, ForPostConfigurable {
       configure(avatarUserImageView)
       return -1.0
    }
+}
 
+// MARK: - Private methods
+
+extension EditPost1ViewCell {
+   
    private func startDataBaseListening() {
       guard let postid = post?.id else {
          return

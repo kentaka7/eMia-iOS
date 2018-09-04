@@ -28,15 +28,39 @@ class EditPost5ViewCell: UITableViewCell, ForPostConfigurable {
    }
    
    func configureView(for comment: CommentModel) {
-      gPhotosManager.downloadAvatar(for: comment.uid) { image in
+      setUpAvatar(for: comment) { image in
          self.avatarImageView.image = image
       }
-      if let user = gUsersManager.getUserWith(id: comment.uid) {
-         self.titleLabel.text = user.name
-      } else {
-         self.titleLabel.text = nil
+      titleLabel.text = userName(for: comment)
+      bodyLabel.text = bodyText(for: comment)
+      createdLabel.text = created(for: comment)
+   }
+   
+}
+
+// MARK: - Private methods
+
+extension EditPost5ViewCell {
+   
+   private func setUpAvatar(for comment: CommentModel, completion: @escaping (UIImage?) -> Void) {
+      gPhotosManager.downloadAvatar(for: comment.uid) { image in
+         completion(image)
       }
-      self.bodyLabel.text = comment.text
-      self.createdLabel.text = "Created".localized + " " + comment.relativeTimeToCreated()
+   }
+
+   private func userName(for comment: CommentModel) -> String? {
+      if let user = gUsersManager.getUserWith(id: comment.uid) {
+         return user.name
+      } else {
+         return nil
+      }
+   }
+   
+   private func bodyText(for comment: CommentModel) -> String? {
+      return comment.text
+   }
+   
+   private func created(for comment: CommentModel) -> String? {
+      return "Created".localized + " " + comment.relativeTimeToCreated()
    }
 }

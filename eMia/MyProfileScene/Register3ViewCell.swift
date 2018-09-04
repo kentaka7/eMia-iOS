@@ -5,7 +5,10 @@
 
 import UIKit
 
-// Static text, Date, Send Email button
+/**
+ MyProfile scene.
+ User's address (municipality) definition
+ */
 
 class Register3ViewCell: UITableViewCell {
    
@@ -16,6 +19,10 @@ class Register3ViewCell: UITableViewCell {
    weak var locationAgent: LocationComputing!
    private var municipalityPicker: MunicipalityPicker!
    
+   var address: String? {
+      return municipalityPicker.municipality?.0
+   }
+
    override func awakeFromNib() {
       configure(addressTitleLabel)
 //      configure(whereAmIButton)
@@ -29,10 +36,9 @@ class Register3ViewCell: UITableViewCell {
    private func configure(_ view: UIView) {
       switch view {
       case addressTitleLabel:
-         addressTitleLabel.text = "Choose your municipality".localized
-         addressTitleLabel.textColor = GlobalColors.kBrandNavBarColor
+         configureAddressTitle()
       case whereAmIButton:
-         whereAmIButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
+         configureLocationButton()
       default:
          break
       }
@@ -43,7 +49,12 @@ class Register3ViewCell: UITableViewCell {
       municipalityPicker.configure(for: user)
    }
    
-   var address: String? {
-      return municipalityPicker.municipality?.0
+   private func configureAddressTitle() {
+      addressTitleLabel.text = "Choose your municipality".localized
+      addressTitleLabel.textColor = GlobalColors.kBrandNavBarColor
+   }
+   
+   private func configureLocationButton() {
+      whereAmIButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
    }
 }

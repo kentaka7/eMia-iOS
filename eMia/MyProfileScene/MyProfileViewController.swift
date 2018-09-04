@@ -17,10 +17,6 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
    weak var user: UserModel!
    var password: String!
    
-   var registrationNewUser: Bool {
-      return user.userId.isEmpty
-   }
-   
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
    
@@ -38,17 +34,18 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      navigationItem.title = registrationNewUser ? "Sign Up".localized : "My Profile".localized
-      
       configurator.configure(self, user: user)
       presenter.configureView()
-      self.comfigureView()
+      configureView()
+   }
+
+   func setUpTitle(text: String) {
+      navigationItem.title = text
    }
    
-   private func comfigureView() {
+   private func configureView() {
       configureDoneButton()
-      bindBackButton()
-      bindDoneButton()
+      setUpActivityHandlers()
    }
    
    private func configureDoneButton() {
@@ -56,6 +53,11 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
       saveDataButton.backgroundColor = GlobalColors.kBrandNavBarColor
    }
 
+   private func setUpActivityHandlers() {
+      bindBackButton()
+      bindDoneButton()
+   }
+   
    private func bindBackButton() {
       backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }

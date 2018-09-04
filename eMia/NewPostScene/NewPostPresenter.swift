@@ -29,18 +29,20 @@ class NewPostPresenter: NSObject, NewPostPresenterProtocol {
       return view.viewController
    }
    
-   var title: String {
-      return "\(AppConstants.ApplicationName) - My new post".localized
-   }
-   
    deinit {
       Log()
    }
    
    func configureView() {
+      setUpTitle()
       configureEditor()
    }
 
+   private func setUpTitle() {
+      let title = "\(AppConstants.ApplicationName) - My new post".localized
+      view.setUpTitle(text: title)
+   }
+   
    private func configureEditor() {
       editor = NewPostEditor(tableView: tableView!, fakeTextField: fakeTextField!, viewController: viewController!)
    }
@@ -56,7 +58,7 @@ class NewPostPresenter: NSObject, NewPostPresenterProtocol {
    }
 }
 
-// MARK: - Create new Post
+// MARK: - Create a new Post
 
 extension NewPostPresenter {
    

@@ -29,34 +29,37 @@ class SettingsViewController: UIViewController, SettingsViewProtocol {
       super.viewDidLoad()
       configurator.configure(self)
       presenter.configureView()
-      configureView()
+      configureMenu()
+      setUpHandlers()
    }
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
-      tableView.reloadData()
+      
+      presenter.reConfigureView()
    }
    
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       presenter.prepare(for: segue, sender: sender)
    }
    
-   private func configureView() {
-      configure(view: backBarButtonItem)
-      configure(view: tableView)
+   func setUpTitle(text: String) {
+      self.title = text
+   }
+
+   private func setUpHandlers() {
+      configure(item: backBarButtonItem)
+      configure(item: tableView)
    }
    
-   private func configure(view: NSObject) {
-      switch view {
+   private func configure(item: NSObject) {
+      switch item {
       case backBarButtonItem:
          self.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
             guard let `self` = self else { return }
             self.presenter.backButtonPressed()
          }).disposed(by: disposeBag)
       case tableView:
-         tableView.delegate = menuController
-         tableView.dataSource = menuController
-         
          tableView.rx.itemSelected
             .subscribe(onNext: {[weak self] indexPath in
                self?.presenter.didSelelectMenuItem(for: indexPath.row)
@@ -64,5 +67,14 @@ class SettingsViewController: UIViewController, SettingsViewProtocol {
       default:
          break
       }
+   }
+   
+   private func configureMenu() {
+      tableView.delegate = menuController
+      tableView.dataSource = menuController
+   }
+   
+   func reConfigureView() {
+      tableView.reloadData()
    }
 }

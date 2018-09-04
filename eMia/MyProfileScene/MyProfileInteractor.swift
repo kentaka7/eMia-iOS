@@ -11,15 +11,15 @@ import NVActivityIndicatorView
 import RealmSwift
 import RxRealm
 
+struct MyProfileData {
+   var name: String
+   var address: String
+   var gender: Gender
+   var yearBirth: Int
+   var photo: UIImage
+}
+
 class MyProfileInteractor: MyProfileInteractorProtocol {
-   
-   struct MyProfileData {
-      var name: String
-      var address: String
-      var gender: Gender
-      var yearBirth: Int
-      var photo: UIImage
-   }
    
    // Strong Dependencies
    var loginWorker: MyProfileLoginWorkerProotocol!

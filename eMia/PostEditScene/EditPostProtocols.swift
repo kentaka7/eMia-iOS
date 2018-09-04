@@ -20,11 +20,11 @@ protocol EditPostViewProtocol: class {
    var tableView: UITableView! {get}
    var activityIndicator: NVActivityIndicatorView! {get}
    var bottomTableViewConstraint: NSLayoutConstraint! {get}
+   func setUpTitle(text: String)
    var backBarButtonItem: UIBarButtonItem! {get}
 }
 
 protocol EditPostPresenterProtocol: class {
-   var title: String {get}
    func configure()
    func updateView()
    func didUpdateComments()

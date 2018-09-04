@@ -15,13 +15,16 @@ class EditPost3ViewCell: UITableViewCell, ForPostConfigurable {
    @IBOutlet weak var sendEmailButtonView: UIView!
    
    override func awakeFromNib() {
-      sendEmailButtonView.backgroundColor = GlobalColors.kBrandNavBarColor
+      configureSendFeedbackButton()
    }
 
    func configureView(for post: PostModel) -> CGFloat {
       dateLabel.text = "Created".localized + " " + post.relativeTimeToCreated()
-      
       return -1.0
+   }
+   
+   private func configureSendFeedbackButton() {
+      sendEmailButtonView.backgroundColor = GlobalColors.kBrandNavBarColor
    }
    
 }

@@ -26,12 +26,14 @@ class EditPostPresenter: NSObject, EditPostPresenterProtocol {
    func configure() {
       editor = EditPostEditor(view: view, interactor: interactor)
       editor.configure()
+      setUpTitle()
    }
    
-   var title: String {
-      return post.title
+   private func setUpTitle() {
+      let title = post.title
+      view.setUpTitle(text: title)
    }
-   
+
    func updateView() {
       editor.updateView()
    }

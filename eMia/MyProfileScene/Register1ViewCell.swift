@@ -9,30 +9,33 @@ protocol ForUserConfigurable {
    func configure(for user: UserModel)
 }
 
-// User's avatar photo and name
+/**
+ MyProfile scene.
+ User's email address definition
+ */
 
 @IBDesignable class Register1ViewCell: UITableViewCell, ForUserConfigurable {
 
    @IBOutlet weak var emailTitleLabel: UILabel!
    @IBOutlet weak var emailTextField: UITextField!
    
-   func configure(for user: UserModel) {
-   }
-   
    var email: String? {
       return emailTextField.text
    }
 
-   override func willMove(toSuperview newSuperview: UIView!) {
-      configure()
+   override func awakeFromNib() {
+      configureView()
    }
 
-   private func configure() {
+   override func willMove(toSuperview newSuperview: UIView!) {
+      configureView()
+   }
+
+   func configure(for user: UserModel) {
+   }
+
+   private func configureView() {
       emailTitleLabel.text = "Email".localized
       emailTitleLabel.textColor = GlobalColors.kBrandNavBarColor
-   }
-   
-   override func awakeFromNib() {
-      configure()
    }
 }

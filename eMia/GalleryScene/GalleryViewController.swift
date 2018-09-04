@@ -18,7 +18,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
    weak var layoutDelegate: GalleryLayoutDelegate!
    var searcher: GallerySearching!
    
-   private var refreshControl: UIRefreshControl!
+   private var refreshControl: UIRefreshControl?
    private let disposeBag = DisposeBag()
    
    @IBOutlet weak var collectionView: UICollectionView?
@@ -37,11 +37,8 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
       super.viewDidLoad()
 
       configurator.configure(self)
-
-      navigationItem.title = presenter.title
+      presenter.configureView()
       configureSubviews()
-      presenter.configure()
-      searcher.configure(searchBar: searchBar)
    }
    
    override func viewWillAppear(_ animated: Bool) {
@@ -57,11 +54,8 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
       searchBar.resignFirstResponder()
    }
    
-   @objc func simulateRefresh() {
-      presenter.reloadData()
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-         self.refreshControl?.endRefreshing()
-      }
+   func setUpTitle(text: String) {
+      navigationItem.title = text
    }
 }
 
@@ -70,46 +64,67 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
 extension GalleryViewController {
    
    private func configureSubviews() {
-      configure(searchBar)
-      configure(newPostButton)
-      configure(collectionView!)
-      configure(searchBackgroundView)
-      configure(countItemsLabel)
+      setUpSearchBar()
+      setUpNewPostButton()
+      setUpGallery()
+      setUpRefreshControl()
+      bindRefreshControl()
+      setUpGalleryItemsCounter()
       setUpHeaderSize()
       setUp3DPreviewPhoto()
    }
    
-   private func configure(_ view: UIView) {
-      switch view {
-      case newPostButton:
-         newPostButton.setAsCircle()
-         newPostButton.backgroundColor = GlobalColors.kBrandNavBarColor
-      case collectionView!:
-         collectionView!.delegate = self
-         collectionView!.backgroundColor = UIColor.clear
-         collectionView!.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
-         if let layout = collectionView!.collectionViewLayout as? GalleryLayout {
-            layout.delegate = layoutDelegate
-         }
-         refreshControl = UIRefreshControl()
-         collectionView!.refreshControl = refreshControl
-         refreshControl.rx.controlEvent(.valueChanged).subscribe(onNext: { [unowned self] in
-            self.simulateRefresh()
-         }).disposed(by: disposeBag)
-      case searchBackgroundView:
-         searchBackgroundView.backgroundColor = GlobalColors.kBrandNavBarColor
-      case searchBar:
-         searchBar.tintColor = GlobalColors.kBrandNavBarColor
-         searchBar.backgroundColor = GlobalColors.kBrandNavBarColor
-         searchBar.placeholder = "Enter search template".localized
-         searchBar.backgroundImage = UIImage()
-      case countItemsLabel:
-         presenter.galleryItemsCount.subscribe(onNext: { value in
-            self.countItemsLabel.text = "Total".localized + " \(value)"
-         }).disposed(by: disposeBag)
-      default:
-         break
+   private func setUpNewPostButton() {
+      newPostButton.setAsCircle()
+      newPostButton.backgroundColor = GlobalColors.kBrandNavBarColor
+   }
+   
+   private func setUpGallery() {
+      guard let collectionView = self.collectionView else {
+         assert(false, "Need to define collection view before!")
       }
+      collectionView.delegate = self
+      collectionView.backgroundColor = UIColor.clear
+      collectionView.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
+      if let layout = collectionView.collectionViewLayout as? GalleryLayout {
+         layout.delegate = layoutDelegate
+      }
+   }
+
+   private func setUpRefreshControl() {
+      guard let collectionView = self.collectionView else {
+         assert(false, "Need to define collection view before!")
+      }
+      refreshControl = UIRefreshControl()
+      collectionView.refreshControl = refreshControl
+   }
+
+   private func bindRefreshControl() {
+      guard let refreshControl = self.refreshControl else {
+         assert(false, "Need to define refreshcontrol before!")
+      }
+      refreshControl.rx.controlEvent(.valueChanged).subscribe(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.presenter.reloadData()
+         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.refreshControl?.endRefreshing()
+         }
+      }).disposed(by: disposeBag)
+   }
+   
+   private func setUpSearchBar() {
+      searchBar.tintColor = GlobalColors.kBrandNavBarColor
+      searchBar.backgroundColor = GlobalColors.kBrandNavBarColor
+      searchBar.placeholder = "Enter search template".localized
+      searchBar.backgroundImage = UIImage()
+      searcher.configure(searchBar: searchBar)
+      searchBackgroundView.backgroundColor = GlobalColors.kBrandNavBarColor
+   }
+   
+   private func setUpGalleryItemsCounter() {
+      presenter.galleryItemsCount.subscribe(onNext: { value in
+         self.countItemsLabel.text = "Total".localized + " \(value)"
+      }).disposed(by: disposeBag)
    }
    
    private func setUp3DPreviewPhoto() {

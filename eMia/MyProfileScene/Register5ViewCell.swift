@@ -5,7 +5,10 @@
 
 import UIKit
 
-// Comment table item
+/**
+ MyProfile scene.
+ User's year birthday definition
+ */
 
 class Register5ViewCell: UITableViewCell, ForUserConfigurable {
    

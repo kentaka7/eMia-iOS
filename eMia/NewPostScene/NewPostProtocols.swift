@@ -19,11 +19,11 @@ protocol NewPostViewProtocol: class {
    var fakeTextField: UITextField! {get}
    var saveButton: UIButton! {get}
    var backBarButtonItem: UIBarButtonItem! {get}
+   func setUpTitle(text: String)
 }
 
 protocol NewPostPresenterProtocol: class {
    var interactor: NewPostInteractorProtocol! {get set}
-   var title: String {get}
    func configureView()
    func doneButtonPressed()
    func backButtonPressed()

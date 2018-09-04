@@ -36,12 +36,16 @@ class EditPostViewController: UIViewController, EditPostViewProtocol {
       presenter.updateView()
    }
    
-   private func configureView() {
-      Appearance.customize(viewController: self)
-      configureBackButton()
+   func setUpTitle(text: String) {
+      navigationItem.title = text
    }
    
-   private func configureBackButton() {
+   private func configureView() {
+      Appearance.customize(viewController: self)
+      bindBackButton()
+   }
+   
+   private func bindBackButton() {
       backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
          self.presenter.didPressOnBackButton()

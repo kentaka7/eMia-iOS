@@ -38,8 +38,11 @@ class MyProfileEditor: NSObject {
    }
 
    private func configureView() {
-      self.tableView?.delegate = self
-      self.tableView?.dataSource = self
+      guard let tableView = self.tableView else {
+         assert(false, "Need to define tableView before!")
+      }
+      tableView.delegate = self
+      tableView.dataSource = self
    }
 }
 
@@ -107,11 +110,10 @@ extension MyProfileEditor: UITableViewDelegate, UITableViewDataSource {
 
 extension MyProfileEditor {
    
-   func myProfileData() -> MyProfileInteractor.MyProfileData? {
+   func myProfileData() -> MyProfileData? {
       guard let tableView = self.tableView else {
-         return nil
+         assert(false, "Need to define tableView before!")
       }
-      
       var userPhoto: UIImage!
       var userName = ""
       var userGender: Gender = .none
@@ -141,7 +143,7 @@ extension MyProfileEditor {
       if let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.address.rawValue, section: 0)) as? Register3ViewCell {
          userAddress = addressCell.address ?? ""
       }
-      let data = MyProfileInteractor.MyProfileData(name: userName, address: userAddress, gender: userGender, yearBirth: userYearBirth, photo: userPhoto)
+      let data = MyProfileData(name: userName, address: userAddress, gender: userGender, yearBirth: userYearBirth, photo: userPhoto)
       return data
    }
 

@@ -6,7 +6,7 @@
 import UIKit
 import RxSwift
 
-// My profile editor: Gender
+// MyProfile scene: User's gender definition
 
 class Register4ViewCell: UITableViewCell, ForUserConfigurable {
 
