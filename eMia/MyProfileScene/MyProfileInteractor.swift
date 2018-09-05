@@ -27,7 +27,8 @@ class MyProfileInteractor: MyProfileInteractorProtocol {
    // Weak Dependencies
    weak var tableView: UITableView!
    weak var activityIndicator: NVActivityIndicatorView!
-
+   weak var input: MyProfileInteractorInput!
+   
    weak var user: UserModel!
    
    var password: String!
@@ -39,7 +40,21 @@ class MyProfileInteractor: MyProfileInteractorProtocol {
       Log()
    }
 
-   func updateProfile(for data: MyProfileData, completed: @escaping () -> Void) {
+   func saveData(_ completion: @escaping () -> Void) {
+      guard let data = input.myProfileData() else {
+         return
+      }
+      self.updateProfile(for: data) {
+         completion()
+      }
+   }
+}
+
+// MARK: - Private methods
+
+extension MyProfileInteractor {
+   
+   private func updateProfile(for data: MyProfileData, completed: @escaping () -> Void) {
       Realm.update {
          user.name = data.name
          user.gender = data.gender

@@ -17,7 +17,7 @@ enum MyProfileRows: Int {
    static let allValues = [name, address, gender, yearBirth, photo]
 }
 
-class MyProfileEditor: NSObject {
+class MyProfileEditor: NSObject, MyProfileEditorProtocol {
    
    weak private var user: UserModel?
    weak private var viewController: UIViewController?
@@ -30,14 +30,13 @@ class MyProfileEditor: NSObject {
       self.viewController = viewController
       self.tableView = tableView
       self.locationWorker = locationWorker
-      self.configureView()
    }
 
    deinit {
       Log()
    }
 
-   private func configureView() {
+   func configureView() {
       guard let tableView = self.tableView else {
          assert(false, "Need to define tableView before!")
       }
@@ -108,7 +107,7 @@ extension MyProfileEditor: UITableViewDelegate, UITableViewDataSource {
    }
 }
 
-extension MyProfileEditor {
+extension MyProfileEditor: MyProfileInteractorInput {
    
    func myProfileData() -> MyProfileData? {
       guard let tableView = self.tableView else {

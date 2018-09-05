@@ -2,14 +2,18 @@
 //  LoginPresenter.swift
 //  eMia
 //
+//  Created by Сергей Кротких on 20/05/2018.
+//  Copyright © 2018 Coded I/S. All rights reserved.
+//
 
 import UIKit
 import RxSwift
 
-class LoginPresenter: NSObject, LogInValidating, LogInPresenterProtocol, LogInRouting {
+class LoginPresenter: NSObject, LogInValidating, LogInPresenterProtocol {
 
    var interactor: LoginInteractor!
-   var view: LogInViewController!
+   var view: LoginViewProtocol!
+   var router: LoginRouterProtocol!
 
    var email = BehaviorSubject<String>(value: "")
    var password = BehaviorSubject<String>(value: "")
@@ -21,43 +25,42 @@ class LoginPresenter: NSObject, LogInValidating, LogInPresenterProtocol, LogInRo
       }
    }
    
-   func startProgress() {
-      view.startProgress()
-   }
-   
-   func stopProgress() {
-      view.stopProgress()
+   func configureView() {
+      setUpTitle()
    }
 
-   func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+   func setUpTitle() {
+      let title = "Log In to ".localized + "\(AppConstants.ApplicationName)"
+      view.setUpTitle(text: title)
    }
-   
-   func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void) {
-      startProgress()
+
+   func signInButtonPressed(_ completion: @escaping () -> Void) {
       do {
          interactor.signIn(email: try email.value(), password: try password.value()) { success in
-            self.stopProgress()
+            completion()
             if success {
-               presentMainScreen()
+               self.router.goToMainScreen()
             } else {
-               completion(.accessDenied)
+               self.view.showSignInResult(.accessDenied)
             }
          }
       } catch {
          print(error)
-         completion(.accessDenied)
+         completion()
+         self.view.showSignInResult(.accessDenied)
       }
    }
    
-   func signUp(completion: (LoginPresenter.LoginError?) -> Void) {
+   func signUpButtonPressed(_ completion: @escaping () -> Void) {
       do {
          let name = try email.value().components(separatedBy: "@").first!
          let user = UserModel(name: name, email: try email.value(), address: nil, gender: nil, yearbirth: nil)
          let password = try self.password.value()
-         AppDelegate.instance.appRouter.transition(to: .myProfile(user, password), type: .push)
+         completion()
+         self.router.goToMyProfileEditor(user, password: password)
       } catch {
-         print(error)
-         completion(.accessDenied)
+         completion()
+         self.view.showSignUpResult(.accessDenied)
       }
    }
 }

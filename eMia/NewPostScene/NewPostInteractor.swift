@@ -10,11 +10,25 @@ import UIKit
 
 class NewPostInteractor: NewPostInteractorProtocol {
    
+   weak var input: NewPostInteracorInput!
+   
    deinit {
       Log()
    }
    
-   func saveNewPost(data: NewPostData, _ completed: @escaping () -> Void) {
+   func save(_ completed: @escaping () -> Void) {
+      guard let data = input.buildNewPostData() else {
+         return
+      }
+      self.saveNewPost(data: data, completed)
+   }
+}
+
+// MARK: - Private methods
+
+extension NewPostInteractor {
+
+   private func saveNewPost(data: NewPostData, _ completed: @escaping () -> Void) {
       guard let currentUser = gUsersManager.currentUser else {
          Alert.default.showOk("", message: "Only for registered users!".localized)
          return

@@ -21,7 +21,6 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
    weak var user: UserModel!
 
    // Private vars
-   private var editor: MyProfileEditor!
    private var registrationNewUser: Bool {
       return user.userId.isEmpty
    }
@@ -31,7 +30,6 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
    }
 
    func configureView() {
-      setUpEditor()
       setUpTitle()
    }
    
@@ -40,7 +38,9 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
    }
    
    func doneButtonPressed() {
-      self.saveData()
+      self.interactor.saveData() {
+         self.router.goToNextScene(registrationNewUser: self.registrationNewUser)   // by press on alt+click you can see description of this method
+      }
    }
 }
 
@@ -48,21 +48,8 @@ class MyProfilePresenter: NSObject, MyProfilePresenterProtocol {
 
 extension MyProfilePresenter {
    
-   private func setUpEditor() {
-      editor = MyProfileEditor(with: user, viewController: self.viewController, tableView: view.tableView, locationWorker: locationWorker)
-   }
-   
    private func setUpTitle() {
       let title = registrationNewUser ? "Sign Up".localized : "My Profile".localized
       view.setUpTitle(text: title)
-   }
-   
-   private func saveData() {
-      guard let data = editor.myProfileData() else {
-         return
-      }
-      self.interactor.updateProfile(for: data) {
-         self.router.goToNextScene(registrationNewUser: self.registrationNewUser)   // by press on alt+click you can see description of this method
-      }
    }
 }

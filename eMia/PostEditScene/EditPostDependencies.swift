@@ -15,13 +15,25 @@ class EditPostDependencies: NSObject {
       let presenter = EditPostPresenter()
       let interactor = EditPostInteractor()
       let router = EditPostRouter()
-
+      let editor = EditPostEditor()
+      
       presenter.view = view
       presenter.interactor = interactor
       presenter.router = router
+      presenter.post = view.post
+      
+      editor.view = view
+      editor.interactor = interactor
+      editor.post = view.post
+      editor.tableView = view.tableView
+      editor.tvHeightConstraint = view.bottomTableViewConstraint
+      editor.activityIndicator = view.activityIndicator
       
       view.presenter = presenter
+      view.editor = editor
       
       interactor.presenter = presenter
+      interactor.post = view.post
+      interactor.input = editor
    }
 }

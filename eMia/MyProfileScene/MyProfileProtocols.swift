@@ -31,10 +31,12 @@ protocol MyProfilePresenterProtocol: class {
 }
 
 protocol MyProfileDependenciesProtocol {
-   func configure(_ view: MyProfileViewController, user: UserModel?)
+   func configure(_ view: MyProfileViewController)
 }
 
 protocol MyProfileViewProtocol: class {
+   var user: UserModel! {get}
+   var editor: MyProfileEditorProtocol! {get set}
    var tableView: UITableView! {get set}
    var saveDataButton: UIButton! {get set}
    var backBarButtonItem: UIBarButtonItem! {get set}
@@ -45,7 +47,11 @@ protocol MyProfileInteractorProtocol {
    var loginWorker: MyProfileLoginWorkerProotocol! {get set}
    var tableView: UITableView! {get set}
    var activityIndicator: NVActivityIndicatorView! {get set}
-   func updateProfile(for data: MyProfileData, completed: @escaping () -> Void)
+   func saveData(_ completion: @escaping () -> Void)
+}
+
+protocol MyProfileInteractorInput: class {
+   func myProfileData() -> MyProfileData?
 }
 
 protocol MyProfileLoginWorkerProotocol {
@@ -83,3 +89,8 @@ protocol MyProfileRouterProtocol {
     */
    func goToNextScene(registrationNewUser: Bool)
 }
+
+protocol MyProfileEditorProtocol {
+   func configureView()
+}
+

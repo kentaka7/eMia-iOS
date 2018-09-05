@@ -37,8 +37,8 @@ class GalleryViewController: UIViewController, UICollectionViewDelegateFlowLayou
       super.viewDidLoad()
 
       configurator.configure(self)
-      presenter.configureView()
       configureSubviews()
+      presenter.configureView()
    }
    
    override func viewWillAppear(_ animated: Bool) {

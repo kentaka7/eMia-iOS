@@ -11,8 +11,8 @@ import NVActivityIndicatorView
 import RxSwift
 
 class MyProfileViewController: UIViewController, MyProfileViewProtocol {
-   
    var presenter: MyProfilePresenterProtocol!
+   var editor: MyProfileEditorProtocol!
    
    weak var user: UserModel!
    var password: String!
@@ -34,7 +34,8 @@ class MyProfileViewController: UIViewController, MyProfileViewProtocol {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      configurator.configure(self, user: user)
+      configurator.configure(self)
+      editor.configureView()
       presenter.configureView()
       configureView()
    }

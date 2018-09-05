@@ -16,16 +16,12 @@ class EditPostPresenter: NSObject, EditPostPresenterProtocol {
 
    var interactor: EditPostInteractor!
    var router: EditPostRouterProtocol!
-   
-   private var editor: EditPostEditor!
 
    deinit {
       Log()
    }
    
    func configure() {
-      editor = EditPostEditor(view: view, interactor: interactor)
-      editor.configure()
       setUpTitle()
    }
    
@@ -35,18 +31,18 @@ class EditPostPresenter: NSObject, EditPostPresenterProtocol {
    }
 
    func updateView() {
-      editor.updateView()
+      interactor.updateView()
    }
    
    func didUpdateComments() {
-      editor.didUpdateComments()
+      interactor.didUpdateComments()
    }
    
    func didAddComment() {
-      editor.didAddComment()
+      interactor.didAddComment()
    }
    
-   func didPressOnBackButton() {
+   func closeCurrentViewController() {
       self.router.closeCurrentViewController()
    }
 }

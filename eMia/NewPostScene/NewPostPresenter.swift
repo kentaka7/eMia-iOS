@@ -13,8 +13,6 @@ class NewPostPresenter: NSObject, NewPostPresenterProtocol {
    var interactor: NewPostInteractorProtocol!
    var router: NewPostRouterProtocol!
 
-   private var editor: NewPostEditor!
-   
    weak var view: NewPostViewProtocol!
 
    private var tableView: UITableView? {
@@ -35,7 +33,6 @@ class NewPostPresenter: NSObject, NewPostPresenterProtocol {
    
    func configureView() {
       setUpTitle()
-      configureEditor()
    }
 
    private func setUpTitle() {
@@ -43,29 +40,13 @@ class NewPostPresenter: NSObject, NewPostPresenterProtocol {
       view.setUpTitle(text: title)
    }
    
-   private func configureEditor() {
-      editor = NewPostEditor(tableView: tableView!, fakeTextField: fakeTextField!, viewController: viewController!)
-   }
-   
    func doneButtonPressed() {
-      self.save {
+      self.interactor.save {
          self.router.closeCurrentViewController()
       }
    }
    
    func backButtonPressed() {
       self.router.closeCurrentViewController()
-   }
-}
-
-// MARK: - Create a new Post
-
-extension NewPostPresenter {
-   
-   private func save(_ completed: @escaping () -> Void) {
-      guard let data = editor.buildNewPostData() else {
-         return
-      }
-      interactor.saveNewPost(data: data, completed)
    }
 }

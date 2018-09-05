@@ -13,6 +13,7 @@ class EditPostInteractor: EditPostInteractorProtocol {
    
    weak var presenter: EditPostPresenterProtocol!
    weak var post: PostModel!
+   weak var input: EditPostInteractorInputProtocol!
    
    private var commentResults: Results<CommentModel>?
    private var token: NotificationToken?
@@ -23,12 +24,39 @@ class EditPostInteractor: EditPostInteractorProtocol {
       Log()
    }
    
-   func configure(post: PostModel) {
-      self.post = post
-      startExternalCommentsListener()
+   func configure() {
+      startListeningToComments()
    }
    
-   private func startExternalCommentsListener() {
+   func updateView() {
+      input.updateView()
+   }
+   
+   func didUpdateComments() {
+      input.didUpdateComments()
+   }
+
+   func didAddComment() {
+      input.didAddComment()
+   }
+   
+   func sendComment(_ text: String, completion: @escaping () -> Void) {
+      guard let currentUser = gUsersManager.currentUser else {
+         completion()
+         return
+      }
+      let newComment = CommentModel(uid: currentUser.userId, author: currentUser.name, text: text, postid: post.id!)
+      newComment.synchronize { success in
+         completion()
+      }
+   }
+}
+
+// MARK: - Private methods
+
+extension EditPostInteractor {
+   
+   private func startListeningToComments() {
       guard let postid = self.post.id else {
          return
       }
@@ -40,40 +68,37 @@ class EditPostInteractor: EditPostInteractorProtocol {
          }
          switch change {
          case .initial:
-            if let result = self.commentResults?.sorted(by: { (comment1, comment2) -> Bool in
-               return comment1.created < comment2.created
-            }) {
-               self.comments = result
-            } else {
-               self.comments = [CommentModel]()
-            }
-            self.presenter.didUpdateComments()
+            self.didAllDataReceive()
          case .error(let error):
             fatalError("\(error)")
          case .update(_, _, let insertions, _):
             if insertions.count == 0 {
                return
             }
-            if let result = self.commentResults?.sorted(by: { (comment1, comment2) -> Bool in
-               return comment1.created < comment2.created
-            }) {
-               if let newComment = result.last {
-                  self.comments.append(newComment)
-                  self.presenter.didAddComment()
-               }
-            }
+            self.didDataUpdate()
          }
       })
    }
    
-   func sendComment(_ text: String, completion: @escaping () -> Void) {
-      guard let currentUser = gUsersManager.currentUser else {
-         completion()
-         return
+   private func didAllDataReceive() {
+      if let result = self.commentResults?.sorted(by: { (comment1, comment2) -> Bool in
+         return comment1.created < comment2.created
+      }) {
+         self.comments = result
+      } else {
+         self.comments = [CommentModel]()
       }
-      let newComment = CommentModel(uid: currentUser.userId, author: currentUser.name, text: text, postid: post.id!)
-      newComment.synchronize { success in
-         completion()
+      self.presenter.didUpdateComments()
+   }
+   
+   private func didDataUpdate() {
+      if let result = self.commentResults?.sorted(by: { (comment1, comment2) -> Bool in
+         return comment1.created < comment2.created
+      }) {
+         if let newComment = result.last {
+            self.comments.append(newComment)
+            self.presenter.didAddComment()
+         }
       }
    }
 }

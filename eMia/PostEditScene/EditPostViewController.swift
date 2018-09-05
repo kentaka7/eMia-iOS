@@ -13,6 +13,7 @@ class EditPostViewController: UIViewController, EditPostViewProtocol {
    weak var post: PostModel!
    
    var presenter: EditPostPresenterProtocol!
+   var editor: EditPostEditorProtocol!
    
    @IBOutlet weak var tableView: UITableView!
    @IBOutlet weak var activityIndicator: NVActivityIndicatorView!
@@ -33,6 +34,7 @@ class EditPostViewController: UIViewController, EditPostViewProtocol {
    
    override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
+      editor.configure()
       presenter.updateView()
    }
    
@@ -48,7 +50,7 @@ class EditPostViewController: UIViewController, EditPostViewProtocol {
    private func bindBackButton() {
       backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
          guard let `self` = self else { return }
-         self.presenter.didPressOnBackButton()
+         self.presenter.closeCurrentViewController()
       }).disposed(by: disposeBag)
    }
 }

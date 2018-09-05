@@ -30,9 +30,17 @@ protocol NewPostPresenterProtocol: class {
 }
 
 protocol NewPostInteractorProtocol: class {
-   func saveNewPost(data: NewPostData, _ completed: @escaping () -> Void)
+   func save(_ completed: @escaping () -> Void)
 }
 
 protocol NewPostRouterProtocol: class {
    func closeCurrentViewController()
+}
+
+protocol NewPostEditorProtocol {
+   func configureView()
+}
+
+protocol NewPostInteracorInput: class {
+   func buildNewPostData() -> NewPostData?
 }

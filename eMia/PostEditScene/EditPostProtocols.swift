@@ -29,15 +29,29 @@ protocol EditPostPresenterProtocol: class {
    func updateView()
    func didUpdateComments()
    func didAddComment()
-   func didPressOnBackButton()
+   func closeCurrentViewController()
 }
 
 protocol EditPostInteractorProtocol: class {
    var presenter: EditPostPresenterProtocol! {get}
-   func configure(post: PostModel)
+   func configure()
+   func updateView()
+   func didUpdateComments()
+   func didAddComment()
+   
    func sendComment(_ text: String, completion: @escaping () -> Void)
 }
 
 protocol EditPostRouterProtocol: class {
    func closeCurrentViewController()
+}
+
+protocol EditPostEditorProtocol: class {
+   func configure()
+}
+
+protocol EditPostInteractorInputProtocol: class {
+   func updateView()
+   func didUpdateComments()
+   func didAddComment()
 }

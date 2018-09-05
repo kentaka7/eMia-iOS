@@ -40,6 +40,7 @@
 		7F3B108B20BB371C0073BA32 /* FIRDatabaseReference+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */; };
 		7F3B109120BB371C0073BA32 /* RemoteConfig+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */; };
 		7F3B53611FE742240089CB34 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B53601FE742240089CB34 /* PostModel.swift */; };
+		7F3B844E214001A100BCD7B4 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B844D214001A000BCD7B4 /* LoginRouter.swift */; };
 		7F3C59EC1FE5EE8B00A823DC /* StringIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */; };
 		7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */; };
 		7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */; };
@@ -66,6 +67,12 @@
 		7F4D8B491FE4DFF700FAFE5E /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */; };
 		7F4D8B4E1FE4E6E100FAFE5E /* PhotosManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */; };
 		7F4D8B521FE4E93A00FAFE5E /* PhotosStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */; };
+		7F5B8BF6213EAE1D0010DB90 /* TemplatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B8BF0213EAE1D0010DB90 /* TemplatePresenter.swift */; };
+		7F5B8BF7213EAE1D0010DB90 /* TemplateRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B8BF1213EAE1D0010DB90 /* TemplateRouter.swift */; };
+		7F5B8BF8213EAE1D0010DB90 /* TemplateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B8BF2213EAE1D0010DB90 /* TemplateViewController.swift */; };
+		7F5B8BF9213EAE1D0010DB90 /* TemplateProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B8BF3213EAE1D0010DB90 /* TemplateProtocols.swift */; };
+		7F5B8BFA213EAE1D0010DB90 /* TemplateInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B8BF4213EAE1D0010DB90 /* TemplateInteractor.swift */; };
+		7F5B8BFB213EAE1D0010DB90 /* TemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F5B8BF5213EAE1D0010DB90 /* TemplateViewController.xib */; };
 		7F5C00CD211E3F8C00696F7C /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5C00CC211E3F8B00696F7C /* Log.swift */; };
 		7F5E6A512126953400D5285D /* LocalBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5E6A502126953400D5285D /* LocalBaseController.swift */; };
 		7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */; };
@@ -224,6 +231,7 @@
 		7F3B108020BB371C0073BA32 /* FIRDatabaseReference+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FIRDatabaseReference+Rx.swift"; sourceTree = "<group>"; };
 		7F3B108820BB371C0073BA32 /* RemoteConfig+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RemoteConfig+Rx.swift"; sourceTree = "<group>"; };
 		7F3B53601FE742240089CB34 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		7F3B844D214001A000BCD7B4 /* LoginRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringIdentifier.swift; sourceTree = "<group>"; };
 		7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityController.swift; sourceTree = "<group>"; };
 		7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyObservableProtocol.swift; sourceTree = "<group>"; };
@@ -251,6 +259,12 @@
 		7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosManagerImpl.swift; sourceTree = "<group>"; };
 		7F4D8B501FE4E93A00FAFE5E /* PhotosStorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosStorageManager.swift; sourceTree = "<group>"; };
+		7F5B8BF0213EAE1D0010DB90 /* TemplatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePresenter.swift; sourceTree = "<group>"; };
+		7F5B8BF1213EAE1D0010DB90 /* TemplateRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateRouter.swift; sourceTree = "<group>"; };
+		7F5B8BF2213EAE1D0010DB90 /* TemplateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateViewController.swift; sourceTree = "<group>"; };
+		7F5B8BF3213EAE1D0010DB90 /* TemplateProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateProtocols.swift; sourceTree = "<group>"; };
+		7F5B8BF4213EAE1D0010DB90 /* TemplateInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateInteractor.swift; sourceTree = "<group>"; };
+		7F5B8BF5213EAE1D0010DB90 /* TemplateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TemplateViewController.xib; sourceTree = "<group>"; };
 		7F5C00CC211E3F8B00696F7C /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		7F5E6A502126953400D5285D /* LocalBaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalBaseController.swift; sourceTree = "<group>"; };
 		7F619FCE20ADFFAB00AF9D91 /* GalleryLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryLayout.swift; sourceTree = "<group>"; };
@@ -506,17 +520,6 @@
 			path = KeyboardController;
 			sourceTree = "<group>";
 		};
-		7F475EC120B87FB600778FBF /* FirebaseListeners */ = {
-			isa = PBXGroup;
-			children = (
-				7FBFF4C81FE3FA5000788DCB /* UsersObserver.swift */,
-				7FBFF4C71FE3FA5000788DCB /* PostsObserver.swift */,
-				7FBFF4C61FE3FA5000788DCB /* FavoritiesObserver.swift */,
-				7FBFF4C91FE3FA5000788DCB /* CommentsObserver.swift */,
-			);
-			path = FirebaseListeners;
-			sourceTree = "<group>";
-		};
 		7F4948E9210F39D50077CC14 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -660,7 +663,7 @@
 			path = PhotosManager;
 			sourceTree = "<group>";
 		};
-		7F59C2C1210DE00700FB181C /* Enteties */ = {
+		7F59C2C1210DE00700FB181C /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				7F8604032137024B00D33DC3 /* FirebaseItem.swift */,
@@ -669,7 +672,20 @@
 				7FBFF4D51FE4068400788DCB /* Comment */,
 				7FBFF4D01FE4068400788DCB /* Favorite */,
 			);
-			path = Enteties;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		7F5B8BEF213EADD30010DB90 /* TemplateScene */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B8BF0213EAE1D0010DB90 /* TemplatePresenter.swift */,
+				7F5B8BF1213EAE1D0010DB90 /* TemplateRouter.swift */,
+				7F5B8BF2213EAE1D0010DB90 /* TemplateViewController.swift */,
+				7F5B8BF3213EAE1D0010DB90 /* TemplateProtocols.swift */,
+				7F5B8BF4213EAE1D0010DB90 /* TemplateInteractor.swift */,
+				7F5B8BF5213EAE1D0010DB90 /* TemplateViewController.xib */,
+			);
+			path = TemplateScene;
 			sourceTree = "<group>";
 		};
 		7F619FCD20ADFFAB00AF9D91 /* Layouts */ = {
@@ -730,6 +746,7 @@
 				7FC0EFD11FE6CD5800833DB8 /* LogInViewController.swift */,
 				7F7E370E2028705700470139 /* LoginPresenter.swift */,
 				7F7E370F2028705700470139 /* LoginInteractor.swift */,
+				7F3B844D214001A000BCD7B4 /* LoginRouter.swift */,
 				7F7E370C20286F4700470139 /* LoginDependencies.swift */,
 				7F0A82BB21397784002A4AEF /* LoginProtocols.swift */,
 			);
@@ -812,7 +829,7 @@
 				7FFBB2541FE45E0400A22EB0 /* GoogleFireBase */,
 				7F4948E9210F39D50077CC14 /* Realm */,
 				7FBFF4C51FE3FA5000788DCB /* DataBase */,
-				7F59C2C1210DE00700FB181C /* Enteties */,
+				7F59C2C1210DE00700FB181C /* Services */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -832,6 +849,7 @@
 				7FBFF4D11FE4068400788DCB /* FavoriteItem.swift */,
 				7F47D9DC20C37725001210E4 /* FavoriteModel.swift */,
 				7F4B2AC1212540DE0028F993 /* FavoritsManager.swift */,
+				7FBFF4C61FE3FA5000788DCB /* FavoritiesObserver.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -842,6 +860,7 @@
 				7FBFF4D31FE4068400788DCB /* UserItem.swift */,
 				7FBFF4D41FE4068400788DCB /* UserModel.swift */,
 				7F4D8B481FE4DFF600FAFE5E /* UsersManager.swift */,
+				7FBFF4C81FE3FA5000788DCB /* UsersObserver.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -851,6 +870,7 @@
 			children = (
 				7FBFF4D61FE4068400788DCB /* CommentItem.swift */,
 				7FC862251FE94E3B0077C4E2 /* CommentModel.swift */,
+				7FBFF4C91FE3FA5000788DCB /* CommentsObserver.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -861,6 +881,7 @@
 				7FBFF4D81FE4068400788DCB /* PostItem.swift */,
 				7F3B53601FE742240089CB34 /* PostModel.swift */,
 				7F4B2AC32125481F0028F993 /* PostsManager.swift */,
+				7FBFF4C71FE3FA5000788DCB /* PostsObserver.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -924,7 +945,6 @@
 		7FFBB2541FE45E0400A22EB0 /* GoogleFireBase */ = {
 			isa = PBXGroup;
 			children = (
-				7F475EC120B87FB600778FBF /* FirebaseListeners */,
 				7FFBB2551FE45E0400A22EB0 /* FireBaseAuthImpl.swift */,
 				7FFBB2561FE45E0400A22EB0 /* FireBaseImagesStorage.swift */,
 			);
@@ -988,6 +1008,7 @@
 				7F4B287520B10171002BFB47 /* FilterScene */,
 				7F9C5876213A567500B845E3 /* NewPostScene */,
 				7F4B287B20B10274002BFB47 /* PostEditScene */,
+				7F5B8BEF213EADD30010DB90 /* TemplateScene */,
 			);
 			path = eMia;
 			sourceTree = "<group>";
@@ -1097,6 +1118,7 @@
 				7FB601FC210AE17C00372584 /* GoogleService-Info.plist in Resources */,
 				7FC0EFD01FE6CCA800833DB8 /* Login.storyboard in Resources */,
 				7F7FAB3A20B2712C0052739B /* MunicipalityControllerView.xib in Resources */,
+				7F5B8BFB213EAE1D0010DB90 /* TemplateViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,18 +1220,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F4948ED210F3C380077CC14 /* Realm+Ext.swift in Sources */,
+				7F5B8BF9213EAE1D0010DB90 /* TemplateProtocols.swift in Sources */,
 				7F695C971FEA392B008AE127 /* Register1ViewCell.swift in Sources */,
 				7F4B288D20B17DE8002BFB47 /* MyProfileDependencies.swift in Sources */,
 				9ADFC8F81B8B771800AB4CD9 /* GalleryHeaderView.swift in Sources */,
 				7F81B21720B0F0F300CA384A /* SettingsPresenter.swift in Sources */,
 				7F8F54E4211AC93B003A9A41 /* PostsPageViewController.swift in Sources */,
 				7F3B53611FE742240089CB34 /* PostModel.swift in Sources */,
+				7F5B8BF6213EAE1D0010DB90 /* TemplatePresenter.swift in Sources */,
 				7FC9DE0C2018481000F50D07 /* PushNotificationsCenterImpl.swift in Sources */,
 				7FBFF4DB1FE4068400788DCB /* UserModel.swift in Sources */,
 				7F01B39C1FE5A1560034CAFB /* ImageCache.swift in Sources */,
 				7F060C0A1FF0E762002D04AD /* FiltersViewController.swift in Sources */,
 				7F1337BD202AFF1400D955D6 /* FilterDependencies.swift in Sources */,
 				7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */,
+				7F5B8BFA213EAE1D0010DB90 /* TemplateInteractor.swift in Sources */,
 				7FC20D371FE36B9B000C23A6 /* Image.swift in Sources */,
 				7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */,
 				7F8604042137024B00D33DC3 /* FirebaseItem.swift in Sources */,
@@ -1240,6 +1265,7 @@
 				7F4B288C20B17DE8002BFB47 /* MyProfilePresenter.swift in Sources */,
 				7FBFF4CE1FE3FA5000788DCB /* CommentsObserver.swift in Sources */,
 				7F35135A20B34D960004363C /* NewPostPresenter.swift in Sources */,
+				7F3B844E214001A100BCD7B4 /* LoginRouter.swift in Sources */,
 				7FC0EFD61FE6F32700833DB8 /* View.swift in Sources */,
 				7F060C191FF104C4002D04AD /* MARKRangeSlider.m in Sources */,
 				7F7E37122028705800470139 /* LoginInteractor.swift in Sources */,
@@ -1320,6 +1346,7 @@
 				7F4C1D9D20C1096F0057453F /* TableView+.swift in Sources */,
 				9A99AA7F1B8A219300428802 /* AppDelegate.swift in Sources */,
 				7F5C00CD211E3F8C00696F7C /* Log.swift in Sources */,
+				7F5B8BF7213EAE1D0010DB90 /* TemplateRouter.swift in Sources */,
 				7F35135C20B34DF30004363C /* NewPostDependencies.swift in Sources */,
 				7F4D8B4E1FE4E6E100FAFE5E /* PhotosManagerImpl.swift in Sources */,
 				7FBDE1211FE8466A00EAAD3E /* EditPost2ViewCell.swift in Sources */,
@@ -1331,6 +1358,7 @@
 				7F817B9D20C4E84D00B7C7F6 /* Route+ViewController.swift in Sources */,
 				7F3B108B20BB371C0073BA32 /* FIRDatabaseReference+Rx.swift in Sources */,
 				7FBA77501FEAB957003B455B /* NewPost3ViewCell.swift in Sources */,
+				7F5B8BF8213EAE1D0010DB90 /* TemplateViewController.swift in Sources */,
 				7F2F18AA202E111800EF4644 /* GlobalColors.swift in Sources */,
 				7F2F18A7202E111800EF4644 /* Constants.swift in Sources */,
 				7F15FA7A1FF4B81B0092BAD1 /* FilterModel.swift in Sources */,

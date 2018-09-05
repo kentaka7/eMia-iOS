@@ -19,35 +19,21 @@ enum EditPostRows: Int {
    static let allValues = [avatarPhotoAndUserName, dependsOnTextViewContent, photo, staticTextAndSendEmailButton]
 }
 
-class EditPostEditor: NSObject {
+class EditPostEditor: NSObject, EditPostEditorProtocol, EditPostInteractorInputProtocol {
    static private let kMinCommentCellHeight: CGFloat = 45.5
    
    weak var view: EditPostViewProtocol!
    weak var interactor: EditPostInteractor!
-   
+   weak var post: PostModel!
+   weak var tableView: UITableView!
+   weak var tvHeightConstraint: NSLayoutConstraint!
+   weak var activityIndicator: NVActivityIndicatorView!
+
    private let disposeBag = DisposeBag()
    
    private var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCellHeight: CGFloat = EditPostEditor.kMinCommentCellHeight
-
    private var editingFinished = false
-
-   private var post: PostModel {
-      return view.post
-   }
-   
-   private var tableView: UITableView {
-      return view.tableView
-   }
-
-   private var tvHeightConstraint: NSLayoutConstraint {
-      return view.bottomTableViewConstraint
-   }
-   
-   private var activityIndicator: NVActivityIndicatorView {
-      return view.activityIndicator
-   }
-
    private var comments: [CommentModel] {
       return interactor.comments
    }
@@ -59,11 +45,6 @@ class EditPostEditor: NSObject {
 
    weak private var commentCell: EditPost4ViewCell?
 
-   required init(view: EditPostViewProtocol, interactor: EditPostInteractor) {
-      self.view = view
-      self.interactor = interactor
-   }
-   
    deinit {
       unregisterObserver()
       Log()
@@ -71,7 +52,7 @@ class EditPostEditor: NSObject {
 
    func configure() {
       self.registerObserver()
-      interactor.configure(post: self.post)
+      interactor.configure()
       configureTableView()
       configureKeyboard()
       startEditingFinishedListener()

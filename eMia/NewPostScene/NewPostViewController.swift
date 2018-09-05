@@ -11,6 +11,8 @@ import RxCocoa
 class NewPostViewController: UIViewController, NewPostViewProtocol {
    
    var presenter: NewPostPresenterProtocol!
+   var editor: NewPostEditor!
+   
    var viewController: UIViewController? {
       return self
    }
@@ -31,6 +33,7 @@ class NewPostViewController: UIViewController, NewPostViewProtocol {
       super.viewDidLoad()
 
       configurator.configure(self)
+      editor.configureView()
       presenter.configureView()
       configureView()
       bindButtons()
@@ -52,13 +55,13 @@ class NewPostViewController: UIViewController, NewPostViewProtocol {
    private func configure(_ view: UIView) {
       switch view {
       case saveButton:
-         configureSaveButton()
+         decorateSaveButton()
       default:
          break
       }
    }
    
-   private func configureSaveButton() {
+   private func decorateSaveButton() {
       saveButton.setAsCircle()
       saveButton.backgroundColor = GlobalColors.kBrandNavBarColor
    }

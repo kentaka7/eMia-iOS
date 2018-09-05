@@ -21,29 +21,25 @@ struct NewPostData {
    var image: UIImage
 }
 
-class NewPostEditor: NSObject {
+class NewPostEditor: NSObject, NewPostEditorProtocol, NewPostInteracorInput {
    private var textBodyHeight: CGFloat = 78.0
    
-   weak private var tableView: UITableView?
-   weak private var fakeTextField: UITextField?
-   weak private var viewController: UIViewController?
+   weak var tableView: UITableView?
+   weak var fakeTextField: UITextField?
+   weak var viewController: UIViewController?
    
    private var titleCell: NewPost1ViewCell!
    private var bodyCell: NewPost2ViewCell!
    private var photoCell: NewPost3ViewCell!
 
-   required init(tableView: UITableView, fakeTextField: UITextField, viewController: UIViewController ) {
-      self.tableView = tableView
-      self.fakeTextField = fakeTextField
-      self.viewController = viewController
-      super.init()
-      self.configureTableView()
-   }
-
    deinit {
       Log()
    }
 
+   func configureView() {
+      self.configureTableView()
+   }
+   
    private func configureTableView() {
       guard let tableView = self.tableView else {
          return

@@ -13,6 +13,12 @@ protocol LogInDependenciesProtocol {
    func configure(_ view: LogInViewController)
 }
 
+protocol LoginViewProtocol {
+   func showSignUpResult(_ error: LoginPresenter.LoginError)
+   func showSignInResult(_ error: LoginPresenter.LoginError)
+   func setUpTitle(text: String)
+}
+
 protocol LogInValidating {
    var email: BehaviorSubject<String> {get}
    var password: BehaviorSubject<String> {get}
@@ -20,11 +26,13 @@ protocol LogInValidating {
 }
 
 protocol LogInPresenterProtocol {
-   func signIn(completion: @escaping (LoginPresenter.LoginError?) -> Void)
-   func signUp(completion: (LoginPresenter.LoginError?) -> Void)
+   func configureView()
+   func signInButtonPressed(_ completion: @escaping () -> Void)
+   func signUpButtonPressed(_ completion: @escaping () -> Void)
 }
 
-protocol LogInRouting {
-   func prepare(for segue: UIStoryboardSegue, sender: Any?)
+protocol LoginRouterProtocol: class {
+   var viewController: LogInViewController? {get set}
+   func goToMyProfileEditor(_ user: UserModel, password: String)
+   func goToMainScreen()
 }
-

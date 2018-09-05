@@ -14,12 +14,19 @@ class NewPostDependencies: NSObject {
       let presenter = NewPostPresenter()
       let interactor = NewPostInteractor()
       let router = NewPostRouter()
+      let editor = NewPostEditor()
+      editor.tableView = view.tableView
+      editor.fakeTextField = view.fakeTextField
+      editor.viewController = view
       
       view.presenter = presenter
-
+      view.editor = editor
+      
       presenter.view = view
       presenter.router = router
       presenter.interactor = interactor
+      
+      interactor.input = editor
       
       router.view = view
    }

@@ -2,6 +2,9 @@
 //  LogInViewController.swift
 //  eMia
 //
+//  Created by Сергей Кротких on 20/05/2018.
+//  Copyright © 2018 Coded I/S. All rights reserved.
+//
 
 import UIKit
 import RxSwift
@@ -13,7 +16,6 @@ class LogInViewController: UIViewController {
    
    var presenter: LogInPresenterProtocol!
    var validator: LogInValidating!
-   var router: LogInRouting!
    
    let disposeBag = DisposeBag()
    
@@ -31,61 +33,77 @@ class LogInViewController: UIViewController {
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      navigationItem.title = "Log In to ".localized + "\(AppConstants.ApplicationName)"
       configurator.configure(self)
-      
-      subscribeOnValid()
+      presenter.configureView()
       configureView()
+      bindActivities()
+      subscribeOnValidation()
       emailTextField.becomeFirstResponder()
    }
 
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      router.prepare(for: segue, sender: sender)
    }
    
    private func configureView() {
-      configure(self.view)
       configure(signInButton)
       configure(signUpButton)
-      configure(emailTextField)
-      configure(passwordTextField)
    }
    
    private func configure(_ view: UIView) {
       switch view {
-      case self.view:
-         tapRecognizer.rx.event.subscribe({[weak self] _ in
-            guard let `self` = self else { return }
-            self.hideKeyboard()
-         }).disposed(by: disposeBag)
-      case emailTextField:
-         _ = emailTextField.rx.text.map { $0 ?? "" }
-            .bind(to: validator.email)
-      case passwordTextField:
-         _ = passwordTextField.rx.text.map {$0 ?? "" }
-            .bind(to: validator.password)
       case signInButton:
          signInButton.isEnabled = false
          signInButton.setTitle("Sign In".localized, for: .normal)
          signInButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
-         signInButton.rx.tap.bind(onNext: { [weak self] in
-            guard let `self` = self else { return }
-            self.signInButtonPressed()
-         }).disposed(by: disposeBag)
       case signUpButton:
          signUpButton.isEnabled = false
          signUpButton.setTitle("Sign Up".localized, for: .normal)
          signUpButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
-         signUpButton.rx.tap.bind(onNext: { [weak self] in
-            guard let `self` = self else { return }
-            self.signUpButtonPressed()
-         }).disposed(by: disposeBag)
       default:
          break
       }
    }
 
-   private func subscribeOnValid() {
+   private func bindActivities() {
+      binfEmailTextField()
+      bindPasswordTextField()
+      bindTapOnView()
+      bindSignUpButton()
+      bindSignInButton()
+   }
+
+   private func binfEmailTextField() {
+      _ = emailTextField.rx.text.map { $0 ?? "" }
+         .bind(to: validator.email)
+   }
+
+   private func bindPasswordTextField() {
+      _ = passwordTextField.rx.text.map {$0 ?? "" }
+         .bind(to: validator.password)
+   }
+   
+   private func bindTapOnView() {
+      tapRecognizer.rx.event.subscribe({[weak self] _ in
+         guard let `self` = self else { return }
+         self.hideKeyboard()
+      }).disposed(by: disposeBag)
+   }
+   
+   private func bindSignUpButton() {
+      signUpButton.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.signUpButtonPressed()
+      }).disposed(by: disposeBag)
+   }
+
+   private func bindSignInButton() {
+      signInButton.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.signInButtonPressed()
+      }).disposed(by: disposeBag)
+   }
+   
+   private func subscribeOnValidation() {
       _ = validator.isValid.bind(to: signInButton.rx.isEnabled)
       _ = validator.isValid.subscribe(onNext: {[weak self] isValid in
          guard let `self` = self else { return }
@@ -98,47 +116,47 @@ class LogInViewController: UIViewController {
    
    private func signInButtonPressed() {
       self.hideKeyboard()
-      presenter.signIn { error in
-         guard let error = error else {
-            return
-         }
-         switch error {
-         case .emailIsAbsent:
-            break
-         case .emailIsWrong:
-            self.emailTextField.shake()
-         case .passwordIsWrong:
-            Alert.default.showOk("", message: error.description)
-         case .accessDenied:
-            self.emailTextField.shake()
-         }
+      startProgress()
+      presenter.signInButtonPressed() { [weak self] in
+         self?.stopProgress()
       }
    }
    
    private func signUpButtonPressed() {
       self.hideKeyboard()
-      presenter.signUp { error in
-         guard let error = error else {
-            return
-         }
-         switch error {
-         case .emailIsAbsent:
-            Alert.default.showOk("", message: error.description)
-         case .emailIsWrong:
-            break
-         case .passwordIsWrong:
-            Alert.default.showOk("", message: error.description)
-         case .accessDenied:
-            break
-         }
+      startProgress()
+      presenter.signUpButtonPressed() { [weak self] in
+         self?.stopProgress()
       }
    }
 }
 
 // MARK: - View Protocol
 
-extension LogInViewController {
+extension LogInViewController: LoginViewProtocol {
+
+   func setUpTitle(text: String) {
+      navigationItem.title = text
+   }
+
+   func showSignInResult(_ error: LoginPresenter.LoginError) {
+      switch error {
+      case .passwordIsWrong:
+         self.passwordTextField.shake()
+      case .accessDenied, .emailIsWrong, .emailIsAbsent:
+         self.emailTextField.shake()
+      }
+   }
    
+   func showSignUpResult(_ error: LoginPresenter.LoginError) {
+      switch error {
+      case .emailIsAbsent, .emailIsWrong, .passwordIsWrong:
+         break
+      case .accessDenied:
+         Alert.default.showOk("Access denied!".localized, message: "Please check email and try it again.".localized)
+      }
+   }
+
    func startProgress() {
       DispatchQueue.main.async {
          self.activityIndicatorView.startAnimating()
