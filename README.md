@@ -12,6 +12,7 @@ eMia is developing with using following things:
 - RxRealm, RealmSwift
 - Custom Layout for UICollectionView
 - VIPER
+- etc (new iOS 11 features like 3D touch on the app home screen icon )
 
 ## Requirements
 

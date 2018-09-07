@@ -6,19 +6,14 @@
 import UIKit
 import Firebase
 import UserNotifications
-import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
    
    static var instance: AppDelegate!
-   
    var window: UIWindow?
-
    var shouldSupportAllOrientation = false
-   
    var application: UIApplication!
-   
    var appRouter: RouteCoordinator!
    
    static var shared: AppDelegate {
@@ -40,41 +35,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       Log(message: String.getDocumentsPath())
       
       AppDelegate.instance = self
-      
       self.application  = application
       
-      gNetwork.startMonitoring()
-      
-      gFireBaseAuth.configure()
-      
-      gDeviceTokenController.configure()
-      
-      application.shortcutItems = [.createpost, .customersitelink, .aboutus]
-      
-      Appearance.customize()
-      
-      IQKeyboardManager.shared.enable = true
-      
-      appRouter = RouteCoordinator(window: window!)
-      appRouter.launchFirstScene()
+      StartupCommandsBuilder()
+         .setKeyWindow(window!)
+         .setApplication(application)
+         .build()
+         .forEach { $0.execute() }
 
       return true
-   }
-   
-   func applicationWillEnterForeground(_ application: UIApplication) {
-      NotificationCenter.default.post(name: Notification.Name(Notifications.Application.WillEnterForeground), object: nil)
-   }
-   
-   func applicationDidBecomeActive(_ application: UIApplication) {
-      NotificationCenter.default.post(name: Notification.Name(Notifications.Application.DidBecomeActive), object: nil)
-   }
-   
-   func applicationWillResignActive(_ application: UIApplication) {
-      NotificationCenter.default.post(name: Notification.Name(Notifications.Application.WillResignActive), object: nil)
-   }
-   
-   func applicationDidEnterBackground(_ application: UIApplication) {
-      NotificationCenter.default.post(name: Notification.Name(Notifications.Application.DidEnterBackground), object: nil)
    }
    
    // MARK: - Interface Orientation
@@ -95,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    // MARK: - 3D touch on the app home screen icon handler
    
    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-      completionHandler(handleAction(for: shortcutItem))
+      completionHandler(AppShortcuts.handleAction(for: shortcutItem))
    }
 }
 
@@ -129,40 +98,5 @@ extension AppDelegate {
                                didReceive response: UNNotificationResponse,
                                withCompletionHandler completionHandler: @escaping () -> Void) {
       gPushNotificationsCenter.userNotificationCenter(center, didReceive: response, withCompletionHandler: completionHandler)
-   }
-}
-
-// MARK: - 3D touch on the app home screen icon handler
-
-extension AppDelegate {
-
-   func handleAction(for shortcutItem: UIApplicationShortcutItem) -> Bool {
-      if shortcutItem == .createpost {
-         createNewPost()
-         return true
-      } else if shortcutItem == .customersitelink {
-         gotoCustomerSite()
-         return true
-      } else if shortcutItem == .aboutus {
-         gotoOurSite()
-         return true
-      } else {
-         return false
-      }
-   }
-   
-   func gotoCustomerSite() {
-      if let url = URL(string: "http://www.coded.dk") {
-         UIApplication.shared.open(url, options: [:])
-      }
-   }
-   
-   func gotoOurSite() {
-      if let url = URL(string: "http://www.coded.dk") {
-         UIApplication.shared.open(url, options: [:])
-      }
-   }
-   
-   func createNewPost() {
    }
 }

@@ -44,6 +44,7 @@
 		7F3C59EC1FE5EE8B00A823DC /* StringIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */; };
 		7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */; };
 		7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */; };
+		7F3D22E92141487D00052D86 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F3D22E82141487C00052D86 /* GoogleService-Info.plist */; };
 		7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3F24B921175C7500722AB4 /* KeyboardController.swift */; };
 		7F41C3312118551D00D6FC6F /* FakeFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F41C3302118551D00D6FC6F /* FakeFieldController.swift */; };
 		7F44DF46213AE67100F642A5 /* EditPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44DF45213AE67000F642A5 /* EditPostInteractor.swift */; };
@@ -114,10 +115,12 @@
 		7F87244A20B7D4AD0018A855 /* EditPostProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F87244920B7D4AD0018A855 /* EditPostProtocols.swift */; };
 		7F88D6BE200FE5A000394EA2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F88D6BD200FE5A000394EA2 /* LocationManager.swift */; };
 		7F88D6C1200FEA5600394EA2 /* ProfileEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F88D6BF200FEA5500394EA2 /* ProfileEditor.storyboard */; };
+		7F8EE9DD21424973000C4C43 /* AppLifecycleMediator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8EE9DC21424973000C4C43 /* AppLifecycleMediator.swift */; };
+		7F8EE9E0214263DD000C4C43 /* AppDelegateCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8EE9DF214263DD000C4C43 /* AppDelegateCommands.swift */; };
+		7F8EE9E221426BE7000C4C43 /* AppShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8EE9E121426BE7000C4C43 /* AppShortcuts.swift */; };
 		7F8F54E4211AC93B003A9A41 /* PostsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8F54E3211AC93B003A9A41 /* PostsPageViewController.swift */; };
 		7F9C5875213A4B4700B845E3 /* NewPostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C5874213A4B4700B845E3 /* NewPostRouter.swift */; };
 		7F9C5878213A56F300B845E3 /* EditPostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9C5877213A56F200B845E3 /* EditPostRouter.swift */; };
-		7FB601FC210AE17C00372584 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7FB601FB210AE17C00372584 /* GoogleService-Info.plist */; };
 		7FBA77501FEAB957003B455B /* NewPost3ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA774C1FEAB956003B455B /* NewPost3ViewCell.swift */; };
 		7FBA77511FEAB957003B455B /* NewPost1ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA774D1FEAB956003B455B /* NewPost1ViewCell.swift */; };
 		7FBA77521FEAB957003B455B /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBA774E1FEAB957003B455B /* NewPostViewController.swift */; };
@@ -235,6 +238,7 @@
 		7F3C59EB1FE5EE8B00A823DC /* StringIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringIdentifier.swift; sourceTree = "<group>"; };
 		7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityController.swift; sourceTree = "<group>"; };
 		7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyObservableProtocol.swift; sourceTree = "<group>"; };
+		7F3D22E82141487C00052D86 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F3F24B921175C7500722AB4 /* KeyboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
 		7F41C3302118551D00D6FC6F /* FakeFieldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFieldController.swift; sourceTree = "<group>"; };
 		7F44DF45213AE67000F642A5 /* EditPostInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostInteractor.swift; sourceTree = "<group>"; };
@@ -306,10 +310,12 @@
 		7F87244920B7D4AD0018A855 /* EditPostProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostProtocols.swift; sourceTree = "<group>"; };
 		7F88D6BD200FE5A000394EA2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7F88D6C0200FEA5500394EA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ProfileEditor.storyboard; sourceTree = "<group>"; };
+		7F8EE9DC21424973000C4C43 /* AppLifecycleMediator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecycleMediator.swift; sourceTree = "<group>"; };
+		7F8EE9DF214263DD000C4C43 /* AppDelegateCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateCommands.swift; sourceTree = "<group>"; };
+		7F8EE9E121426BE7000C4C43 /* AppShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShortcuts.swift; sourceTree = "<group>"; };
 		7F8F54E3211AC93B003A9A41 /* PostsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsPageViewController.swift; sourceTree = "<group>"; };
 		7F9C5874213A4B4700B845E3 /* NewPostRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostRouter.swift; sourceTree = "<group>"; };
 		7F9C5877213A56F200B845E3 /* EditPostRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostRouter.swift; sourceTree = "<group>"; };
-		7FB601FB210AE17C00372584 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7FBA774C1FEAB956003B455B /* NewPost3ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPost3ViewCell.swift; sourceTree = "<group>"; };
 		7FBA774D1FEAB956003B455B /* NewPost1ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPost1ViewCell.swift; sourceTree = "<group>"; };
 		7FBA774E1FEAB957003B455B /* NewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
@@ -459,6 +465,7 @@
 		7F2F189B202E111800EF4644 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7F3D22E82141487C00052D86 /* GoogleService-Info.plist */,
 				7F2F189C202E111800EF4644 /* Constants.swift */,
 				7F4D62032113062B004BC8B5 /* Examples.swift */,
 				7F2F189E202E111800EF4644 /* Localizable.strings */,
@@ -807,6 +814,17 @@
 			path = LocationManager;
 			sourceTree = "<group>";
 		};
+		7F8EE9DE21425121000C4C43 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				7F8EE9DC21424973000C4C43 /* AppLifecycleMediator.swift */,
+				7F8EE9DF214263DD000C4C43 /* AppDelegateCommands.swift */,
+				7F8EE9E121426BE7000C4C43 /* AppShortcuts.swift */,
+				7FCD79F12014817D00677AC6 /* ShortcutItems.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		7F9C5876213A567500B845E3 /* NewPostScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -986,10 +1004,9 @@
 		9A1B88341CE1E2BA005B6F07 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
-				7FB601FB210AE17C00372584 /* GoogleService-Info.plist */,
+				7F8EE9DE21425121000C4C43 /* Helpers */,
 				7F060C1E1FF1069B002D04AD /* eMia-Bridging-Header.h */,
 				9A99AA7E1B8A219300428802 /* AppDelegate.swift */,
-				7FCD79F12014817D00677AC6 /* ShortcutItems.swift */,
 				9A1B88351CE1E2E5005B6F07 /* info.plist */,
 				FA74C6F42038B9B10079D6E3 /* README.md */,
 			);
@@ -1115,10 +1132,10 @@
 				7F2F18AB202E111800EF4644 /* Assets.xcassets in Resources */,
 				7F2F18A9202E111800EF4644 /* Localizable.strings in Resources */,
 				7F7FAB3F20B2D6DF0052739B /* AgeSliderView.xib in Resources */,
-				7FB601FC210AE17C00372584 /* GoogleService-Info.plist in Resources */,
 				7FC0EFD01FE6CCA800833DB8 /* Login.storyboard in Resources */,
 				7F7FAB3A20B2712C0052739B /* MunicipalityControllerView.xib in Resources */,
 				7F5B8BFB213EAE1D0010DB90 /* TemplateViewController.xib in Resources */,
+				7F3D22E92141487D00052D86 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1274,6 +1291,7 @@
 				7FC20D341FE36A84000C23A6 /* Font.swift in Sources */,
 				7F1337B9202AAF7100D955D6 /* RouteCoordinator.swift in Sources */,
 				7F7E36FF20281BD200470139 /* GalleryViewController.swift in Sources */,
+				7F8EE9E221426BE7000C4C43 /* AppShortcuts.swift in Sources */,
 				7F389F21213955CC007AC4C4 /* SettingsProtocols.swift in Sources */,
 				7FBFF4DC1FE4068400788DCB /* CommentItem.swift in Sources */,
 				7FBDE1231FE847D200EAAD3E /* EditPost6ViewCell.swift in Sources */,
@@ -1299,6 +1317,7 @@
 				7FFBB2581FE45E0400A22EB0 /* FireBaseImagesStorage.swift in Sources */,
 				7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */,
 				7F41C3312118551D00D6FC6F /* FakeFieldController.swift in Sources */,
+				7F8EE9E0214263DD000C4C43 /* AppDelegateCommands.swift in Sources */,
 				7F060C151FF0E8EB002D04AD /* RangeSlider.swift in Sources */,
 				7F38AB24213CF84A00151E60 /* NewPostEditor.swift in Sources */,
 				7F7E37112028705800470139 /* LoginPresenter.swift in Sources */,
@@ -1334,6 +1353,7 @@
 				7FC20D391FE36E9A000C23A6 /* EnumIteration.swift in Sources */,
 				7FC9DE092018481000F50D07 /* PushNotificationsInteractor.swift in Sources */,
 				7F695C8D1FEA3914008AE127 /* MyProfileViewController.swift in Sources */,
+				7F8EE9DD21424973000C4C43 /* AppLifecycleMediator.swift in Sources */,
 				7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */,
 				7FD766821FE9D8F300E32C42 /* MyProfile1ViewCell.swift in Sources */,
 				7FBFF4D91FE4068400788DCB /* FavoriteItem.swift in Sources */,

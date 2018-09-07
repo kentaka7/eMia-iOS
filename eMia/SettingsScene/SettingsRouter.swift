@@ -9,7 +9,7 @@
 import UIKit
 
 class SettingsRouter: SettingsPouterProtocol {
-
+   
    weak var view: SettingsViewController!
    
    deinit {
@@ -31,7 +31,7 @@ class SettingsRouter: SettingsPouterProtocol {
          }
       }
    }
-
+   
    func didSelelectMenuItem(for menuIndex: Int) {
       switch SettingsMenu(rawValue: menuIndex)! {
       case .myProfile:
@@ -39,9 +39,16 @@ class SettingsRouter: SettingsPouterProtocol {
             self.view.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
          }
       case .visitToAppSite:
-         AppDelegate.instance.gotoCustomerSite()
+         gotoCustomerSite()
       case .logOut:
          gUsersManager.logOut()
       }
    }
+   
+   private func gotoCustomerSite() {
+      if let url = URL(string: "http://www.coded.dk") {
+         UIApplication.shared.open(url, options: [:])
+      }
+   }
 }
+

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import Firebase
 
-class FavoritiesObserver: FireBaseListener {
+class FavoritiesObserver: FirebaseListener {
    lazy var dbRef = gDataBaseRef.child(FavoriteItem.TableName)
    private let localDB = LocalBaseController()
    private let disposeBag = DisposeBag()

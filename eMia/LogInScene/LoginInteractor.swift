@@ -20,7 +20,7 @@ class LoginInteractor: NSObject {
    }
    
    func signIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
-      gFireBaseAuth.signIn(email: email, password: password) { success in
+      gFirebaseAuth.signIn(email: email, password: password) { success in
          if success {
             self.save(email: email, password: password)
             self.getUserBy(email: email) { user in
@@ -60,7 +60,7 @@ extension LoginInteractor: MyProfileLoginWorkerProotocol {
    
    func signUp(user: UserModel, password: String, completion: @escaping (UserModel?) -> Void) {
       let email = user.email
-      gFireBaseAuth.signUp(email: email, password: password) { userId in
+      gFirebaseAuth.signUp(email: email, password: password) { userId in
          guard let userId = userId else {
             Alert.default.showOk("Server error".localized, message: "Can't register you on our system!".localized)
             completion(nil)

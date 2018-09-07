@@ -7,11 +7,11 @@ import UIKit
 import RxSwift
 import Firebase
 
-protocol FireBaseListener {
+protocol FirebaseListener {
    func startListening()
 }
 
-class UsersObserver: FireBaseListener {
+class UsersObserver: FirebaseListener {
    lazy var dbRef = gDataBaseRef.child(UserItem.TableName)
    private let disposeBag = DisposeBag()
    private let localDB = LocalBaseController()

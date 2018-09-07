@@ -1,5 +1,5 @@
 //
-//  FireBaseImagesStorage.swift
+//  FirebaseImagesStorage.swift
 //  eMia
 //
 
@@ -10,7 +10,7 @@ import FirebaseRemoteConfig
 
 internal let gImagesStorageRef = Storage.storage().reference(forURL: Firebase.StorageURL)
 
-class FireBaseImagesStorage: NSObject {
+class FirebaseImagesStorage: NSObject {
    
    class func saveImage(_ image: UIImage, name: String, completion: @escaping (String?) -> Void) {
       guard let imageData = UIImageJPEGRepresentation(image, 0.8) else {
@@ -38,7 +38,7 @@ class FireBaseImagesStorage: NSObject {
          if let icon = imageView.screenshot {
             self.saveImage(icon, name: name) { path in
                if let path = path {
-                  let imageUrl = FireBaseImagesStorage.urlFor(path: path)
+                  let imageUrl = FirebaseImagesStorage.urlFor(path: path)
                   completion(imageUrl)
                } else {
                   completion(nil)

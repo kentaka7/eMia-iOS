@@ -1,5 +1,5 @@
 //
-//  FireBaseAuthImpl.swift
+//  FirebaseAuthImpl.swift
 //  eMia
 //
 
@@ -10,35 +10,35 @@ import FirebaseDatabase
 import FirebaseStorage
 import FirebaseRemoteConfig
 
-internal let gFireBaseAuth = FireBaseAuthImpl.default
+internal let gFirebaseAuth = FirebaseAuthImpl.default
 internal let gDataBaseRef = Database.database().reference().child(DefaultDataBase.name)
 
-class FireBaseAuthImpl: NSObject {
+class FirebaseAuthImpl: NSObject {
 
-   static let `default` = FireBaseAuthImpl()
+   static let `default` = FirebaseAuthImpl()
    
    private override init() {
       super.init()
    }
    
-   fileprivate var currentFireBaseUser: User?
+   fileprivate var currentFirebaseUser: User?
    fileprivate var remoteConfig: RemoteConfig!
    var displayName: String?
    fileprivate var signInCounter = 0
    
    var databaseConnected: Bool {
-      return currentFireBaseUser != nil
+      return currentFirebaseUser != nil
    }
 
    func signUp(email: String, password: String, completion: @escaping (String?) -> Void) {
       Auth.auth().createUser(withEmail: email, password: password) { (authDataResult, error) in
          if let err = error {
             print(err.localizedDescription)
-            self.currentFireBaseUser = nil
+            self.currentFirebaseUser = nil
             completion(nil)
          } else {
-            self.currentFireBaseUser = authDataResult?.user
-            completion(self.currentFireBaseUser?.uid)
+            self.currentFirebaseUser = authDataResult?.user
+            completion(self.currentFirebaseUser?.uid)
          }
       }
    }
@@ -47,10 +47,10 @@ class FireBaseAuthImpl: NSObject {
       Auth.auth().signIn(withEmail: email, password: password, completion: { (authDataResult, error) in
          if let err = error {
             print(err.localizedDescription)
-            self.currentFireBaseUser = nil
+            self.currentFirebaseUser = nil
             completion(false)
          } else {
-            self.currentFireBaseUser = authDataResult?.user
+            self.currentFirebaseUser = authDataResult?.user
             completion(true)
          }
       })
@@ -60,18 +60,18 @@ class FireBaseAuthImpl: NSObject {
       Auth.auth().signInAnonymously(completion: { (authDataResult, error) in
          if let err = error {
             print(err.localizedDescription)
-            self.currentFireBaseUser = nil
+            self.currentFirebaseUser = nil
             completion(false)
             return
          }
-         self.currentFireBaseUser = authDataResult?.user
+         self.currentFirebaseUser = authDataResult?.user
          completion(true)
       })
    }
    
 }
 
-extension FireBaseAuthImpl {
+extension FirebaseAuthImpl {
 
    func configure() {
       FirebaseApp.configure()

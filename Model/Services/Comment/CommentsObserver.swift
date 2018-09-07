@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import Firebase
 
-class CommentsObserver: FireBaseListener {
+class CommentsObserver: FirebaseListener {
    lazy var dbRef = gDataBaseRef.child(CommentItem.TableName)
    private let disposeBag = DisposeBag()
    private let localDB = LocalBaseController()

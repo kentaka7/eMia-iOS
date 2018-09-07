@@ -9,13 +9,6 @@ import UIKit
 
 struct Notifications {
    
-   struct Application {
-      static let WillEnterForeground = "WillEnterForeground"
-      static let DidBecomeActive = "DidBecomeActive"
-      static let WillResignActive = "WillResignActive"
-      static let DidEnterBackground = "DidEnterBackground"
-   }
-   
    struct ChangeData {
       static let UsersDataBase = "UsersDataBaseChanged"
       static let PostsDataBase = "RequestDataBaseChanged"
