@@ -33,3 +33,8 @@ protocol SettingsPouterProtocol: class {
    func didSelelectMenuItem(for menuIndex: Int)
    func closeCurrentViewController()
 }
+
+protocol SettingsMenuProtocol {
+   var output: SettingsPresenterProtocol! {get}
+   func configure(with tableView: UITableView)
+}

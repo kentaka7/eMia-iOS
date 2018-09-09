@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 enum SettingsMenu: Int {
    case myProfile
@@ -20,10 +22,23 @@ enum SettingsMenu: Int {
  * binds Menu enum with UITableView
  */
 
-class SettingsMenuController: NSObject, UITableViewDelegate, UITableViewDataSource {
+class SettingsMenuController: NSObject, SettingsMenuProtocol, UITableViewDelegate, UITableViewDataSource {
 
+   weak var output: SettingsPresenterProtocol!
+   let disposeBag = DisposeBag()
+   
    deinit {
       Log()
+   }
+   
+   func configure(with tableView: UITableView) {
+      tableView.delegate = self
+      tableView.dataSource = self
+      
+      tableView.rx.itemSelected
+         .subscribe(onNext: {[weak self] indexPath in
+            self?.output.didSelelectMenuItem(for: indexPath.row)
+         }).disposed(by: disposeBag)
    }
    
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

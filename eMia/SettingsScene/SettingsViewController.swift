@@ -16,8 +16,9 @@ class SettingsViewController: UIViewController, SettingsViewProtocol {
    @IBOutlet weak var backBarButtonItem: UIBarButtonItem!
    
    var presenter: SettingsPresenterProtocol!
-   var menuController: SettingsMenuController!
 
+   var menuController: SettingsMenuProtocol!
+   
    private let configurator = SettingsDependencies()
    private let disposeBag = DisposeBag()
    
@@ -30,7 +31,7 @@ class SettingsViewController: UIViewController, SettingsViewProtocol {
       configurator.configure(self)
       presenter.configureView()
       configureMenu()
-      setUpHandlers()
+      bindControls()
    }
    
    override func viewWillAppear(_ animated: Bool) {
@@ -47,31 +48,19 @@ class SettingsViewController: UIViewController, SettingsViewProtocol {
       self.title = text
    }
 
-   private func setUpHandlers() {
-      configure(item: backBarButtonItem)
-      configure(item: tableView)
+   private func bindControls() {
+      bindBackButton()
    }
    
-   private func configure(item: NSObject) {
-      switch item {
-      case backBarButtonItem:
-         self.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
-            guard let `self` = self else { return }
-            self.presenter.backButtonPressed()
-         }).disposed(by: disposeBag)
-      case tableView:
-         tableView.rx.itemSelected
-            .subscribe(onNext: {[weak self] indexPath in
-               self?.presenter.didSelelectMenuItem(for: indexPath.row)
-            }).disposed(by: disposeBag)
-      default:
-         break
-      }
+   private func bindBackButton() {
+      self.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
+         guard let `self` = self else { return }
+         self.presenter.backButtonPressed()
+      }).disposed(by: disposeBag)
    }
    
    private func configureMenu() {
-      tableView.delegate = menuController
-      tableView.dataSource = menuController
+      menuController.configure(with: tableView)
    }
    
    func reConfigureView() {

@@ -92,6 +92,7 @@
 		7F7E370D20286F4800470139 /* LoginDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E370C20286F4700470139 /* LoginDependencies.swift */; };
 		7F7E37112028705800470139 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E370E2028705700470139 /* LoginPresenter.swift */; };
 		7F7E37122028705800470139 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7E370F2028705700470139 /* LoginInteractor.swift */; };
+		7F7F14DA2144D02A0047F1F4 /* RxSettingsMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7F14D92144D0290047F1F4 /* RxSettingsMenuController.swift */; };
 		7F7FAB3A20B2712C0052739B /* MunicipalityControllerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */; };
 		7F7FAB3B20B2712C0052739B /* MunicipalityControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */; };
 		7F7FAB3D20B2BCEB0052739B /* AgeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */; };
@@ -287,6 +288,7 @@
 		7F7E370C20286F4700470139 /* LoginDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDependencies.swift; sourceTree = "<group>"; };
 		7F7E370E2028705700470139 /* LoginPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		7F7E370F2028705700470139 /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		7F7F14D92144D0290047F1F4 /* RxSettingsMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxSettingsMenuController.swift; sourceTree = "<group>"; };
 		7F7FAB3820B2712B0052739B /* MunicipalityControllerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MunicipalityControllerView.xib; sourceTree = "<group>"; };
 		7F7FAB3920B2712B0052739B /* MunicipalityControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MunicipalityControllerView.swift; sourceTree = "<group>"; };
 		7F7FAB3C20B2BCEB0052739B /* AgeSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgeSliderView.swift; sourceTree = "<group>"; };
@@ -789,6 +791,7 @@
 				7FD7667F1FE9D49E00E32C42 /* SettingsViewController.swift */,
 				7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */,
 				7F45CBF8213BADC6003E4691 /* SettingsMenuController.swift */,
+				7F7F14D92144D0290047F1F4 /* RxSettingsMenuController.swift */,
 				7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */,
 				7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */,
 				7F389F20213955CB007AC4C4 /* SettingsProtocols.swift */,
@@ -1325,6 +1328,7 @@
 				7F87244A20B7D4AD0018A855 /* EditPostProtocols.swift in Sources */,
 				7F060C241FF1229C002D04AD /* FilterFavorite.swift in Sources */,
 				7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */,
+				7F7F14DA2144D02A0047F1F4 /* RxSettingsMenuController.swift in Sources */,
 				7F475EBE20B83B7B00778FBF /* NewPostProtocols.swift in Sources */,
 				7F81B21920B0FA9D00CA384A /* SettingsRouter.swift in Sources */,
 				7FC0EFD21FE6CD5800833DB8 /* LogInViewController.swift in Sources */,
