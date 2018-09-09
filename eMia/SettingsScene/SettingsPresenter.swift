@@ -26,6 +26,10 @@ class SettingsPresenter: NSObject, SettingsPresenterProtocol {
       view.setUpTitle(text: "Settings".localized)
    }
    
+   func reConfigureView() {
+      view.reConfigureView()
+   }
+
    func backButtonPressed() {
       self.router.closeCurrentViewController()
    }
@@ -36,10 +40,6 @@ class SettingsPresenter: NSObject, SettingsPresenterProtocol {
    
    func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       router.prepare(for: segue, sender: sender)
-   }
-   
-   func reConfigureView() {
-      view.reConfigureView()
    }
 
 }

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxDataSources
 
 protocol SettingsDependenciesProtocol {
    func configure(_ view: SettingsViewController)
@@ -31,10 +33,18 @@ protocol SettingsPouterProtocol: class {
    var view: SettingsViewController! {get set}
    func prepare(for segue: UIStoryboardSegue, sender: Any?)
    func didSelelectMenuItem(for menuIndex: Int)
+   func didSelect(menuItem: SettingsMenu)
    func closeCurrentViewController()
 }
 
 protocol SettingsMenuProtocol {
    var output: SettingsPresenterProtocol! {get}
+   var viewModel: SettingsViewModelProtocol! {get}
    func configure(with tableView: UITableView)
+}
+
+protocol SettingsViewModelProtocol {
+   var model: [SettingsSectionedModel] {get set}
+   var selectedMenuItem: AnyObserver<SettingsMenu> {get set}
+   
 }

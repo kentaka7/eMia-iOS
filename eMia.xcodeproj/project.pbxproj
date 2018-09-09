@@ -45,6 +45,7 @@
 		7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */; };
 		7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */; };
 		7F3D22E92141487D00052D86 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F3D22E82141487C00052D86 /* GoogleService-Info.plist */; };
+		7F3D9C70214573A2006A72B5 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3D9C6F214573A2006A72B5 /* SettingsViewModel.swift */; };
 		7F3F24BA21175C7500722AB4 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3F24B921175C7500722AB4 /* KeyboardController.swift */; };
 		7F41C3312118551D00D6FC6F /* FakeFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F41C3302118551D00D6FC6F /* FakeFieldController.swift */; };
 		7F44DF46213AE67100F642A5 /* EditPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F44DF45213AE67000F642A5 /* EditPostInteractor.swift */; };
@@ -240,6 +241,7 @@
 		7F3C59ED1FE5EF1E00A823DC /* ReachabilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityController.swift; sourceTree = "<group>"; };
 		7F3C59EF1FE5F03600A823DC /* AnyObservableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyObservableProtocol.swift; sourceTree = "<group>"; };
 		7F3D22E82141487C00052D86 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7F3D9C6F214573A2006A72B5 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		7F3F24B921175C7500722AB4 /* KeyboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
 		7F41C3302118551D00D6FC6F /* FakeFieldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFieldController.swift; sourceTree = "<group>"; };
 		7F44DF45213AE67000F642A5 /* EditPostInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostInteractor.swift; sourceTree = "<group>"; };
@@ -792,6 +794,7 @@
 				7F81B21620B0F0F300CA384A /* SettingsPresenter.swift */,
 				7F45CBF8213BADC6003E4691 /* SettingsMenuController.swift */,
 				7F7F14D92144D0290047F1F4 /* RxSettingsMenuController.swift */,
+				7F3D9C6F214573A2006A72B5 /* SettingsViewModel.swift */,
 				7F81B21820B0FA9D00CA384A /* SettingsRouter.swift */,
 				7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */,
 				7F389F20213955CB007AC4C4 /* SettingsProtocols.swift */,
@@ -1275,6 +1278,7 @@
 				7F456BF0213CB0A400485653 /* MyProfileEditor.swift in Sources */,
 				7FBFF4CC1FE3FA5000788DCB /* PostsObserver.swift in Sources */,
 				9A2109E71B9C5A020036D151 /* GalleryViewCell.swift in Sources */,
+				7F3D9C70214573A2006A72B5 /* SettingsViewModel.swift in Sources */,
 				7F1337BB202AFEEF00D955D6 /* FilterInteractor.swift in Sources */,
 				7FE89A991FEEDBA40044633D /* String.swift in Sources */,
 				7FCD79F0201451C200677AC6 /* PhotoPostViewController.swift in Sources */,

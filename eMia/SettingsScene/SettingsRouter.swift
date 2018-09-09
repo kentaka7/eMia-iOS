@@ -33,7 +33,11 @@ class SettingsRouter: SettingsPouterProtocol {
    }
    
    func didSelelectMenuItem(for menuIndex: Int) {
-      switch SettingsMenu(rawValue: menuIndex)! {
+      didSelect(menuItem: SettingsMenu(rawValue: menuIndex)!)
+   }
+   
+   func didSelect(menuItem: SettingsMenu) {
+      switch menuItem {
       case .myProfile:
          if gUsersManager.currentUser != nil {
             self.view.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
@@ -51,4 +55,3 @@ class SettingsRouter: SettingsPouterProtocol {
       }
    }
 }
-

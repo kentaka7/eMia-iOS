@@ -12,17 +12,21 @@ class SettingsDependencies: SettingsDependenciesProtocol {
 
    // There are two menu controller's implementation.
    // We can select here
-   private let kUseRxMenuController = false
+   private let kUseRxMenuController = true
    
    func configure(_ view: SettingsViewController) {
       let presenter = SettingsPresenter()
       let router = SettingsRouter()
       let menuController = SettingsMenuController()
       let rxMenuController = RxSettingsMenuController()
+      let viewModel = SettingsViewModel()
+      
+      viewModel.router = router
       
       view.presenter = presenter
       if kUseRxMenuController {
          view.menuController = rxMenuController
+         rxMenuController.viewModel = viewModel
       } else {
          view.menuController = menuController
       }
