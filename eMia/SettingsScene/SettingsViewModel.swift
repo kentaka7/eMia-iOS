@@ -41,6 +41,22 @@ class SettingsViewModel: SettingsViewModelProtocol {
    
 }
 
+extension SettingsViewModel: SettingsIputProtocol {
+   
+   func configure(cell: SettingOutputProtocol) {
+      guard let currentUser = gUsersManager.currentUser else {
+         cell.setupUserPhoto(image: nil)
+         cell.setupUserName(text: nil)
+         return
+      }
+      gPhotosManager.downloadAvatar(for: currentUser.userId) { image in
+         cell.setupUserPhoto(image: image)
+      }
+      
+      cell.setupUserName(text: currentUser.name)
+   }
+}
+
 enum SettingsMenu: Int {
    case myProfile
    case visitToAppSite
@@ -103,4 +119,3 @@ extension SettingsSectionedModel {
       }
    }
 }
-

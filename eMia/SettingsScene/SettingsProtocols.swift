@@ -48,3 +48,12 @@ protocol SettingsViewModelProtocol {
    var selectedMenuItem: AnyObserver<SettingsMenu> {get set}
    
 }
+
+protocol SettingsIputProtocol {
+   func configure(cell: SettingOutputProtocol)
+}
+
+protocol SettingOutputProtocol {
+   func setupUserPhoto(image: UIImage?)
+   func setupUserName(text: String?)
+}

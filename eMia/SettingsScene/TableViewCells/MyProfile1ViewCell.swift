@@ -12,7 +12,7 @@ import UIKit
    Settings menu item for "My Profile"
  */
 
-class MyProfile1ViewCell: UITableViewCell {
+class MyProfile1ViewCell: UITableViewCell, SettingOutputProtocol {
    
    @IBOutlet weak var avatarBackgroundView: UIView!
    @IBOutlet weak var avatarImageView: UIImageView!
@@ -20,38 +20,30 @@ class MyProfile1ViewCell: UITableViewCell {
    
    override func awakeFromNib() {
       super.awakeFromNib()
+      configure()
    }
 
-   func configure() {
+   private func configure() {
       configure(titleLabel)
       configure(avatarBackgroundView)
-      configure(avatarImageView)
    }
    
    private func configure(_ view: UIView) {
       switch view {
       case titleLabel:
          titleLabel.textColor = GlobalColors.kBrandNavBarColor
-         if let currentUser = gUsersManager.currentUser {
-            titleLabel.text = currentUser.name
-         }
       case avatarBackgroundView:
          avatarBackgroundView.setAsCircle()
-      case avatarImageView:
-         if let currentUser = gUsersManager.currentUser {
-            gPhotosManager.downloadAvatar(for: currentUser.userId) { image in
-               self.avatarImageView.image = image
-            }
-         }
       default:
          break
       }
    }
    
-   override func setSelected(_ selected: Bool, animated: Bool) {
-      super.setSelected(selected, animated: animated)
-      
-      // Configure the view for the selected state
+   func setupUserPhoto(image: UIImage?) {
+      self.avatarImageView.image = image
    }
-   
+
+   func setupUserName(text: String?) {
+      titleLabel.text = text
+   }
 }

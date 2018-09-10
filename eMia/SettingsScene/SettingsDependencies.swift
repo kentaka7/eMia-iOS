@@ -27,8 +27,10 @@ class SettingsDependencies: SettingsDependenciesProtocol {
       if kUseRxMenuController {
          view.menuController = rxMenuController
          rxMenuController.viewModel = viewModel
+         rxMenuController.input = viewModel
       } else {
          view.menuController = menuController
+         menuController.input = viewModel
       }
 
       menuController.output = presenter

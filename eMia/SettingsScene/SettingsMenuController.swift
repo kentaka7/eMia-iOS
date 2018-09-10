@@ -18,6 +18,7 @@ import RxCocoa
 class SettingsMenuController: NSObject, SettingsMenuProtocol, UITableViewDelegate, UITableViewDataSource {
 
    weak var output: SettingsPresenterProtocol!
+   var input: SettingsIputProtocol!
    var viewModel: SettingsViewModelProtocol!
    let disposeBag = DisposeBag()
    
@@ -52,7 +53,7 @@ class SettingsMenuController: NSObject, SettingsMenuProtocol, UITableViewDelegat
       switch menuItem {
       case .myProfile:
          return tableView.dequeueCell(ofType: MyProfile1ViewCell.self)!.then { cell in
-            cell.configure()
+            self.input.configure(cell: cell)
          }
       case .visitToAppSite:
          return tableView.dequeueCell(ofType: MyProfile2ViewCell.self)!.then { cell in

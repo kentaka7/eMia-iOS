@@ -20,6 +20,7 @@ import Differentiator
 class RxSettingsMenuController: NSObject, SettingsMenuProtocol {
    weak var output: SettingsPresenterProtocol!
    var viewModel: SettingsViewModelProtocol!
+   var input: SettingsIputProtocol!
    let disposeBag = DisposeBag()
    
    deinit {
@@ -43,7 +44,7 @@ class RxSettingsMenuController: NSObject, SettingsMenuProtocol {
             switch menuItem {
             case .myProfile:
                return tableView.dequeueCell(ofType: MyProfile1ViewCell.self)!.then { cell in
-                  cell.configure()
+                  self.input.configure(cell: cell)
                }
             case .visitToAppSite:
                return tableView.dequeueCell(ofType: MyProfile2ViewCell.self)!.then { cell in
