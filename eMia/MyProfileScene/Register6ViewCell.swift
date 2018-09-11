@@ -11,7 +11,7 @@ import RxSwift
  User's photo (as an avatar using) definition
  */
 
-class Register6ViewCell: UITableViewCell, ForUserConfigurable {
+class Register6ViewCell: UITableViewCell {
    
    @IBOutlet weak var addPhotoButton: UIButton!
    @IBOutlet weak var photoImageView: UIImageView!
@@ -38,15 +38,6 @@ class Register6ViewCell: UITableViewCell, ForUserConfigurable {
          self.addPhotoButton.setTitle("Add photo".localized, for: .normal)
       } else {
          self.addPhotoButton.setTitle("Change photo".localized, for: .normal)
-      }
-   }
-   
-   func configure(for user: UserModel) {
-      guard !user.userId.isEmpty else {
-         return
-      }
-      gPhotosManager.downloadAvatar(for: user.userId) { [weak self] image in
-         self?.setUpPhoto(image)
       }
    }
 
@@ -134,5 +125,14 @@ extension Register6ViewCell: UIImagePickerControllerDelegate, UINavigationContro
    
    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
       self.viewController.dismiss(animated: true, completion: nil)
+   }
+}
+
+//
+
+extension Register6ViewCell {
+
+   func setImage(_ image: UIImage?) {
+      self.setUpPhoto(image)
    }
 }

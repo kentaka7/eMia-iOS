@@ -8,7 +8,7 @@ import RxSwift
 
 // MyProfile scene: User's gender definition
 
-class Register4ViewCell: UITableViewCell, ForUserConfigurable {
+class Register4ViewCell: UITableViewCell {
 
    @IBOutlet weak var imTitleLabel: UILabel!
    
@@ -32,10 +32,6 @@ class Register4ViewCell: UITableViewCell, ForUserConfigurable {
       set {
          mGender = newValue
       }
-   }
-
-   func configure(for user: UserModel) {
-      presentSelect(gender: user.gender ?? .boy)
    }
    
    override func awakeFromNib() {
@@ -118,5 +114,13 @@ class Register4ViewCell: UITableViewCell, ForUserConfigurable {
          selectedGirlView.layer.borderColor = GlobalColors.kBrandNavBarColor.cgColor
       }
    }
+}
+
+//
+
+extension Register4ViewCell {
    
+   func setGender(_ gender: Gender?) {
+      presentSelect(gender: gender ?? .boy)
+   }
 }

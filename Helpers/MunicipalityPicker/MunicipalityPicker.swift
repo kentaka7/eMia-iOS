@@ -146,8 +146,8 @@ open class MunicipalityPicker: NSObject {
       }
    }
    
-   func configure(for user: UserModel) {
-      guard let municipality = user.address else {
+   func configure(for address: String?) {
+      guard let municipality = address else {
          return
       }
       select(municipality)

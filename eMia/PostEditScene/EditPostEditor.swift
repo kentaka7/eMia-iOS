@@ -29,9 +29,11 @@ class EditPostEditor: NSObject, EditPostEditorProtocol, EditPostInteractorInputP
    weak var tvHeightConstraint: NSLayoutConstraint!
    weak var activityIndicator: NVActivityIndicatorView!
 
+   var viewModel: EditPostViewModel!
+   
    private let disposeBag = DisposeBag()
    
-   private var postBodyTextViewHeight: CGFloat = 0.0
+   var postBodyTextViewHeight: CGFloat = 0.0
    private var currentCellHeight: CGFloat = EditPostEditor.kMinCommentCellHeight
    private var editingFinished = false
    private var comments: [CommentModel] {
@@ -102,19 +104,20 @@ extension EditPostEditor: UITableViewDataSource, UITableViewDelegate {
          switch selector {
          case .avatarPhotoAndUserName:
             return tableView.dequeueCell(ofType: EditPost1ViewCell.self)!.then { cell in
-               _ = cell.configureView(for: post)
+               cell.viewModel = viewModel
+               viewModel.configure(view: cell, row: selector)
             }
          case .dependsOnTextViewContent:
             return tableView.dequeueCell(ofType: EditPost2ViewCell.self)!.then { cell in
-               postBodyTextViewHeight = cell.configureView(for: post)
+               viewModel.configure(view: cell, row: selector)
             }
          case .photo:
             return tableView.dequeueCell(ofType: EditPost6ViewCell.self)!.then { cell in
-               _ = cell.configureView(for: post)
+               viewModel.configure(view: cell, row: selector)
             }
          case .staticTextAndSendEmailButton:
             return tableView.dequeueCell(ofType: EditPost3ViewCell.self)!.then { cell in
-               _ = cell.configureView(for: post)
+               viewModel.configure(view: cell, row: selector)
             }
          }
       } else if commentIndex >= 0 && commentIndex < comments.count {

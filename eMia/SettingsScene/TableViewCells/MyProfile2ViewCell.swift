@@ -22,10 +22,6 @@ class MyProfile2ViewCell: UITableViewCell {
       configure(titleLabel)
    }
 
-   func setTitle(_ title: String) {
-      titleLabel.text = title
-   }
-   
    private func configure(_ view: UIView) {
       switch view {
       case titleLabel:
@@ -39,5 +35,17 @@ class MyProfile2ViewCell: UITableViewCell {
       super.setSelected(selected, animated: animated)
       
       // Configure the view for the selected state
+   }
+}
+
+// Update View. Important: this View doesn't know about Model
+
+extension MyProfile2ViewCell: ShortMenuViewItemProtocol {
+
+   func setTitle(_ text: String?) {
+      titleLabel.text = text
+   }
+
+   func setImage(_ image: UIImage?) {
    }
 }

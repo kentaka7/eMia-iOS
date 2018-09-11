@@ -26,7 +26,7 @@ class Register3ViewCell: UITableViewCell {
    override func awakeFromNib() {
       configure(addressTitleLabel)
 //      configure(whereAmIButton)
-      municipalityPicker = MunicipalityPicker(pickerView: pickerView)
+      configure(pickerView)
    }
 
    @IBAction func whereAmIButtonPressed(_ sender: Any) {
@@ -39,14 +39,11 @@ class Register3ViewCell: UITableViewCell {
          configureAddressTitle()
       case whereAmIButton:
          configureLocationButton()
+      case pickerView:
+         municipalityPicker = MunicipalityPicker(pickerView: pickerView)
       default:
          break
       }
-   }
-
-   func configure(for user: UserModel, delegate: LocationComputing) {
-      self.locationAgent = delegate
-      municipalityPicker.configure(for: user)
    }
    
    private func configureAddressTitle() {
@@ -56,5 +53,13 @@ class Register3ViewCell: UITableViewCell {
    
    private func configureLocationButton() {
       whereAmIButton.setTitleColor(GlobalColors.kBrandNavBarColor, for: .normal)
+   }
+}
+
+//
+
+extension Register3ViewCell {
+   func setAddress(_ address: String?) {
+      municipalityPicker.configure(for: address)
    }
 }

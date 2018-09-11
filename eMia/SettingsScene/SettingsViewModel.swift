@@ -43,17 +43,23 @@ class SettingsViewModel: SettingsViewModelProtocol {
 
 extension SettingsViewModel: SettingsIputProtocol {
    
-   func configure(cell: SettingOutputProtocol) {
-      guard let currentUser = gUsersManager.currentUser else {
-         cell.setupUserPhoto(image: nil)
-         cell.setupUserName(text: nil)
-         return
-      }
-      gPhotosManager.downloadAvatar(for: currentUser.userId) { image in
-         cell.setupUserPhoto(image: image)
-      }
+   func configure(view: ShortMenuViewItemProtocol, with menuItem: SettingsMenu) {
       
-      cell.setupUserName(text: currentUser.name)
+      switch menuItem {
+      case .myProfile:
+         guard let currentUser = gUsersManager.currentUser else {
+            view.setImage(nil)
+            view.setTitle(nil)
+            return
+         }
+         gPhotosManager.downloadAvatar(for: currentUser.userId) { image in
+            view.setImage(image)
+         }
+         
+         view.setTitle(currentUser.name)
+      case .visitToAppSite, .logOut:
+         view.setTitle(menuItem.title)
+      }
    }
 }
 

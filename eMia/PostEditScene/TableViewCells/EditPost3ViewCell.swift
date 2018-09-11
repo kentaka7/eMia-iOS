@@ -7,7 +7,7 @@ import UIKit
 
 // Static text, Date, Send Email button
 
-class EditPost3ViewCell: UITableViewCell, ForPostConfigurable {
+class EditPost3ViewCell: UITableViewCell {
 
    @IBOutlet weak var dateLabel: UILabel!
    @IBOutlet weak var commentLabel: UILabel!
@@ -18,13 +18,16 @@ class EditPost3ViewCell: UITableViewCell, ForPostConfigurable {
       configureSendFeedbackButton()
    }
 
-   func configureView(for post: PostModel) -> CGFloat {
-      dateLabel.text = "Created".localized + " " + post.relativeTimeToCreated()
-      return -1.0
-   }
-   
    private func configureSendFeedbackButton() {
       sendEmailButtonView.backgroundColor = GlobalColors.kBrandNavBarColor
    }
    
+}
+
+
+extension EditPost3ViewCell {
+
+   func setCreated(_ text: String) {
+      dateLabel.text = text
+   }
 }

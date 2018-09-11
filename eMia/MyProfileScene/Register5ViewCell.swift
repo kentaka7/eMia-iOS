@@ -10,7 +10,12 @@ import UIKit
  User's year birthday definition
  */
 
-class Register5ViewCell: UITableViewCell, ForUserConfigurable {
+protocol YearChangeable {
+   var year: Int? {get}
+}
+
+
+class Register5ViewCell: UITableViewCell, YearChangeable {
    
    private let kMinBirthYear = 1900
    private let kMaxBirthYear = 2006
@@ -18,10 +23,10 @@ class Register5ViewCell: UITableViewCell, ForUserConfigurable {
    @IBOutlet weak var yearBirthTitleLabel: UILabel!
    @IBOutlet weak var yearPickerView: UIPickerView!
 
-   fileprivate var _yearBirth: Int?
+   fileprivate var _year: Int?
    
-   var yearBirth: Int? {
-      return _yearBirth
+   var year: Int? {
+      return _year
    }
    
    var pickerData = [Int]()
@@ -31,16 +36,6 @@ class Register5ViewCell: UITableViewCell, ForUserConfigurable {
 
       configure(yearBirthTitleLabel)
       configure(yearPickerView)
-   }
-
-   func configure(for user: UserModel) {
-      if user.yearbirth <= 0 {
-         return
-      }
-      if let row = pickerData.index(of: user.yearbirth) {
-         _yearBirth = pickerData[row]
-         yearPickerView.selectRow(row, inComponent: 0, animated: false)
-      }
    }
 
    private func configure(_ view: UIView) {
@@ -83,7 +78,19 @@ extension Register5ViewCell: UIPickerViewDelegate, UIPickerViewDataSource {
    }
    
    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-      _yearBirth = pickerData[row]
+      _year = pickerData[row]
    }
    
+}
+
+//
+
+extension Register5ViewCell {
+
+   func setYear(_ year: Int) {
+      if let row = pickerData.index(of: year) {
+         _year = pickerData[row]
+         yearPickerView.selectRow(row, inComponent: 0, animated: false)
+      }
+   }
 }

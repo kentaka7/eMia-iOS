@@ -10,7 +10,11 @@ import UIKit
  User's Name definition
  */
 
-@IBDesignable class Register7ViewCell: UITableViewCell, ForUserConfigurable {
+protocol UserNameChangeable {
+   var name: String? {get}
+}
+
+@IBDesignable class Register7ViewCell: UITableViewCell, UserNameChangeable {
 
    @IBOutlet weak var nameTitleLabel: UILabel!
    @IBOutlet weak var nameTextField: UITextField!
@@ -32,10 +36,6 @@ import UIKit
       }
    }
    
-   func configure(for user: UserModel) {
-      nameTextField.text = user.name
-   }
-   
    var name: String? {
       return nameTextField.text
    }
@@ -51,5 +51,14 @@ import UIKit
    private  func configure() {
       nameTitleLabel.text = "Your Name".localized
       nameTitleLabel.textColor = GlobalColors.kBrandNavBarColor
+   }
+}
+
+//
+
+extension Register7ViewCell {
+   
+   func setTextField(text: String) {
+      nameTextField.text = text
    }
 }

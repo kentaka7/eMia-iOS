@@ -12,7 +12,7 @@ import UIKit
    Settings menu item for "My Profile"
  */
 
-class MyProfile1ViewCell: UITableViewCell, SettingOutputProtocol {
+class MyProfile1ViewCell: UITableViewCell {
    
    @IBOutlet weak var avatarBackgroundView: UIView!
    @IBOutlet weak var avatarImageView: UIImageView!
@@ -38,12 +38,17 @@ class MyProfile1ViewCell: UITableViewCell, SettingOutputProtocol {
          break
       }
    }
-   
-   func setupUserPhoto(image: UIImage?) {
-      self.avatarImageView.image = image
-   }
+}
 
-   func setupUserName(text: String?) {
+// Update View. Important: this View doesn't know about Model
+
+extension MyProfile1ViewCell: ShortMenuViewItemProtocol {
+   
+   func setTitle(_ text: String?) {
       titleLabel.text = text
+   }
+   
+   func setImage(_ image: UIImage?) {
+      self.avatarImageView.image = image
    }
 }

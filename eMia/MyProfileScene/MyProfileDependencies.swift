@@ -15,14 +15,19 @@ class MyProfileDependencies: MyProfileDependenciesProtocol {
    }
    
    func configure(_ view: MyProfileViewController) {
-      
+      let user = view.user
       let presenter = MyProfilePresenter()
       let interactor = MyProfileInteractor()
       let router = MyProfileRouter()
       let loginInteractor = LoginInteractor()
       let locationWorker = LocationManager()
-      let editor = MyProfileEditor(with: view.user, viewController: view, tableView: view.tableView, locationWorker: locationWorker)
+      let viewModel = MyProfileViewModel(user: user!)
+      let editor = MyProfileEditor(viewController: view, tableView: view.tableView)
 
+      viewModel.locationWorker = locationWorker
+      
+      editor.viewModel = viewModel
+      
       // Configure View
       view.presenter = presenter
       view.editor = editor
@@ -33,12 +38,12 @@ class MyProfileDependencies: MyProfileDependenciesProtocol {
       presenter.router = router
       presenter.locationWorker = locationWorker
       presenter.viewController = view
-      presenter.user = view.user
+      presenter.user = user
 
       // Configure Interactor
       interactor.loginWorker = loginInteractor
       interactor.tableView = view.tableView
-      interactor.user = view.user
+      interactor.user = user
       interactor.password = view.password
       interactor.activityIndicator = view.activityIndicator
       interactor.input = editor

@@ -50,10 +50,10 @@ protocol SettingsViewModelProtocol {
 }
 
 protocol SettingsIputProtocol {
-   func configure(cell: SettingOutputProtocol)
+   func configure(view: ShortMenuViewItemProtocol, with menuItem: SettingsMenu)
 }
 
-protocol SettingOutputProtocol {
-   func setupUserPhoto(image: UIImage?)
-   func setupUserName(text: String?)
+protocol ShortMenuViewItemProtocol {
+   func setTitle(_ text: String?)
+   func setImage(_ image: UIImage?)
 }

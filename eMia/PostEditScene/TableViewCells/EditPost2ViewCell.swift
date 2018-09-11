@@ -7,7 +7,7 @@ import UIKit
 
 // Body text. variavle height table view cell!
 
-class EditPost2ViewCell: UITableViewCell, ForPostConfigurable {
+class EditPost2ViewCell: UITableViewCell {
 
    @IBOutlet weak var bodyTextView: UITextView!
 
@@ -15,15 +15,18 @@ class EditPost2ViewCell: UITableViewCell, ForPostConfigurable {
       configureTextBody()
    }
 
-   func configureView(for post: PostModel) -> CGFloat {
-      bodyTextView.text = post.body
-      bodyTextView.sizeToFit()
-      return bodyTextView.frame.height
-   }
-   
    private func configureTextBody() {
       bodyTextView.translatesAutoresizingMaskIntoConstraints = false
       bodyTextView.isScrollEnabled = false
    }
-   
+}
+
+
+extension EditPost2ViewCell {
+
+   func setBody(_ text: String?) -> CGFloat {
+      bodyTextView.text = text
+      bodyTextView.sizeToFit()
+      return bodyTextView.frame.height
+   }
 }

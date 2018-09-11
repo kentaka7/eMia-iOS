@@ -19,17 +19,14 @@ enum MyProfileRows: Int {
 
 class MyProfileEditor: NSObject, MyProfileEditorProtocol {
    
-   weak private var user: UserModel?
+   var viewModel: MyProfileViewModel!
    weak private var viewController: UIViewController?
    weak private var tableView: UITableView?
-   weak private var locationWorker: MyProfileLocationWorker?
 
-   required init(with user: UserModel, viewController: UIViewController, tableView: UITableView, locationWorker: MyProfileLocationWorker) {
+   required init(viewController: UIViewController, tableView: UITableView) {
       super.init()
-      self.user = user
       self.viewController = viewController
       self.tableView = tableView
-      self.locationWorker = locationWorker
    }
 
    deinit {
@@ -62,27 +59,28 @@ extension MyProfileEditor: UITableViewDelegate, UITableViewDataSource {
    }
    
    private func cell(_ tableView: UITableView, for indexPath: IndexPath) -> UITableViewCell {
-      switch MyProfileRows(rawValue: indexPath.row)! {
+      let myProfileRow = MyProfileRows(rawValue: indexPath.row)!
+      switch myProfileRow {
       case .name:
          return tableView.dequeueCell(ofType: Register7ViewCell.self)!.then { cell in
-            cell.configure(for: user!)
+            viewModel.configure(view: cell, row: myProfileRow)
          }
       case .address:
          return tableView.dequeueCell(ofType: Register3ViewCell.self)!.then { cell in
-            cell.configure(for: user!, delegate: self)
+            viewModel.configure(view: cell, row: myProfileRow)
          }
       case .gender:
          return tableView.dequeueCell(ofType: Register4ViewCell.self)!.then { cell in
-            cell.configure(for: user!)
+            viewModel.configure(view: cell, row: myProfileRow)
          }
       case .yearBirth:
          return tableView.dequeueCell(ofType: Register5ViewCell.self)!.then { cell in
-            cell.configure(for: user!)
+            viewModel.configure(view: cell, row: myProfileRow)
          }
       case .photo:
          return tableView.dequeueCell(ofType: Register6ViewCell.self)!.then { cell in
             cell.viewController = viewController
-            cell.configure(for: user!)
+            viewModel.configure(view: cell, row: myProfileRow)
          }
       }
    }
@@ -137,7 +135,7 @@ extension MyProfileEditor: MyProfileInteractorInput {
          userGender = genderCell.gender
       }
       if let yearBirthCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.yearBirth.rawValue, section: 0)) as? Register5ViewCell {
-         userYearBirth = yearBirthCell.yearBirth ?? -1
+         userYearBirth = yearBirthCell.year ?? -1
       }
       if let addressCell = tableView.cellForRow(at: IndexPath(row: MyProfileRows.address.rawValue, section: 0)) as? Register3ViewCell {
          userAddress = addressCell.address ?? ""
@@ -146,22 +144,4 @@ extension MyProfileEditor: MyProfileInteractorInput {
       return data
    }
 
-}
-
-// MARK: - Where Am I button pressed
-
-extension MyProfileEditor: LocationComputing {
-   
-   func calculateWhereAmI() {
-      setUpMunicipalityAccordingMyLocation()
-   }
-   
-   private func setUpMunicipalityAccordingMyLocation() {
-      locationWorker?.requestLocation { location in
-         if let myLocation = location {
-            // TODO: Use this location to compute user's municipality
-            print(myLocation)
-         }
-      }
-   }
 }

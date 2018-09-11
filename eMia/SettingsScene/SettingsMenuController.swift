@@ -53,15 +53,11 @@ class SettingsMenuController: NSObject, SettingsMenuProtocol, UITableViewDelegat
       switch menuItem {
       case .myProfile:
          return tableView.dequeueCell(ofType: MyProfile1ViewCell.self)!.then { cell in
-            self.input.configure(cell: cell)
+            self.input.configure(view: cell, with: menuItem)
          }
-      case .visitToAppSite:
+      case .visitToAppSite, .logOut:
          return tableView.dequeueCell(ofType: MyProfile2ViewCell.self)!.then { cell in
-            cell.titleLabel.text = menuItem.title
-         }
-      case .logOut:
-         return tableView.dequeueCell(ofType: MyProfile2ViewCell.self)!.then { cell in
-            cell.titleLabel.text = menuItem.title
+            self.input.configure(view: cell, with: menuItem)
          }
       }
    }
