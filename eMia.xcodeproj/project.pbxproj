@@ -55,6 +55,7 @@
 		7F475EC020B83F8400778FBF /* FilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F475EBF20B83F8400778FBF /* FilterPresenter.swift */; };
 		7F47D9DD20C37725001210E4 /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F47D9DC20C37725001210E4 /* FavoriteModel.swift */; };
 		7F4948ED210F3C380077CC14 /* Realm+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4948EC210F3C380077CC14 /* Realm+Ext.swift */; };
+		7F49A503214927A900BCA93C /* PhotoWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F49A502214927A900BCA93C /* PhotoWorker.swift */; };
 		7F4B288C20B17DE8002BFB47 /* MyProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */; };
 		7F4B288D20B17DE8002BFB47 /* MyProfileDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */; };
 		7F4B288E20B17DE8002BFB47 /* MyProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */; };
@@ -252,6 +253,7 @@
 		7F475EBF20B83F8400778FBF /* FilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresenter.swift; sourceTree = "<group>"; };
 		7F47D9DC20C37725001210E4 /* FavoriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
 		7F4948EC210F3C380077CC14 /* Realm+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Ext.swift"; sourceTree = "<group>"; };
+		7F49A502214927A900BCA93C /* PhotoWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoWorker.swift; sourceTree = "<group>"; };
 		7F4B288920B17DE7002BFB47 /* MyProfilePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfilePresenter.swift; sourceTree = "<group>"; };
 		7F4B288A20B17DE8002BFB47 /* MyProfileDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileDependencies.swift; sourceTree = "<group>"; };
 		7F4B288B20B17DE8002BFB47 /* MyProfileInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileInteractor.swift; sourceTree = "<group>"; };
@@ -541,6 +543,14 @@
 			path = Realm;
 			sourceTree = "<group>";
 		};
+		7F49A50421493DE400BCA93C /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				7F49A502214927A900BCA93C /* PhotoWorker.swift */,
+			);
+			path = Photos;
+			sourceTree = "<group>";
+		};
 		7F4B287220B10092002BFB47 /* MyProfileScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -627,9 +637,8 @@
 				7FBDE1181FE845C600EAAD3E /* EditPost1ViewCell.swift */,
 				7FBDE11D1FE8466900EAAD3E /* EditPost2ViewCell.swift */,
 				7FBDE11C1FE8466900EAAD3E /* EditPost3ViewCell.swift */,
-				7FBDE11B1FE8466900EAAD3E /* EditPost4ViewCell.swift */,
-				7FBDE11A1FE8466900EAAD3E /* EditPost5ViewCell.swift */,
 				7FBDE1221FE847D200EAAD3E /* EditPost6ViewCell.swift */,
+				7F52086E214820FE00AEE115 /* Comments */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -675,6 +684,15 @@
 				7F4D8B4D1FE4E6E100FAFE5E /* PhotosManagerImpl.swift */,
 			);
 			path = PhotosManager;
+			sourceTree = "<group>";
+		};
+		7F52086E214820FE00AEE115 /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				7FBDE11B1FE8466900EAAD3E /* EditPost4ViewCell.swift */,
+				7FBDE11A1FE8466900EAAD3E /* EditPost5ViewCell.swift */,
+			);
+			path = Comments;
 			sourceTree = "<group>";
 		};
 		7F59C2C1210DE00700FB181C /* Services */ = {
@@ -916,6 +934,7 @@
 		7FC20D221FE365C6000C23A6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				7F49A50421493DE400BCA93C /* Photos */,
 				7F4C1D9920C0FDF70057453F /* Reachability */,
 				7F060C251FF1BBC8002D04AD /* MunicipalityPicker */,
 				7F6FAAA72018B335009F94E0 /* GradientView */,
@@ -1343,6 +1362,7 @@
 				7F5E6A512126953400D5285D /* LocalBaseController.swift in Sources */,
 				7F86767D2114C9D10083F438 /* PhotoWriter.swift in Sources */,
 				7FC20D271FE366B7000C23A6 /* Color.swift in Sources */,
+				7F49A503214927A900BCA93C /* PhotoWorker.swift in Sources */,
 				7FD766801FE9D49E00E32C42 /* SettingsViewController.swift in Sources */,
 				7FBA77531FEAB957003B455B /* NewPost2ViewCell.swift in Sources */,
 				7F9C5875213A4B4700B845E3 /* NewPostRouter.swift in Sources */,

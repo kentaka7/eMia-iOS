@@ -19,7 +19,7 @@ eMia is developing with using following things:
 - Xcode 9.3
 - Swift 4
 
-## Introduction
+## Pre-Installation
 
 To try the eMia, you should beforte 
 - sign in your Google account
@@ -42,4 +42,5 @@ Open eMia.xcworkspace
 
 Please pay attention here (https://github.com/SKrotkih/eMia-Android) you can find the eMia Android version.
 
-05-22-2018
+Last update on 09-11-2018
+

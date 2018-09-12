@@ -64,3 +64,8 @@ extension MyProfileViewModel: LocationComputing {
    }
 }
 
+extension MyProfileViewModel {
+
+   
+   
+}
