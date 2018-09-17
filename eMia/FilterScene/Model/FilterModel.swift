@@ -48,9 +48,6 @@ final class FilterModel: Object {
             }.subscribe(onNext: { _ in
             }, onError: { error in
                print(error.localizedDescription)
-               if let error = error as? RealmOperationsError {
-                  Alert.default.showError(message: error.description())
-               }
             }).disposed(by: disposeBag)
       }
    }

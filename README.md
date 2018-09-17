@@ -2,16 +2,16 @@
 
 ![emia](https://user-images.githubusercontent.com/2775621/40444625-88c20db4-5ed2-11e8-8e50-24a8fd0eea0e.gif)
 
-This is my code example. eMia is a simple social network. You can register, edit your profile, then post topics with a title, description, and a photo. You can left comment. It is like a chat.
-There are profile editor, push-notification if another user likes your post.
+eMia is a simple social network. Sign up or sign in, edit your profile, enter new post with a title, description, and  photo. You can search or filter other posts, browse, comment them. If you like post the other user will get push-notification about that.
 
-eMia is developing with using following things: 
-- Firebase database, storage (for photos), authentication and cloud messages (push-notifications).
-- Firebase used for chat implementation
+The iOS eMia app developed with using following things: 
+- Firebase authentication and database
+- Firebase storage
+- Firebase cloud messages (push-notifications)
 - RxSwift, RxCocoa, RxDatasource 
 - RxRealm, RealmSwift
 - Custom Layout for UICollectionView
-- VIPER
+- VIPER, MVVM
 - etc (new iOS 11 features like 3D touch on the app home screen icon )
 
 ## Requirements
@@ -38,9 +38,9 @@ To try the eMia, you should beforte
 
 Open eMia.xcworkspace
 
-## eMia on Android
+## eMia on Android and React Native
 
-Please pay attention here (https://github.com/SKrotkih/eMia-Android) you can find the eMia Android version.
+Here https://github.com/SKrotkih/eMia-Android you can see eMia for Android,
+and here https://github.com/SKrotkih/eMia the eMia version for React Native.
 
 Last update on 09-11-2018
-

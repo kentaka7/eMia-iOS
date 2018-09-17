@@ -15,24 +15,14 @@ enum RealmOperationsError: Error {
    case creationFailed
    case deletionFailed
    case updatingFailed
-   
-   func description() -> String {
-      switch self {
-      case .creationFailed:
-        return "Realm: There is failed creating a new record!"
-      case .deletionFailed:
-        return "Realm: There is failed deleting a record!"
-      case .updatingFailed:
-        return "Realm: There is failed updating a record!"
-      }
-   }
 }
 
 extension Realm {
    
    @discardableResult
    class func create(model: Object) -> Observable<Object> {
-      let result = Realm.withRealm("creating") { realm -> Observable<Object> in
+      let message = "Realm opertation creating was finished with error:".localized
+      let result = Realm.withRealm(message) { realm -> Observable<Object> in
          try realm.write {
             realm.add(model, update: true)
          }
@@ -43,7 +33,8 @@ extension Realm {
 
    @discardableResult
    class func update(_ closure: () -> Void) -> Observable<Void> {
-      let result = Realm.withRealm("updating") { realm -> Observable<Void> in
+      let message = "Realm opertation updating was finished with error:".localized
+      let result = Realm.withRealm(message) { realm -> Observable<Void> in
          try realm.write {
             closure()
          }
@@ -54,7 +45,8 @@ extension Realm {
    
    @discardableResult
    class func delete(model: Object) -> Observable<Object> {
-      let result = Realm.withRealm("deleting") { realm -> Observable<Object> in
+      let message = "Realm opertation deleting was finished with error:".localized
+      let result = Realm.withRealm(message) { realm -> Observable<Object> in
          try realm.write {
             realm.delete(model)
          }
@@ -63,12 +55,12 @@ extension Realm {
       return result ?? .error(RealmOperationsError.deletionFailed)
    }
    
-   class func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
+   class func withRealm<T>(_ message: String, action: (Realm) throws -> T) -> T? {
       do {
          let realm = try Realm()
          return try action(realm)
       } catch let err {
-         print("Realm opertation \(operation) was finished with error: \(err)")
+         Alert.default.showError(message: "\(message)\n\(err)")
          return nil
       }
    }
