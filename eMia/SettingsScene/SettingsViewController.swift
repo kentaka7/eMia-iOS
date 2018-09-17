@@ -3,7 +3,7 @@
 //  eMia
 //
 //  Created by Sergey Krotkih on 12/20/17.
-//  Copyright © 2017 Coded I/S. All rights reserved.
+//  Copyright © 2017 Sergey Krotkih. All rights reserved.
 //
 
 import UIKit
@@ -28,10 +28,22 @@ class SettingsViewController: UIViewController, SettingsViewProtocol {
 
    override func viewDidLoad() {
       super.viewDidLoad()
+      
+      func bindBackButton() {
+         self.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
+            guard let `self` = self else { return }
+            self.presenter.backButtonPressed()
+         }).disposed(by: disposeBag)
+      }
+
+      func configureMenu() {
+         menuController.configure(with: tableView)
+      }
+
       configurator.configure(self)
       presenter.configureView()
       configureMenu()
-      bindControls()
+      bindBackButton()
    }
    
    override func viewWillAppear(_ animated: Bool) {
@@ -46,21 +58,6 @@ class SettingsViewController: UIViewController, SettingsViewProtocol {
    
    func setUpTitle(text: String) {
       self.title = text
-   }
-
-   private func bindControls() {
-      bindBackButton()
-   }
-   
-   private func bindBackButton() {
-      self.backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
-         guard let `self` = self else { return }
-         self.presenter.backButtonPressed()
-      }).disposed(by: disposeBag)
-   }
-   
-   private func configureMenu() {
-      menuController.configure(with: tableView)
    }
    
    func reConfigureView() {

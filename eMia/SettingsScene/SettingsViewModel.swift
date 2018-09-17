@@ -2,8 +2,8 @@
 //  SettingsViewModel.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 09/09/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 09/09/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import Foundation
@@ -76,7 +76,7 @@ extension SettingsMenu {
       case .myProfile:
          return "My profile".localized
       case .visitToAppSite:
-         return "Visit to the app site".localized
+         return "Visit to our site".localized
       case .logOut:
          return "Log Out".localized
       }

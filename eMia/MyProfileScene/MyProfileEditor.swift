@@ -2,8 +2,8 @@
 //  MyProfileEditor.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 03/09/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 03/09/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import UIKit
@@ -39,6 +39,9 @@ class MyProfileEditor: NSObject, MyProfileEditorProtocol {
       }
       tableView.delegate = self
       tableView.dataSource = self
+      
+      tableView.rowHeight = UITableViewAutomaticDimension
+      tableView.estimatedRowHeight = 100
    }
 }
 
@@ -48,10 +51,6 @@ extension MyProfileEditor: UITableViewDelegate, UITableViewDataSource {
    
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       return self.numberOfRows
-   }
-   
-   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      return self.heightCell(for: indexPath)
    }
    
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,21 +81,6 @@ extension MyProfileEditor: UITableViewDelegate, UITableViewDataSource {
             cell.viewController = viewController
             viewModel.configure(view: cell, row: myProfileRow)
          }
-      }
-   }
-   
-   private func heightCell(for indexPath: IndexPath) -> CGFloat {
-      switch MyProfileRows(rawValue: indexPath.row)! {
-      case .name:
-         return 68.0
-      case .address:
-         return 146.0
-      case .gender:
-         return 94.0
-      case .yearBirth:
-         return 146.0
-      case .photo:
-         return 291.0
       }
    }
    

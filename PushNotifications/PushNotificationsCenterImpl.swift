@@ -82,7 +82,7 @@ extension PushNotificationsCenterImpl: UNUserNotificationCenterDelegate {
    }
    
    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-      runAfterDelay(3.0) {
+      delay(seconds: 3.0) {
          self.handleRequestPushNotification(userInfo: userInfo) {
             completionHandler(.newData)
          }
@@ -92,7 +92,7 @@ extension PushNotificationsCenterImpl: UNUserNotificationCenterDelegate {
    // If you are receiving a notification message while your app is in the background,
    // this callback will not be fired till the user taps on the notification launching the application.
    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-      runAfterDelay(3.0) {
+      delay(seconds: 3.0) {
          self.handleRequestPushNotification(userInfo: userInfo) {  }
       }
    }

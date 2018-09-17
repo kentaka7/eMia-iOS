@@ -2,12 +2,13 @@
 //  MyProfileInteractor.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 20/05/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 20/05/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import UIKit
 import NVActivityIndicatorView
+import RxSwift
 import RealmSwift
 import RxRealm
 
@@ -30,6 +31,8 @@ class MyProfileInteractor: MyProfileInteractorProtocol {
    weak var input: MyProfileInteractorInput!
    
    weak var user: UserModel!
+   
+   private let disposeBag = DisposeBag()
    
    var password: String!
    var registrationNewUser: Bool {
@@ -60,7 +63,17 @@ extension MyProfileInteractor {
          user.gender = data.gender
          user.yearbirth = data.yearBirth
          user.address = data.address
-      }
+         }.subscribe(onNext: { _ in
+            self.goToNextView(for: data, completed)
+         }, onError: { error in
+            print(error.localizedDescription)
+            if let error = error as? RealmOperationsError {
+               Alert.default.showError(message: error.description())
+            }
+         }).disposed(by: disposeBag)
+   }
+   
+   private func goToNextView(for data: MyProfileData, _ completed: @escaping () -> Void) {
       if self.registrationNewUser {
          registerNewUser(with: data.photo, completed: completed)
       } else {
@@ -107,11 +120,11 @@ extension MyProfileInteractor {
                   gPhotosManager.cleanPhotoCache(for: self.user)
                   completed()
                } else {
-                  Alert.default.showOk("We can't upload photo on server".localized, message: "Please try it later".localized)
+                  Alert.default.showOk("Fail while uploading the photo to our server!".localized, message: "Please try it later again".localized)
                }
             }
          } else {
-            Alert.default.showOk("We can't save data".localized, message: "Please try it later".localized)
+            Alert.default.showOk("Fail while uploading data to our server!".localized, message: "Please try it later again".localized)
          }
       }
    }

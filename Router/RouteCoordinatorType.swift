@@ -1,3 +1,8 @@
+//
+//  RouteCoordinatorType.swift
+//  eMia
+//
+
 import UIKit
 import RxSwift
 

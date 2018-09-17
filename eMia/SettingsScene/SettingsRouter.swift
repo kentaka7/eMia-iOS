@@ -2,8 +2,8 @@
 //  SettingsRouter.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 20/05/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 20/05/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import UIKit
@@ -43,13 +43,13 @@ class SettingsRouter: SettingsPouterProtocol {
             self.view.performSegue(withIdentifier: Segue.MyProfileViewController, sender: self)
          }
       case .visitToAppSite:
-         gotoCustomerSite()
+         gotoOurSite()
       case .logOut:
          gUsersManager.logOut()
       }
    }
    
-   private func gotoCustomerSite() {
+   private func gotoOurSite() {
       if let url = URL(string: "http://www.coded.dk") {
          UIApplication.shared.open(url, options: [:])
       }

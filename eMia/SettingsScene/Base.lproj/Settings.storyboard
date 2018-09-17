@@ -49,10 +49,10 @@
                                                         <constraint firstAttribute="bottom" secondItem="Cuo-ss-Fz6" secondAttribute="bottom" id="gCy-t0-Bco"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZoN-KS-8Yx">
-                                                    <rect key="frame" x="59" y="15.5" width="306" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZoN-KS-8Yx">
+                                                    <rect key="frame" x="59" y="10" width="306" height="31"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="S15-1r-fKb"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="S15-1r-fKb"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                                     <color key="textColor" red="0.37055522200000002" green="0.37056469920000001" blue="0.37055957319999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -68,6 +68,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="iHI-M6-uyY" firstAttribute="leading" secondItem="FX7-Ha-anq" secondAttribute="leading" constant="15" id="B1t-Ji-ODr"/>
+                                                <constraint firstItem="ZoN-KS-8Yx" firstAttribute="top" secondItem="FX7-Ha-anq" secondAttribute="top" constant="10" id="KRo-pl-Uyz"/>
                                                 <constraint firstItem="ZoN-KS-8Yx" firstAttribute="centerY" secondItem="FX7-Ha-anq" secondAttribute="centerY" id="WYs-Kp-R4c"/>
                                                 <constraint firstAttribute="trailing" secondItem="iHI-M6-uyY" secondAttribute="trailing" constant="10" id="WcK-wT-yEB"/>
                                                 <constraint firstAttribute="trailing" secondItem="ZoN-KS-8Yx" secondAttribute="trailing" constant="10" id="Wgc-1R-4Ip"/>
@@ -90,10 +91,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CVX-E1-ZgY">
-                                                    <rect key="frame" x="15" y="15.5" width="350" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CVX-E1-ZgY">
+                                                    <rect key="frame" x="15" y="10" width="350" height="31"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="s3B-te-zWt"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="s3B-te-zWt"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                                     <color key="textColor" red="0.37055522200000002" green="0.37056469920000001" blue="0.37055957319999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -110,6 +111,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="Q4f-Lw-D05" secondAttribute="bottom" id="7o0-1q-KJv"/>
                                                 <constraint firstAttribute="trailing" secondItem="Q4f-Lw-D05" secondAttribute="trailing" constant="10" id="V7g-zI-Lce"/>
+                                                <constraint firstItem="CVX-E1-ZgY" firstAttribute="top" secondItem="Oh7-Xj-K6j" secondAttribute="top" constant="10" id="buB-QC-3v8"/>
                                                 <constraint firstItem="CVX-E1-ZgY" firstAttribute="centerY" secondItem="Oh7-Xj-K6j" secondAttribute="centerY" id="dUR-NU-HOz"/>
                                                 <constraint firstItem="Q4f-Lw-D05" firstAttribute="leading" secondItem="Oh7-Xj-K6j" secondAttribute="leading" constant="15" id="hPe-Ze-h2U"/>
                                                 <constraint firstAttribute="trailing" secondItem="CVX-E1-ZgY" secondAttribute="trailing" constant="10" id="iIq-yD-Mbl"/>

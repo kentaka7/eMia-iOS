@@ -3,7 +3,7 @@
 //  eMia
 //
 //  Created by Sergey Krotkih on 1/17/18.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import UIKit

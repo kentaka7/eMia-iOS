@@ -1,3 +1,8 @@
+//
+//  RouteCoordinatorType.swift
+//  eMia
+//
+
 import Foundation
 
 enum RouteTransitionType {

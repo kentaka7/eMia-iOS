@@ -106,7 +106,7 @@ extension RouteCoordinator {
    
    func presentMainScreen() {
       NotificationCenter.default.post(name: Notification.Name(Notifications.WillEnterMainScreen), object: nil)
-      runAfterDelay(0.5) {
+      delay(seconds: 0.5) {
          gPushNotificationsCenter.registerRemoteNotifications(for: AppDelegate.shared.application) { [weak self] in
             DispatchQueue.main.async {
                _ = self?.transition(to: Route.gallery, type: .root)

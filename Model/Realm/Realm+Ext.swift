@@ -2,8 +2,8 @@
 //  Realm+Ext.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 30/07/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 30/07/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import Foundation
@@ -15,6 +15,17 @@ enum RealmOperationsError: Error {
    case creationFailed
    case deletionFailed
    case updatingFailed
+   
+   func description() -> String {
+      switch self {
+      case .creationFailed:
+        return "Realm: There is failed creating a new record!"
+      case .deletionFailed:
+        return "Realm: There is failed deleting a record!"
+      case .updatingFailed:
+        return "Realm: There is failed updating a record!"
+      }
+   }
 }
 
 extension Realm {
@@ -32,7 +43,7 @@ extension Realm {
 
    @discardableResult
    class func update(_ closure: () -> Void) -> Observable<Void> {
-      let result = Realm.withRealm("updating") { realm-> Observable<Void> in
+      let result = Realm.withRealm("updating") { realm -> Observable<Void> in
          try realm.write {
             closure()
          }
@@ -43,7 +54,7 @@ extension Realm {
    
    @discardableResult
    class func delete(model: Object) -> Observable<Object> {
-      let result = Realm.withRealm("deleting") { realm-> Observable<Object> in
+      let result = Realm.withRealm("deleting") { realm -> Observable<Object> in
          try realm.write {
             realm.delete(model)
          }
@@ -57,7 +68,7 @@ extension Realm {
          let realm = try Realm()
          return try action(realm)
       } catch let err {
-         print("Failed \(operation) realm with error: \(err)")
+         print("Realm opertation \(operation) was finished with error: \(err)")
          return nil
       }
    }

@@ -2,6 +2,10 @@
 //  DeviceTokenController.swift
 //  eMia
 //
+//  Created by Sergey Krotkih on 30/07/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
+//
+
 import Foundation
 import Firebase
 import RealmSwift
@@ -19,6 +23,8 @@ class DeviceTokenControllerImpl: NSObject, AnyObservable {
    }
    
    var observers = [Any] ()
+   
+   private let disposeBag = DisposeBag()
    
    deinit {
       unregisterObserver()
@@ -66,10 +72,13 @@ class DeviceTokenControllerImpl: NSObject, AnyObservable {
       let tokensIOSValues = tokens.joined(separator: Settings.separator)
       _ = Realm.update {
          user.tokenIOS = tokensIOSValues
-      }
-      user.synchronize { success in
-         completion(success)
-      }
+         }.subscribe(onNext: { _ in
+            user.synchronize { success in
+               completion(success)
+            }
+         }, onError: { error in
+            print(error.localizedDescription)
+         }).disposed(by: disposeBag)
    }
    
    private func userDefaultDeviceTokenUpdate(for decviceToken: String) {

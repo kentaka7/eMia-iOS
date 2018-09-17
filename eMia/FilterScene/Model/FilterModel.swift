@@ -3,7 +3,7 @@
 //  eMia
 //
 //  Created by Sergey Krotkih on 12/28/17.
-//  Copyright © 2017 Coded I/S. All rights reserved.
+//  Copyright © 2017 Sergey Krotkih. All rights reserved.
 //
 
 import Foundation
@@ -19,6 +19,8 @@ final class FilterModel: Object {
    @objc dynamic var _minAge: CGFloat = 0.0
    @objc dynamic var _maxAge: CGFloat = 100.0
    @objc dynamic var _municipality: String?
+   
+   let disposeBag = DisposeBag()
    
    convenience init(id: String, favorite: FilterFavorite, gender: Gender, minAge: CGFloat, maxAge: CGFloat, municipality: String) {
       self.init()
@@ -40,9 +42,16 @@ final class FilterModel: Object {
          
       }
       set {
+         // As an example with a handling error:
          Realm.update {
             myFavorite = newValue.rawValue
-         }
+            }.subscribe(onNext: { _ in
+            }, onError: { error in
+               print(error.localizedDescription)
+               if let error = error as? RealmOperationsError {
+                  Alert.default.showError(message: error.description())
+               }
+            }).disposed(by: disposeBag)
       }
    }
    
@@ -53,7 +62,6 @@ final class FilterModel: Object {
          } else {
             return .none
          }
-         
       }
       set {
          Realm.update {

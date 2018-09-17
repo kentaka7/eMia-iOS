@@ -2,8 +2,8 @@
 //  NewPostEditor.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 03/09/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 03/09/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import UIKit
@@ -44,8 +44,6 @@ class NewPostEditor: NSObject, NewPostEditorProtocol, NewPostInteracorInput {
       guard let tableView = self.tableView else {
          return
       }
-      tableView.rowHeight = UITableViewAutomaticDimension
-      tableView.estimatedRowHeight = 140
       tableView.delegate = self
       tableView.dataSource = self
    }
@@ -57,7 +55,7 @@ class NewPostEditor: NSObject, NewPostEditorProtocol, NewPostInteracorInput {
          return nil
       }
       guard let image = photoCell.photoImage else {
-         Alert.default.showOk("", message: "Please add photo to the post!".localized)
+         Alert.default.showOk("", message: "Please add photo!".localized)
          return nil
       }
       let bodyText = bodyCell.postBodyText
@@ -96,7 +94,7 @@ extension NewPostEditor: UITableViewDelegate, UITableViewDataSource {
                      // It prevents hiding keyboard
                      self.fakeTextField!.becomeFirstResponder()
                      tableView.reloadData()
-                     runAfterDelay(0.2) {
+                     delay(seconds: 0.2) {
                         // return back focus on the text view
                         _ = self.bodyCell.postBodyTextView.becomeFirstResponder()
                      }

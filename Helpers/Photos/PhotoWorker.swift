@@ -2,8 +2,8 @@
 //  PhotoWorker.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 12/09/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 12/09/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import UIKit

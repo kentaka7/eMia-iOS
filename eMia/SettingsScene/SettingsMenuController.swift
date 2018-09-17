@@ -2,8 +2,8 @@
 //  SettingsMenuController.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 02/09/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 02/09/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import Foundation
@@ -29,6 +29,9 @@ class SettingsMenuController: NSObject, SettingsMenuProtocol, UITableViewDelegat
    func configure(with tableView: UITableView) {
       tableView.delegate = self
       tableView.dataSource = self
+
+      tableView.rowHeight = UITableViewAutomaticDimension
+      tableView.estimatedRowHeight = 50
       
       tableView.rx.itemSelected
          .subscribe(onNext: {[weak self] indexPath in
@@ -38,10 +41,6 @@ class SettingsMenuController: NSObject, SettingsMenuProtocol, UITableViewDelegat
    
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       return self.numberOfRows
-   }
-   
-   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      return self.heightCell(for: indexPath)
    }
    
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,17 +58,6 @@ class SettingsMenuController: NSObject, SettingsMenuProtocol, UITableViewDelegat
          return tableView.dequeueCell(ofType: MyProfile2ViewCell.self)!.then { cell in
             self.input.configure(view: cell, with: menuItem)
          }
-      }
-   }
-   
-   func heightCell(for indexPath: IndexPath) -> CGFloat {
-      switch SettingsMenu(rawValue: indexPath.row)! {
-      case .myProfile:
-         return 64.0
-      case .visitToAppSite:
-         return 52.0
-      case .logOut:
-         return 52.0
       }
    }
    

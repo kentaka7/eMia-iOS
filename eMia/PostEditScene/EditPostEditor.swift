@@ -2,8 +2,8 @@
 //  EditPostEditor.swift
 //  eMia
 //
-//  Created by Сергей Кротких on 03/09/2018.
-//  Copyright © 2018 Coded I/S. All rights reserved.
+//  Created by Sergey Krotkih on 03/09/2018.
+//  Copyright © 2018 Sergey Krotkih. All rights reserved.
 //
 
 import UIKit
@@ -19,6 +19,9 @@ enum EditPostRows: Int {
    static let allValues = [avatarPhotoAndUserName, dependsOnTextViewContent, photo, staticTextAndSendEmailButton]
 }
 
+/// Single post viewer
+/// There are like a chat here. You can post comment on the post
+/// - parameter viewModel: used for connecting with data source
 class EditPostEditor: NSObject, EditPostEditorProtocol, EditPostInteractorInputProtocol {
    static private let kMinCommentCellHeight: CGFloat = 45.5
    
@@ -162,8 +165,10 @@ extension EditPostEditor: UITableViewDataSource, UITableViewDelegate {
       }
    }
 
-   // TODO: - TRY TO USE https://mkswap.net/m/ios/2015/07/08/uitableviewcells-with-dynamic-height.html
-   
+   /// TODO: - need to use dinanic height here
+    /// The function heightCell(for: calculate current cell dinamic height
+   /// - parameter indexPath: current cell path
+   /// - returns: current cell height
    func heightCell(for indexPath: IndexPath) -> CGFloat {
       let row = indexPath.row
       let commentIndex = row - EditPostRows.allValues.count
@@ -219,7 +224,7 @@ extension EditPostEditor {
             self?.fakeField.focus = true
             self?.tableView.reloadData()
          }
-         runAfterDelay(0.3) {
+         delay(seconds: 0.3) {
             _ = commentCell.textView.becomeFirstResponder()
          }
       } else {
@@ -227,7 +232,9 @@ extension EditPostEditor {
       }
    }
    
-   private func tableViewFitSize(kbNotification: Notification) {
+    /// Change tableview height after/before keyboard appears/disappears
+   /// - parameter kbNotification: keyboard notication data
+    private func tableViewFitSize(kbNotification: Notification) {
       switch kbNotification.name {
       case .UIKeyboardDidShow:
          if let height = self.keyboardHeight(kbNotification: kbNotification) {
@@ -245,7 +252,9 @@ extension EditPostEditor {
       }
    }
    
-   private func keyboardHeight(kbNotification: Notification) -> CGFloat? {
+   /// Calculate keyboard height
+   /// - parameter kbNotification: keyboard notofocation data
+    private func keyboardHeight(kbNotification: Notification) -> CGFloat? {
       guard let info = kbNotification.userInfo  else {
          return nil
       }
@@ -263,7 +272,11 @@ extension EditPostEditor {
       }
    }
    
-   private func scrollDownIfNeeded() {
+   /// The scrollDownIfNeeded function scroll the last comment in the view area
+   /// - parameter none:
+   /// - returns: none
+   /// - throws: none
+    private func scrollDownIfNeeded() {
       if let commentCell = self.commentCell,
          commentCell.editViewInActiveState {
          DispatchQueue.main.async { [weak self] in
@@ -280,7 +293,8 @@ extension EditPostEditor {
 
 extension EditPostEditor: AnyObservable {
    
-   func registerObserver() {
+   /// The registerObserver function registers observer on the keyboard hide/show notofication
+    func registerObserver() {
       let center = NotificationCenter.default
       let queue = OperationQueue.main
       observers.append(
