@@ -68,24 +68,20 @@ final class PostModel: Object {
       starCount = rhs.starCount
       photosize = rhs.photosize
    }
+   
+   func synchronize(completion: @escaping (String) -> Void) {
+      PostItem.save(self, completion: completion)
+   }
 }
+
+// We use the IdentifiableType to have a possibility
+// to use RxDataSources in the Posts collection view
 
 extension PostModel: IdentifiableType {
    typealias Identity = String
    
    var identity: Identity {
       return id!
-   }
-}
-
-extension PostModel {
-   
-   func synchronize(completion: @escaping (String) -> Void) {
-      let postItem = PostItem(uid: uid, author: author, title: title, body: body, photosize: photosize, starCount: starCount, created: created)
-      postItem.id = id ?? ""
-      postItem.synchronize { _ in
-         completion(postItem.id)
-      }
    }
 }
 

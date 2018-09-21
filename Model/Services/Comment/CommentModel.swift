@@ -44,6 +44,10 @@ final class CommentModel: Object {
       postid = rhs.postid
       created = rhs.created
    }
+
+   func synchronize(_ completion: @escaping (Bool) -> Void) {
+      CommentItem.save(self, completion: completion)
+   }
 }
 
 extension CommentModel: IdentifiableType {
@@ -51,15 +55,6 @@ extension CommentModel: IdentifiableType {
    
    var identity: Identity {
       return id ?? ""
-   }
-}
-
-extension CommentModel {
-   
-   func synchronize(_ completion: @escaping (Bool) -> Void) {
-      let commentItem = CommentItem(uid: self.uid, author: self.author, text: self.text, postid: self.postid, created: self.created)
-      commentItem.id = id ?? ""
-      commentItem.synchronize(completion: completion)
    }
 }
 

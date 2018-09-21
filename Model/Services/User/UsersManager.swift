@@ -85,12 +85,11 @@ extension UsersManagerImpl {
    }
 
    private func updateUser(_ user: UserModel, completion: @escaping (Bool) -> Void) {
-      let userItem = UserItem(user: user)
-      userItem.synchronize(completion: completion)
+      user.synchronize(completion: completion)
    }
    
    private func deleteUser(_ user: UserModel, completion: @escaping () -> Void) {
-      let userItem = UserItem(user: user)
+      let userItem = UserItem(user)
       userItem.remove()
       gPhotosManager.removeAvatar(user: user) { _ in
          completion()

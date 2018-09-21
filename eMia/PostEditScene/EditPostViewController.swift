@@ -49,8 +49,15 @@ class EditPostViewController: UIViewController, EditPostViewProtocol {
    
    private func bindBackButton() {
       backBarButtonItem.rx.tap.bind(onNext: { [weak self] in
-         guard let `self` = self else { return }
+         guard let `self` = self else { fatal() }
          self.presenter.closeCurrentViewController()
       }).disposed(by: disposeBag)
    }
+   
+   
+}
+
+/// The example Never function return
+func fatal() -> Never {
+   fatalError("Something very, very bad happened! Crash the app!")
 }

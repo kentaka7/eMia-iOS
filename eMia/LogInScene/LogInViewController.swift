@@ -139,7 +139,7 @@ extension LogInViewController: LoginViewProtocol {
       navigationItem.title = text
    }
 
-   func showSignInResult(_ error: LoginPresenter.LoginError) {
+   func showSignInResult(_ error: LoginError) {
       switch error {
       case .passwordIsWrong:
          self.passwordTextField.shake()
@@ -148,12 +148,12 @@ extension LogInViewController: LoginViewProtocol {
       }
    }
    
-   func showSignUpResult(_ error: LoginPresenter.LoginError) {
+   func showSignUpResult(_ error: LoginError) {
       switch error {
       case .emailIsAbsent, .emailIsWrong, .passwordIsWrong:
-         break
+         Alert.default.showOk("Error".localized, message: error.description)
       case .accessDenied:
-         Alert.default.showOk("Access denied!".localized, message: "Please check email and try it again.".localized)
+         Alert.default.showOk("Error".localized, message: error.description)
       }
    }
 

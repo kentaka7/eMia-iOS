@@ -37,8 +37,11 @@ final class FavoriteModel: Object {
    }
    
    func remove() {
-      let item = FavoriteItem(uid: self.uid, postid: self.postid, id: self.id)
-      item.remove()
+      FavoriteItem(self).remove()
+   }
+   
+   func synchronize(_ completion: @escaping (Bool) -> Void) {
+      FavoriteItem.save(self, completion: completion)
    }
 }
 
@@ -48,15 +51,6 @@ extension FavoriteModel: IdentifiableType {
    
    var identity: Identity {
       return id ?? "0"
-   }
-}
-
-extension FavoriteModel {
-   
-   func synchronize(_ completion: @escaping (Bool) -> Void) {
-      let favoriteItem = FavoriteItem(uid: uid, postid: postid)
-      favoriteItem.id = id == nil || id!.isEmpty ? "" : favoriteItem.id
-      favoriteItem.synchronize(completion: completion)
    }
 }
 

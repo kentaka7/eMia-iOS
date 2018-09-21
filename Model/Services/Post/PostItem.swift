@@ -6,11 +6,11 @@
 import UIKit
 import Firebase
 
-class PostItem: FirebaseItem {
+class PostItem: FirebaseStorable {
 
    static let TableName = "posts"
    
-   override var tableName: String {
+   var tableName: String {
       return PostItem.TableName
    }
    
@@ -36,7 +36,7 @@ class PostItem: FirebaseItem {
    var photosize: String
    var starCount: Int
    
-   override init() {
+   init() {
       self.id = ""
       
       self.uid = ""
@@ -48,18 +48,19 @@ class PostItem: FirebaseItem {
       self.starCount = 0
    }
    
-   convenience init(uid: String, author: String, title: String, body: String, photosize: String, starCount: Int, created: Double) {
+   convenience init(_ model: PostModel) {
       self.init()
-      self.uid = uid
-      self.author = author
-      self.title = title
-      self.body = body
-      self.created = created
-      self.photosize = photosize
-      self.starCount = starCount
+      self.uid = model.uid
+      self.author = model.author
+      self.title = model.title
+      self.body = model.body
+      self.created = model.created
+      self.photosize = model.photosize
+      self.starCount = model.starCount
+      self.id = model.id ?? ""
    }
    
-   convenience init?(_ snapshot: DataSnapshot) {
+   required convenience init?(_ snapshot: DataSnapshot) {
       guard
          let snapshotValue = snapshot.value as? [String: AnyObject],
          let id = snapshotValue[PostItem.Fields.id] as? String,
@@ -84,7 +85,7 @@ class PostItem: FirebaseItem {
       return item
    }
 
-   override func toDictionary() -> [String: Any] {
+   func toDictionary() -> [String: Any] {
       return [
          PostItem.Fields.id: id,
          PostItem.Fields.uid: uid,
@@ -97,12 +98,11 @@ class PostItem: FirebaseItem {
       ]
    }
    
-   override func primaryKey() -> String {
+   func primaryKey() -> String {
       return self.id
    }
    
-   override func setPrimaryKey(_ key: String) {
+   func setPrimaryKey(_ key: String) {
       self.id = key
    }
-   
 }

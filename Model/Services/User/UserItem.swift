@@ -6,11 +6,11 @@
 import UIKit
 import Firebase
 
-class UserItem: FirebaseItem {
+class UserItem: FirebaseStorable {
 
    static let TableName = "users"
    
-   override var tableName: String {
+   var tableName: String {
       return UserItem.TableName
    }
    
@@ -34,7 +34,7 @@ class UserItem: FirebaseItem {
    var tokenIOS: String
    var tokenAndroid: String
 
-   override init() {
+   init() {
       self.userId = ""
       self.username = ""
       self.email = ""
@@ -45,7 +45,7 @@ class UserItem: FirebaseItem {
       self.tokenAndroid = ""
    }
    
-   init(user: UserModel) {
+   init(_ user: UserModel) {
       self.userId = user.userId
       self.username = user.name
       self.email = user.email
@@ -56,7 +56,7 @@ class UserItem: FirebaseItem {
       self.tokenAndroid = user.tokenAndroid ?? ""
    }
    
-   convenience init?(_ snapshot: DataSnapshot) {
+   required convenience init?(_ snapshot: DataSnapshot) {
       guard
          let snapshotValue = snapshot.value as? [String: AnyObject],
          let id = snapshotValue[UserItem.Fields.userId] as? String,
@@ -80,7 +80,7 @@ class UserItem: FirebaseItem {
       self.tokenAndroid = snapshotValue[UserItem.Fields.tokenAndroid] as? String ?? ""
    }
    
-   override func toDictionary() -> [String: Any] {
+   func toDictionary() -> [String: Any] {
       return [
          UserItem.Fields.userId: userId,
          UserItem.Fields.name: username,
@@ -93,12 +93,11 @@ class UserItem: FirebaseItem {
       ]
    }
    
-   override func primaryKey() -> String {
+   func primaryKey() -> String {
       return self.userId
    }
    
-   override func setPrimaryKey(_ key: String) {
+   func setPrimaryKey(_ key: String) {
       self.userId = key
    }
-   
 }

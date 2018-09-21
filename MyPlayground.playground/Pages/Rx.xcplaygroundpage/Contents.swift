@@ -513,7 +513,7 @@ executeProcedure(for: "takeWhile") {
 
 executeProcedure(for: "do(on....:)") {
     
-    let disposeBag = DisposeBag()
+    //let disposeBag = DisposeBag()
     
     let temperatureInFahrenheit = PublishSubject<Int>()
     
@@ -551,3 +551,7 @@ executeProcedure(for: "do(on....:)") {
     temperatureInFahrenheit.onCompleted()
 }
 
+
+executeProcedure(for: "test") {
+    
+}

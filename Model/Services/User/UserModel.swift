@@ -63,6 +63,16 @@ final class UserModel: Object {
       tokenIOS = rhs.tokenIOS
       tokenAndroid = rhs.tokenAndroid
    }
+   
+   static func registerUserWith(email: String) -> UserModel {
+      let name = email.components(separatedBy: "@").first!
+      let user = UserModel(name: name, email: email, address: nil, gender: nil, yearbirth: nil)
+      return user
+   }
+
+   func synchronize(completion: @escaping (Bool) -> Void) {
+      UserItem.save(self, completion: completion)
+   }
 }
 
 extension UserModel: IdentifiableType {
@@ -70,14 +80,6 @@ extension UserModel: IdentifiableType {
    
    var identity: Identity {
       return userId
-   }
-}
-
-extension UserModel {
-   
-   func synchronize(completion: @escaping (Bool) -> Void) {
-      let userItem = UserItem(user: self)
-      userItem.synchronize(completion: completion)
    }
 }
 

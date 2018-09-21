@@ -6,11 +6,11 @@
 import UIKit
 import Firebase
 
-class FavoriteItem: FirebaseItem {
+class FavoriteItem: FirebaseStorable {
 
    static let TableName = "favorites"
    
-   override var tableName: String {
+   var tableName: String {
       return FavoriteItem.TableName
    }
 
@@ -24,19 +24,21 @@ class FavoriteItem: FirebaseItem {
    var uid: String
    var postid: String
    
-   override init() {
+   init() {
       self.id = ""
       self.uid = ""
       self.postid = ""
    }
    
-   init(uid: String, postid: String, id: String? = nil) {
-      self.id = id ?? ""
-      self.uid = uid
-      self.postid = postid
+   convenience init(_ model: FavoriteModel) {
+      self.init()
+      self.uid = model.uid
+      self.postid = model.postid
+      self.id = model.id ?? ""
+      self.id = model.id == nil || model.id!.isEmpty ? "" : self.id
    }
    
-   convenience init?(_ snapshot: DataSnapshot) {
+   required convenience init?(_ snapshot: DataSnapshot) {
       guard
          let snapshotValue = snapshot.value as? [String: AnyObject],
          let id = snapshotValue[CommentItem.Fields.id] as? String,
@@ -51,7 +53,7 @@ class FavoriteItem: FirebaseItem {
       self.postid = postid
    }
    
-   override func toDictionary() -> [String: Any] {
+   func toDictionary() -> [String: Any] {
       return [
          FavoriteItem.Fields.id: id,
          FavoriteItem.Fields.uid: uid,
@@ -59,11 +61,11 @@ class FavoriteItem: FirebaseItem {
       ]
    }
    
-   override func primaryKey() -> String {
+   func primaryKey() -> String {
       return self.id
    }
    
-   override func setPrimaryKey(_ key: String) {
+   func setPrimaryKey(_ key: String) {
       self.id = key
    }
 }

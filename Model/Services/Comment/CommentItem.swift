@@ -6,11 +6,11 @@
 import UIKit
 import Firebase
 
-class CommentItem: FirebaseItem {
+class CommentItem: FirebaseStorable {
    
    static let TableName = "comments"
    
-   override var tableName: String {
+   var tableName: String {
       return CommentItem.TableName
    }
 
@@ -30,7 +30,7 @@ class CommentItem: FirebaseItem {
    var postid: String
    var created: Double
    
-   override init() {
+   init() {
       self.id = ""
       self.uid = ""
       self.author = ""
@@ -39,16 +39,17 @@ class CommentItem: FirebaseItem {
       self.created = 0
    }
    
-   convenience init(uid: String, author: String, text: String, postid: String, created: Double) {
+   convenience init(_ model: CommentModel) {
       self.init()
-      self.uid = uid
-      self.author = author
-      self.text = text
-      self.postid = postid
-      self.created = created
+      self.uid = model.uid
+      self.author = model.author
+      self.text = model.text
+      self.postid = model.postid
+      self.created = model.created
+      self.id = model.id ?? ""
    }
    
-   convenience init?(_ snapshot: DataSnapshot) {
+   required convenience init?(_ snapshot: DataSnapshot) {
       guard
          let snapshotValue = snapshot.value as? [String: AnyObject],
          let id = snapshotValue[CommentItem.Fields.id] as? String,
@@ -66,7 +67,7 @@ class CommentItem: FirebaseItem {
       self.created = snapshotValue[CommentItem.Fields.created] as? TimeInterval ?? 0
    }
    
-   override func toDictionary() -> [String: Any] {
+   func toDictionary() -> [String: Any] {
       return [
          CommentItem.Fields.id: id,
          CommentItem.Fields.uid: uid,
@@ -77,11 +78,11 @@ class CommentItem: FirebaseItem {
       ]
    }
    
-   override func primaryKey() -> String {
+   func primaryKey() -> String {
       return self.id
    }
    
-   override func setPrimaryKey(_ key: String) {
+   func setPrimaryKey(_ key: String) {
       self.id = key
    }
 }

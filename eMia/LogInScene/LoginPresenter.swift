@@ -9,6 +9,26 @@
 import UIKit
 import RxSwift
 
+enum LoginError: Error, CustomStringConvertible {
+   case emailIsAbsent
+   case emailIsWrong
+   case passwordIsWrong
+   case accessDenied
+   
+   public var description: String {
+      switch self {
+      case .emailIsAbsent:
+         return "Please enter your email address".localized
+      case .emailIsWrong:
+         return "Email is wrong".localized
+      case .passwordIsWrong:
+         return "Please enter password (at least 6 characters)".localized
+      case .accessDenied:
+         return "Access denied. Please check password and try it again".localized
+      }
+   }
+}
+
 class LoginPresenter: NSObject, LogInValidating, LogInPresenterProtocol {
 
    var interactor: LoginInteractor!
@@ -18,7 +38,7 @@ class LoginPresenter: NSObject, LogInValidating, LogInPresenterProtocol {
    var email = BehaviorSubject<String>(value: "")
    var password = BehaviorSubject<String>(value: "")
    
-   // Computed property to retunr the result of expected validation
+   /// Observable bool property. Checks to valid email and password.
    var isValid: Observable<Bool> {
       return Observable.combineLatest(email.asObservable(), password.asObservable()) { emailString, passwordString in
          emailString.isValidEmail() && passwordString.count > 6
@@ -36,56 +56,45 @@ class LoginPresenter: NSObject, LogInValidating, LogInPresenterProtocol {
 
    func signInButtonPressed(_ completion: @escaping () -> Void) {
       do {
-         interactor.signIn(email: try email.value(), password: try password.value()) { success in
+         let email = try self.email.value()
+         let password = try self.password.value()
+         interactor.signIn(email: email, password: password) { success in
             completion()
-            if success {
-               self.router.goToMainScreen()
-            } else {
-               self.view.showSignInResult(.accessDenied)
-            }
+            self.didSignInFinish(success: success)
          }
       } catch {
          print(error)
          completion()
-         self.view.showSignInResult(.accessDenied)
+         self.didSignInFinish(success: false)
       }
    }
    
    func signUpButtonPressed(_ completion: @escaping () -> Void) {
       do {
-         let name = try email.value().components(separatedBy: "@").first!
-         let user = UserModel(name: name, email: try email.value(), address: nil, gender: nil, yearbirth: nil)
+         let email = try self.email.value()
          let password = try self.password.value()
          completion()
-         self.router.goToMyProfileEditor(user, password: password)
+         didSignUpFinish(success: true, email: email, password: password)
       } catch {
          completion()
-         self.view.showSignUpResult(.accessDenied)
+         didSignUpFinish(success: false)
       }
    }
-}
-
-// MARK: - Errors presenter
-
-extension LoginPresenter {
    
-   public enum LoginError: Error, CustomStringConvertible {
-      case emailIsAbsent
-      case emailIsWrong
-      case passwordIsWrong
-      case accessDenied
-      
-      public var description: String {
-         switch self {
-         case .emailIsAbsent:
-            return "Please enter your email address".localized
-         case .emailIsWrong:
-            return "Email is wrong".localized
-         case .passwordIsWrong:
-            return "Please enter password (more than 6 characters)".localized
-         case .accessDenied:
-            return "Access denied. Please check password an try again".localized
-         }
+   private func didSignInFinish(success: Bool) {
+      if success {
+         self.router.goToMainScreen()
+      } else {
+         self.view.showSignInResult(.accessDenied)
+      }
+   }
+
+   private func didSignUpFinish(success: Bool, email: String = "", password: String = "") {
+      if success {
+         let user = UserModel.registerUserWith(email: email)
+         self.router.goToMyProfileEditor(user, password: password)
+      } else {
+         self.view.showSignUpResult(.accessDenied)
       }
    }
 }

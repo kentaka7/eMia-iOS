@@ -14,8 +14,8 @@ protocol LogInDependenciesProtocol {
 }
 
 protocol LoginViewProtocol {
-   func showSignUpResult(_ error: LoginPresenter.LoginError)
-   func showSignInResult(_ error: LoginPresenter.LoginError)
+   func showSignUpResult(_ error: LoginError)
+   func showSignInResult(_ error: LoginError)
    func setUpTitle(text: String)
 }
 

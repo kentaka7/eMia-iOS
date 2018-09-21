@@ -30,7 +30,7 @@ extension NewPostInteractor {
 
    private func saveNewPost(data: NewPostData, _ completed: @escaping () -> Void) {
       guard let currentUser = gUsersManager.currentUser else {
-         Alert.default.showOk("", message: "Only for registered users!".localized)
+         Alert.default.showOk("Error", message: "This operation accessible only for registered users!".localized)
          return
       }
       let title = data.title
@@ -40,13 +40,13 @@ extension NewPostInteractor {
       let newPost = PostModel(uid: currentUser.userId, author: currentUser.name, title: title, body: bodyText, photosize: photosize)
       newPost.synchronize { postid in
          if postid.isEmpty {
-            Alert.default.showOk("Somethig went wrong!".localized, message: "We can't upload a photo on server".localized)
+            Alert.default.showOk("Error".localized, message: "Failed to upload the photo on server. Please try it again.".localized)
          } else {
             gPhotosManager.uploadPhoto(image, for: postid) { success in
                if success {
                   completed()
                } else {
-                  Alert.default.showOk("Somethig went wrong!".localized, message: "We can't create a new post on server".localized)
+                  Alert.default.showOk("Error".localized, message: "Failed to create a new record on our server. Please try it again.".localized)
                }
             }
          }

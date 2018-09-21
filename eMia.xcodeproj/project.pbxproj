@@ -108,7 +108,7 @@
 		7F81B21D20B0FB2000CA384A /* SettingsDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */; };
 		7F8236832138C72E00C7F63C /* MyProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8236822138C72E00C7F63C /* MyProfileRouter.swift */; };
 		7F84D479214781FB00871B8E /* MyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F84D478214781FB00871B8E /* MyProfileViewModel.swift */; };
-		7F8604042137024B00D33DC3 /* FirebaseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8604032137024B00D33DC3 /* FirebaseItem.swift */; };
+		7F8604042137024B00D33DC3 /* FirebaseStorableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8604032137024B00D33DC3 /* FirebaseStorableProtocol.swift */; };
 		7F86186A20B3CFEF002F8D57 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */; };
 		7F86186D20B3D3B9002F8D57 /* EditPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */; };
 		7F86186E20B3D3B9002F8D57 /* EditPostDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */; };
@@ -307,7 +307,7 @@
 		7F81B21C20B0FB2000CA384A /* SettingsDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDependencies.swift; sourceTree = "<group>"; };
 		7F8236822138C72E00C7F63C /* MyProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileRouter.swift; sourceTree = "<group>"; };
 		7F84D478214781FB00871B8E /* MyProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewModel.swift; sourceTree = "<group>"; };
-		7F8604032137024B00D33DC3 /* FirebaseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseItem.swift; sourceTree = "<group>"; };
+		7F8604032137024B00D33DC3 /* FirebaseStorableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorableProtocol.swift; sourceTree = "<group>"; };
 		7F86186920B3CFEF002F8D57 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		7F86186B20B3D3B8002F8D57 /* EditPostPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = EditPostPresenter.swift; sourceTree = "<group>"; tabWidth = 3; };
 		7F86186C20B3D3B9002F8D57 /* EditPostDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostDependencies.swift; sourceTree = "<group>"; };
@@ -698,7 +698,7 @@
 		7F59C2C1210DE00700FB181C /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				7F8604032137024B00D33DC3 /* FirebaseItem.swift */,
+				7F8604032137024B00D33DC3 /* FirebaseStorableProtocol.swift */,
 				7FBFF4D21FE4068400788DCB /* User */,
 				7FBFF4D71FE4068400788DCB /* Post */,
 				7FBFF4D51FE4068400788DCB /* Comment */,
@@ -1281,7 +1281,7 @@
 				7F5B8BFA213EAE1D0010DB90 /* TemplateInteractor.swift in Sources */,
 				7FC20D371FE36B9B000C23A6 /* Image.swift in Sources */,
 				7F619FCF20ADFFAB00AF9D91 /* GalleryLayout.swift in Sources */,
-				7F8604042137024B00D33DC3 /* FirebaseItem.swift in Sources */,
+				7F8604042137024B00D33DC3 /* FirebaseStorableProtocol.swift in Sources */,
 				7F4B2AC2212540DE0028F993 /* FavoritsManager.swift in Sources */,
 				7F3C59F01FE5F03600A823DC /* AnyObservableProtocol.swift in Sources */,
 				7F3C59EE1FE5EF1E00A823DC /* ReachabilityController.swift in Sources */,
