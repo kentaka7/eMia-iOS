@@ -38,6 +38,9 @@ To try the eMia, you should beforte
 
 Open eMia.xcworkspace
 
+Run the app.
+Login with user name: k@k.com and password: brooemnv
+
 ## eMia on Android and React Native
 
 Here https://github.com/SKrotkih/eMia-Android you can see eMia for Android,
