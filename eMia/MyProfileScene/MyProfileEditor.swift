@@ -40,7 +40,7 @@ class MyProfileEditor: NSObject, MyProfileEditorProtocol {
       tableView.delegate = self
       tableView.dataSource = self
       
-      tableView.rowHeight = UITableViewAutomaticDimension
+      tableView.rowHeight = UITableView.automaticDimension
       tableView.estimatedRowHeight = 100
    }
 }

@@ -52,7 +52,7 @@ class GalleryViewCell: UICollectionViewCell {
    func flash(_ completion: @escaping () -> Void) {
       photoImageView.alpha = 0
       setNeedsDisplay()
-      UIView.animate(withDuration: 0.2, delay: 0, options: UIViewAnimationOptions(), animations: { [weak self] in
+      UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions(), animations: { [weak self] in
          self?.photoImageView.alpha = 1
       }, completion: { _ in
          completion()

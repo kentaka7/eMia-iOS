@@ -30,14 +30,14 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
    
    let closeButton: UIButton = {
       let button = UIButton(type: .custom)
-      button.setImage(UIImage(named: "close_button"), for: UIControlState())
+      button.setImage(UIImage(named: "close_button"), for: UIControl.State())
       
       return button
    }()
 
    let saveButton: UIButton = {
       let button = UIButton(type: .custom)
-      button.setImage(UIImage(named: "icon-save"), for: UIControlState())
+      button.setImage(UIImage(named: "icon-save"), for: UIControl.State())
       
       return button
    }()
@@ -189,7 +189,7 @@ public final class SFFullscreenImageDetailViewController: UIViewController, UISc
             let behaviour = UISnapBehavior(item: self.imageView, snapTo: CGPoint(x: self.scrollView.bounds.midX, y: self.scrollView.bounds.midY))
             self.animator.addBehavior(behaviour)
             
-            UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions(), animations: {
+            UIView.animate(withDuration: 0.1, delay: 0, options: UIView.AnimationOptions(), animations: {
                self.view.layer.backgroundColor = self.tintColor.cgColor
                self.closeButton.alpha = 1
                

@@ -30,7 +30,7 @@ class SettingsMenuController: NSObject, SettingsMenuProtocol, UITableViewDelegat
       tableView.delegate = self
       tableView.dataSource = self
 
-      tableView.rowHeight = UITableViewAutomaticDimension
+      tableView.rowHeight = UITableView.automaticDimension
       tableView.estimatedRowHeight = 50
       
       tableView.rx.itemSelected

@@ -31,7 +31,7 @@ class EditPostEditor: NSObject, EditPostEditorProtocol, EditPostInteractorInputP
    weak var tableView: UITableView!
    weak var tvHeightConstraint: NSLayoutConstraint!
    weak var activityIndicator: NVActivityIndicatorView!
-
+   
    var viewModel: EditPostViewModel!
    
    private let disposeBag = DisposeBag()
@@ -42,19 +42,19 @@ class EditPostEditor: NSObject, EditPostEditorProtocol, EditPostInteractorInputP
    private var comments: [CommentModel] {
       return interactor.comments
    }
-
+   
    private var fakeField = FakeFieldController()
    private var keyboardController = KeyboardController()
    
    var observers: [Any] = []
-
+   
    weak private var commentCell: EditPost4ViewCell?
-
+   
    deinit {
       unregisterObserver()
       Log()
    }
-
+   
    func configure() {
       self.registerObserver()
       interactor.configure()
@@ -62,18 +62,18 @@ class EditPostEditor: NSObject, EditPostEditorProtocol, EditPostInteractorInputP
       configureKeyboard()
       startEditingFinishedListener()
    }
-
+   
    func updateView() {
       tableView.reloadData()
    }
    
    private func configureTableView() {
-      tableView.rowHeight = UITableViewAutomaticDimension
+      tableView.rowHeight = UITableView.automaticDimension
       tableView.estimatedRowHeight = 140
       tableView.delegate = self
       tableView.dataSource = self
    }
-
+   
    private func configureKeyboard() {
       keyboardController.configure(with: self.view.view)
    }
@@ -83,11 +83,11 @@ class EditPostEditor: NSObject, EditPostEditorProtocol, EditPostInteractorInputP
          self?.editingFinished = screenPresented == false
       }).disposed(by: disposeBag)
    }
-
+   
 }
 
 extension EditPostEditor: UITableViewDataSource, UITableViewDelegate {
-
+   
    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       return self.numberOfRows
    }
@@ -164,9 +164,9 @@ extension EditPostEditor: UITableViewDataSource, UITableViewDelegate {
          self.activityIndicator.stopAnimating()
       }
    }
-
+   
    /// TODO: - need to use dinanic height here
-    /// The function heightCell(for: calculate current cell dinamic height
+   /// The function heightCell(for: calculate current cell dinamic height
    /// - parameter indexPath: current cell path
    /// - returns: current cell height
    func heightCell(for indexPath: IndexPath) -> CGFloat {
@@ -232,17 +232,17 @@ extension EditPostEditor {
       }
    }
    
-    /// Change tableview height after/before keyboard appears/disappears
+   /// Change tableview height after/before keyboard appears/disappears
    /// - parameter kbNotification: keyboard notication data
-    private func tableViewFitSize(kbNotification: Notification) {
+   private func tableViewFitSize(kbNotification: Notification) {
       switch kbNotification.name {
-      case .UIKeyboardDidShow:
+      case UIResponder.keyboardDidShowNotification:
          if let height = self.keyboardHeight(kbNotification: kbNotification) {
             tvHeightConstraint.constant = height
             self.view.view.setNeedsLayout()
             editingFinished = false
          }
-      case .UIKeyboardDidHide:
+      case UIResponder.keyboardDidHideNotification:
          if editingFinished {
             tvHeightConstraint.constant = 0.0
             self.view.view.setNeedsLayout()
@@ -254,7 +254,7 @@ extension EditPostEditor {
    
    /// Calculate keyboard height
    /// - parameter kbNotification: keyboard notofocation data
-    private func keyboardHeight(kbNotification: Notification) -> CGFloat? {
+   private func keyboardHeight(kbNotification: Notification) -> CGFloat? {
       guard let info = kbNotification.userInfo  else {
          return nil
       }
@@ -276,7 +276,7 @@ extension EditPostEditor {
    /// - parameter none:
    /// - returns: none
    /// - throws: none
-    private func scrollDownIfNeeded() {
+   private func scrollDownIfNeeded() {
       if let commentCell = self.commentCell,
          commentCell.editViewInActiveState {
          DispatchQueue.main.async { [weak self] in
@@ -294,20 +294,21 @@ extension EditPostEditor {
 extension EditPostEditor: AnyObservable {
    
    /// The registerObserver function registers observer on the keyboard hide/show notofication
-    func registerObserver() {
+   func registerObserver() {
       let center = NotificationCenter.default
       let queue = OperationQueue.main
       observers.append(
-         _ = center.addObserver(forName: .UIKeyboardDidShow, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.tableViewFitSize(kbNotification: notification)
          }
       )
       observers.append(
-         _ = center.addObserver(forName: .UIKeyboardDidHide, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIResponder.keyboardDidHideNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.tableViewFitSize(kbNotification: notification)
          }
       )
    }
 }
+

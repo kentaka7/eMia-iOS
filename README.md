@@ -16,8 +16,8 @@ The iOS eMia app developed with using following things:
 
 ## Requirements
 
-- Xcode 9.3
-- Swift 4
+- Xcode 10.0
+- Swift 4.2
 
 ## Pre-Installation
 

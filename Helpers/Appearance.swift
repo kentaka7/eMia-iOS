@@ -26,7 +26,7 @@ final class Appearance {
       navBar.tintColor = UIColor.Navigation.tintColor
       
       // Navigation bar title
-      let attr: [NSAttributedStringKey: Any] = [
+      let attr: [NSAttributedString.Key: Any] = [
          .foregroundColor: UIColor.white,
          .font: UIFont.Title.navigationBar
       ]
@@ -40,7 +40,7 @@ final class Appearance {
       
       // Navigation bar item
       let navBarButton = UIBarButtonItem.appearance()
-      let barButtonAttr = [ NSAttributedStringKey.font: UIFont.Title.barButton]
+      let barButtonAttr = [ NSAttributedString.Key.font: UIFont.Title.barButton]
       navBarButton.setTitleTextAttributes(barButtonAttr, for: .normal)
       
    }
@@ -71,8 +71,8 @@ extension Appearance {
       let appearance = UISegmentedControl.appearance()
       appearance.tintColor = GlobalColors.kBrandNavBarColor
       let attr = [
-         NSAttributedStringKey.font: FontFamily.Avenir.book.font(size: 14),
-         NSAttributedStringKey.foregroundColor: UIColor.black
+         NSAttributedString.Key.font: FontFamily.Avenir.book.font(size: 14),
+         NSAttributedString.Key.foregroundColor: UIColor.black
       ]
       appearance.setTitleTextAttributes(attr, for: .normal)
    }

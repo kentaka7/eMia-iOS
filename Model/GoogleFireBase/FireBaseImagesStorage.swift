@@ -13,7 +13,7 @@ internal let gImagesStorageRef = Storage.storage().reference(forURL: Firebase.St
 class FirebaseImagesStorage: NSObject {
    
    class func saveImage(_ image: UIImage, name: String, completion: @escaping (String?) -> Void) {
-      guard let imageData = UIImageJPEGRepresentation(image, 0.8) else {
+      guard let imageData = image.jpegData(compressionQuality: 0.8) else {
          return
       }
       let metadata = StorageMetadata()

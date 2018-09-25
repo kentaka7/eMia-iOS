@@ -15,7 +15,7 @@ final class Alert {
    fileprivate init() {
       let screenBounds = UIScreen.main.bounds
       popupWindow = UIWindow(frame: CGRect(x: 0, y: 0, width: screenBounds.width, height: screenBounds.height))
-      popupWindow.windowLevel = UIWindowLevelStatusBar + 1
+      popupWindow.windowLevel = UIWindow.Level.statusBar + 1
       
       rootVC = StatusBarShowingViewController()
       popupWindow.rootViewController = rootVC
@@ -25,8 +25,8 @@ final class Alert {
    func showButton(_ title: String, message: String, buttonTitle: String, onComplete: @escaping () -> Void = {  }) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onComplete()
          }))
@@ -37,8 +37,8 @@ final class Alert {
    func showOk(_ title: String, message: String, onComplete: @escaping () -> Void = {  }) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onComplete()
          }))
@@ -49,8 +49,8 @@ final class Alert {
 	func showError(_ title: String = "Error".localized, message: String, onComplete: @escaping () -> Void = {  }) {
 		DispatchQueue.main.async {
 			self.popupWindow.isHidden = false
-			let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-			alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
 				self.resignPopupWindow()
 				onComplete()
 			}))
@@ -61,12 +61,12 @@ final class Alert {
    func showOkCancel(_ title: String, message: String, onComplete: (() -> Void)?, onCancel: (() -> Void)?) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onComplete?()
          })
-         let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler: { _ in
+         let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertAction.Style.cancel, handler: { _ in
             self.resignPopupWindow()
             onCancel?()
          })
@@ -79,12 +79,12 @@ final class Alert {
    func showYesNo(_ title: String, message: String, onYes: @escaping () -> Void = {}, onNo: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         let okAction = UIAlertAction(title: "Yes".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         let okAction = UIAlertAction(title: "Yes".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onYes()
          })
-         let cancelAction = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let cancelAction = UIAlertAction(title: "No".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onNo()
          })
@@ -98,12 +98,12 @@ final class Alert {
    func showConfirmCancel(_ title: String, message: String, onConfirm: @escaping () -> Void = {}, onCancel: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         let okAction = UIAlertAction(title: "Confirm".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         let okAction = UIAlertAction(title: "Confirm".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onConfirm()
          })
-         let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onCancel()
          })
@@ -117,12 +117,12 @@ final class Alert {
    func showConfirmChange(_ title: String, message: String, onConfirm: @escaping () -> Void = {}, onChange: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         let okAction = UIAlertAction(title: "Confirm".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         let okAction = UIAlertAction(title: "Confirm".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onConfirm()
          })
-         let cancelAction = UIAlertAction(title: "Change".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let cancelAction = UIAlertAction(title: "Change".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onChange()
          })
@@ -136,12 +136,12 @@ final class Alert {
    func showOkChange(_ title: String, message: String, onOk: @escaping () -> Void = {}, onChange: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         let okAction = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onOk()
          })
-         let cancelAction = UIAlertAction(title: "Change".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let cancelAction = UIAlertAction(title: "Change".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onChange()
          })
@@ -155,12 +155,12 @@ final class Alert {
    func showSettingsCancel(_ title: String, message: String, onSettings: @escaping () -> Void = {}, onCancel: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         let settingsAction = UIAlertAction(title: "Settings".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         let settingsAction = UIAlertAction(title: "Settings".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onSettings()
          })
-         let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
          })
          alert.addAction(settingsAction)
@@ -172,12 +172,12 @@ final class Alert {
    func showOkNo(_ title: String, message: String, onOk: @escaping () -> Void = {}, onNo: @escaping () -> Void = {}) {
       DispatchQueue.main.async {
          self.popupWindow.isHidden = false
-         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-         let letsGoAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { _ in
+         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+         let letsGoAction = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onOk()
          })
-         let laterAction = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.default, handler: { _ in
+         let laterAction = UIAlertAction(title: "No".localized, style: UIAlertAction.Style.default, handler: { _ in
             self.resignPopupWindow()
             onNo()
          })

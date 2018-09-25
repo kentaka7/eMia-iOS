@@ -49,13 +49,13 @@ class FakeFieldController: AnyObservable {
       let center = NotificationCenter.default
       let queue = OperationQueue.main
       observers.append(
-         _ = center.addObserver(forName: .UIKeyboardDidShow, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.keyboardDidShow()
          }
       )
       observers.append(
-         _ = center.addObserver(forName: .UIKeyboardDidHide, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIResponder.keyboardDidHideNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.keyboardDidHide()
          }

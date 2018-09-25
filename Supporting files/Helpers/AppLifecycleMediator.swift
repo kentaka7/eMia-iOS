@@ -45,19 +45,19 @@ class AppLifecycleMediator: NSObject, AnyObservable {
       let center = NotificationCenter.default
       let queue = OperationQueue.main
       observers.append(
-         _ = center.addObserver(forName: .UIApplicationWillEnterForeground, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.onAppWillEnterForeground()
-         }
+            }
       )
       observers.append(
-         _ = center.addObserver(forName: .UIApplicationDidEnterBackground, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.onAppDidEnterBackground()
          }
       )
       observers.append(
-         _ = center.addObserver(forName: .UIApplicationDidFinishLaunching, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIApplication.didFinishLaunchingNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.onAppDidFinishLaunching()
          }

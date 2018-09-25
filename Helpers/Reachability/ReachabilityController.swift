@@ -106,7 +106,7 @@ extension ReachabilityController: AnyObservable {
       let queue = OperationQueue.main
       
       observers.append(
-         _ = center.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: queue) { [weak self] _ in
+         _ = center.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: queue) { [weak self] _ in
             guard let `self` = self else {
                return
             }

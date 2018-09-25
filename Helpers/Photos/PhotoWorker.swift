@@ -46,7 +46,7 @@ class PhotoWorker: NSObject, PhotoWorkerProtocol, UIImagePickerControllerDelegat
    }
    
    fileprivate func openCamera() {
-      if UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+      if UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
          imagePicker.delegate = self
          imagePicker.allowsEditing = true
          imagePicker.sourceType = .camera
@@ -63,8 +63,9 @@ class PhotoWorker: NSObject, PhotoWorkerProtocol, UIImagePickerControllerDelegat
       self.viewController.present(imagePicker, animated: true, completion: nil)
    }
    
-   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-      if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+   
+   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+      if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
          var photo: UIImage
          if let image =  pickedImage.fitToSize() {
             photo = image

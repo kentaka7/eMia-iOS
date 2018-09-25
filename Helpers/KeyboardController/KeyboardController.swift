@@ -45,13 +45,13 @@ class KeyboardController: AnyObservable {
       let center = NotificationCenter.default
       let queue = OperationQueue.main
       observers.append(
-         _ = center.addObserver(forName: .UIKeyboardWillShow, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.keyboardWillShow()
          }
       )
       observers.append(
-         _ = center.addObserver(forName: .UIKeyboardWillHide, object: nil, queue: queue) { [weak self] notification in
+         _ = center.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: queue) { [weak self] notification in
             guard let `self` = self else { return }
             self.keyboardWillHide()
          }

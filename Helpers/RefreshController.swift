@@ -25,7 +25,7 @@ open class RefreshController: NSObject {
    fileprivate func setUpRefreshControl() {
       self.refreshControl = UIRefreshControl()
       self.refreshControl.tintColor = GlobalColors.kBrandNavBarColor
-      self.refreshControl.addTarget(self, action: #selector(RefreshController.refreshData(_:)), for: UIControlEvents.valueChanged)
+      self.refreshControl.addTarget(self, action: #selector(RefreshController.refreshData(_:)), for: UIControl.Event.valueChanged)
       self.view.addSubview(refreshControl)
    }
    

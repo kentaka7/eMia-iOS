@@ -173,12 +173,12 @@ extension GalleryViewController {
       searchBar.resignFirstResponder()
       if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
          searchBarTopConstraint.constant = 0.0
-         UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
+         UIView.animate(withDuration: 0.3, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.view.layoutIfNeeded()
          }, completion: nil)
       } else {
          searchBarTopConstraint.constant = -1.0 * GalleryViewController.kSearchBarHeight
-         UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions(), animations: {
+         UIView.animate(withDuration: 0.3, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.view.layoutIfNeeded()
          }, completion: nil)
       }

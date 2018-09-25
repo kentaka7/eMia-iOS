@@ -55,7 +55,7 @@ extension UIImage {
 extension UIImage {
    
    func fitToSize(_ minSize: CGFloat = 700.0) -> UIImage? {
-      guard let data = UIImageJPEGRepresentation(self, 0) else {
+      guard let data = self.jpegData(compressionQuality: 0) else {
          return nil
       }
       guard let tempImage = UIImage(data: data) else {
@@ -87,7 +87,7 @@ extension UIImage {
    
    func compressImage() -> UIImage {
       var resultImage = self
-      if let imageData: Data = UIImageJPEGRepresentation(self, 0.6) {
+      if let imageData: Data = self.jpegData(compressionQuality: 0.6) {
          //      if let imageData: Data = UIImagePNGRepresentation(image)  {
          if imageData.count > 500000 {
             let scale: CGFloat = 500000.0 / CGFloat(imageData.count)
@@ -126,7 +126,7 @@ extension UIImage {
    }
    
    func saveAsPNG(name: String) -> URL? {
-      let imageData = UIImagePNGRepresentation(self)
+      let imageData = self.pngData()
       let documentsURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
       do {
          let imageURL = documentsURL.appendingPathComponent("\(name).png")
